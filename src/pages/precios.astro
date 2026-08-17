@@ -1,0 +1,279 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import Faq from '../components/Faq.astro'
+import Cta from '../components/Cta.astro'
+import { appSignupUrl, pricingFaqItems, salesContactUrl } from '../config/site'
+
+const title = 'Precios'
+const description =
+  'Planes de HabemusDandy para clínicas: Gratis, Equipos y Empresas.'
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="section hero">
+    <div class="container hero__inner reveal">
+      <p class="section-label">Precios</p>
+      <h1>Un plan para cada etapa de la clínica.</h1>
+      <p class="section-lead">
+        Comienza sin costo. Cuando el equipo crezca, mantén toda la operación conectada con un precio por clínica.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="container plans">
+      <article class="plan reveal">
+        <p class="plan__eyebrow">Para comenzar</p>
+        <h2>Gratis</h2>
+        <p class="plan__price"><strong>$0</strong><span>sin fecha límite</span></p>
+        <p class="plan__desc">La base esencial para dejar atrás la agenda dispersa.</p>
+        <ul>
+          <li>Agenda semanal y citas</li>
+          <li>Clientes y fichas</li>
+          <li>Notas clínicas</li>
+          <li>Servicios y horario</li>
+        </ul>
+        <a class="btn btn--ghost" href={appSignupUrl}>Comenzar gratis</a>
+      </article>
+
+      <article class="plan plan--featured reveal">
+        <p class="plan__eyebrow">Recomendado</p>
+        <h2>Equipos</h2>
+        <p class="plan__price"><strong>$249</strong><span>por clínica / mes</span></p>
+        <p class="plan__saving">$200/mes con pago anual · ahorra $588</p>
+        <p class="plan__desc">Para equipos que necesitan operar y dar seguimiento juntos.</p>
+        <ul>
+          <li>Todo lo incluido en Gratis</li>
+          <li>Equipo y roles</li>
+          <li>Formularios de ingreso</li>
+          <li>Workflows y recordatorios</li>
+          <li>Google y Apple Calendar</li>
+        </ul>
+        <a class="btn btn--primary" href={appSignupUrl}>Elegir Equipos</a>
+      </article>
+
+      <article class="plan plan--dark reveal">
+        <p class="plan__eyebrow">Para operaciones grandes</p>
+        <h2>Empresas</h2>
+        <p class="plan__price"><strong>A medida</strong><span>según tus necesidades</span></p>
+        <p class="plan__desc">Para varias sedes, requerimientos especiales y acompañamiento dedicado.</p>
+        <ul>
+          <li>Todo lo incluido en Equipos</li>
+          <li>Configuración acompañada</li>
+          <li>Necesidades de acceso avanzadas</li>
+          <li>Soporte y condiciones comerciales</li>
+        </ul>
+        <a class="btn btn--light" href={salesContactUrl}>Contactar a ventas</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-label">Comparación</p>
+        <h2 class="section-title">Compara lo que necesita tu clínica.</h2>
+      </div>
+      <div class="compare reveal">
+        <div class="compare__row compare__head">
+          <span>Capacidad</span>
+          <span>Gratis</span>
+          <span>Equipos</span>
+          <span>Empresas</span>
+        </div>
+        {
+          [
+            ['Agenda, citas y servicios', 'Incluido', 'Incluido', 'Incluido'],
+            ['Clientes y notas clínicas', 'Incluido', 'Incluido', 'Incluido'],
+            ['Formularios de ingreso', '—', 'Incluido', 'Incluido'],
+            ['Equipo y roles', '—', 'Incluido', 'Incluido'],
+            ['Workflows y recordatorios', '—', 'Incluido', 'Incluido'],
+            ['Calendarios externos', '—', 'Incluido', 'Incluido'],
+            ['Acompañamiento dedicado', '—', '—', 'Incluido'],
+          ].map(([feature, a, b, c]) => (
+            <div class="compare__row">
+              <span>{feature}</span>
+              <span data-label="Gratis">{a}</span>
+              <span data-label="Equipos">{b}</span>
+              <span data-label="Empresas">{c}</span>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <Faq items={pricingFaqItems} title="Preguntas sobre precios" />
+  <Cta title="Empieza gratis. Suma capacidad cuando la necesites." secondaryHref="/producto" secondaryLabel="Ver producto" />
+</BaseLayout>
+
+<style>
+  .hero__inner {
+    max-width: 50rem;
+  }
+
+  .hero h1 {
+    margin: 0;
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+  }
+
+  .plans {
+    display: grid;
+    gap: clamp(1rem, 3vw, 2rem);
+  }
+
+  .plan {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-height: 34rem;
+    padding: clamp(1.5rem, 4vw, 3rem);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    background: var(--color-surface);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-card);
+  }
+
+  .plan--featured {
+    border-color: rgba(0, 0, 0, 0.18);
+    box-shadow: 0 22px 54px rgba(0, 0, 0, 0.1);
+  }
+
+  .plan--dark {
+    border-color: transparent;
+    background: var(--color-navy);
+    color: var(--color-surface);
+  }
+
+  .plan--dark .plan__eyebrow,
+  .plan--dark .plan__desc,
+  .plan--dark ul,
+  .plan--dark .plan__price span {
+    color: color-mix(in srgb, var(--color-surface) 68%, transparent);
+  }
+
+  .plan--dark .plan__price {
+    color: var(--color-surface);
+  }
+
+  .plan__eyebrow {
+    margin: 0 0 var(--space-2);
+    color: var(--color-muted);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .plan h2 {
+    margin: 0;
+    font-size: clamp(1.7rem, 3vw, 2.2rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+  }
+
+  .plan__price {
+    display: grid;
+    margin: var(--space-3) 0 0;
+    color: var(--color-ink);
+  }
+
+  .plan__price strong {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 500;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .plan__price span {
+    margin-top: 0.4rem;
+    color: var(--color-muted);
+    font-size: 0.85rem;
+  }
+
+  .plan__saving {
+    margin: var(--space-3) 0 0;
+    padding: 0.45rem 0.65rem;
+    border-radius: 999px;
+    background: var(--color-ink-soft);
+    color: var(--color-ink);
+    font-size: 0.76rem;
+    font-weight: 600;
+  }
+
+  .plan__desc {
+    margin: var(--space-3) 0 0;
+    color: var(--color-muted);
+  }
+
+  .plan ul {
+    margin: var(--space-5) 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: var(--space-2);
+    color: var(--color-muted);
+    flex: 1;
+  }
+
+  .compare {
+    margin-top: var(--space-5);
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+  }
+
+  .compare__row {
+    display: grid;
+    grid-template-columns: 1.5fr repeat(3, 1fr);
+    gap: var(--space-3);
+    padding: var(--space-4);
+    font-size: 0.95rem;
+  }
+
+  .compare__row + .compare__row {
+    border-top: 1px solid color-mix(in srgb, var(--color-ink) 6%, transparent);
+  }
+
+  .compare__head {
+    color: var(--color-muted);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    background: color-mix(in srgb, var(--color-ink) 2%, var(--color-surface));
+  }
+
+  @media (min-width: 860px) {
+    .plans {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 640px) {
+    .compare__head {
+      display: none;
+    }
+
+    .compare__row {
+      grid-template-columns: 1fr;
+      gap: var(--space-1);
+    }
+
+    .compare__row span:first-child {
+      font-weight: 600;
+    }
+
+    .compare__row span[data-label]::before {
+      content: attr(data-label) ': ';
+      color: var(--color-muted);
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+  }
+</style>

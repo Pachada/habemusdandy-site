@@ -1,0 +1,152 @@
+---
+import {
+  appLoginUrl,
+  appSignupUrl,
+  footerProductLinks,
+  siteName,
+} from '../config/site'
+---
+
+<footer class="site-footer">
+  <div class="site-footer__inner container">
+    <div class="site-footer__brand">
+      <img src="/logo.svg" alt={siteName} width="168" height="32" />
+      <p>El sistema operativo de la clínica.</p>
+      <a class="site-footer__email" href="mailto:hola@habemusdandy.com">hola@habemusdandy.com</a>
+    </div>
+
+    <div class="site-footer__cols">
+      <div>
+        <p class="site-footer__label">Producto</p>
+        <ul>
+          {
+            footerProductLinks.map((link) => (
+              <li>
+                <a href={link.href}>{link.label}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div>
+        <p class="site-footer__label">Cuenta</p>
+        <ul>
+          <li><a href={appLoginUrl}>Iniciar sesión</a></li>
+          <li><a href={appSignupUrl}>Comenzar gratis</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-footer__label">Legal</p>
+        <ul>
+          <li><a href="/seguridad">Privacidad <span>(próximamente)</span></a></li>
+          <li><a href="/seguridad">Términos <span>(próximamente)</span></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="site-footer__bottom container">
+    <span>© {new Date().getFullYear()} {siteName}</span>
+    <span>Hecho para equipos que cuidan.</span>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    padding: clamp(4rem, 8vw, 6rem) 0 var(--space-5);
+    border-top: 1px solid rgba(0, 0, 0, 0.09);
+    background: rgba(255, 255, 255, 0.82);
+  }
+
+  .site-footer__inner {
+    display: grid;
+    gap: var(--space-7);
+  }
+
+  .site-footer__brand img {
+    height: 1.7rem;
+    width: auto;
+  }
+
+  .site-footer__brand p {
+    margin: var(--space-3) 0 0;
+    max-width: 18rem;
+    color: var(--color-muted);
+    font-size: 0.95rem;
+  }
+
+  .site-footer__email {
+    display: inline-block;
+    margin-top: var(--space-4);
+    color: var(--color-ink);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .site-footer__cols {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-6);
+  }
+
+  .site-footer__label {
+    margin: 0 0 var(--space-3);
+    color: var(--color-muted);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .site-footer ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .site-footer a {
+    color: var(--color-ink);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+
+  .site-footer a:hover {
+    color: var(--color-ink);
+    text-decoration: underline;
+  }
+
+  .site-footer a span {
+    color: var(--color-muted);
+    font-size: 0.76rem;
+    font-weight: 400;
+  }
+
+  .site-footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin-top: clamp(3rem, 7vw, 5.5rem);
+    padding-top: var(--space-4);
+    border-top: 1px solid rgba(0, 0, 0, 0.07);
+    color: var(--color-muted);
+    font-size: 0.8rem;
+  }
+
+  @media (min-width: 760px) {
+    .site-footer__inner {
+      grid-template-columns: 1fr 1.6fr;
+      align-items: start;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .site-footer__cols {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-5) var(--space-4);
+    }
+  }
+</style>

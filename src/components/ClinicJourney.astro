@@ -1,0 +1,341 @@
+---
+import ProductFrame from './ProductFrame.astro'
+
+const moments = [
+  {
+    kicker: 'Antes de la visita',
+    title: 'La cita entra en la agenda',
+    copy: 'El horario y la duración del servicio ya están definidos. La semana se mantiene clara para todo el equipo.',
+    status: 'Cita confirmada',
+    detail: 'Mar · 10:00 · Revisión',
+    frame: 'agenda' as const,
+    activeNav: 'Citas',
+  },
+  {
+    kicker: 'Antes de atender',
+    title: 'El ingreso llega con tiempo',
+    copy: 'El paciente completa sus datos y el motivo de consulta antes de entrar al box.',
+    status: 'Ingreso recibido',
+    detail: 'Formulario vinculado a la cita',
+    frame: 'intake' as const,
+    activeNav: 'Formularios',
+  },
+  {
+    kicker: 'Durante la sesión',
+    title: 'La ficha abre con contexto',
+    copy: 'Datos, visitas anteriores y próximos pasos permanecen juntos; no hay que reconstruir la historia desde un chat.',
+    status: 'Contexto listo',
+    detail: 'Ficha · Ana Rojas',
+    frame: 'client' as const,
+    activeNav: 'Clientes',
+  },
+  {
+    kicker: 'Después de atender',
+    title: 'El seguimiento queda preparado',
+    copy: 'La nota de la sesión y el plan para la siguiente visita continúan en el mismo flujo.',
+    status: 'Seguimiento preparado',
+    detail: 'Nota clínica vinculada',
+    frame: 'note' as const,
+    activeNav: 'Clientes',
+  },
+]
+---
+
+<div class="journey reveal" data-journey>
+  <div class="journey__rail" role="tablist" aria-label="Recorrido de una cita">
+    {
+      moments.map((moment, index) => (
+        <button
+          class="journey__tab"
+          type="button"
+          role="tab"
+          id={`journey-tab-${index}`}
+          aria-controls={`journey-panel-${index}`}
+          aria-selected={index === 0 ? 'true' : 'false'}
+          tabindex={index === 0 ? 0 : -1}
+          data-journey-tab={index}
+        >
+          <span class="journey__number">0{index + 1}</span>
+          <span>{moment.status}</span>
+        </button>
+      ))
+    }
+  </div>
+
+  <div class="journey__stage">
+    {
+      moments.map((moment, index) => (
+        <section
+          class="journey__panel"
+          role="tabpanel"
+          id={`journey-panel-${index}`}
+          aria-labelledby={`journey-tab-${index}`}
+          hidden={index !== 0}
+          data-journey-panel={index}
+        >
+          <div class="journey__copy">
+            <p class="section-label">{moment.kicker}</p>
+            <h3>{moment.title}</h3>
+            <p>{moment.copy}</p>
+            <div class="journey__signal">
+              <span class="journey__pulse" aria-hidden="true"></span>
+              <span><strong>{moment.status}</strong><small>{moment.detail}</small></span>
+            </div>
+          </div>
+          <div class="journey__product">
+            <ProductFrame
+              variant={moment.frame}
+              activeNav={moment.activeNav}
+              label={moment.status}
+              compact={moment.frame === 'intake'}
+            />
+          </div>
+        </section>
+      ))
+    }
+  </div>
+
+  <p class="journey__hint">Selecciona cada momento para recorrer la cita.</p>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-journey]').forEach((journey) => {
+    const tabs = Array.from(journey.querySelectorAll<HTMLButtonElement>('[data-journey-tab]'))
+    const panels = Array.from(journey.querySelectorAll<HTMLElement>('[data-journey-panel]'))
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    let active = 0
+    let timer: number | undefined
+
+    const select = (next: number, focus = false) => {
+      active = (next + tabs.length) % tabs.length
+      tabs.forEach((tab, index) => {
+        const selected = index === active
+        tab.setAttribute('aria-selected', String(selected))
+        tab.tabIndex = selected ? 0 : -1
+        if (focus && selected) tab.focus()
+      })
+      panels.forEach((panel, index) => {
+        panel.hidden = index !== active
+      })
+    }
+
+    const stop = () => {
+      if (timer) window.clearInterval(timer)
+      timer = undefined
+    }
+
+    const start = () => {
+      if (reduceMotion || timer) return
+      timer = window.setInterval(() => select(active + 1), 4200)
+    }
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => {
+        select(index)
+        stop()
+      })
+      tab.addEventListener('keydown', (event) => {
+        if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return
+        event.preventDefault()
+        stop()
+        select(active + (event.key === 'ArrowRight' ? 1 : -1), true)
+      })
+    })
+
+    journey.addEventListener('mouseenter', stop)
+    journey.addEventListener('mouseleave', start)
+    journey.addEventListener('focusin', stop)
+    journey.addEventListener('focusout', (event) => {
+      if (!journey.contains(event.relatedTarget as Node | null)) start()
+    })
+    start()
+  })
+</script>
+
+<style>
+  .journey {
+    position: relative;
+    padding: clamp(0.65rem, 2vw, 1rem);
+    border-radius: var(--radius-xl);
+    background: color-mix(in srgb, var(--color-surface) 92%, transparent);
+    box-shadow: var(--shadow-float);
+  }
+
+  .journey__rail {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.35rem;
+    padding: 0.35rem;
+    border-radius: calc(var(--radius-lg) + 0.2rem);
+    background: var(--color-frame);
+  }
+
+  .journey__tab {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    min-width: 0;
+    padding: 0.85rem 0.9rem;
+    border: 0;
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--color-muted);
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    transition: color var(--motion-fast), background var(--motion-fast), box-shadow var(--motion-fast);
+  }
+
+  .journey__tab::after {
+    content: '';
+    position: absolute;
+    left: 0.9rem;
+    right: 0.9rem;
+    bottom: 0.25rem;
+    height: 2px;
+    border-radius: 999px;
+    background: var(--color-ink);
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  .journey__tab[aria-selected='true'] {
+    background: var(--color-surface);
+    color: var(--color-ink);
+    box-shadow: var(--shadow-card);
+  }
+
+  .journey__tab[aria-selected='true']::after {
+    animation: journey-progress 4.2s linear both;
+  }
+
+  .journey__number {
+    color: var(--color-ink);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+  }
+
+  .journey__stage {
+    min-height: 34rem;
+  }
+
+  .journey__panel {
+    display: grid;
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: center;
+    padding: clamp(2rem, 5vw, 4.5rem);
+    animation: journey-in 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .journey__panel[hidden] {
+    display: none;
+  }
+
+  .journey__copy h3 {
+    max-width: 26rem;
+    margin: 0;
+    font-size: clamp(2rem, 4vw, 3.55rem);
+    font-weight: 500;
+    letter-spacing: -0.055em;
+    line-height: 1.02;
+  }
+
+  .journey__copy > p:not(.section-label) {
+    max-width: 30rem;
+    margin: var(--space-4) 0 0;
+    color: var(--color-muted);
+  }
+
+  .journey__signal {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: var(--space-6);
+    padding: 0.8rem 1rem;
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-card);
+  }
+
+  .journey__signal span:last-child {
+    display: grid;
+  }
+
+  .journey__signal strong {
+    font-size: 0.88rem;
+    font-weight: 600;
+  }
+
+  .journey__signal small {
+    color: var(--color-muted);
+    font-size: 0.76rem;
+  }
+
+  .journey__pulse {
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    background: var(--color-status-ok);
+    box-shadow: 0 0 0 0.35rem color-mix(in srgb, var(--color-status-ok) 12%, transparent);
+  }
+
+  .journey__product {
+    min-width: 0;
+  }
+
+  .journey__hint {
+    margin: 0 0 0.5rem;
+    color: var(--color-muted);
+    font-size: 0.78rem;
+    text-align: center;
+  }
+
+  @keyframes journey-in {
+    from { opacity: 0; transform: translateY(0.75rem); }
+  }
+
+  @keyframes journey-progress {
+    to { transform: scaleX(1); }
+  }
+
+  @media (min-width: 860px) {
+    .journey__panel {
+      grid-template-columns: minmax(16rem, 0.75fr) minmax(0, 1.25fr);
+    }
+  }
+
+  @media (max-width: 720px) {
+    .journey__rail {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+    }
+
+    .journey__tab {
+      flex: 0 0 10.5rem;
+      scroll-snap-align: start;
+    }
+
+    .journey__stage {
+      min-height: 44rem;
+    }
+
+    .journey__panel {
+      padding: 2.25rem 1rem 1.25rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .journey__tab[aria-selected='true']::after {
+      animation: none;
+      transform: scaleX(1);
+    }
+
+    .journey__panel {
+      animation: none;
+    }
+  }
+</style>

@@ -1,0 +1,214 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import ProductFrame from '../components/ProductFrame.astro'
+import Cta from '../components/Cta.astro'
+import { appSignupUrl } from '../config/site'
+
+const title = 'Producto'
+const description =
+  'Agenda, clientes, clínica, automatización, equipo e integraciones. Todo lo que la clínica necesita para operar.'
+
+const groups = [
+  {
+    id: 'agenda',
+    label: 'Agenda',
+    title: 'Citas que respetan el horario real',
+    intro: 'La operación empieza por cuándo atiendes y qué ofreces.',
+    items: [
+      { title: 'Citas', line: 'Vista semanal clara para el día a día.' },
+      { title: 'Horario', line: 'Disponibilidad de la clínica, no improvisada.' },
+      { title: 'Servicios', line: 'Duración y tipo de atención definidos.' },
+      { title: 'Calendario', line: 'Salida a Google y suscripción Apple.' },
+    ],
+    frame: 'agenda' as const,
+    activeNav: 'Citas',
+  },
+  {
+    id: 'clientes',
+    label: 'Clientes',
+    title: 'Fichas con contexto, no solo un nombre',
+    intro: 'El cliente llega con historia, no con un chat suelto.',
+    items: [
+      { title: 'Fichas', line: 'Datos y visitas en un solo lugar.' },
+      { title: 'Ingreso', line: 'Formularios antes de la sesión.' },
+      { title: 'Consentimiento', line: 'Parte del flujo de ingreso.' },
+      { title: 'Historial', line: 'Lo anterior viaja con la ficha.' },
+    ],
+    frame: 'client' as const,
+    activeNav: 'Clientes',
+  },
+  {
+    id: 'clinica',
+    label: 'Clínica',
+    title: 'Notas y continuidad en el mismo sitio',
+    intro: 'Atiendes con el plan anterior a la vista.',
+    items: [
+      { title: 'Notas', line: 'Registro por sesión, sin PDF perdido.' },
+      { title: 'Historial', line: 'Continuidad entre visitas.' },
+      { title: 'Seguimiento', line: 'Objetivo y plan visibles.' },
+      { title: 'Contexto', line: 'Ficha y nota juntas al atender.' },
+    ],
+    frame: 'note' as const,
+    activeNav: 'Clientes',
+  },
+  {
+    id: 'automatizacion',
+    label: 'Automatización',
+    title: 'Recordatorios que no dependen de WhatsApp',
+    intro: 'Workflows para confirmar, pedir ingreso y seguir ausencias.',
+    items: [
+      { title: 'Workflows', line: 'Reglas de la clínica, no del chat.' },
+      { title: 'Recordatorios', line: 'Antes de la cita, sin perseguir.' },
+      { title: 'Ingreso automático', line: 'Formulario ligado a la reserva.' },
+      { title: 'Seguimiento', line: 'Después de un no-show.' },
+    ],
+    frame: 'workflows' as const,
+    activeNav: 'Workflows',
+  },
+  {
+    id: 'equipo',
+    label: 'Equipo',
+    title: 'Roles claros dentro de la clínica',
+    intro: 'Cada persona ve lo que necesita para operar.',
+    items: [
+      { title: 'Administración', line: 'Configuración de la clínica.' },
+      { title: 'Roles', line: 'Permisos según la persona.' },
+      { title: 'Acceso', line: 'Fichas y notas según permiso.' },
+      { title: 'Equipo', line: 'Varias personas, un solo espacio.' },
+    ],
+    frame: 'team' as const,
+    activeNav: 'Administración',
+  },
+  {
+    id: 'integraciones',
+    label: 'Integraciones',
+    title: 'Calendarios que ya conoces',
+    intro: 'Solo lo que está vivo: Google y Apple.',
+    items: [
+      { title: 'Google Calendar', line: 'Una vía · citas → Google.' },
+      { title: 'Apple Calendar', line: 'Solo lectura · suscripción privada.' },
+    ],
+    frame: 'integrations' as const,
+    activeNav: 'Integraciones',
+  },
+]
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="section hero">
+    <div class="container hero__inner reveal">
+      <p class="section-label">Producto</p>
+      <h1>Un flujo clínico, no seis herramientas separadas.</h1>
+      <p class="section-lead">
+        Desde el horario hasta la nota de seguimiento, cada parte de la visita conserva el contexto de la anterior.
+      </p>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href={appSignupUrl}>Comenzar gratis</a>
+        <a class="btn btn--ghost" href="/precios">Ver precios</a>
+      </div>
+    </div>
+  </section>
+
+  {
+    groups.map((group, index) => (
+      <section class:list={['section', 'product-section', index % 2 === 1 && 'product-section--tint']} id={group.id}>
+        <div class:list={['container', 'group', index % 2 === 1 && 'group--reverse']}>
+          <div class="group__copy reveal">
+            <p class="section-label">{group.label}</p>
+            <h2 class="section-title">{group.title}</h2>
+            <p class="section-lead">{group.intro}</p>
+            <ul>
+              {group.items.map((item) => (
+                <li>
+                  <strong>{item.title}</strong>
+                  <span>{item.line}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div class="reveal">
+            <ProductFrame
+              variant={group.frame}
+              activeNav={group.activeNav}
+              label={group.label}
+              compact={group.frame !== 'agenda' && group.frame !== 'client' && group.frame !== 'note'}
+            />
+          </div>
+        </div>
+      </section>
+    ))
+  }
+
+  <Cta secondaryHref="/precios" secondaryLabel="Ver precios" />
+</BaseLayout>
+
+<style>
+  .hero__inner {
+    max-width: 48rem;
+  }
+
+  .hero h1 {
+    margin: 0;
+    font-size: clamp(2.8rem, 7vw, 5.6rem);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-5);
+  }
+
+  .group {
+    display: grid;
+    gap: clamp(2.5rem, 7vw, 7rem);
+    align-items: center;
+  }
+
+  .product-section--tint {
+    background: color-mix(in srgb, var(--color-ink) 2.5%, var(--color-paper));
+  }
+
+  .group ul {
+    margin: var(--space-5) 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  .group li {
+    display: grid;
+    grid-template-columns: 7.5rem 1fr;
+    gap: var(--space-3);
+    padding-top: 0.8rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.09);
+  }
+
+  .group strong {
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  .group span {
+    color: var(--color-muted);
+    font-size: 0.95rem;
+  }
+
+  @media (min-width: 900px) {
+    .group {
+      grid-template-columns: 0.95fr 1.05fr;
+    }
+
+    .group--reverse .group__copy {
+      order: 2;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .group li { grid-template-columns: 1fr; gap: 0.1rem; }
+  }
+</style>

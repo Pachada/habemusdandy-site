@@ -1,0 +1,893 @@
+---
+interface Props {
+  variant?:
+    | 'agenda'
+    | 'client'
+    | 'note'
+    | 'hours'
+    | 'intake'
+    | 'note-mini'
+    | 'services'
+    | 'workflows'
+    | 'team'
+    | 'integrations'
+  compact?: boolean
+  activeNav?: string
+  label?: string
+}
+
+const {
+  variant = 'agenda',
+  compact = false,
+  activeNav = 'Citas',
+  label = 'HabemusDandy',
+} = Astro.props
+
+const nav = [
+  'Panel principal',
+  'Citas',
+  'Clientes',
+  'Servicios',
+  'Formularios',
+  'Workflows',
+  'Horario',
+  'Integraciones',
+  'Administración',
+]
+---
+
+<figure
+  class:list={['product-frame', compact && 'product-frame--compact']}
+  data-product-frame={variant}
+  role="img"
+  aria-label={`${label}, vista previa del producto`}
+>
+  <div class="product-frame__chrome" aria-hidden="true">
+    <span></span><span></span><span></span>
+    <p>{label}</p>
+  </div>
+  <div class="product-frame__shell">
+    {
+      !compact && (
+        <aside class="product-frame__sidebar">
+          <div class="product-frame__brand">
+            <span class="product-frame__mark"></span>
+            <span>HabemusDandy</span>
+          </div>
+          <ul>
+            {nav.map((item) => (
+              <li class:list={[item === activeNav && 'is-active']}>
+                <span class="product-frame__nav-dot"></span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </aside>
+      )
+    }
+    <div class="product-frame__main">
+      {
+        variant === 'agenda' && (
+          <div class="ui-agenda">
+            <div class="ui-toolbar">
+              <div>
+                <p class="ui-kicker">Citas</p>
+                <h3>Semana del 11 al 17</h3>
+              </div>
+              <div class="ui-toolbar__meta">
+                <span class="status-dot status-dot--ok"></span>
+                <span>12 confirmadas</span>
+              </div>
+            </div>
+            <div class="ui-week">
+              {['Lun', 'Mar', 'Mié', 'Jue', 'Vie'].map((day, i) => (
+                <div class:list={['ui-day', i === 2 && 'is-today']}>
+                  <header>
+                    <span>{day}</span>
+                    <strong>{11 + i}</strong>
+                  </header>
+                  <div class="ui-slots">
+                    {i === 0 && (
+                      <>
+                        <article class="ui-appt">
+                          <span class="status-dot status-dot--brand"></span>
+                          <div>
+                            <strong>09:00 · Fisioterapia</strong>
+                            <p>Ana Rojas</p>
+                          </div>
+                        </article>
+                        <article class="ui-appt ui-appt--muted">
+                          <span class="status-dot"></span>
+                          <div>
+                            <strong>11:30 · Evaluación</strong>
+                            <p>Luis Mena</p>
+                          </div>
+                        </article>
+                      </>
+                    )}
+                    {i === 1 && (
+                      <article class="ui-appt">
+                        <span class="status-dot status-dot--ok"></span>
+                        <div>
+                          <strong>10:00 · Revisión</strong>
+                          <p>Carla Díaz</p>
+                        </div>
+                      </article>
+                    )}
+                    {i === 2 && (
+                      <>
+                        <article class="ui-appt ui-appt--now">
+                          <span class="status-dot status-dot--warn"></span>
+                          <div>
+                            <strong>08:30 · Sesión</strong>
+                            <p>En curso · Sofía P.</p>
+                          </div>
+                        </article>
+                        <article class="ui-appt">
+                          <span class="status-dot status-dot--brand"></span>
+                          <div>
+                            <strong>13:00 · Deportiva</strong>
+                            <p>Marco V.</p>
+                          </div>
+                        </article>
+                      </>
+                    )}
+                    {i === 3 && (
+                      <article class="ui-appt">
+                        <span class="status-dot status-dot--ok"></span>
+                        <div>
+                          <strong>16:00 · Control</strong>
+                          <p>Elena Ruiz</p>
+                        </div>
+                      </article>
+                    )}
+                    {i === 4 && (
+                      <article class="ui-appt ui-appt--muted">
+                        <span class="status-dot"></span>
+                        <div>
+                          <strong>09:30 · Ingreso</strong>
+                          <p>Nuevo cliente</p>
+                        </div>
+                      </article>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )
+      }
+
+      {
+        variant === 'client' && (
+          <div class="ui-client">
+            <div class="ui-toolbar">
+              <div>
+                <p class="ui-kicker">Clientes</p>
+                <h3>Ficha · Ana Rojas</h3>
+              </div>
+              <div class="ui-toolbar__meta">
+                <span class="status-dot status-dot--ok"></span>
+                <span>Ingreso completo</span>
+              </div>
+            </div>
+            <div class="ui-client__grid">
+              <div class="ui-panel">
+                <p class="ui-panel__label">Resumen</p>
+                <dl>
+                  <div><dt>Teléfono</dt><dd>+34 600 000 214</dd></div>
+                  <div><dt>Última visita</dt><dd>12 mar · Fisioterapia</dd></div>
+                  <div><dt>Próxima</dt><dd>Vie 09:00</dd></div>
+                </dl>
+              </div>
+              <div class="ui-panel">
+                <p class="ui-panel__label">Formulario de ingreso</p>
+                <ul class="ui-checklist">
+                  <li><span class="status-dot status-dot--ok"></span> Datos personales</li>
+                  <li><span class="status-dot status-dot--ok"></span> Motivo de consulta</li>
+                  <li><span class="status-dot status-dot--ok"></span> Consentimiento</li>
+                  <li><span class="status-dot status-dot--warn"></span> Antecedentes · pendiente revisión</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        )
+      }
+
+      {
+        variant === 'note' && (
+          <div class="ui-note">
+            <div class="ui-toolbar">
+              <div>
+                <p class="ui-kicker">Clínica</p>
+                <h3>Nota de sesión</h3>
+              </div>
+              <div class="ui-toolbar__meta">
+                <span class="status-dot status-dot--brand"></span>
+                <span>Continuidad</span>
+              </div>
+            </div>
+            <div class="ui-note__card">
+              <header>
+                <strong>Ana Rojas · Sesión 6</strong>
+                <span>14 mar · 45 min</span>
+              </header>
+              <p class="ui-note__label">Objetivo</p>
+              <p>Recuperar movilidad lumbar sin dolor en carga.</p>
+              <p class="ui-note__label">Hallazgos</p>
+              <p>Mejora en flexión. Persiste tensión paravertebral izquierda.</p>
+              <p class="ui-note__label">Plan</p>
+              <p>Progresar estabilización y revaluar en la siguiente visita.</p>
+            </div>
+          </div>
+        )
+      }
+
+      {
+        variant === 'hours' && (
+          <div class="ui-hours">
+            <p class="ui-kicker">Horario</p>
+            <h3>Disponibilidad semanal</h3>
+            <div class="ui-hours__grid">
+              {['L', 'M', 'X', 'J', 'V'].map((d, i) => (
+                <div class:list={['ui-hours__col', i === 4 && 'is-short']}>
+                  <span>{d}</span>
+                  <div></div>
+                  <div></div>
+                  {i !== 4 && <div></div>}
+                </div>
+              ))}
+            </div>
+          </div>
+        )
+      }
+
+      {
+        variant === 'intake' && (
+          <div class="ui-intake">
+            <p class="ui-kicker">Ingreso</p>
+            <h3>Formulario del paciente</h3>
+            <ol>
+              <li class="is-done"><span>1</span> Datos</li>
+              <li class="is-current"><span>2</span> Motivo</li>
+              <li><span>3</span> Consentimiento</li>
+            </ol>
+            <div class="ui-intake__field">
+              <span>¿Qué te trae a la clínica?</span>
+              <div></div>
+            </div>
+          </div>
+        )
+      }
+
+      {
+        variant === 'note-mini' && (
+          <div class="ui-note-mini">
+            <p class="ui-kicker">Nota</p>
+            <strong>Sesión 6 · Continuidad</strong>
+            <p>Plan listo para la siguiente visita. Sin PDF suelto.</p>
+          </div>
+        )
+      }
+
+      {
+        variant === 'services' && (
+          <div class="ui-services">
+            <p class="ui-kicker">Servicios</p>
+            <h3>Duración y agenda</h3>
+            <ul>
+              <li><strong>Fisioterapia</strong><span>45 min</span></li>
+              <li><strong>Evaluación inicial</strong><span>60 min</span></li>
+              <li><strong>Revisión</strong><span>30 min</span></li>
+            </ul>
+          </div>
+        )
+      }
+
+      {
+        variant === 'workflows' && (
+          <div class="ui-workflows">
+            <p class="ui-kicker">Workflows</p>
+            <h3>Recordatorios</h3>
+            <ul>
+              <li><span class="status-dot status-dot--ok"></span> 24 h antes · confirmación</li>
+              <li><span class="status-dot status-dot--brand"></span> Tras reserva · formulario</li>
+              <li><span class="status-dot"></span> Tras no-show · seguimiento</li>
+            </ul>
+          </div>
+        )
+      }
+
+      {
+        variant === 'team' && (
+          <div class="ui-team">
+            <p class="ui-kicker">Equipo</p>
+            <h3>Roles</h3>
+            <ul>
+              <li><strong>Administración</strong><span>Configura la clínica</span></li>
+              <li><strong>Equipo</strong><span>Agenda y notas</span></li>
+              <li><strong>Acceso limitado</strong><span>Solo lo necesario</span></li>
+            </ul>
+          </div>
+        )
+      }
+
+      {
+        variant === 'integrations' && (
+          <div class="ui-integrations">
+            <p class="ui-kicker">Integraciones</p>
+            <h3>Calendarios</h3>
+            <ul>
+              <li>
+                <img src="/integrations/google-calendar.svg" alt="" width="28" height="28" />
+                <div>
+                  <strong>Google Calendar</strong>
+                  <span>Una vía · citas → Google</span>
+                </div>
+              </li>
+              <li>
+                <img src="/integrations/apple-calendar.svg" alt="" width="28" height="28" />
+                <div>
+                  <strong>Apple Calendar</strong>
+                  <span>Solo lectura · suscripción</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+        )
+      }
+    </div>
+  </div>
+</figure>
+
+<style>
+  .product-frame {
+    margin: 0;
+    container-type: inline-size;
+    background: var(--color-paper);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+  }
+
+  .product-frame__chrome {
+    display: grid;
+    grid-template-columns: auto auto auto 1fr;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 0.7rem 1rem;
+    background: color-mix(in srgb, var(--color-ink) 4%, var(--color-surface));
+  }
+
+  .product-frame__chrome span {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-ink) 18%, var(--color-surface));
+  }
+
+  .product-frame__chrome p {
+    margin: 0;
+    justify-self: center;
+    color: var(--color-muted);
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .product-frame__shell {
+    display: grid;
+    grid-template-columns: 11.5rem 1fr;
+    min-height: 22rem;
+    background: var(--color-paper);
+  }
+
+  .product-frame--compact .product-frame__shell {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+
+  .product-frame__sidebar {
+    padding: var(--space-4);
+    background: var(--color-surface);
+    border-right: 1px solid color-mix(in srgb, var(--color-ink) 6%, transparent);
+  }
+
+  .product-frame__brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .product-frame__mark {
+    width: 1.35rem;
+    height: 1.35rem;
+    border-radius: 0.35rem;
+    background:
+      linear-gradient(135deg, transparent 42%, var(--color-paper) 42% 58%, transparent 58%),
+      var(--color-ink);
+    background-size: 100% 100%;
+  }
+
+  .product-frame__sidebar ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.2rem;
+  }
+
+  .product-frame__sidebar li {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.38rem 0.45rem;
+    border-radius: var(--radius-sm);
+    color: var(--color-muted);
+    font-size: 0.72rem;
+    font-weight: 500;
+  }
+
+  .product-frame__sidebar li.is-active {
+    background: var(--color-brand-soft);
+    color: var(--color-ink);
+  }
+
+  .product-frame__nav-dot {
+    width: 0.35rem;
+    height: 0.35rem;
+    border-radius: 999px;
+    background: currentColor;
+    opacity: 0.45;
+  }
+
+  .product-frame__sidebar li.is-active .product-frame__nav-dot {
+    background: var(--color-brand);
+    opacity: 1;
+  }
+
+  .product-frame__main {
+    padding: var(--space-4);
+    overflow: hidden;
+    background: color-mix(in srgb, var(--color-paper) 82%, var(--color-surface));
+  }
+
+  .ui-toolbar {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-3);
+    align-items: flex-start;
+    margin-bottom: var(--space-4);
+  }
+
+  .ui-kicker {
+    margin: 0 0 0.2rem;
+    color: var(--color-muted);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .product-frame h3,
+  .ui-toolbar h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .ui-toolbar__meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--color-muted);
+    font-size: 0.75rem;
+  }
+
+  .ui-week {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: var(--space-2);
+  }
+
+  .ui-day {
+    min-height: 12rem;
+    min-width: 0;
+    padding: 0.65rem;
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+  }
+
+  .ui-day.is-today {
+    outline: 1px solid color-mix(in srgb, var(--color-brand) 28%, transparent);
+  }
+
+  .ui-day header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--space-2);
+    color: var(--color-muted);
+    font-size: 0.68rem;
+  }
+
+  .ui-slots {
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .ui-appt {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.35rem;
+    min-width: 0;
+    padding: 0.55rem;
+    border-radius: 0.75rem;
+    background: color-mix(in srgb, var(--color-brand) 8%, var(--color-surface));
+  }
+
+  .ui-appt--muted {
+    background: var(--color-ink-soft);
+  }
+
+  .ui-appt--now {
+    background: color-mix(in srgb, var(--color-status-warn) 12%, var(--color-surface));
+    animation: appointment-breathe 6s ease-in-out infinite;
+  }
+
+  .ui-appt strong,
+  .ui-appt p {
+    overflow: hidden;
+    margin: 0;
+    font-size: 0.66rem;
+    line-height: 1.35;
+    overflow-wrap: normal;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .ui-appt p {
+    color: var(--color-muted);
+    font-weight: 400;
+  }
+
+  .ui-client__grid,
+  .ui-note__card,
+  .ui-hours,
+  .ui-intake,
+  .ui-note-mini,
+  .ui-services,
+  .ui-workflows,
+  .ui-team,
+  .ui-integrations {
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+  }
+
+  .ui-client__grid {
+    display: grid;
+    gap: var(--space-3);
+    padding: var(--space-3);
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .ui-panel {
+    padding: var(--space-4);
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+  }
+
+  .ui-panel__label,
+  .ui-note__label {
+    margin: 0 0 var(--space-2);
+    color: var(--color-muted);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  .ui-panel dl {
+    margin: 0;
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .ui-panel dl div {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-3);
+    font-size: 0.8rem;
+  }
+
+  .ui-panel dt {
+    color: var(--color-muted);
+  }
+
+  .ui-panel dd {
+    margin: 0;
+    font-weight: 500;
+  }
+
+  .ui-checklist {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: var(--space-2);
+    font-size: 0.82rem;
+  }
+
+  .ui-checklist li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .ui-note__card {
+    padding: var(--space-4);
+  }
+
+  .ui-note__card header {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+    font-size: 0.85rem;
+  }
+
+  .ui-note__card header span {
+    color: var(--color-muted);
+  }
+
+  .ui-note__card p {
+    margin: 0 0 var(--space-3);
+    font-size: 0.88rem;
+    color: var(--color-ink);
+  }
+
+  .ui-hours,
+  .ui-intake,
+  .ui-note-mini,
+  .ui-services,
+  .ui-workflows,
+  .ui-team,
+  .ui-integrations {
+    padding: var(--space-4);
+  }
+
+  .ui-hours__grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+  }
+
+  .ui-hours__col {
+    display: grid;
+    gap: 0.35rem;
+    justify-items: center;
+  }
+
+  .ui-hours__col span {
+    color: var(--color-muted);
+    font-size: 0.72rem;
+  }
+
+  .ui-hours__col div {
+    width: 100%;
+    height: 1.8rem;
+    border-radius: var(--radius-sm);
+    background: color-mix(in srgb, var(--color-brand) 14%, var(--color-surface));
+  }
+
+  .ui-hours__col.is-short div:last-child {
+    height: 1.1rem;
+    background: var(--color-ink-soft);
+  }
+
+  .ui-intake ol {
+    margin: var(--space-3) 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    gap: var(--space-2);
+  }
+
+  .ui-intake li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--color-muted);
+    font-size: 0.75rem;
+  }
+
+  .ui-intake li span {
+    width: 1.2rem;
+    height: 1.2rem;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    background: var(--color-ink-soft);
+    font-size: 0.68rem;
+  }
+
+  .ui-intake li.is-done span,
+  .ui-intake li.is-current span {
+    background: var(--color-brand);
+    color: var(--color-surface);
+  }
+
+  .ui-intake li.is-current {
+    color: var(--color-ink);
+    font-weight: 500;
+  }
+
+  .product-frame[data-product-frame='intake'] .ui-intake li.is-current span {
+    animation: status-pulse 2.8s ease-out infinite;
+  }
+
+  .ui-intake__field span {
+    display: block;
+    margin-bottom: var(--space-2);
+    font-size: 0.78rem;
+    color: var(--color-muted);
+  }
+
+  .ui-intake__field div {
+    height: 3.5rem;
+    border-radius: var(--radius-sm);
+    background: var(--color-ink-soft);
+  }
+
+  .ui-note-mini strong {
+    display: block;
+    margin: var(--space-2) 0;
+    font-size: 0.95rem;
+  }
+
+  .ui-note-mini p {
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 0.85rem;
+  }
+
+  .ui-services ul,
+  .ui-workflows ul,
+  .ui-team ul,
+  .ui-integrations ul {
+    margin: var(--space-3) 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .ui-services li,
+  .ui-team li {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: var(--space-3);
+    border-radius: var(--radius-sm);
+    background: var(--color-ink-soft);
+    font-size: 0.82rem;
+  }
+
+  .ui-services li span,
+  .ui-team li span,
+  .ui-integrations li span {
+    color: var(--color-muted);
+  }
+
+  .ui-workflows li,
+  .ui-integrations li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3);
+    border-radius: var(--radius-sm);
+    background: var(--color-ink-soft);
+    font-size: 0.82rem;
+  }
+
+  .ui-integrations li img {
+    width: 1.75rem;
+    height: 1.75rem;
+    object-fit: contain;
+  }
+
+  .ui-integrations li div {
+    display: grid;
+    gap: 0.15rem;
+  }
+
+  @media (max-width: 860px) {
+    .product-frame__shell {
+      grid-template-columns: 1fr;
+    }
+
+    .product-frame__sidebar {
+      display: none;
+    }
+
+    .ui-week {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .ui-day:nth-child(n + 5) {
+      display: none;
+    }
+  }
+
+  @container (max-width: 48rem) {
+    .product-frame__shell {
+      grid-template-columns: 1fr;
+    }
+
+    .product-frame__sidebar {
+      display: none;
+    }
+
+    .ui-week {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .ui-day:nth-child(n + 4) {
+      display: none;
+    }
+  }
+
+  @container (max-width: 34rem) {
+    .ui-week {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .ui-day:nth-child(n + 3) {
+      display: none;
+    }
+
+    .ui-toolbar__meta {
+      display: none;
+    }
+  }
+
+  @keyframes appointment-breathe {
+    0%,
+    72%,
+    100% {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+    78% {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px color-mix(in srgb, var(--color-brand) 12%, transparent);
+    }
+  }
+
+  @keyframes status-pulse {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-brand) 30%, transparent);
+    }
+    55% {
+      box-shadow: 0 0 0 0.45rem transparent;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .product-frame__main { padding: 0.75rem; }
+    .ui-toolbar { margin-bottom: 0.75rem; }
+    .product-frame h3,
+    .ui-toolbar h3 { font-size: 0.92rem; }
+    .ui-toolbar__meta { font-size: 0.66rem; }
+    .ui-day { min-height: 10.5rem; }
+  }
+</style>

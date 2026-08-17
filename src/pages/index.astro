@@ -1,17 +1,615 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import ProductFrame from '../components/ProductFrame.astro'
+import ClinicJourney from '../components/ClinicJourney.astro'
+import Faq from '../components/Faq.astro'
+import Cta from '../components/Cta.astro'
+import { appSignupUrl, faqItems, salesContactUrl } from '../config/site'
 
+const title = 'Tu clínica ordenada, de la cita al seguimiento'
+const description =
+  'Agenda, formularios, fichas y notas clínicas en un solo flujo. HabemusDandy organiza la operación de la clínica.'
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title={title} description={description}>
+  <section class="hero section">
+    <div class="container hero__grid">
+      <div class="hero__copy reveal">
+        <p class="hero__eyebrow"><span class="status-dot status-dot--ok"></span> De la primera cita a la siguiente sesión</p>
+        <h1>Tu clínica ordenada, <span>de la cita al seguimiento.</span></h1>
+        <p class="hero__sub">
+          Agenda, formularios, fichas y notas clínicas en un solo flujo. Menos mensajes
+          pendientes; más tiempo para atender.
+        </p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href={appSignupUrl}>Comenzar gratis</a>
+          <a class="btn btn--ghost" href="#recorrido">Ver cómo funciona</a>
+        </div>
+        <p class="hero__trust"><span>Plan gratuito disponible</span><span>Agenda, fichas y seguimiento conectados</span></p>
+      </div>
+      <div class="hero__visual reveal" data-reveal="scale">
+        <div class="hero__halo" aria-hidden="true"></div>
+        <ProductFrame variant="agenda" activeNav="Citas" label="Agenda semanal" />
+        <div class="signal-card signal-card--intake" aria-hidden="true">
+          <span class="signal-card__icon">✓</span>
+          <span><strong>Ingreso completo</strong><small>Ana Rojas · hace 2 min</small></span>
+        </div>
+        <div class="signal-card signal-card--note" aria-hidden="true">
+          <span class="status-dot status-dot--brand"></span>
+          <span><strong>Contexto listo</strong><small>Nota anterior vinculada</small></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-label">Problema</p>
+        <h2 class="section-title">La atención no debería empezar buscando información.</h2>
+      </div>
+      <div class="problem-grid">
+        <article class="problem-card reveal" data-index="01">
+          <h3>La cita vive en un chat</h3>
+          <p>Confirmaciones, cambios y pendientes se dispersan entre mensajes.</p>
+        </article>
+        <article class="problem-card reveal" data-index="02">
+          <h3>El ingreso llega tarde</h3>
+          <p>Los datos importantes se preguntan cuando la sesión ya empezó.</p>
+        </article>
+        <article class="problem-card reveal" data-index="03">
+          <h3>El contexto queda atrás</h3>
+          <p>Notas, acuerdos y siguientes pasos terminan en lugares distintos.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section journey-section" id="recorrido">
+    <div class="container">
+      <div class="journey-intro reveal">
+        <div>
+          <p class="section-label">Una cita, de principio a fin</p>
+          <h2 class="section-title">El contexto avanza con cada visita.</h2>
+        </div>
+        <div>
+          <p class="section-lead">No son módulos separados. Cada paso prepara el siguiente para que el equipo atienda sin reconstruir la historia.</p>
+          <a class="text-link" href={appSignupUrl}>Comenzar gratis</a>
+        </div>
+      </div>
+      <ClinicJourney />
+    </div>
+  </section>
+
+  <section class="section section--tight pricing-home">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-label">Precios</p>
+        <h2 class="section-title">Empieza gratis. Crece con tu equipo.</h2>
+        <p class="section-lead">Tres opciones claras, con precio por clínica en el plan Equipos.</p>
+      </div>
+      <div class="pricing-teaser">
+        <article class="pricing-card reveal">
+          <p class="pricing-card__eyebrow">Para comenzar</p>
+          <h3>Gratis</h3>
+          <p class="pricing-card__price">$0</p>
+          <p>Agenda, clientes y notas para ordenar lo esencial.</p>
+          <a class="btn btn--ghost" href={appSignupUrl}>Comenzar gratis</a>
+        </article>
+        <article class="pricing-card pricing-card--featured reveal">
+          <p class="pricing-card__eyebrow">Recomendado</p>
+          <h3>Equipos</h3>
+          <p class="pricing-card__price">$249 <span>/ mes</span></p>
+          <p>$200 al mes con pago anual. Equipo, formularios, workflows e integraciones.</p>
+          <a class="btn btn--primary" href={appSignupUrl}>Elegir Equipos</a>
+        </article>
+        <article class="pricing-card pricing-card--dark reveal">
+          <p class="pricing-card__eyebrow">Operaciones grandes</p>
+          <h3>Empresas</h3>
+          <p class="pricing-card__price">A medida</p>
+          <p>Configuración y acompañamiento según tus necesidades.</p>
+          <a class="btn btn--light" href={salesContactUrl}>Contactar a ventas</a>
+        </article>
+      </div>
+      <a class="text-link pricing-home__link" href="/precios">Comparar todos los planes</a>
+    </div>
+  </section>
+
+  <section class="section pillar-section">
+    <div class="container pillar">
+      <div class="pillar__copy reveal" data-reveal="left">
+        <p class="section-label">Agenda</p>
+        <h2 class="section-title">Menos huecos. Una semana que sí puedes leer.</h2>
+        <p class="section-lead">
+          Horario, servicios, citas y sincronización de calendario en un solo flujo. Sin dobles
+          reservas improvisadas.
+        </p>
+        <ul>
+          <li>Horario real de la clínica</li>
+          <li>Servicios con duración clara</li>
+          <li>Vista semanal pensada para atender</li>
+        </ul>
+        <a class="text-link" href="/producto#agenda">Ver cómo funciona la agenda</a>
+      </div>
+      <div class="reveal" data-reveal="right">
+        <ProductFrame variant="agenda" activeNav="Citas" label="Citas" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section pillar-section pillar-section--warm">
+    <div class="container pillar pillar--reverse">
+      <div class="pillar__copy reveal" data-reveal="right">
+        <p class="section-label">Clientes</p>
+        <h2 class="section-title">La sesión empieza con la información lista.</h2>
+        <p class="section-lead">
+          Ficha, ingreso y recordatorios antes de la visita. Recoges lo importante sin perseguir
+          mensajes.
+        </p>
+        <ul>
+          <li>Ficha completa del cliente</li>
+          <li>Formularios de ingreso ligados a la cita</li>
+          <li>Contexto listo al entrar al box</li>
+        </ul>
+        <a class="text-link" href="/producto#clientes">Ver fichas e ingreso</a>
+      </div>
+      <div class="reveal" data-reveal="left">
+        <ProductFrame variant="client" activeNav="Clientes" label="Ficha de cliente" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section pillar-section">
+    <div class="container pillar">
+      <div class="pillar__copy reveal" data-reveal="left">
+        <p class="section-label">Clínica</p>
+        <h2 class="section-title">La siguiente visita no empieza de cero.</h2>
+        <p class="section-lead">
+          Continuidad clínica junto a la agenda. No un PDF suelto ni un historial en otro lado.
+        </p>
+        <ul>
+          <li>Notas por sesión</li>
+          <li>Plan de seguimiento visible</li>
+          <li>Historia que viaja con el cliente</li>
+        </ul>
+        <a class="text-link" href="/producto#clinica">Ver continuidad clínica</a>
+      </div>
+      <div class="reveal" data-reveal="right">
+        <ProductFrame variant="note" activeNav="Clientes" label="Nota clínica" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-label">Confianza operacional</p>
+        <h2 class="section-title">Tu calendario sigue formando parte del flujo.</h2>
+        <p class="section-lead">HabemusDandy mantiene las citas visibles en los calendarios que el equipo ya consulta.</p>
+      </div>
+      <div class="integrations">
+        <article class="integrations__card reveal">
+          <img src="/integrations/google-calendar.svg" alt="" width="40" height="40" />
+          <div>
+            <h3>Google Calendar</h3>
+            <p>Una vía · Tus citas → Google Calendar</p>
+          </div>
+        </article>
+        <article class="integrations__card reveal">
+          <img src="/integrations/apple-calendar.svg" alt="" width="40" height="40" />
+          <div>
+            <h3>Apple Calendar</h3>
+            <p>Solo lectura · enlace privado de suscripción</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <Faq items={faqItems} />
+  <Cta />
+</BaseLayout>
+
+<style>
+  .hero {
+    position: relative;
+    padding-top: clamp(4rem, 8vw, 7.5rem);
+    padding-bottom: clamp(5rem, 9vw, 9rem);
+  }
+
+  .hero__grid {
+    display: grid;
+    gap: clamp(3.5rem, 7vw, 6.5rem);
+    align-items: center;
+  }
+
+  .hero__copy {
+    max-width: 64rem;
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .hero__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin: 0 0 var(--space-5);
+    padding: 0.45rem 0.8rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-surface) 72%, transparent);
+    box-shadow: var(--shadow-card);
+    color: var(--color-muted);
+    font-size: 0.82rem;
+    font-weight: 500;
+  }
+
+  .hero h1 {
+    margin: 0;
+    font-size: clamp(3rem, 7vw, 5.9rem);
+    font-weight: 500;
+    letter-spacing: -0.065em;
+    line-height: 0.94;
+  }
+
+  .hero h1 span {
+    color: var(--color-ink);
+  }
+
+  .hero__sub {
+    margin: var(--space-5) 0 0;
+    max-width: 38rem;
+    margin-inline: auto;
+    color: var(--color-muted);
+    font-size: 1.125rem;
+    line-height: 1.65;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-5);
+    justify-content: center;
+  }
+
+  .hero__trust {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem 1.4rem;
+    margin: var(--space-4) 0 0;
+    color: var(--color-muted);
+    font-size: 0.9rem;
+  }
+
+  .hero__trust span::before {
+    content: '\2713';
+    margin-right: 0.4rem;
+    color: var(--color-status-ok);
+  }
+
+  .hero__visual {
+    position: relative;
+    width: min(100%, 62rem);
+    margin-inline: auto;
+    isolation: isolate;
+  }
+
+  .hero__visual :global(.product-frame) {
+    position: relative;
+    z-index: 2;
+    transform: perspective(1200px) rotateX(1.5deg);
+  }
+
+  .hero__halo {
+    position: absolute;
+    inset: 8% 5% -10%;
+    z-index: -1;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--color-ink) 7%, transparent);
+    filter: blur(55px);
+  }
+
+  .signal-card {
+    position: absolute;
+    z-index: 3;
+    display: none;
+    align-items: center;
+    gap: 0.7rem;
+    min-width: 13.5rem;
+    padding: 0.8rem 0.95rem;
+    border-radius: var(--radius-md);
+    background: color-mix(in srgb, var(--color-surface) 92%, transparent);
+    box-shadow: var(--shadow-card-hover);
+    backdrop-filter: blur(12px);
+    animation: signal-float 6s ease-in-out infinite;
+  }
+
+  .signal-card--intake {
+    top: 22%;
+    left: -5rem;
+  }
+
+  .signal-card--note {
+    right: -4.5rem;
+    bottom: 15%;
+    animation-delay: -3s;
+  }
+
+  .signal-card__icon {
+    display: grid;
+    place-items: center;
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--color-status-ok) 14%, var(--color-surface));
+    color: var(--color-status-ok);
+    font-size: 0.8rem;
+  }
+
+  .signal-card > span:last-child {
+    display: grid;
+  }
+
+  .signal-card strong {
+    font-size: 0.78rem;
+    font-weight: 600;
+  }
+
+  .signal-card small {
+    color: var(--color-muted);
+    font-size: 0.67rem;
+  }
+
+  @keyframes signal-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .problem-grid,
+  .integrations,
+  .pricing-teaser {
+    display: grid;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+  }
+
+  .problem-card,
+  .integrations__card,
+  .pricing-card {
+    padding: var(--space-5);
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+  }
+
+  .problem-card {
+    position: relative;
+    min-height: 12rem;
+    padding-top: 4.75rem;
+    overflow: hidden;
+    transition: transform var(--motion-base), box-shadow var(--motion-base);
+  }
+
+  .problem-card::before {
+    content: attr(data-index);
+    position: absolute;
+    top: 0.9rem;
+    right: 1rem;
+    color: color-mix(in srgb, var(--color-ink) 8%, transparent);
+    font-size: 4rem;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.08em;
+  }
+
+  .problem-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  .problem-card h3,
+  .integrations__card h3,
+  .pricing-card h3 {
+    margin: 0 0 var(--space-2);
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .problem-card p,
+  .integrations__card p,
+  .pricing-card > p {
+    margin: 0;
+    color: var(--color-muted);
+  }
+
+  .journey-section {
+    scroll-margin-top: calc(var(--header-h) + 1rem);
+    background: var(--color-navy);
+  }
+
+  .journey-intro {
+    display: grid;
+    gap: var(--space-5);
+    align-items: end;
+    margin-bottom: clamp(2rem, 5vw, 4rem);
+  }
+
+  .journey-intro .section-label,
+  .journey-intro .section-title {
+    color: var(--color-surface);
+  }
+
+  .journey-intro .section-lead {
+    margin-top: 0;
+    color: color-mix(in srgb, var(--color-surface) 68%, transparent);
+  }
+
+  .journey-intro .text-link {
+    display: inline-block;
+    margin-top: var(--space-4);
+    color: var(--color-surface);
+  }
+
+  .pillar {
+    display: grid;
+    gap: var(--space-6);
+    align-items: center;
+  }
+
+  .pillar-section {
+    position: relative;
+  }
+
+  .pillar-section--warm {
+    background: color-mix(in srgb, var(--color-warm) 62%, transparent);
+  }
+
+  .pillar__copy {
+    max-width: 31rem;
+  }
+
+  .pillar ul {
+    margin: var(--space-4) 0;
+    padding-left: 1.1rem;
+    color: var(--color-muted);
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .integrations__card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-4);
+    align-items: center;
+  }
+
+  .integrations__card img {
+    width: 2.5rem;
+    height: 2.5rem;
+    object-fit: contain;
+  }
+
+  .pricing-teaser {
+    grid-template-columns: 1fr;
+  }
+
+  .pricing-card ul {
+    margin: var(--space-4) 0;
+    padding-left: 1.1rem;
+    color: var(--color-muted);
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .pricing-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-height: 21rem;
+  }
+
+  .pricing-card > p:not(.pricing-card__eyebrow):not(.pricing-card__price) {
+    flex: 1;
+    margin-top: var(--space-3);
+  }
+
+  .pricing-card__price {
+    margin: var(--space-3) 0 0 !important;
+    color: var(--color-ink) !important;
+    font-size: 2rem;
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  .pricing-card__price span {
+    color: var(--color-muted);
+    font-size: 0.9rem;
+    letter-spacing: 0;
+  }
+
+  .pricing-card__eyebrow {
+    margin: 0 0 var(--space-2);
+    color: var(--color-muted);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .pricing-card--featured {
+    box-shadow: 0 22px 54px rgba(0, 0, 0, 0.1);
+    outline: 1px solid color-mix(in srgb, var(--color-ink) 18%, transparent);
+  }
+
+  .pricing-card--dark {
+    background: var(--color-navy);
+    color: var(--color-surface);
+  }
+
+  .pricing-card--dark > p,
+  .pricing-card--dark .pricing-card__eyebrow {
+    color: color-mix(in srgb, var(--color-surface) 68%, transparent);
+  }
+
+  .pricing-card--dark .pricing-card__price {
+    color: var(--color-surface) !important;
+  }
+
+  .pricing-home__link {
+    display: inline-block;
+    margin-top: var(--space-5);
+  }
+
+  @media (min-width: 900px) {
+    .pillar {
+      grid-template-columns: 0.95fr 1.05fr;
+    }
+
+    .signal-card {
+      display: flex;
+    }
+
+    .journey-intro {
+      grid-template-columns: 1fr 0.8fr;
+    }
+
+    .pillar--reverse .pillar__copy {
+      order: 2;
+    }
+
+    .problem-grid,
+    .integrations {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .pricing-teaser {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .problem-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+  }
+
+  @media (max-width: 620px) {
+    .hero h1 span {
+      display: block;
+    }
+
+    .hero__eyebrow {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .signal-card {
+      animation: none;
+    }
+  }
+</style>

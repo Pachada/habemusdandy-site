@@ -1,0 +1,96 @@
+---
+import { appSignupUrl } from '../config/site'
+
+interface Props {
+  title?: string
+  secondaryHref?: string
+  secondaryLabel?: string
+}
+
+const {
+  title = 'Tu próxima cita puede empezar con todo en orden.',
+  secondaryHref = '/precios',
+  secondaryLabel = 'Ver precios',
+} = Astro.props
+---
+
+<section class="closing-cta section">
+  <div class="closing-cta__inner container reveal">
+    <p class="section-label">Tu clínica, con orden</p>
+    <h2 class="section-title">{title}</h2>
+    <p class="closing-cta__copy">Reúne agenda, ingreso, ficha y seguimiento en un solo flujo. Empieza sin costo y crece cuando tu equipo lo necesite.</p>
+    <div class="closing-cta__actions">
+      <a class="btn btn--primary" href={appSignupUrl}>Comenzar gratis</a>
+      <a class="btn btn--ghost" href={secondaryHref}>{secondaryLabel}</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .closing-cta__inner {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(3.5rem, 8vw, 7rem) clamp(1.5rem, 7vw, 6rem);
+    border-radius: var(--radius-xl);
+    background: var(--color-navy);
+    box-shadow: var(--shadow-float);
+    color: var(--color-surface);
+  }
+
+  .closing-cta__inner::after {
+    content: '';
+    position: absolute;
+    width: 24rem;
+    height: 24rem;
+    right: -8rem;
+    bottom: -15rem;
+    border-radius: 50%;
+    border: 1px solid color-mix(in srgb, var(--color-surface) 16%, transparent);
+    box-shadow: 0 0 0 3rem color-mix(in srgb, var(--color-surface) 3%, transparent);
+  }
+
+  .closing-cta__inner :global(.section-label) {
+    color: color-mix(in srgb, var(--color-surface) 62%, transparent);
+  }
+
+  .closing-cta__inner :global(.btn--ghost) {
+    color: var(--color-surface);
+    background: color-mix(in srgb, var(--color-surface) 8%, transparent);
+    border-color: color-mix(in srgb, var(--color-surface) 22%, transparent);
+  }
+
+  .closing-cta__inner :global(.btn--ghost:hover) {
+    color: var(--color-surface);
+    background: color-mix(in srgb, var(--color-surface) 16%, transparent);
+    border-color: color-mix(in srgb, var(--color-surface) 38%, transparent);
+  }
+
+  .closing-cta__copy {
+    max-width: 34rem;
+    margin: var(--space-4) 0 0;
+    color: color-mix(in srgb, var(--color-surface) 68%, transparent);
+  }
+
+  .closing-cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-5);
+  }
+
+  .closing-cta__inner :global(.section-title) {
+    max-width: 38rem;
+    font-size: clamp(2.3rem, 5vw, 4.5rem);
+  }
+
+  .closing-cta__inner :global(.btn--primary) {
+    background: var(--color-surface);
+    color: var(--color-navy);
+    box-shadow: none;
+  }
+
+  .closing-cta__inner :global(.btn--primary:hover) {
+    background: var(--color-ink-soft);
+    color: var(--color-navy);
+  }
+</style>

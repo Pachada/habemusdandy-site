@@ -1,0 +1,159 @@
+---
+interface FaqItem {
+  question: string
+  answer: string
+  answerHtml?: string
+}
+
+interface Props {
+  items: readonly FaqItem[]
+  title?: string
+  label?: string
+}
+
+const { items, title = 'Preguntas frecuentes', label = 'FAQ' } = Astro.props
+---
+
+<section class="faq section">
+  <div class="container">
+    <div class="faq__intro reveal">
+      <p class="section-label">{label}</p>
+      <h2 class="section-title">{title}</h2>
+    </div>
+    <div class="faq__list" data-faq>
+      {
+        items.map((item, index) => (
+          <div class="faq__item reveal">
+            <h3>
+              <button
+                class="faq__trigger"
+                type="button"
+                aria-expanded={index === 0 ? 'true' : 'false'}
+                aria-controls={`faq-panel-${index}`}
+                id={`faq-trigger-${index}`}
+              >
+                <span>{item.question}</span>
+                <span class="faq__icon" aria-hidden="true"></span>
+              </button>
+            </h3>
+            <div
+              class="faq__panel"
+              id={`faq-panel-${index}`}
+              role="region"
+              aria-labelledby={`faq-trigger-${index}`}
+              hidden={index !== 0}
+            >
+              {item.answerHtml ? (
+                <p set:html={item.answerHtml} />
+              ) : (
+                <p>{item.answer}</p>
+              )}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('[data-faq]').forEach((root) => {
+    root.querySelectorAll('.faq__trigger').forEach((button) => {
+      button.addEventListener('click', () => {
+        const expanded = button.getAttribute('aria-expanded') === 'true'
+        const panelId = button.getAttribute('aria-controls')
+        const panel = panelId ? document.getElementById(panelId) : null
+        button.setAttribute('aria-expanded', String(!expanded))
+        if (panel) panel.hidden = expanded
+      })
+    })
+  })
+</script>
+
+<style>
+  .faq__intro {
+    max-width: 36rem;
+    margin-bottom: var(--space-6);
+  }
+
+  .faq__list {
+    display: grid;
+    gap: var(--space-3);
+    max-width: 52rem;
+  }
+
+  .faq__item {
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    transition: box-shadow var(--motion-base), transform var(--motion-base);
+  }
+
+  .faq__item:has(.faq__trigger[aria-expanded='true']) {
+    box-shadow: 0 14px 38px rgba(17, 40, 53, 0.08);
+  }
+
+  .faq__item:hover {
+    transform: translateY(-1px);
+  }
+
+  .faq__item h3 {
+    margin: 0;
+    font-size: inherit;
+    font-weight: inherit;
+  }
+
+  .faq__trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding: var(--space-4) var(--space-5);
+    border: 0;
+    background: transparent;
+    color: var(--color-ink);
+    font: inherit;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    font-size: 1.02rem;
+  }
+
+  .faq__icon {
+    width: 0.65rem;
+    height: 0.65rem;
+    border-right: 2px solid var(--color-muted);
+    border-bottom: 2px solid var(--color-muted);
+    transform: rotate(45deg);
+    transition: transform var(--motion-fast);
+    flex-shrink: 0;
+  }
+
+  .faq__trigger[aria-expanded='true'] .faq__icon {
+    transform: rotate(225deg);
+  }
+
+  .faq__panel {
+    padding: 0 var(--space-5) var(--space-5);
+    max-width: 48rem;
+  }
+
+  .faq__panel p {
+    margin: 0;
+    color: var(--color-muted);
+    line-height: 1.65;
+  }
+
+  .faq__panel a {
+    color: var(--color-ink);
+    text-decoration: underline;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .faq__panel a:hover {
+    text-decoration: underline;
+  }
+</style>

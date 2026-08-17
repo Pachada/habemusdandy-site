@@ -9,13 +9,46 @@ import { appSignupUrl, faqItems, salesContactUrl } from '../config/site'
 const title = 'Tu clínica ordenada, de la cita al seguimiento'
 const description =
   'Agenda, formularios, fichas y notas clínicas en un solo flujo. HabemusDandy organiza la operación de la clínica.'
+
+const mosaic = [
+  {
+    title: 'Horario',
+    line: 'Disponibilidad real de la clínica',
+    href: '/producto#agenda',
+  },
+  {
+    title: 'Servicios',
+    line: 'Duración y tipo de atención',
+    href: '/producto#agenda',
+  },
+  {
+    title: 'Formularios',
+    line: 'Ingreso antes de la visita',
+    href: '/producto#clientes',
+  },
+  {
+    title: 'Workflows',
+    line: 'Recordatorios y seguimiento',
+    href: '/producto#automatizacion',
+  },
+  {
+    title: 'Calendario',
+    line: 'Google y Apple',
+    href: '/producto#integraciones',
+  },
+  {
+    title: 'Equipo',
+    line: 'Roles en un solo espacio',
+    href: '/producto#equipo',
+  },
+] as const
 ---
 
 <BaseLayout title={title} description={description}>
   <section class="hero section">
     <div class="container hero__grid">
       <div class="hero__copy reveal">
-        <p class="hero__eyebrow"><span class="status-dot status-dot--ok"></span> De la primera cita a la siguiente sesión</p>
+        <p class="hero__eyebrow"><span class="status-dot status-dot--ok"></span> Para clínicas</p>
         <h1>Tu clínica ordenada, <span>de la cita al seguimiento.</span></h1>
         <p class="hero__sub">
           Agenda, formularios, fichas y notas clínicas en un solo flujo. Menos mensajes
@@ -25,7 +58,7 @@ const description =
           <a class="btn btn--primary" href={appSignupUrl}>Comenzar gratis</a>
           <a class="btn btn--ghost" href="#recorrido">Ver cómo funciona</a>
         </div>
-        <p class="hero__trust"><span>Plan gratuito disponible</span><span>Agenda, fichas y seguimiento conectados</span></p>
+        <p class="hero__trust"><span>Plan gratuito</span><span>Configuración en minutos</span></p>
       </div>
       <div class="hero__visual reveal" data-reveal="scale">
         <div class="hero__halo" aria-hidden="true"></div>
@@ -36,7 +69,7 @@ const description =
         </div>
         <div class="signal-card signal-card--note" aria-hidden="true">
           <span class="status-dot status-dot--brand"></span>
-          <span><strong>Contexto listo</strong><small>Nota anterior vinculada</small></span>
+          <span><strong>Nota lista</strong><small>Sesión anterior vinculada</small></span>
         </div>
       </div>
     </div>
@@ -58,7 +91,7 @@ const description =
           <p>Los datos importantes se preguntan cuando la sesión ya empezó.</p>
         </article>
         <article class="problem-card reveal" data-index="03">
-          <h3>El contexto queda atrás</h3>
+          <h3>La historia queda atrás</h3>
           <p>Notas, acuerdos y siguientes pasos terminan en lugares distintos.</p>
         </article>
       </div>
@@ -81,40 +114,6 @@ const description =
     </div>
   </section>
 
-  <section class="section section--tight pricing-home">
-    <div class="container">
-      <div class="reveal">
-        <p class="section-label">Precios</p>
-        <h2 class="section-title">Empieza gratis. Crece con tu equipo.</h2>
-        <p class="section-lead">Tres opciones claras, con precio por clínica en el plan Equipos.</p>
-      </div>
-      <div class="pricing-teaser">
-        <article class="pricing-card reveal">
-          <p class="pricing-card__eyebrow">Para comenzar</p>
-          <h3>Gratis</h3>
-          <p class="pricing-card__price">$0</p>
-          <p>Agenda, clientes y notas para ordenar lo esencial.</p>
-          <a class="btn btn--ghost" href={appSignupUrl}>Comenzar gratis</a>
-        </article>
-        <article class="pricing-card pricing-card--featured reveal">
-          <p class="pricing-card__eyebrow">Recomendado</p>
-          <h3>Equipos</h3>
-          <p class="pricing-card__price">$249 <span>/ mes</span></p>
-          <p>$200 al mes con pago anual. Equipo, formularios, workflows e integraciones.</p>
-          <a class="btn btn--primary" href={appSignupUrl}>Elegir Equipos</a>
-        </article>
-        <article class="pricing-card pricing-card--dark reveal">
-          <p class="pricing-card__eyebrow">Operaciones grandes</p>
-          <h3>Empresas</h3>
-          <p class="pricing-card__price">A medida</p>
-          <p>Configuración y acompañamiento según tus necesidades.</p>
-          <a class="btn btn--light" href={salesContactUrl}>Contactar a ventas</a>
-        </article>
-      </div>
-      <a class="text-link pricing-home__link" href="/precios">Comparar todos los planes</a>
-    </div>
-  </section>
-
   <section class="section pillar-section">
     <div class="container pillar">
       <div class="pillar__copy reveal" data-reveal="left">
@@ -132,7 +131,7 @@ const description =
         <a class="text-link" href="/producto#agenda">Ver cómo funciona la agenda</a>
       </div>
       <div class="reveal" data-reveal="right">
-        <ProductFrame variant="agenda" activeNav="Citas" label="Citas" />
+        <ProductFrame variant="hours" activeNav="Horario" label="Horario de la clínica" />
       </div>
     </div>
   </section>
@@ -149,7 +148,7 @@ const description =
         <ul>
           <li>Ficha completa del cliente</li>
           <li>Formularios de ingreso ligados a la cita</li>
-          <li>Contexto listo al entrar al box</li>
+          <li>Visitas recientes a la vista</li>
         </ul>
         <a class="text-link" href="/producto#clientes">Ver fichas e ingreso</a>
       </div>
@@ -180,12 +179,44 @@ const description =
     </div>
   </section>
 
-  <section class="section">
+  <section class="section section--tight mosaic-section">
     <div class="container">
       <div class="reveal">
-        <p class="section-label">Confianza operacional</p>
-        <h2 class="section-title">Tu calendario sigue formando parte del flujo.</h2>
-        <p class="section-lead">HabemusDandy mantiene las citas visibles en los calendarios que el equipo ya consulta.</p>
+        <p class="section-label">Capacidades</p>
+        <h2 class="section-title">Lo que ya está en el producto.</h2>
+        <p class="section-lead">Seis piezas concretas. Sin “próximamente”.</p>
+      </div>
+      <div class="mosaic">
+        {
+          mosaic.map((item) => (
+            <a class="mosaic__card reveal" href={item.href}>
+              <h3>{item.title}</h3>
+              <p>{item.line}</p>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <Cta
+    tone="warm"
+    label="Listo para ordenar"
+    title="Prueba el flujo completo."
+    copy="Agenda, ingreso, ficha y nota en un solo sitio. Empieza gratis y suma capacidad cuando tu equipo lo necesite."
+    secondaryHref="/producto"
+    secondaryLabel="Ver producto"
+  />
+
+  <section class="section">
+    <div class="container">
+      <div class="integrations-intro reveal">
+        <div>
+          <p class="section-label">Integraciones</p>
+          <h2 class="section-title">Se conecta con lo que ya usas.</h2>
+          <p class="section-lead">HabemusDandy mantiene las citas visibles en los calendarios que el equipo ya consulta.</p>
+        </div>
+        <a class="text-link" href="/producto#integraciones">Ver integraciones</a>
       </div>
       <div class="integrations">
         <article class="integrations__card reveal">
@@ -206,8 +237,55 @@ const description =
     </div>
   </section>
 
-  <Faq items={faqItems} />
-  <Cta />
+  <section class="section section--tight pricing-home">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-label">Precios</p>
+        <h2 class="section-title">Empieza gratis. Crece con tu equipo.</h2>
+        <p class="section-lead">Tres opciones claras, con precio por clínica en el plan Equipos.</p>
+      </div>
+      <div class="pricing-teaser">
+        <article class="pricing-card reveal">
+          <p class="pricing-card__eyebrow">Para comenzar</p>
+          <h3>Gratis</h3>
+          <p class="pricing-card__price">$0</p>
+          <ul>
+            <li>Agenda semanal y citas</li>
+            <li>Clientes y fichas</li>
+            <li>Notas clínicas</li>
+          </ul>
+          <a class="btn btn--ghost" href={appSignupUrl}>Comenzar gratis</a>
+        </article>
+        <article class="pricing-card pricing-card--featured reveal">
+          <span class="pricing-card__badge">Recomendado</span>
+          <p class="pricing-card__eyebrow">Para el equipo</p>
+          <h3>Equipos</h3>
+          <p class="pricing-card__price">$249 <span>/ mes</span></p>
+          <ul>
+            <li>$200/mes con pago anual</li>
+            <li>Formularios y workflows</li>
+            <li>Equipo, roles e integraciones</li>
+          </ul>
+          <a class="btn btn--primary" href={appSignupUrl}>Elegir Equipos</a>
+        </article>
+        <article class="pricing-card pricing-card--dark reveal">
+          <p class="pricing-card__eyebrow">Operaciones grandes</p>
+          <h3>Empresas</h3>
+          <p class="pricing-card__price">A medida</p>
+          <ul>
+            <li>Todo lo de Equipos</li>
+            <li>Configuración acompañada</li>
+            <li>Condiciones a tu medida</li>
+          </ul>
+          <a class="btn btn--light" href={salesContactUrl}>Contactar a ventas</a>
+        </article>
+      </div>
+      <a class="text-link pricing-home__link" href="/precios">Comparar todos los planes</a>
+    </div>
+  </section>
+
+  <Faq items={faqItems} showSignupLink />
+  <Cta showFlow />
 </BaseLayout>
 
 <style>
@@ -322,7 +400,17 @@ const description =
     background: color-mix(in srgb, var(--color-surface) 92%, transparent);
     box-shadow: var(--shadow-card-hover);
     backdrop-filter: blur(12px);
-    animation: signal-float 6s ease-in-out infinite;
+  }
+
+  :global(.js) .hero__visual:not(.is-visible) .signal-card {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+
+  .hero__visual.is-visible .signal-card {
+    animation:
+      signal-enter 640ms cubic-bezier(0.16, 1, 0.3, 1) both,
+      signal-float 7s ease-in-out 900ms infinite;
   }
 
   .signal-card--intake {
@@ -333,7 +421,14 @@ const description =
   .signal-card--note {
     right: -4.5rem;
     bottom: 15%;
-    animation-delay: -3s;
+  }
+
+  .hero__visual.is-visible .signal-card--intake {
+    animation-delay: 180ms, 1080ms;
+  }
+
+  .hero__visual.is-visible .signal-card--note {
+    animation-delay: 360ms, 1260ms;
   }
 
   .signal-card__icon {
@@ -361,14 +456,26 @@ const description =
     font-size: 0.67rem;
   }
 
+  @keyframes signal-enter {
+    from {
+      opacity: 0;
+      transform: translateY(0.75rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
   @keyframes signal-float {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
+    50% { transform: translateY(-6px); }
   }
 
   .problem-grid,
   .integrations,
-  .pricing-teaser {
+  .pricing-teaser,
+  .mosaic {
     display: grid;
     gap: var(--space-4);
     margin-top: var(--space-6);
@@ -376,7 +483,8 @@ const description =
 
   .problem-card,
   .integrations__card,
-  .pricing-card {
+  .pricing-card,
+  .mosaic__card {
     padding: var(--space-5);
     background: var(--color-surface);
     border-radius: var(--radius-lg);
@@ -410,7 +518,8 @@ const description =
 
   .problem-card h3,
   .integrations__card h3,
-  .pricing-card h3 {
+  .pricing-card h3,
+  .mosaic__card h3 {
     margin: 0 0 var(--space-2);
     font-size: 1.1rem;
     font-weight: 600;
@@ -419,9 +528,26 @@ const description =
 
   .problem-card p,
   .integrations__card p,
-  .pricing-card > p {
+  .mosaic__card p {
     margin: 0;
     color: var(--color-muted);
+  }
+
+  .mosaic__card {
+    display: grid;
+    gap: 0.35rem;
+    text-decoration: none;
+    transition: transform var(--motion-base), box-shadow var(--motion-base);
+  }
+
+  .mosaic__card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-card-hover);
+    color: var(--color-ink);
+  }
+
+  .mosaic__card h3 {
+    margin: 0;
   }
 
   .journey-section {
@@ -478,6 +604,12 @@ const description =
     gap: var(--space-2);
   }
 
+  .integrations-intro {
+    display: grid;
+    gap: var(--space-4);
+    align-items: end;
+  }
+
   .integrations__card {
     display: grid;
     grid-template-columns: auto 1fr;
@@ -501,18 +633,28 @@ const description =
     color: var(--color-muted);
     display: grid;
     gap: var(--space-2);
+    flex: 1;
   }
 
   .pricing-card {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     min-height: 21rem;
   }
 
-  .pricing-card > p:not(.pricing-card__eyebrow):not(.pricing-card__price) {
-    flex: 1;
-    margin-top: var(--space-3);
+  .pricing-card__badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.35rem 0.65rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-brand) 12%, var(--color-surface));
+    color: var(--color-brand-deep);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
   }
 
   .pricing-card__price {
@@ -549,7 +691,7 @@ const description =
     color: var(--color-surface);
   }
 
-  .pricing-card--dark > p,
+  .pricing-card--dark ul,
   .pricing-card--dark .pricing-card__eyebrow {
     color: color-mix(in srgb, var(--color-surface) 68%, transparent);
   }
@@ -563,6 +705,12 @@ const description =
     margin-top: var(--space-5);
   }
 
+  @media (min-width: 700px) {
+    .mosaic {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
   @media (min-width: 900px) {
     .pillar {
       grid-template-columns: 0.95fr 1.05fr;
@@ -572,7 +720,8 @@ const description =
       display: flex;
     }
 
-    .journey-intro {
+    .journey-intro,
+    .integrations-intro {
       grid-template-columns: 1fr 0.8fr;
     }
 
@@ -585,14 +734,14 @@ const description =
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .pricing-teaser {
+    .pricing-teaser,
+    .mosaic {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
     .problem-grid {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
-
   }
 
   @media (max-width: 620px) {
@@ -604,11 +753,13 @@ const description =
       align-items: flex-start;
       text-align: left;
     }
-
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .signal-card {
+    .signal-card,
+    .hero__visual.is-visible .signal-card {
+      opacity: 1;
+      transform: none;
       animation: none;
     }
   }

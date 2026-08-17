@@ -116,10 +116,9 @@ flowchart LR
 | --- | --- | --- |
 | Logo wordmark | Producto · Precios | Iniciar sesión · **Comenzar** |
 
-- `Comenzar` is the only filled button (brand `#316dff`).
+- `Comenzar` is the only filled button (brand `#1769e0`). Label in UI: `Comenzar gratis`.
 - `Iniciar sesión` is text. Same dual-path as Calendly, without a “Talk to sales” until we have sales.
 - On mobile: logo + Comenzar; the rest in a simple drawer. Do not copy mega-menus.
-
 ### Footer
 
 Four columns, quiet:
@@ -141,14 +140,17 @@ Every major band ends with **Comenzar**. Secondary link is **Ver precios** or **
 
 This is the page that has to work alone. Order is the conversion story, not the org chart.
 
+**Shipped order:**
+Hero → Problem → Journey → Agenda → Clientes → Clínica → Feature mosaic → Mid-page CTA → Integrations → Pricing teaser → FAQ → Closing CTA
+
 ### 5.1 Hero
 
-- Eyebrow (optional, tiny): `Para clínicas`
-- H1: one line. Working: `La clínica, en un solo lugar.`
-- Sub: two lines max. Working: `Agenda, clientes y notas clínicas sin WhatsApp ni papel. Tú atiendes; el sistema recuerda.`
-- CTAs: `Comenzar` + `Ver producto`
-- Trust line under buttons: `Sin tarjeta · Configuración en minutos` (drop “sin tarjeta” if billing requires one)
-- **Visual:** framed screenshot of the real agenda (Cal.com pattern), on the `#f8f9fa` paper background. No isometric 3D, no mascot, no stock “happy clinic” photography.
+- Eyebrow (status-dot pill): `Para clínicas`
+- H1: `Tu clínica ordenada, de la cita al seguimiento.`
+- Sub: `Agenda, formularios, fichas y notas clínicas en un solo flujo. Menos mensajes pendientes; más tiempo para atender.`
+- CTAs: `Comenzar gratis` + `Ver cómo funciona` (anchor `#recorrido`)
+- Trust line under buttons: `Plan gratuito` · `Configuración en minutos` (do not claim “sin tarjeta”)
+- **Visual:** framed CSS product mock of the weekly agenda (busy clinic). Signal cards enter once after the hero frame is visible, then float slightly (desktop only). No isometric 3D, no mascot, no stock photography.
 
 ### 5.2 Logo / proof strip
 
@@ -160,69 +162,78 @@ Optional later: a metric row *only with real data* (citas, clínicas, no-show dr
 
 Three short columns. Pain the owner already feels:
 
-| WhatsApp y papel | Huecos y ausencias | La historia se pierde |
+| La cita vive en un chat | El ingreso llega tarde | La historia queda atrás |
 | --- | --- | --- |
-| La agenda vive en chats y cuadernos | Huecos, dobles reservas, nadie confirma | Cada visita empieza de cero |
+| Confirmaciones, cambios y pendientes se dispersan entre mensajes | Los datos importantes se preguntan cuando la sesión ya empezó | Notas, acuerdos y siguientes pasos terminan en lugares distintos |
 
-No icons soup. Small brand-tint marks or nothing. Headline: `Deja de improvisar la operación.`
+No icons soup. Small brand-tint marks or nothing. Headline: `La atención no debería empezar buscando información.`
 
-### 5.4 How it works (Calendly walkthrough, three steps)
+### 5.4 Journey (how a visit flows)
 
-Numbered 01–03. Each step: title, one sentence, a small UI fragment.
+Four autoplay tabs (~6s each, crossfade, pause on hover/focus). Progress underline matches the step duration. Respect `prefers-reduced-motion`.
 
-1. **Define horario y servicios** — cuándo atiendes y qué ofreces
-2. **Recibe la cita y el ingreso** — el cliente reserva; el formulario llega antes
-3. **Atiende con contexto** — ficha, notas, siguiente sesión
+1. **La cita entra en la agenda** — horario y duración ya definidos
+2. **El ingreso llega con tiempo** — formulario antes del box
+3. **La ficha abre con contexto** — datos y visitas juntos
+4. **El seguimiento queda preparado** — nota y plan en el mismo flujo
 
-This is our version of Calendly’s “connect calendar → availability → share link.” We do not stop at the link.
+Headline: `El contexto avanza con cada visita.` Secondary text link: `Comenzar gratis`.
+
+Agenda visual rule: hero keeps the full-week agenda; journey step 1 may reuse agenda inside journey chrome; Agenda pillar uses a distinct cut (`hours` / horario), not a third paste of the hero week.
 
 ### 5.5 Product pillars (alternating feature bands)
 
-Three large bands, screenshot left/right alternating, generous whitespace (Calendly), real UI (Cal.com).
+Three large bands, screenshot left/right alternating, generous whitespace (Calendly), product UI mocks (Cal.com).
 
 1. **Agenda que respeta tu horario**
    Horario, servicios, citas, sincronización de calendario.
-   *Borrowed beat:* “no double bookings.”
+   Visual: horario / disponibilidad (`hours` variant), not the hero week again.
 
 2. **Clientes con historia, no solo un nombre**
-   Ficha, ingreso, recordatorios.
-   *Borrowed beat:* Koalendar’s “collect the right details before the visit.”
+   Ficha, ingreso, visitas recientes.
+   Visual: enriched client frame (resumen, ingreso checklist, visit list, previous-session chip).
 
 3. **Notas y seguimiento en el mismo sitio**
    Continuidad clínica, no un PDF suelto.
-   *This is the wedge those three tools do not have.*
+   Visual: enriched note frame (previous-session chip + side findings).
 
-Each band: H2, one paragraph, 3 bullets, link `Ver producto`.
+Each band: H2, one paragraph, 3 bullets, link `Ver producto` (section anchor). Vary wording; do not overuse `contexto` outside the journey.
 
-### 5.6 Feature mosaic (optional, short)
+### 5.6 Feature mosaic
 
-A 2×3 grid of smaller capabilities, Koalendar-style but clinic-specific. Only ship what exists in the app today:
+A 2×3 grid (1–2 cols on small screens) of shipped capabilities only. Scannable cards (title + one line), linking to `/producto#…`. Do not put full ProductFrames in the mosaic.
 
-- Horario de la clínica
-- Servicios y duración
-- Formularios de ingreso
-- Workflows / recordatorios
-- Integración de calendario
-- Equipo y roles
+| Tile | One-liner |
+| --- | --- |
+| Horario | Disponibilidad real de la clínica |
+| Servicios | Duración y tipo de atención |
+| Formularios | Ingreso antes de la visita |
+| Workflows | Recordatorios y seguimiento |
+| Calendario | Google y Apple |
+| Equipo | Roles en un solo espacio |
 
-If a tile would be “coming soon,” omit it.
+### 5.7 Mid-page CTA
 
-### 5.7 Integrations
+Warm / paper treatment (not a second navy slab). Primary `Comenzar gratis` + secondary `Ver producto`. Distinct from the closing navy band.
 
-One row: Google Calendar, and any other live integration. Headline: `Se conecta con lo que ya usas.`
+### 5.8 Integrations
+
+One row: Google Calendar + Apple Calendar. Headline: `Se conecta con lo que ya usas.` Text link to `/producto#integraciones`.
 Do not show Zoom/Salesforce/Zapier just because Calendly does.
 
-### 5.8 Pricing teaser
+### 5.9 Pricing teaser
 
-Three plan cards: **Gratis**, **Equipos** (`$249/mes` or `$200/mes` with annual payment), and **Empresas** (contact sales). Equipos is recommended. Link to `Ver precios`; do not publish competitor comparison tables.
+Three plan cards: **Gratis**, **Equipos** (`$249/mes` or `$200/mes` with annual payment), and **Empresas** (contact sales). Equipos shows a visible `Recomendado` pill. Each card: 3 bullets + CTA. Link to `Ver precios` / comparar planes; do not publish competitor comparison tables.
 
-### 5.9 Testimonials
+### 5.10 Testimonials
 
 Two or three quotes max, with name, clinic, city. Empty until real. Do not use Cal.com’s scrolling wall of tweets.
 
-### 5.10 FAQ (5–7 questions)
+### 5.11 FAQ (5–7 questions)
 
-Cal.com/Calendly close. Draft:
+Two-column on desktop: intro left (optional text link `Comenzar gratis`, not a second primary button), accordion list right. Open panels animate height; reduced motion = instant.
+
+Draft:
 
 1. ¿Es solo para fisioterapia?
 2. ¿Mis pacientes necesitan una cuenta?
@@ -234,19 +245,20 @@ Cal.com/Calendly close. Draft:
 
 Answers: two to four sentences. Link `/seguridad` from the data question.
 
-### 5.11 Closing CTA
+### 5.12 Closing CTA
 
-Full-width, paper or very light brand wash.
+Full-width navy band.
 H2: `Empieza a ordenar la clínica.`
-Buttons: `Comenzar` + `Ver precios`.
-
+Buttons: `Comenzar gratis` + `Ver precios`.
+Right side: quiet 4-step strip — Cita → Ingreso → Ficha → Nota.
 ---
 
 ## 6. Producto (`/producto`)
 
 Calendly `/features` shape: hero, then grouped capabilities, then CTA. Not a second homepage.
 
-**Hero:** `Todo lo que la clínica necesita para operar.` + `Comenzar`
+**Hero:** `Un flujo clínico, no seis herramientas separadas.` + `Comenzar gratis` / `Ver precios`
+**Hero visual:** one agenda ProductFrame under the hero copy.
 
 **Groups** (match the dashboard, not a scheduler feature list):
 
@@ -257,7 +269,7 @@ Calendly `/features` shape: hero, then grouped capabilities, then CTA. Not a sec
 5. **Equipo** — roles, administración
 6. **Integraciones** — only live ones
 
-Each group: H2, short intro, 4–6 items (title + one line). One screenshot per group, not per item.
+Each group: H2, short intro, 4–6 items (title + one line). One product mock per group, not per item.
 
 Close with the same CTA band as home.
 
@@ -307,7 +319,7 @@ Luxury refined minimalism, same family as the dashboard — marketing is allowed
 | Brand | `#1769e0` — primary actions and focus only |
 | Depth | Soft shadow, no card borders |
 | Radius | Medium, same as product |
-| Motion | Fade/slide on scroll, respect `prefers-reduced-motion` |
+| Motion | Fade/slide on scroll, journey crossfade (~6s), FAQ height, agenda appointment stagger; respect `prefers-reduced-motion` |
 
 **Closer to Calendly than Koalendar:** lots of air, typography hierarchy, product shots on paper, and an editorial monochrome shell. Color comes from product UI, icons, motion states, and restrained primary actions.
 **Closer to Cal.com than Calendly:** the screenshot *is* our app, not an illustrated metaphor.
@@ -318,10 +330,12 @@ Rules:
 - One H1 per page
 - Section labels are small + muted; section titles are large + light-to-medium weight
 - Primary button once per band
-- Status and proof use dots / quiet text, not filled badges
+- Dual CTAs: self-serve primary; secondary is text or ghost (`Ver precios`, `Ver producto`, `Ver cómo funciona`)
+- Status and proof use dots / quiet text, not filled badges (except pricing `Recomendado` pill)
+- Product UI mocks use existing status/appointment tokens for quiet color — not beige + one blue button only
 - No hardcoded one-off colors; CSS variables only
-- Static HTML first. JS only for header drawer, pricing toggle, FAQ accordion
-
+- No Calendly organic blobs / illustration style
+- Static HTML first. JS only for header drawer, journey tabs, FAQ accordion, reveal, appointment stagger
 ---
 
 ## 10. Voice

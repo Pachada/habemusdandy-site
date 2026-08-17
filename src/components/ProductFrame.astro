@@ -171,6 +171,10 @@ const nav = [
                 <span>Ingreso completo</span>
               </div>
             </div>
+            <div class="ui-client__chip">
+              <span class="status-dot status-dot--brand"></span>
+              <span>Sesión anterior · 12 mar · Fisioterapia</span>
+            </div>
             <div class="ui-client__grid">
               <div class="ui-panel">
                 <p class="ui-panel__label">Resumen</p>
@@ -187,6 +191,26 @@ const nav = [
                   <li><span class="status-dot status-dot--ok"></span> Motivo de consulta</li>
                   <li><span class="status-dot status-dot--ok"></span> Consentimiento</li>
                   <li><span class="status-dot status-dot--warn"></span> Antecedentes · pendiente revisión</li>
+                </ul>
+              </div>
+              <div class="ui-panel ui-panel--visits">
+                <p class="ui-panel__label">Visitas recientes</p>
+                <ul class="ui-visits">
+                  <li>
+                    <span class="ui-visits__when">12 mar</span>
+                    <span class="ui-visits__what">Fisioterapia</span>
+                    <span class="status-dot status-dot--ok" title="Completada"></span>
+                  </li>
+                  <li>
+                    <span class="ui-visits__when">05 mar</span>
+                    <span class="ui-visits__what">Revisión</span>
+                    <span class="status-dot status-dot--ok" title="Completada"></span>
+                  </li>
+                  <li>
+                    <span class="ui-visits__when">26 feb</span>
+                    <span class="ui-visits__what">Evaluación</span>
+                    <span class="status-dot status-dot--brand" title="Con nota"></span>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -207,17 +231,31 @@ const nav = [
                 <span>Continuidad</span>
               </div>
             </div>
-            <div class="ui-note__card">
-              <header>
-                <strong>Ana Rojas · Sesión 6</strong>
-                <span>14 mar · 45 min</span>
-              </header>
-              <p class="ui-note__label">Objetivo</p>
-              <p>Recuperar movilidad lumbar sin dolor en carga.</p>
-              <p class="ui-note__label">Hallazgos</p>
-              <p>Mejora en flexión. Persiste tensión paravertebral izquierda.</p>
-              <p class="ui-note__label">Plan</p>
-              <p>Progresar estabilización y revaluar en la siguiente visita.</p>
+            <div class="ui-note__chip">
+              <span class="status-dot status-dot--ok"></span>
+              <span>Sesión anterior · 12 mar · plan vigente</span>
+            </div>
+            <div class="ui-note__layout">
+              <div class="ui-note__card">
+                <header>
+                  <strong>Ana Rojas · Sesión 6</strong>
+                  <span>14 mar · 45 min</span>
+                </header>
+                <p class="ui-note__label">Objetivo</p>
+                <p>Recuperar movilidad lumbar sin dolor en carga.</p>
+                <p class="ui-note__label">Hallazgos</p>
+                <p>Mejora en flexión. Persiste tensión paravertebral izquierda.</p>
+                <p class="ui-note__label">Plan</p>
+                <p>Progresar estabilización y revaluar en la siguiente visita.</p>
+              </div>
+              <aside class="ui-note__side">
+                <p class="ui-note__label">En esta visita</p>
+                <ul>
+                  <li><span class="status-dot status-dot--warn"></span> Dolor en carga</li>
+                  <li><span class="status-dot status-dot--ok"></span> Flexión mejor</li>
+                  <li><span class="status-dot status-dot--brand"></span> Plan siguiente</li>
+                </ul>
+              </aside>
             </div>
           </div>
         )
@@ -226,15 +264,29 @@ const nav = [
       {
         variant === 'hours' && (
           <div class="ui-hours">
-            <p class="ui-kicker">Horario</p>
-            <h3>Disponibilidad semanal</h3>
+            <div class="ui-toolbar">
+              <div>
+                <p class="ui-kicker">Horario</p>
+                <h3>Disponibilidad semanal</h3>
+              </div>
+              <div class="ui-toolbar__meta">
+                <span class="status-dot status-dot--ok"></span>
+                <span>Lun–Vie · 08:00–20:00</span>
+              </div>
+            </div>
+            <div class="ui-hours__legend">
+              <span><i class="ui-hours__swatch ui-hours__swatch--open"></i> Disponible</span>
+              <span><i class="ui-hours__swatch ui-hours__swatch--block"></i> Bloqueo</span>
+              <span><i class="ui-hours__swatch ui-hours__swatch--short"></i> Cierre temprano</span>
+            </div>
             <div class="ui-hours__grid">
-              {['L', 'M', 'X', 'J', 'V'].map((d, i) => (
+              {['Lun', 'Mar', 'Mié', 'Jue', 'Vie'].map((d, i) => (
                 <div class:list={['ui-hours__col', i === 4 && 'is-short']}>
                   <span>{d}</span>
-                  <div></div>
-                  <div></div>
-                  {i !== 4 && <div></div>}
+                  <div class="ui-hours__block ui-hours__block--morning"></div>
+                  <div class="ui-hours__block ui-hours__block--gap"></div>
+                  <div class="ui-hours__block ui-hours__block--afternoon"></div>
+                  {i !== 4 && <div class="ui-hours__block ui-hours__block--evening"></div>}
                 </div>
               ))}
             </div>
@@ -339,6 +391,30 @@ const nav = [
     </div>
   </div>
 </figure>
+
+<script>
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+  document.querySelectorAll<HTMLElement>('[data-product-frame="agenda"]').forEach((frame) => {
+    if (reduceMotion) {
+      frame.classList.add('is-inview')
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return
+          frame.classList.add('is-inview')
+          observer.disconnect()
+        })
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -8% 0px' },
+    )
+
+    observer.observe(frame)
+  })
+</script>
 
 <style>
   .product-frame {
@@ -522,32 +598,62 @@ const nav = [
 
   .ui-appt {
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: auto minmax(0, 1fr);
     gap: 0.35rem;
     min-width: 0;
     padding: 0.55rem;
     border-radius: 0.75rem;
-    background: color-mix(in srgb, var(--color-brand) 8%, var(--color-surface));
+    background: color-mix(in srgb, var(--color-brand) 10%, var(--color-surface));
+  }
+
+  :global(.js) .product-frame[data-product-frame='agenda']:not(.is-inview) .ui-appt {
+    opacity: 0;
+    transform: translateY(0.4rem);
+  }
+
+  .product-frame.is-inview .ui-appt {
+    animation: appt-in 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .ui-day:nth-child(1) .ui-appt:nth-child(1) { animation-delay: 40ms; }
+  .ui-day:nth-child(1) .ui-appt:nth-child(2) { animation-delay: 100ms; }
+  .ui-day:nth-child(2) .ui-appt:nth-child(1) { animation-delay: 160ms; }
+  .ui-day:nth-child(3) .ui-appt:nth-child(1) { animation-delay: 220ms; }
+  .ui-day:nth-child(3) .ui-appt:nth-child(2) { animation-delay: 280ms; }
+  .ui-day:nth-child(4) .ui-appt:nth-child(1) { animation-delay: 340ms; }
+  .ui-day:nth-child(5) .ui-appt:nth-child(1) { animation-delay: 400ms; }
+
+  .ui-appt > div {
+    min-width: 0;
+    overflow: hidden;
   }
 
   .ui-appt--muted {
-    background: var(--color-ink-soft);
+    background: color-mix(in srgb, var(--color-status-idle) 12%, var(--color-surface));
   }
 
   .ui-appt--now {
-    background: color-mix(in srgb, var(--color-status-warn) 12%, var(--color-surface));
+    background: color-mix(in srgb, var(--color-status-warn) 14%, var(--color-surface));
     animation: appointment-breathe 6s ease-in-out infinite;
+  }
+
+  .product-frame.is-inview .ui-appt--now {
+    animation:
+      appt-in 520ms cubic-bezier(0.16, 1, 0.3, 1) both,
+      appointment-breathe 6s ease-in-out 520ms infinite;
   }
 
   .ui-appt strong,
   .ui-appt p {
+    display: block;
     overflow: hidden;
     margin: 0;
     font-size: 0.66rem;
     line-height: 1.35;
-    overflow-wrap: normal;
     text-overflow: ellipsis;
     white-space: nowrap;
+    word-break: normal;
+    overflow-wrap: normal;
   }
 
   .ui-appt p {
@@ -555,8 +661,27 @@ const nav = [
     font-weight: 400;
   }
 
+  .ui-client__chip,
+  .ui-note__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin: 0 0 var(--space-3);
+    padding: 0.45rem 0.7rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-brand) 10%, var(--color-surface));
+    color: var(--color-ink);
+    font-size: 0.72rem;
+    font-weight: 500;
+  }
+
+  .ui-note__chip {
+    background: color-mix(in srgb, var(--color-status-ok) 12%, var(--color-surface));
+  }
+
   .ui-client__grid,
   .ui-note__card,
+  .ui-note__side,
   .ui-hours,
   .ui-intake,
   .ui-note-mini,
@@ -572,7 +697,7 @@ const nav = [
   .ui-client__grid {
     display: grid;
     gap: var(--space-3);
-    padding: var(--space-3);
+    padding: 0;
     background: transparent;
     box-shadow: none;
   }
@@ -631,6 +756,43 @@ const nav = [
     gap: 0.5rem;
   }
 
+  .ui-visits {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  .ui-visits li {
+    display: grid;
+    grid-template-columns: 3.4rem 1fr auto;
+    gap: 0.5rem;
+    align-items: center;
+    padding: 0.45rem 0.55rem;
+    border-radius: var(--radius-sm);
+    background: color-mix(in srgb, var(--color-brand) 6%, var(--color-paper));
+    font-size: 0.75rem;
+  }
+
+  .ui-visits__when {
+    color: var(--color-muted);
+    font-weight: 500;
+  }
+
+  .ui-visits__what {
+    font-weight: 500;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .ui-note__layout {
+    display: grid;
+    gap: var(--space-3);
+  }
+
   .ui-note__card {
     padding: var(--space-4);
   }
@@ -653,6 +815,26 @@ const nav = [
     color: var(--color-ink);
   }
 
+  .ui-note__side {
+    padding: var(--space-4);
+  }
+
+  .ui-note__side ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .ui-note__side li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+
   .ui-hours,
   .ui-intake,
   .ui-note-mini,
@@ -661,6 +843,40 @@ const nav = [
   .ui-team,
   .ui-integrations {
     padding: var(--space-4);
+  }
+
+  .ui-hours__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.1rem;
+    margin-bottom: var(--space-3);
+    color: var(--color-muted);
+    font-size: 0.72rem;
+  }
+
+  .ui-hours__legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .ui-hours__swatch {
+    display: inline-block;
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 0.2rem;
+  }
+
+  .ui-hours__swatch--open {
+    background: color-mix(in srgb, var(--color-brand) 22%, var(--color-surface));
+  }
+
+  .ui-hours__swatch--block {
+    background: color-mix(in srgb, var(--color-status-idle) 28%, var(--color-surface));
+  }
+
+  .ui-hours__swatch--short {
+    background: color-mix(in srgb, var(--color-status-warn) 28%, var(--color-surface));
   }
 
   .ui-hours__grid {
@@ -679,18 +895,37 @@ const nav = [
   .ui-hours__col span {
     color: var(--color-muted);
     font-size: 0.72rem;
+    font-weight: 500;
   }
 
-  .ui-hours__col div {
+  .ui-hours__block {
     width: 100%;
-    height: 1.8rem;
     border-radius: var(--radius-sm);
-    background: color-mix(in srgb, var(--color-brand) 14%, var(--color-surface));
   }
 
-  .ui-hours__col.is-short div:last-child {
-    height: 1.1rem;
-    background: var(--color-ink-soft);
+  .ui-hours__block--morning {
+    height: 2.1rem;
+    background: color-mix(in srgb, var(--color-brand) 18%, var(--color-surface));
+  }
+
+  .ui-hours__block--gap {
+    height: 0.7rem;
+    background: color-mix(in srgb, var(--color-status-idle) 22%, var(--color-surface));
+  }
+
+  .ui-hours__block--afternoon {
+    height: 2.4rem;
+    background: color-mix(in srgb, var(--color-brand) 26%, var(--color-surface));
+  }
+
+  .ui-hours__block--evening {
+    height: 1.5rem;
+    background: color-mix(in srgb, var(--color-status-ok) 18%, var(--color-surface));
+  }
+
+  .ui-hours__col.is-short .ui-hours__block--afternoon {
+    height: 1.2rem;
+    background: color-mix(in srgb, var(--color-status-warn) 24%, var(--color-surface));
   }
 
   .ui-intake ol {
@@ -781,6 +1016,22 @@ const nav = [
     font-size: 0.82rem;
   }
 
+  .ui-services li:nth-child(1) {
+    background: color-mix(in srgb, var(--color-brand) 10%, var(--color-surface));
+  }
+
+  .ui-services li:nth-child(2) {
+    background: color-mix(in srgb, var(--color-status-ok) 10%, var(--color-surface));
+  }
+
+  .ui-workflows li:nth-child(1) {
+    background: color-mix(in srgb, var(--color-status-ok) 10%, var(--color-surface));
+  }
+
+  .ui-workflows li:nth-child(2) {
+    background: color-mix(in srgb, var(--color-brand) 10%, var(--color-surface));
+  }
+
   .ui-services li span,
   .ui-team li span,
   .ui-integrations li span {
@@ -807,6 +1058,21 @@ const nav = [
   .ui-integrations li div {
     display: grid;
     gap: 0.15rem;
+  }
+
+  @media (min-width: 720px) {
+    .ui-client__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .ui-panel--visits {
+      grid-column: 1 / -1;
+    }
+
+    .ui-note__layout {
+      grid-template-columns: 1.4fr 0.75fr;
+      align-items: start;
+    }
   }
 
   @media (max-width: 860px) {
@@ -859,6 +1125,17 @@ const nav = [
     }
   }
 
+  @keyframes appt-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.4rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
   @keyframes appointment-breathe {
     0%,
     72%,
@@ -889,5 +1166,15 @@ const nav = [
     .ui-toolbar h3 { font-size: 0.92rem; }
     .ui-toolbar__meta { font-size: 0.66rem; }
     .ui-day { min-height: 10.5rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ui-appt,
+    .product-frame.is-inview .ui-appt,
+    .product-frame.is-inview .ui-appt--now {
+      opacity: 1;
+      transform: none;
+      animation: none;
+    }
   }
 </style>

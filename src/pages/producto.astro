@@ -107,6 +107,9 @@ const groups = [
         <a class="btn btn--ghost" href="/precios">Ver precios</a>
       </div>
     </div>
+    <div class="container hero__visual reveal" data-reveal="scale">
+      <ProductFrame variant="agenda" activeNav="Citas" label="Agenda semanal" />
+    </div>
   </section>
 
   {
@@ -160,6 +163,11 @@ const groups = [
     flex-wrap: wrap;
     gap: var(--space-3);
     margin-top: var(--space-5);
+  }
+
+  .hero__visual {
+    width: min(100%, 62rem);
+    margin: clamp(2.5rem, 5vw, 4rem) auto 0;
   }
 
   .group {

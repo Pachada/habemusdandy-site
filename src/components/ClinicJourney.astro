@@ -39,9 +39,11 @@ const moments = [
     activeNav: 'Clientes',
   },
 ]
+
+const STEP_MS = 6000
 ---
 
-<div class="journey reveal" data-journey>
+<div class="journey reveal" data-journey data-step-ms={STEP_MS}>
   <div class="journey__rail" role="tablist" aria-label="Recorrido de una cita">
     {
       moments.map((moment, index) => (
@@ -66,7 +68,7 @@ const moments = [
     {
       moments.map((moment, index) => (
         <section
-          class="journey__panel"
+          class:list={['journey__panel', index === 0 && 'is-active']}
           role="tabpanel"
           id={`journey-panel-${index}`}
           aria-labelledby={`journey-tab-${index}`}
@@ -102,21 +104,53 @@ const moments = [
   document.querySelectorAll<HTMLElement>('[data-journey]').forEach((journey) => {
     const tabs = Array.from(journey.querySelectorAll<HTMLButtonElement>('[data-journey-tab]'))
     const panels = Array.from(journey.querySelectorAll<HTMLElement>('[data-journey-panel]'))
+    const stepMs = Number(journey.dataset.stepMs) || 6000
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     let active = 0
     let timer: number | undefined
+    let swapTimer: number | undefined
 
     const select = (next: number, focus = false) => {
+      const previous = active
       active = (next + tabs.length) % tabs.length
+      if (previous === active) return
+
       tabs.forEach((tab, index) => {
         const selected = index === active
         tab.setAttribute('aria-selected', String(selected))
         tab.tabIndex = selected ? 0 : -1
         if (focus && selected) tab.focus()
       })
-      panels.forEach((panel, index) => {
-        panel.hidden = index !== active
-      })
+
+      if (reduceMotion) {
+        panels.forEach((panel, index) => {
+          panel.hidden = index !== active
+          panel.classList.toggle('is-active', index === active)
+          panel.classList.remove('is-leaving')
+        })
+        return
+      }
+
+      const currentPanel = panels[previous]
+      const nextPanel = panels[active]
+      if (!currentPanel || !nextPanel) return
+
+      if (swapTimer) window.clearTimeout(swapTimer)
+
+      currentPanel.classList.remove('is-active')
+      currentPanel.classList.add('is-leaving')
+      nextPanel.classList.remove('is-leaving')
+      nextPanel.hidden = false
+      // Force reflow so enter transition runs
+      void nextPanel.offsetWidth
+      nextPanel.classList.add('is-active')
+
+      swapTimer = window.setTimeout(() => {
+        if (!currentPanel.classList.contains('is-active')) {
+          currentPanel.hidden = true
+          currentPanel.classList.remove('is-leaving')
+        }
+      }, 420)
     }
 
     const stop = () => {
@@ -126,7 +160,7 @@ const moments = [
 
     const start = () => {
       if (reduceMotion || timer) return
-      timer = window.setInterval(() => select(active + 1), 4200)
+      timer = window.setInterval(() => select(active + 1), stepMs)
     }
 
     tabs.forEach((tab, index) => {
@@ -209,7 +243,7 @@ const moments = [
   }
 
   .journey__tab[aria-selected='true']::after {
-    animation: journey-progress 4.2s linear both;
+    animation: journey-progress 6s linear both;
   }
 
   .journey__number {
@@ -219,7 +253,9 @@ const moments = [
   }
 
   .journey__stage {
+    position: relative;
     min-height: 34rem;
+    overflow: hidden;
   }
 
   .journey__panel {
@@ -227,11 +263,30 @@ const moments = [
     gap: clamp(2rem, 5vw, 5rem);
     align-items: center;
     padding: clamp(2rem, 5vw, 4.5rem);
-    animation: journey-in 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    opacity: 0;
+    transform: translateY(0.5rem);
+    transition: opacity 420ms cubic-bezier(0.16, 1, 0.3, 1), transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .journey__panel[hidden] {
+  .journey__panel.is-active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .journey__panel.is-leaving {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transform: translateY(-0.35rem);
+    pointer-events: none;
+  }
+
+  .journey__panel[hidden]:not(.is-leaving) {
     display: none;
+  }
+
+  .journey__panel[hidden].is-leaving {
+    display: grid;
   }
 
   .journey__copy h3 {
@@ -293,16 +348,16 @@ const moments = [
     text-align: center;
   }
 
-  @keyframes journey-in {
-    from { opacity: 0; transform: translateY(0.75rem); }
-  }
-
   @keyframes journey-progress {
     to { transform: scaleX(1); }
   }
 
   @media (min-width: 860px) {
     .journey__panel {
+      grid-template-columns: minmax(16rem, 0.75fr) minmax(0, 1.25fr);
+    }
+
+    .journey__panel[hidden].is-leaving {
       grid-template-columns: minmax(16rem, 0.75fr) minmax(0, 1.25fr);
     }
   }
@@ -335,7 +390,9 @@ const moments = [
     }
 
     .journey__panel {
-      animation: none;
+      opacity: 1;
+      transform: none;
+      transition: none;
     }
   }
 </style>

@@ -10,6 +10,22 @@ export const salesContactUrl = 'mailto:hola@habemusdandy.com?subject=Hablar%20co
 
 export const siteName = 'HabemusDandy'
 
+/** List amounts stay visible as the reference; promo is the current launch offer. */
+export const equiposPricing = {
+  currency: 'MXN',
+  monthlyList: 249,
+  monthlyPromo: 199,
+  annualListPerMonth: 199,
+  annualPromoPerMonth: 149,
+  annualBilled: 1788,
+  annualSavings: 600,
+  annualDiscountPct: 25,
+} as const
+
+export function formatMxn(amount: number) {
+  return `$${amount.toLocaleString('en-US')}`
+}
+
 export const navLinks = [
   { href: '/producto', label: 'Producto' },
   { href: '/precios', label: 'Precios' },
@@ -68,9 +84,9 @@ export const pricingFaqItems = [
       'Gratis cubre la operación esencial: citas, clientes, fichas y notas. Equipos suma colaboración con roles, formularios de ingreso, administración e integraciones para que todo el equipo trabaje sobre el mismo contexto.',
   },
   {
-    question: '¿El precio de Equipos es por clínica o por persona?',
+    question: '¿Qué cuenta como un asiento?',
     answer:
-      'Es por clínica, no por persona. Así puedes sumar al equipo según sus responsabilidades sin convertir cada nuevo acceso en otro cobro individual.',
+      `Un asiento es una persona del equipo con acceso al espacio de trabajo. El precio de lista es ${formatMxn(equiposPricing.monthlyList)} ${equiposPricing.currency} al mes, o ${formatMxn(equiposPricing.annualListPerMonth)} ${equiposPricing.currency} al mes si pagas anual. En la promoción de lanzamiento, el asiento queda en ${formatMxn(equiposPricing.monthlyPromo)} ${equiposPricing.currency} al mes, o ${formatMxn(equiposPricing.annualPromoPerMonth)} ${equiposPricing.currency} al mes si pagas anual.`,
   },
   {
     question: '¿Cómo sé si necesito Equipos?',
@@ -80,7 +96,7 @@ export const pricingFaqItems = [
   {
     question: '¿Cómo funciona el pago anual?',
     answer:
-      'Equipos cuesta $2,388 por año, equivalente a $199 al mes. Frente al pago mensual de $249, ahorras $600 al año.',
+      `Si eliges anual, Equipos queda en ${formatMxn(equiposPricing.annualPromoPerMonth)} ${equiposPricing.currency} por asiento al mes (precio de lista ${formatMxn(equiposPricing.annualListPerMonth)}), facturados como ${formatMxn(equiposPricing.annualBilled)} ${equiposPricing.currency} al año. Frente a pagar ${formatMxn(equiposPricing.monthlyPromo)} al mes, ahorras ${formatMxn(equiposPricing.annualSavings)} al año por cada asiento — un ${equiposPricing.annualDiscountPct}%.`,
   },
   {
     question: '¿Qué diferencia a HabemusDandy de una agenda genérica?',

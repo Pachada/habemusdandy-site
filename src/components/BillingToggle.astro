@@ -1,19 +1,38 @@
 ---
+import { equiposPricing, formatMxn } from '../config/site'
+
 interface Props {
   controls: string
 }
 
 const { controls } = Astro.props
+const monthlyList = formatMxn(equiposPricing.monthlyList)
+const monthlyPromo = formatMxn(equiposPricing.monthlyPromo)
+const annualList = formatMxn(equiposPricing.annualListPerMonth)
+const annualPromo = formatMxn(equiposPricing.annualPromoPerMonth)
+const annualBilled = formatMxn(equiposPricing.annualBilled)
+const annualSavings = formatMxn(equiposPricing.annualSavings)
 ---
 
-<div class="billing-toggle" data-billing-toggle data-controls={controls}>
+<div
+  class="billing-toggle"
+  data-billing-toggle
+  data-controls={controls}
+  data-monthly-list={monthlyList}
+  data-monthly={monthlyPromo}
+  data-annual-list={annualList}
+  data-annual={annualPromo}
+  data-billed={annualBilled}
+  data-savings={annualSavings}
+  data-discount={String(equiposPricing.annualDiscountPct)}
+>
   <div class="billing-toggle__group" role="group" aria-label="Frecuencia de facturación">
     <button type="button" class="is-active" aria-pressed="true" aria-controls={controls} data-billing-option="monthly">
       Mensual
     </button>
     <button type="button" aria-pressed="false" aria-controls={controls} data-billing-option="annual">
       Anual
-      <span>Ahorra 20%</span>
+      <span>−{equiposPricing.annualDiscountPct}%</span>
     </button>
   </div>
   <p class="sr-only" aria-live="polite" data-billing-live>Facturación mensual seleccionada.</p>
@@ -27,6 +46,13 @@ const { controls } = Astro.props
     const target = controls ? document.getElementById(controls) : null
     const buttons = Array.from(toggle.querySelectorAll<HTMLButtonElement>('[data-billing-option]'))
     const live = toggle.querySelector<HTMLElement>('[data-billing-live]')
+    const monthlyList = toggle.dataset.monthlyList ?? '$249'
+    const monthlyPrice = toggle.dataset.monthly ?? '$199'
+    const annualList = toggle.dataset.annualList ?? '$199'
+    const annualPrice = toggle.dataset.annual ?? '$149'
+    const annualBilled = toggle.dataset.billed ?? '$1,788'
+    const annualSavings = toggle.dataset.savings ?? '$600'
+    const discount = toggle.dataset.discount ?? '25'
     if (!target || buttons.length === 0) return
 
     toggle.dataset.ready = 'true'
@@ -43,8 +69,8 @@ const { controls } = Astro.props
       })
       if (live) {
         live.textContent = period === 'annual'
-          ? 'Facturación anual seleccionada. Equipos cuesta 199 pesos por mes, facturados como 2,388 pesos al año.'
-          : 'Facturación mensual seleccionada. Equipos cuesta 249 pesos al mes.'
+          ? `Facturación anual seleccionada. Precio de lista ${annualList} pesos al mes. Promoción de lanzamiento: ${annualPrice} pesos mexicanos por asiento al mes, facturados como ${annualBilled} al año. Ahorras ${annualSavings} por asiento, un ${discount} por ciento frente a pagar mes a mes.`
+          : `Facturación mensual seleccionada. Precio de lista ${monthlyList} pesos. Promoción de lanzamiento: ${monthlyPrice} pesos mexicanos por asiento al mes.`
       }
     }
 

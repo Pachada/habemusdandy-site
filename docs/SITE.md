@@ -235,7 +235,7 @@ Do not show Zoom/Salesforce/Zapier just because Calendly does.
 
 ### 5.10 Pricing teaser
 
-Three plan cards: **Gratis**, **Equipos** (`$249/mes` or `$199/mes` with a $2,388 annual payment), and **Empresas** (contact sales). A compact `Mensual / Anual` toggle appears above the cards on Home and `/precios`; Mensual is the default and Anual carries a truthful `Ahorra 20%` label. Equipos shows a visible `Recomendado` pill and a solid primary CTA on both Home and `/precios`; Gratis remains ghost and Empresas remains a text link. Link to `Ver precios` / comparar planes; do not publish competitor comparison tables.
+Three plan cards: **Gratis**, **Equipos** (list `$249 MXN` monthly / `$199 MXN` annual per seat; launch promo `$199 MXN / asiento / mes`, or `$149 MXN / asiento / mes` billed annually as `$1,788` — 25% off vs monthly promo / `$600` saved per seat), y **Empresas** (contact sales). A compact `Mensual / Anual` toggle appears above the cards on Home and `/precios`; Mensual is the default and Anual carries a visible `−25%` label. Both periods show the list price struck through next to the launch price, plus a `Promoción de lanzamiento` chip. Equipos shows a visible `Recomendado` pill and a solid primary CTA on both Home and `/precios`; Gratis remains ghost and Empresas remains a text link. Link to `Ver precios` / comparar planes; do not publish competitor comparison tables.
 
 ### 5.11 Testimonials
 
@@ -271,7 +271,7 @@ Right side: quiet 4-step strip — Reserva → Formulario → Sesión → Seguim
 
 Calendly `/features` shape: hero, then grouped capabilities, then CTA. Not a second homepage.
 
-**Hero:** `Un flujo clínico, no seis herramientas separadas.` + `Comenzar gratis` / `Ver precios`
+**Hero:** `Tu clínica ordenada, de la cita al seguimiento.` + `Comenzar gratis` / `Ver precios`
 **Hero visual:** one agenda ProductFrame under the hero copy.
 
 **Groups** (match the live dashboard, not a scheduler feature list):
@@ -295,16 +295,16 @@ Close with the same CTA band as home.
 
 Calendly `/pricing` shape, Koalendar scannability, our plans.
 
-1. H1: `Un plan por clínica, no por caos.`
-2. Billing toggle (`Mensual` by default; `Anual` shows the $199/month equivalent and $2,388 annual charge)
+1. H1: `Empieza gratis. Crece con tu equipo.`
+2. Billing toggle (`Mensual` by default; `Anual` shows `−25%`, the $149 MXN / month launch price, and $1,788 MXN billed per seat per year)
 3. Plan cards (audience label, price, 5–8 bullets, CTA)
 4. Feature comparison table (rows grouped: Agenda, Clientes, Clínica, Equipo)
-5. FAQ (seats vs clinic, trial, invoices, what happens if you cancel)
+5. FAQ (what counts as a seat, trial, invoices, what happens if you cancel)
 6. Closing CTA
 
 Do not add “vs Calendly / Cal.com / Koalendar.” Different category; that table would confuse the buyer.
 
-Plans: Gratis, Equipos (`$249/mes`, or `$199/mes` paid annually), and Empresas (contact sales).
+Plans: Gratis, Equipos (list `$249` / `$199` annual; launch `$199 MXN / asiento / mes`, or `$149 MXN / asiento / mes` when billed annually), and Empresas (contact sales).
 
 ---
 

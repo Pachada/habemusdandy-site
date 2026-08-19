@@ -5,7 +5,13 @@ import ClinicJourney from '../components/ClinicJourney.astro'
 import BillingToggle from '../components/BillingToggle.astro'
 import Faq from '../components/Faq.astro'
 import Cta from '../components/Cta.astro'
-import { appSignupUrl, faqItems, salesContactUrl } from '../config/site'
+import { appSignupUrl, equiposPricing, faqItems, formatMxn, salesContactUrl } from '../config/site'
+
+const monthlyList = formatMxn(equiposPricing.monthlyList)
+const monthlyPromo = formatMxn(equiposPricing.monthlyPromo)
+const annualList = formatMxn(equiposPricing.annualListPerMonth)
+const annualPromo = formatMxn(equiposPricing.annualPromoPerMonth)
+const annualBilled = formatMxn(equiposPricing.annualBilled)
 
 const title = 'Tu clínica ordenada, de la cita al seguimiento'
 const description =
@@ -286,7 +292,7 @@ const capabilityTiles = [
       <div class="reveal">
         <p class="section-label">Precios</p>
         <h2 class="section-title">Empieza gratis. Crece con tu equipo.</h2>
-        <p class="section-lead">Tres opciones claras, con precio por clínica en el plan Equipos.</p>
+        <p class="section-lead">Tres opciones claras, con precio por asiento en Equipos. Promoción de lanzamiento: {monthlyPromo} {equiposPricing.currency} al mes, o {annualPromo} si pagas anual.</p>
       </div>
       <div class="pricing-home__billing reveal">
         <BillingToggle controls="home-pricing-plans" />
@@ -295,7 +301,11 @@ const capabilityTiles = [
         <article class="pricing-card reveal">
           <p class="pricing-card__eyebrow">Para comenzar</p>
           <h3>Gratis</h3>
-          <p class="pricing-card__price">$0</p>
+          <p class="pricing-card__price">
+            <strong aria-label="0 pesos mexicanos">$0</strong>
+            <span class="price-unit">sin costo</span>
+          </p>
+          <p class="price-discount price-discount--spacer" aria-hidden="true"></p>
           <ul>
             <li>Agenda semanal y citas</li>
             <li>Clientes y fichas</li>
@@ -309,19 +319,25 @@ const capabilityTiles = [
           <h3>Equipos</h3>
           <p class="pricing-card__price">
             <span class="billing-swap">
-              <strong data-billing-content="monthly">$249</strong>
-              <strong data-billing-content="annual" hidden>$199</strong>
+              <span class="price-amount" data-billing-content="monthly">
+                <del aria-label={`Precio de lista ${equiposPricing.monthlyList} pesos mexicanos`}>{monthlyList}</del>
+                <strong aria-label={`${equiposPricing.monthlyPromo} pesos mexicanos, promoción de lanzamiento`}>{monthlyPromo}</strong>
+              </span>
+              <span class="price-amount" data-billing-content="annual" hidden>
+                <del aria-label={`Precio de lista ${equiposPricing.annualListPerMonth} pesos mexicanos`}>{annualList}</del>
+                <strong aria-label={`${equiposPricing.annualPromoPerMonth} pesos mexicanos, promoción de lanzamiento`}>{annualPromo}</strong>
+              </span>
             </span>
-            <span>/ mes</span>
+            <span class="price-unit">MXN / asiento / mes</span>
           </p>
-          <p class="pricing-card__billing">
+          <p class="price-discount">
             <span class="billing-swap">
-              <span data-billing-content="monthly">Pago mes a mes</span>
-              <span data-billing-content="annual" hidden>$2,388 facturados al año · ahorras $600</span>
+              <span data-billing-content="monthly">Promoción de lanzamiento</span>
+              <span data-billing-content="annual" hidden>Lanzamiento · {annualBilled} al año</span>
             </span>
           </p>
           <ul>
-            <li>Precio por clínica, no por persona</li>
+            <li>Precio por asiento activo</li>
             <li>Formularios de ingreso</li>
             <li>Equipo, roles e integraciones</li>
           </ul>
@@ -330,7 +346,11 @@ const capabilityTiles = [
         <article class="pricing-card pricing-card--dark reveal">
           <p class="pricing-card__eyebrow">Operaciones grandes</p>
           <h3>Empresas</h3>
-          <p class="pricing-card__price">A medida</p>
+          <p class="pricing-card__price">
+            <strong>A medida</strong>
+            <span class="price-unit">según tu operación</span>
+          </p>
+          <p class="price-discount price-discount--spacer" aria-hidden="true"></p>
           <ul>
             <li>Todo lo de Equipos</li>
             <li>Configuración acompañada</li>
@@ -1459,10 +1479,8 @@ const capabilityTiles = [
   }
 
   .pricing-card__price {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 0.35rem;
+    display: grid;
+    justify-items: start;
     margin: var(--space-3) 0 0 !important;
     color: var(--color-ink) !important;
     font-size: 2rem;
@@ -1475,19 +1493,13 @@ const capabilityTiles = [
     font: inherit;
   }
 
-  .pricing-card__price span {
-    color: var(--color-muted);
-    font-size: 0.9rem;
-    letter-spacing: 0;
+  .pricing-card__price .price-amount {
+    color: inherit;
+    font-size: inherit;
   }
 
-  .pricing-card__billing {
-    min-height: 2.6em;
-    margin: var(--space-2) 0 0 !important;
-    color: var(--color-brand-deep) !important;
-    font-size: 0.76rem;
-    font-weight: 600;
-    line-height: 1.35;
+  .pricing-card--dark .price-unit {
+    color: color-mix(in srgb, var(--color-surface) 68%, transparent);
   }
 
   .pricing-card__eyebrow {

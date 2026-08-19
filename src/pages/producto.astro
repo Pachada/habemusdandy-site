@@ -12,7 +12,7 @@ const groups = [
   {
     id: 'panel',
     label: 'Panel principal',
-    title: 'La operación del día, de un vistazo',
+    title: 'Hoy, sin buscar en cinco lugares.',
     intro: 'Citas de hoy, estados y acciones rápidas en la vista que abre el equipo.',
     items: [
       { title: 'Citas de hoy', line: 'Lo próximo primero, sin buscar en varios lugares.' },
@@ -25,8 +25,8 @@ const groups = [
   {
     id: 'agenda',
     label: 'Agenda',
-    title: 'Citas que respetan el horario real',
-    intro: 'La operación empieza por cuándo atiendes y qué ofreces.',
+    title: 'La cita entra en la agenda.',
+    intro: 'Horario, servicios y disponibilidad para que reservar no dependa del chat.',
     items: [
       { title: 'Citas', line: 'Vista semanal clara para el día a día.' },
       { title: 'Horario', line: 'Disponibilidad, excepciones y zona horaria.' },
@@ -39,8 +39,8 @@ const groups = [
   {
     id: 'clientes',
     label: 'Clientes',
-    title: 'Fichas con contexto, no solo un nombre',
-    intro: 'El cliente llega con historia, no con un chat suelto.',
+    title: 'La ficha abre con contexto.',
+    intro: 'Datos, visitas y notas anteriores aparecen juntos cuando llega el siguiente encuentro.',
     items: [
       { title: 'Fichas', line: 'Datos y visitas en un solo lugar.' },
       { title: 'Historial', line: 'Lo anterior viaja con la ficha.' },
@@ -53,8 +53,8 @@ const groups = [
   {
     id: 'clinica',
     label: 'Clínica',
-    title: 'Notas y continuidad en el mismo sitio',
-    intro: 'Atiendes con el plan anterior a la vista.',
+    title: 'El seguimiento queda preparado.',
+    intro: 'Atiendes con el plan anterior a la vista y dejas listo el siguiente paso.',
     items: [
       { title: 'Notas', line: 'Registro por sesión, sin PDF perdido.' },
       { title: 'Historial', line: 'Continuidad entre visitas.' },
@@ -67,8 +67,8 @@ const groups = [
   {
     id: 'formularios',
     label: 'Formularios',
-    title: 'Ingreso diseñado para tu clínica',
-    intro: 'Prepara preguntas, consentimiento y firma antes de la sesión.',
+    title: 'El ingreso llega con tiempo.',
+    intro: 'Prepara preguntas, consentimiento y firma antes de que la persona llegue a la sesión.',
     items: [
       { title: 'Diseñador de ingreso', line: 'Campos y preguntas a tu medida.' },
       { title: 'Marca', line: 'El formulario sigue el lenguaje de tu clínica.' },
@@ -81,8 +81,8 @@ const groups = [
   {
     id: 'equipo',
     label: 'Administración',
-    title: 'Roles y configuración en un solo espacio',
-    intro: 'Cada persona ve lo que necesita para operar y la clínica conserva su identidad.',
+    title: 'Cada persona ve lo que necesita.',
+    intro: 'Roles, configuración y la identidad de la clínica en el mismo espacio de trabajo.',
     items: [
       { title: 'Usuarios', line: 'Owner, Manager y Staff según su responsabilidad.' },
       { title: 'Roles', line: 'Acceso según la persona, no para todos igual.' },
@@ -95,8 +95,8 @@ const groups = [
   {
     id: 'integraciones',
     label: 'Integraciones',
-    title: 'Calendarios que ya conoces',
-    intro: 'Se integra con los calendarios que el equipo ya usa.',
+    title: 'Se conecta con lo que ya usas.',
+    intro: 'Las citas de la clínica aparecen en los calendarios que el equipo ya abre cada día.',
     items: [
       { title: 'Google Calendar', line: 'Las citas de la clínica aparecen en Google.' },
       { title: 'Apple Calendar', line: 'Consulta las mismas citas desde Apple Calendar.' },
@@ -122,10 +122,10 @@ const groups = [
 <BaseLayout title={title} description={description}>
   <section class="section hero">
     <div class="container hero__inner reveal">
-      <p class="section-label">Producto</p>
-      <h1>Un flujo clínico, no seis herramientas separadas.</h1>
+      <p class="section-label">Producto · de la cita al seguimiento</p>
+      <h1>Tu clínica ordenada, de la cita al seguimiento.</h1>
       <p class="section-lead">
-        Desde el horario hasta la nota de seguimiento, cada parte de la visita conserva el contexto de la anterior.
+        Agenda, formularios, fichas y notas clínicas en un solo flujo. Cada parte de la visita conserva el contexto de la anterior.
       </p>
       <div class="hero__actions">
         <a class="btn btn--primary" href={appSignupUrl}>Comenzar gratis</a>
@@ -144,7 +144,10 @@ const groups = [
       <section class:list={['section', 'product-section', index % 2 === 1 && 'product-section--tint']} id={group.id}>
         <div class:list={['container', 'group', index % 2 === 1 && 'group--reverse']}>
           <div class="group__copy reveal">
-            <p class="section-label">{group.label}</p>
+            <div class="group__label">
+              <span class="group__index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+              <p class="section-label">{group.label}</p>
+            </div>
             <h2 class="section-title">{group.title}</h2>
             <p class="section-lead">{group.intro}</p>
             <ul>
@@ -181,10 +184,12 @@ const groups = [
 
   .hero h1 {
     margin: 0;
-    font-size: clamp(2.8rem, 7vw, 5.6rem);
+    max-width: 46rem;
+    font-size: clamp(2.55rem, 6vw, 4.8rem);
     font-weight: 500;
     letter-spacing: -0.04em;
-    line-height: 1.1;
+    line-height: 1.02;
+    text-wrap: pretty;
   }
 
   .hero__actions {
@@ -207,6 +212,30 @@ const groups = [
     align-items: center;
   }
 
+  .group__label {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  .group__label .section-label {
+    margin-bottom: var(--space-3);
+  }
+
+  .group__index {
+    display: inline-grid;
+    place-items: center;
+    width: 1.85rem;
+    height: 1.85rem;
+    margin-top: -0.2rem;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--color-brand) 10%, var(--color-surface));
+    color: var(--color-brand-deep);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
   .product-section--tint {
     background: color-mix(in srgb, var(--color-brand) 3%, var(--color-paper));
   }
@@ -220,6 +249,7 @@ const groups = [
   }
 
   .group li {
+    position: relative;
     display: grid;
     grid-template-columns: 7.5rem 1fr;
     gap: var(--space-3);
@@ -227,6 +257,22 @@ const groups = [
     border-radius: var(--radius-md);
     background: color-mix(in srgb, var(--color-surface) 72%, transparent);
     box-shadow: var(--shadow-card);
+  }
+
+  .group li::before {
+    content: '';
+    position: absolute;
+    left: 0.35rem;
+    top: 50%;
+    width: 0.25rem;
+    height: 0.25rem;
+    border-radius: 50%;
+    background: var(--color-brand);
+    transform: translateY(-50%);
+  }
+
+  .group li > * {
+    min-width: 0;
   }
 
   .group strong {

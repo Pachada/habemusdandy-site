@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro'
 import Faq from '../components/Faq.astro'
 import Cta from '../components/Cta.astro'
+import BillingToggle from '../components/BillingToggle.astro'
 import { appSignupUrl, pricingFaqItems, salesContactUrl } from '../config/site'
 
 const title = 'Precios'
@@ -21,7 +22,11 @@ const description =
   </section>
 
   <section class="section section--tight">
-    <div class="container plans">
+    <div class="container">
+      <div class="plans__billing reveal">
+        <BillingToggle controls="pricing-plans" />
+      </div>
+      <div class="plans" id="pricing-plans" data-billing="monthly">
       <article class="plan reveal">
         <p class="plan__eyebrow">Para comenzar</p>
         <h2>Gratis</h2>
@@ -37,16 +42,24 @@ const description =
       </article>
 
       <article class="plan plan--featured reveal">
-        <p class="plan__eyebrow">Recomendado</p>
+        <p class="plan__eyebrow">Para el equipo <span class="plan__badge">Recomendado</span></p>
         <h2>Equipos</h2>
-        <p class="plan__price"><strong>$249</strong><span>por clínica / mes</span></p>
-        <p class="plan__saving">$200/mes con pago anual · ahorra $588</p>
+        <p class="plan__price" aria-live="polite">
+          <strong data-billing-content="monthly">$249</strong>
+          <strong data-billing-content="annual" hidden>$199</strong>
+          <span data-billing-content="monthly">por clínica / mes</span>
+          <span data-billing-content="annual" hidden>por clínica / mes · $2,388 facturados al año</span>
+        </p>
+        <p class="plan__saving">
+          <span data-billing-content="monthly">Cambia a anual y ahorra $600</span>
+          <span data-billing-content="annual" hidden>Ahorra $600 al año</span>
+        </p>
         <p class="plan__desc">Para equipos que necesitan operar y dar seguimiento juntos.</p>
         <ul>
           <li>Todo lo incluido en Gratis</li>
           <li>Equipo y roles</li>
           <li>Formularios de ingreso</li>
-          <li>Workflows y recordatorios</li>
+          <li>Administración de usuarios</li>
           <li>Google y Apple Calendar</li>
         </ul>
         <a class="btn btn--primary" href={appSignupUrl}>Elegir Equipos</a>
@@ -63,8 +76,9 @@ const description =
           <li>Necesidades de acceso avanzadas</li>
           <li>Soporte y condiciones comerciales</li>
         </ul>
-        <a class="btn btn--light" href={salesContactUrl}>Contactar a ventas</a>
+        <a class="btn btn--text plan__sales" href={salesContactUrl}>Contactar a ventas</a>
       </article>
+      </div>
     </div>
   </section>
 
@@ -87,7 +101,7 @@ const description =
             ['Clientes y notas clínicas', 'Incluido', 'Incluido', 'Incluido'],
             ['Formularios de ingreso', '—', 'Incluido', 'Incluido'],
             ['Equipo y roles', '—', 'Incluido', 'Incluido'],
-            ['Workflows y recordatorios', '—', 'Incluido', 'Incluido'],
+            ['Workflows y recordatorios', '—', 'Próximamente', 'Próximamente'],
             ['Calendarios externos', '—', 'Incluido', 'Incluido'],
             ['Acompañamiento dedicado', '—', '—', 'Incluido'],
           ].map(([feature, a, b, c]) => (
@@ -129,25 +143,30 @@ const description =
     gap: clamp(1rem, 3vw, 2rem);
   }
 
+  .plans__billing {
+    display: flex;
+    justify-content: center;
+    margin-bottom: var(--space-7);
+  }
+
   .plan {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     min-height: 34rem;
     padding: clamp(1.5rem, 4vw, 3rem);
-    border: 1px solid rgba(0, 0, 0, 0.08);
     background: var(--color-surface);
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-card);
+    transition: transform var(--motion-base), box-shadow var(--motion-base);
   }
 
   .plan--featured {
-    border-color: rgba(0, 0, 0, 0.18);
-    box-shadow: 0 22px 54px rgba(0, 0, 0, 0.1);
+    background: color-mix(in srgb, var(--color-brand) 5%, var(--color-surface));
+    box-shadow: 0 24px 60px rgba(23, 105, 224, 0.14), var(--shadow-card-hover);
   }
 
   .plan--dark {
-    border-color: transparent;
     background: var(--color-navy);
     color: var(--color-surface);
   }
@@ -163,13 +182,36 @@ const description =
     color: var(--color-surface);
   }
 
+  .plan--dark .plan__sales {
+    color: var(--color-surface);
+  }
+
+  .plan--dark .plan__sales:hover {
+    color: var(--color-surface);
+  }
+
   .plan__eyebrow {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
     margin: 0 0 var(--space-2);
     color: var(--color-muted);
     font-size: 0.8rem;
     font-weight: 500;
     letter-spacing: 0.04em;
     text-transform: uppercase;
+  }
+
+  .plan__badge {
+    padding: 0.35rem 0.6rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-brand) 14%, var(--color-surface));
+    color: var(--color-brand-deep);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: none;
   }
 
   .plan h2 {
@@ -238,6 +280,11 @@ const description =
     font-size: 0.95rem;
   }
 
+  .compare__row span:nth-child(3) {
+    color: var(--color-brand-deep);
+    font-weight: 500;
+  }
+
   .compare__row + .compare__row {
     border-top: 1px solid color-mix(in srgb, var(--color-ink) 6%, transparent);
   }
@@ -254,6 +301,14 @@ const description =
   @media (min-width: 860px) {
     .plans {
       grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .plan--featured {
+      transform: translateY(-0.65rem);
+    }
+
+    .plan--featured:hover {
+      transform: translateY(-0.9rem);
     }
   }
 

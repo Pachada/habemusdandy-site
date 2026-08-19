@@ -1,4 +1,4 @@
-const DEFAULT_APP_ORIGIN = 'https://habemusfisio.com'
+const DEFAULT_APP_ORIGIN = 'https://app.habemusfisio.com'
 
 export const appOrigin = (
   import.meta.env.PUBLIC_APP_ORIGIN || DEFAULT_APP_ORIGIN
@@ -65,7 +65,7 @@ export const pricingFaqItems = [
   {
     question: '¿El precio de Equipos es por persona?',
     answer:
-      'No. Equipos se cobra por clínica: $249 al mes o el equivalente a $200 al mes cuando pagas el año completo.',
+      'No. Equipos se cobra por clínica: $249 al mes o el equivalente a $199 al mes cuando pagas el año completo.',
   },
   {
     question: '¿Qué incluye el plan Gratis?',
@@ -75,7 +75,7 @@ export const pricingFaqItems = [
   {
     question: '¿Cómo funciona el pago anual?',
     answer:
-      'Equipos cuesta $2,400 por año, equivalente a $200 al mes. Frente al pago mensual de $249, ahorras $588 al año.',
+      'Equipos cuesta $2,388 por año, equivalente a $199 al mes. Frente al pago mensual de $249, ahorras $600 al año.',
   },
   {
     question: '¿Qué pasa si dejo de usar HabemusDandy?',

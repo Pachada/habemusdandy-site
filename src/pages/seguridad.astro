@@ -73,18 +73,22 @@ const description =
 
   .blocks {
     display: grid;
-    gap: 1px;
+    gap: var(--space-4);
     counter-reset: security-block;
-    background: rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
   }
 
   .block {
     position: relative;
     padding: clamp(1.5rem, 3vw, 2.5rem);
     background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    transition: transform var(--motion-base), box-shadow var(--motion-base);
+  }
+
+  .block:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-card-hover);
   }
 
   .block::before {
@@ -114,7 +118,12 @@ const description =
   .note {
     padding: clamp(1.5rem, 4vw, 3rem);
     border-radius: var(--radius-lg);
-    background: var(--color-warm);
+    background: color-mix(in srgb, var(--color-brand) 4%, var(--color-surface));
+    box-shadow: var(--shadow-card);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .block:hover { transform: none; }
   }
 
   @media (min-width: 860px) {

@@ -6,9 +6,22 @@ import { appSignupUrl } from '../config/site'
 
 const title = 'Producto'
 const description =
-  'Agenda, clientes, clínica, automatización, equipo e integraciones. Todo lo que la clínica necesita para operar.'
+  'Panel, citas, clientes, formularios, horario, roles e integraciones. Todo lo que la clínica necesita para operar.'
 
 const groups = [
+  {
+    id: 'panel',
+    label: 'Panel principal',
+    title: 'La operación del día, de un vistazo',
+    intro: 'Citas de hoy, estados y acciones rápidas en la vista que abre el equipo.',
+    items: [
+      { title: 'Citas de hoy', line: 'Lo próximo primero, sin buscar en varios lugares.' },
+      { title: 'Estados', line: 'Confirmada, en curso o lista para atender.' },
+      { title: 'Acciones rápidas', line: 'Nueva cita e ingresos pendientes a la mano.' },
+    ],
+    frame: 'panel' as const,
+    activeNav: 'Panel principal',
+  },
   {
     id: 'agenda',
     label: 'Agenda',
@@ -16,8 +29,8 @@ const groups = [
     intro: 'La operación empieza por cuándo atiendes y qué ofreces.',
     items: [
       { title: 'Citas', line: 'Vista semanal clara para el día a día.' },
-      { title: 'Horario', line: 'Disponibilidad de la clínica, no improvisada.' },
-      { title: 'Servicios', line: 'Duración y tipo de atención definidos.' },
+      { title: 'Horario', line: 'Disponibilidad, excepciones y zona horaria.' },
+      { title: 'Servicios', line: 'Duración, precio y color definidos.' },
       { title: 'Calendario', line: 'Salida a Google y suscripción Apple.' },
     ],
     frame: 'agenda' as const,
@@ -30,9 +43,9 @@ const groups = [
     intro: 'El cliente llega con historia, no con un chat suelto.',
     items: [
       { title: 'Fichas', line: 'Datos y visitas en un solo lugar.' },
-      { title: 'Ingreso', line: 'Formularios antes de la sesión.' },
-      { title: 'Consentimiento', line: 'Parte del flujo de ingreso.' },
       { title: 'Historial', line: 'Lo anterior viaja con la ficha.' },
+      { title: 'Perfil', line: 'Información del cliente al abrir la ficha.' },
+      { title: 'Visitas', line: 'Sesiones recientes junto al contexto.' },
     ],
     frame: 'client' as const,
     activeNav: 'Clientes',
@@ -52,29 +65,29 @@ const groups = [
     activeNav: 'Clientes',
   },
   {
-    id: 'automatizacion',
-    label: 'Automatización',
-    title: 'Recordatorios que no dependen de WhatsApp',
-    intro: 'Workflows para confirmar, pedir ingreso y seguir ausencias.',
+    id: 'formularios',
+    label: 'Formularios',
+    title: 'Ingreso diseñado para tu clínica',
+    intro: 'Prepara preguntas, consentimiento y firma antes de la sesión.',
     items: [
-      { title: 'Workflows', line: 'Reglas de la clínica, no del chat.' },
-      { title: 'Recordatorios', line: 'Antes de la cita, sin perseguir.' },
-      { title: 'Ingreso automático', line: 'Formulario ligado a la reserva.' },
-      { title: 'Seguimiento', line: 'Después de un no-show.' },
+      { title: 'Diseñador de ingreso', line: 'Campos y preguntas a tu medida.' },
+      { title: 'Marca', line: 'El formulario sigue el lenguaje de tu clínica.' },
+      { title: 'Consentimiento', line: 'Aceptación y firma en el mismo flujo.' },
+      { title: 'Enlace ligado', line: 'El ingreso llega antes de la cita.' },
     ],
-    frame: 'workflows' as const,
-    activeNav: 'Workflows',
+    frame: 'intake' as const,
+    activeNav: 'Formularios',
   },
   {
     id: 'equipo',
-    label: 'Equipo',
-    title: 'Roles claros dentro de la clínica',
-    intro: 'Cada persona ve lo que necesita para operar.',
+    label: 'Administración',
+    title: 'Roles y configuración en un solo espacio',
+    intro: 'Cada persona ve lo que necesita para operar y la clínica conserva su identidad.',
     items: [
-      { title: 'Administración', line: 'Configuración de la clínica.' },
-      { title: 'Roles', line: 'Permisos según la persona.' },
-      { title: 'Acceso', line: 'Fichas y notas según permiso.' },
-      { title: 'Equipo', line: 'Varias personas, un solo espacio.' },
+      { title: 'Usuarios', line: 'Owner, Manager y Staff según su responsabilidad.' },
+      { title: 'Roles', line: 'Acceso según la persona, no para todos igual.' },
+      { title: 'Branding', line: 'Personalización básica de la clínica.' },
+      { title: 'Configuración', line: 'Preferencias del espacio de trabajo.' },
     ],
     frame: 'team' as const,
     activeNav: 'Administración',
@@ -90,6 +103,18 @@ const groups = [
     ],
     frame: 'integrations' as const,
     activeNav: 'Integraciones',
+  },
+  {
+    id: 'automatizacion',
+    label: 'Próximamente',
+    title: 'Workflows, cuando estén listos',
+    intro: 'Planeamos automatizaciones para recordatorios y seguimiento; todavía no forman parte de lo que puedes usar hoy.',
+    items: [
+      { title: 'Recordatorios', line: 'Planeado para próximas versiones.' },
+      { title: 'Reglas de seguimiento', line: 'En diseño, aún no disponible.' },
+    ],
+    frame: 'workflows' as const,
+    activeNav: 'Workflows',
   },
 ]
 ---
@@ -167,6 +192,8 @@ const groups = [
 
   .hero__visual {
     width: min(100%, 62rem);
+    max-width: 100%;
+    min-width: 0;
     margin: clamp(2.5rem, 5vw, 4rem) auto 0;
   }
 
@@ -177,7 +204,7 @@ const groups = [
   }
 
   .product-section--tint {
-    background: color-mix(in srgb, var(--color-ink) 2.5%, var(--color-paper));
+    background: color-mix(in srgb, var(--color-brand) 3%, var(--color-paper));
   }
 
   .group ul {
@@ -185,15 +212,17 @@ const groups = [
     padding: 0;
     list-style: none;
     display: grid;
-    gap: 0.9rem;
+    gap: 0.55rem;
   }
 
   .group li {
     display: grid;
     grid-template-columns: 7.5rem 1fr;
     gap: var(--space-3);
-    padding-top: 0.8rem;
-    border-top: 1px solid rgba(0, 0, 0, 0.09);
+    padding: 0.85rem 1rem;
+    border-radius: var(--radius-md);
+    background: color-mix(in srgb, var(--color-surface) 72%, transparent);
+    box-shadow: var(--shadow-card);
   }
 
   .group strong {

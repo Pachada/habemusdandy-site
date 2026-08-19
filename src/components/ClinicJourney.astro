@@ -97,7 +97,7 @@ const STEP_MS = 6000
     }
   </div>
 
-  <p class="journey__hint">Selecciona cada momento para recorrer la cita.</p>
+  <p class="journey__hint">Selecciona cada momento para recorrer la cita.<span class="journey__scroll-cue">Desliza para ver más momentos&nbsp;→</span></p>
 </div>
 
 <script>
@@ -109,6 +109,7 @@ const STEP_MS = 6000
     let active = 0
     let timer: number | undefined
     let swapTimer: number | undefined
+    let userPaused = false
 
     const select = (next: number, focus = false) => {
       const previous = active
@@ -141,6 +142,12 @@ const STEP_MS = 6000
       currentPanel.classList.add('is-leaving')
       nextPanel.classList.remove('is-leaving')
       nextPanel.hidden = false
+      const nextFrame = nextPanel.querySelector<HTMLElement>('[data-product-frame]')
+      if (nextFrame) {
+        nextFrame.classList.remove('is-inview')
+        void nextFrame.offsetWidth
+        nextFrame.classList.add('is-inview')
+      }
       // Force reflow so enter transition runs
       void nextPanel.offsetWidth
       nextPanel.classList.add('is-active')
@@ -158,19 +165,38 @@ const STEP_MS = 6000
       timer = undefined
     }
 
+    let inView = false
+
     const start = () => {
-      if (reduceMotion || timer) return
+      if (reduceMotion || timer || !inView || userPaused) return
       timer = window.setInterval(() => select(active + 1), stepMs)
+    }
+
+    if (!reduceMotion && 'IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          inView = Boolean(entry?.isIntersecting)
+          if (inView) start()
+          else stop()
+        },
+        { rootMargin: '0px 0px -12% 0px', threshold: 0.28 },
+      )
+      observer.observe(journey)
+    } else if (!reduceMotion) {
+      inView = true
+      start()
     }
 
     tabs.forEach((tab, index) => {
       tab.addEventListener('click', () => {
         select(index)
+        userPaused = true
         stop()
       })
       tab.addEventListener('keydown', (event) => {
         if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return
         event.preventDefault()
+        userPaused = true
         stop()
         select(active + (event.key === 'ArrowRight' ? 1 : -1), true)
       })
@@ -182,7 +208,6 @@ const STEP_MS = 6000
     journey.addEventListener('focusout', (event) => {
       if (!journey.contains(event.relatedTarget as Node | null)) start()
     })
-    start()
   })
 </script>
 
@@ -202,6 +227,15 @@ const STEP_MS = 6000
     padding: 0.35rem;
     border-radius: calc(var(--radius-lg) + 0.2rem);
     background: var(--color-frame);
+  }
+
+  .journey__rail::-webkit-scrollbar {
+    height: 0.3rem;
+  }
+
+  .journey__rail::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-ink) 24%, transparent);
   }
 
   .journey__tab {
@@ -348,6 +382,10 @@ const STEP_MS = 6000
     text-align: center;
   }
 
+  .journey__scroll-cue {
+    display: none;
+  }
+
   @keyframes journey-progress {
     to { transform: scaleX(1); }
   }
@@ -372,6 +410,12 @@ const STEP_MS = 6000
     .journey__tab {
       flex: 0 0 10.5rem;
       scroll-snap-align: start;
+    }
+
+    .journey__scroll-cue {
+      display: block;
+      margin-top: 0.3rem;
+      color: color-mix(in srgb, var(--color-muted) 80%, var(--color-surface));
     }
 
     .journey__stage {

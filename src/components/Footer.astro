@@ -38,8 +38,8 @@ import {
       <div>
         <p class="site-footer__label">Legal</p>
         <ul>
-          <li><a href="/seguridad">Privacidad <span>(próximamente)</span></a></li>
-          <li><a href="/seguridad">Términos <span>(próximamente)</span></a></li>
+          <li><span class="site-footer__placeholder">Privacidad <span>(próximamente)</span></span></li>
+          <li><span class="site-footer__placeholder">Términos <span>(próximamente)</span></span></li>
         </ul>
       </div>
     </div>
@@ -120,6 +120,17 @@ import {
 
   .site-footer a span {
     color: var(--color-muted);
+    font-size: 0.76rem;
+    font-weight: 400;
+  }
+
+  .site-footer__placeholder {
+    color: var(--color-muted);
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+
+  .site-footer__placeholder span {
     font-size: 0.76rem;
     font-weight: 400;
   }

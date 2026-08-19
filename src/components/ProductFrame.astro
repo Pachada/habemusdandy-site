@@ -11,7 +11,10 @@ interface Props {
     | 'workflows'
     | 'team'
     | 'integrations'
+    | 'panel'
   compact?: boolean
+  crop?: boolean
+  micro?: 'availability' | 'reservation' | 'record' | 'panel' | 'services' | 'forms' | 'hours' | 'team'
   activeNav?: string
   label?: string
 }
@@ -19,9 +22,13 @@ interface Props {
 const {
   variant = 'agenda',
   compact = false,
+  crop = false,
+  micro,
   activeNav = 'Citas',
   label = 'HabemusDandy',
 } = Astro.props
+
+const hideSidebar = compact || crop
 
 const nav = [
   'Panel principal',
@@ -29,7 +36,6 @@ const nav = [
   'Clientes',
   'Servicios',
   'Formularios',
-  'Workflows',
   'Horario',
   'Integraciones',
   'Administración',
@@ -37,7 +43,12 @@ const nav = [
 ---
 
 <figure
-  class:list={['product-frame', compact && 'product-frame--compact']}
+  class:list={[
+    'product-frame',
+    (compact || crop) && 'product-frame--compact',
+    crop && 'product-frame--crop',
+    micro && `product-frame--micro-${micro}`,
+  ]}
   data-product-frame={variant}
   role="img"
   aria-label={`${label}, vista previa del producto`}
@@ -48,7 +59,7 @@ const nav = [
   </div>
   <div class="product-frame__shell">
     {
-      !compact && (
+      !hideSidebar && (
         <aside class="product-frame__sidebar">
           <div class="product-frame__brand">
             <span class="product-frame__mark"></span>
@@ -62,10 +73,51 @@ const nav = [
               </li>
             ))}
           </ul>
-        </aside>
+    </aside>
       )
     }
     <div class="product-frame__main">
+      {
+        variant === 'panel' && (
+          <div class="ui-panel-principal">
+            <div class="ui-toolbar">
+              <div>
+                <p class="ui-kicker">Panel principal</p>
+                <h3>Hoy en la clínica</h3>
+              </div>
+              <div class="ui-toolbar__meta">
+                <span class="status-dot status-dot--ok"></span>
+                <span>4 citas hoy</span>
+              </div>
+            </div>
+            <div class="ui-panel-principal__summary">
+              <span>Mar · 14 mar</span>
+              <span>2 ingresos pendientes</span>
+            </div>
+            <ul class="ui-today-list">
+              <li class="is-done">
+                <span class="status-dot status-dot--ok"></span>
+                <span><strong>09:00 · Ana Rojas</strong><small>Fisioterapia</small></span>
+                <em>Lista</em>
+              </li>
+              <li class="is-current">
+                <span class="status-dot status-dot--brand"></span>
+                <span><strong>10:30 · Luis Mena</strong><small>Evaluación</small></span>
+                <em>En curso</em>
+              </li>
+              <li>
+                <span class="status-dot"></span>
+                <span><strong>12:00 · Carla Díaz</strong><small>Revisión</small></span>
+                <em>Confirmada</em>
+              </li>
+            </ul>
+            <div class="ui-panel-principal__actions">
+              <span>+ Nueva cita</span>
+              <span>Revisar ingresos</span>
+            </div>
+          </div>
+        )
+      }
       {
         variant === 'agenda' && (
           <div class="ui-agenda">
@@ -120,7 +172,7 @@ const nav = [
                           <span class="status-dot status-dot--warn"></span>
                           <div>
                             <strong>08:30 · Sesión</strong>
-                            <p>En curso · Sofía P.</p>
+                            <p><span class="ui-appt__wide">En curso · Sofía P.</span><span class="ui-appt__compact">Sofía P.</span></p>
                           </div>
                         </article>
                         <article class="ui-appt">
@@ -245,8 +297,8 @@ const nav = [
                 <p>Recuperar movilidad lumbar sin dolor en carga.</p>
                 <p class="ui-note__label">Hallazgos</p>
                 <p>Mejora en flexión. Persiste tensión paravertebral izquierda.</p>
-                <p class="ui-note__label">Plan</p>
-                <p>Progresar estabilización y revaluar en la siguiente visita.</p>
+                <p class="ui-note__label ui-note__plan">Plan</p>
+                <p class="ui-note__plan-copy">Progresar estabilización y revaluar en la siguiente visita.</p>
               </div>
               <aside class="ui-note__side">
                 <p class="ui-note__label">En esta visita</p>
@@ -279,6 +331,10 @@ const nav = [
               <span><i class="ui-hours__swatch ui-hours__swatch--block"></i> Bloqueo</span>
               <span><i class="ui-hours__swatch ui-hours__swatch--short"></i> Cierre temprano</span>
             </div>
+            <div class="ui-hours__meta">
+              <span>Zona horaria · Ciudad de México</span>
+              <strong>Excepción · 21 mar</strong>
+            </div>
             <div class="ui-hours__grid">
               {['Lun', 'Mar', 'Mié', 'Jue', 'Vie'].map((d, i) => (
                 <div class:list={['ui-hours__col', i === 4 && 'is-short']}>
@@ -297,7 +353,7 @@ const nav = [
       {
         variant === 'intake' && (
           <div class="ui-intake">
-            <p class="ui-kicker">Ingreso</p>
+            <p class="ui-kicker">Ingreso · HabemusDandy</p>
             <h3>Formulario del paciente</h3>
             <ol>
               <li class="is-done"><span>1</span> Datos</li>
@@ -307,6 +363,10 @@ const nav = [
             <div class="ui-intake__field">
               <span>¿Qué te trae a la clínica?</span>
               <div></div>
+            </div>
+            <div class="ui-intake__signature">
+              <span>Consentimiento</span>
+              <strong>Firma lista</strong>
             </div>
           </div>
         )
@@ -338,13 +398,13 @@ const nav = [
 
       {
         variant === 'workflows' && (
-          <div class="ui-workflows">
-            <p class="ui-kicker">Workflows</p>
-            <h3>Recordatorios</h3>
+          <div class="ui-workflows ui-workflows--roadmap">
+            <p class="ui-kicker">Próximamente</p>
+            <h3>Workflows en diseño</h3>
+            <span class="ui-workflows__badge">No disponible todavía</span>
             <ul>
-              <li><span class="status-dot status-dot--ok"></span> 24 h antes · confirmación</li>
-              <li><span class="status-dot status-dot--brand"></span> Tras reserva · formulario</li>
-              <li><span class="status-dot"></span> Tras no-show · seguimiento</li>
+              <li><span class="status-dot"></span> Recordatorios · planeado</li>
+              <li><span class="status-dot"></span> Reglas de seguimiento · planeado</li>
             </ul>
           </div>
         )
@@ -356,9 +416,9 @@ const nav = [
             <p class="ui-kicker">Equipo</p>
             <h3>Roles</h3>
             <ul>
-              <li><strong>Administración</strong><span>Configura la clínica</span></li>
-              <li><strong>Equipo</strong><span>Agenda y notas</span></li>
-              <li><strong>Acceso limitado</strong><span>Solo lo necesario</span></li>
+              <li><strong>Owner</strong><span>Configura la clínica</span></li>
+              <li><strong>Manager</strong><span>Coordina agenda y equipo</span></li>
+              <li><strong>Staff</strong><span>Atiende con el acceso necesario</span></li>
             </ul>
           </div>
         )
@@ -395,7 +455,7 @@ const nav = [
 <script>
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-  document.querySelectorAll<HTMLElement>('[data-product-frame="agenda"]').forEach((frame) => {
+  document.querySelectorAll<HTMLElement>('[data-product-frame]').forEach((frame) => {
     if (reduceMotion) {
       frame.classList.add('is-inview')
       return
@@ -419,6 +479,9 @@ const nav = [
 <style>
   .product-frame {
     margin: 0;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
     container-type: inline-size;
     background: var(--color-paper);
     border-radius: var(--radius-xl);
@@ -460,6 +523,23 @@ const nav = [
   .product-frame--compact .product-frame__shell {
     grid-template-columns: 1fr;
     min-height: 0;
+  }
+
+  .product-frame--crop .product-frame__shell {
+    min-height: 22.5rem;
+  }
+
+  .product-frame--crop .ui-week {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .product-frame--crop .ui-day {
+    display: block;
+    min-height: 13.25rem;
+  }
+
+  .product-frame--crop .ui-day:nth-child(n + 4) {
+    display: none;
   }
 
   .product-frame__sidebar {
@@ -661,6 +741,10 @@ const nav = [
     font-weight: 400;
   }
 
+  .ui-appt__compact {
+    display: none;
+  }
+
   .ui-client__chip,
   .ui-note__chip {
     display: inline-flex;
@@ -835,6 +919,37 @@ const nav = [
     font-weight: 500;
   }
 
+  :global(.js) .product-frame[data-product-frame='client'] .ui-visits li,
+  :global(.js) .product-frame[data-product-frame='intake'] .ui-intake li {
+    opacity: 0;
+    transform: translateY(0.35rem);
+  }
+
+  .product-frame.is-inview[data-product-frame='client'] .ui-visits li,
+  .product-frame.is-inview[data-product-frame='intake'] .ui-intake li {
+    animation: micro-scene-in 460ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .product-frame.is-inview[data-product-frame='client'] .ui-visits li:nth-child(2),
+  .product-frame.is-inview[data-product-frame='intake'] .ui-intake li:nth-child(2) {
+    animation-delay: 90ms;
+  }
+
+  .product-frame.is-inview[data-product-frame='client'] .ui-visits li:nth-child(3),
+  .product-frame.is-inview[data-product-frame='intake'] .ui-intake li:nth-child(3) {
+    animation-delay: 180ms;
+  }
+
+  .product-frame.is-inview[data-product-frame='intake'] .ui-intake__field,
+  .product-frame.is-inview[data-product-frame='intake'] .ui-intake__signature {
+    animation: micro-scene-in 520ms cubic-bezier(0.16, 1, 0.3, 1) 240ms both;
+  }
+
+  .product-frame.is-inview[data-product-frame='note'] .ui-note__plan,
+  .product-frame.is-inview[data-product-frame='note'] .ui-note__plan-copy {
+    animation: note-plan-highlight 900ms ease-out both;
+  }
+
   .ui-hours,
   .ui-intake,
   .ui-note-mini,
@@ -858,6 +973,20 @@ const nav = [
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
+  }
+
+  .ui-hours__meta {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+    color: var(--color-muted);
+    font-size: 0.7rem;
+  }
+
+  .ui-hours__meta strong {
+    color: var(--color-status-warn);
+    font-weight: 500;
   }
 
   .ui-hours__swatch {
@@ -965,8 +1094,8 @@ const nav = [
     font-weight: 500;
   }
 
-  .product-frame[data-product-frame='intake'] .ui-intake li.is-current span {
-    animation: status-pulse 2.8s ease-out infinite;
+  .product-frame.is-inview[data-product-frame='intake'] .ui-intake li.is-current span {
+    animation: status-pulse 900ms ease-out both;
   }
 
   .ui-intake__field span {
@@ -980,6 +1109,23 @@ const nav = [
     height: 3.5rem;
     border-radius: var(--radius-sm);
     background: var(--color-ink-soft);
+  }
+
+  .ui-intake__signature {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+    padding: 0.45rem 0.6rem;
+    border-radius: var(--radius-sm);
+    background: color-mix(in srgb, var(--color-status-ok) 9%, var(--color-surface));
+    color: var(--color-muted);
+    font-size: 0.72rem;
+  }
+
+  .ui-intake__signature strong {
+    color: var(--color-status-ok);
+    font-weight: 600;
   }
 
   .ui-note-mini strong {
@@ -1049,9 +1195,39 @@ const nav = [
     font-size: 0.82rem;
   }
 
+  .ui-workflows--roadmap {
+    position: relative;
+    background: color-mix(in srgb, var(--color-status-warn) 4%, var(--color-surface));
+  }
+
+  .ui-workflows__badge {
+    display: inline-flex;
+    width: fit-content;
+    margin-top: var(--space-2);
+    padding: 0.28rem 0.5rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-status-warn) 12%, var(--color-surface));
+    color: var(--color-status-warn);
+    font-size: 0.68rem;
+    font-weight: 600;
+  }
+
+  .ui-workflows--roadmap li {
+    color: var(--color-muted);
+    opacity: 0.72;
+  }
+
+  .ui-integrations li {
+    align-items: flex-start;
+  }
+
   .ui-integrations li img {
-    width: 1.75rem;
-    height: 1.75rem;
+    width: 2.15rem;
+    height: 2.15rem;
+    padding: 0.35rem;
+    border-radius: 0.65rem;
+    background: var(--color-surface);
+    box-shadow: var(--shadow-card);
     object-fit: contain;
   }
 
@@ -1060,7 +1236,17 @@ const nav = [
     gap: 0.15rem;
   }
 
-  @media (min-width: 720px) {
+  .ui-integrations li span::before {
+    content: '';
+    display: inline-block;
+    width: 0.4rem;
+    height: 0.4rem;
+    margin-right: 0.35rem;
+    border-radius: 50%;
+    background: var(--color-status-ok);
+  }
+
+  @container (min-width: 42rem) {
     .ui-client__grid {
       grid-template-columns: 1fr 1fr;
     }
@@ -1112,6 +1298,14 @@ const nav = [
   }
 
   @container (max-width: 34rem) {
+    .ui-appt__wide {
+      display: none;
+    }
+
+    .ui-appt__compact {
+      display: inline;
+    }
+
     .ui-week {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -1125,6 +1319,217 @@ const nav = [
     }
   }
 
+  .ui-panel-principal,
+  .ui-services,
+  .ui-intake,
+  .ui-hours,
+  .ui-team {
+    min-width: 0;
+  }
+
+  .ui-panel-principal {
+    padding: var(--space-4);
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+  }
+
+  .ui-panel-principal__summary {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+    color: var(--color-muted);
+    font-size: 0.72rem;
+  }
+
+  .ui-today-list {
+    display: grid;
+    gap: 0.45rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .ui-today-list li {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 0.55rem;
+    align-items: center;
+    padding: 0.55rem 0.65rem;
+    border-radius: var(--radius-sm);
+    background: color-mix(in srgb, var(--color-ink) 4%, var(--color-surface));
+  }
+
+  .ui-today-list li.is-current {
+    background: color-mix(in srgb, var(--color-brand) 10%, var(--color-surface));
+  }
+
+  .ui-today-list li > span:nth-child(2) {
+    display: grid;
+    min-width: 0;
+  }
+
+  .ui-today-list strong,
+  .ui-today-list small {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .ui-today-list strong {
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .ui-today-list small,
+  .ui-today-list em {
+    color: var(--color-muted);
+    font-size: 0.66rem;
+    font-style: normal;
+  }
+
+  .ui-panel-principal__actions {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+    color: var(--color-brand-deep);
+    font-size: 0.7rem;
+    font-weight: 600;
+  }
+
+  /* Setup and bento micro-scenes animate product state once on entry. */
+  .product-frame--micro-availability .ui-hours__grid {
+    margin-top: 0.2rem;
+  }
+
+  .product-frame--micro-reservation .ui-appt--now {
+    background: color-mix(in srgb, var(--color-status-ok) 16%, var(--color-surface));
+  }
+
+  :global(.js) .product-frame--micro-reservation .ui-appt,
+  :global(.js) .product-frame--micro-availability .ui-hours__block,
+  :global(.js) .product-frame--micro-record .ui-panel,
+  :global(.js) .product-frame--micro-record .ui-visits li,
+  :global(.js) .product-frame--micro-panel .ui-today-list li,
+  :global(.js) .product-frame--micro-services .ui-services li,
+  :global(.js) .product-frame--micro-forms .ui-intake li,
+  :global(.js) .product-frame--micro-hours .ui-hours__block,
+  :global(.js) .product-frame--micro-team .ui-team li {
+    opacity: 0;
+    transform: translateY(0.35rem);
+  }
+
+  .product-frame--micro-reservation.is-inview .ui-appt,
+  .product-frame--micro-availability.is-inview .ui-hours__block,
+  .product-frame--micro-record.is-inview .ui-panel,
+  .product-frame--micro-record.is-inview .ui-visits li,
+  .product-frame--micro-panel.is-inview .ui-today-list li,
+  .product-frame--micro-services.is-inview .ui-services li,
+  .product-frame--micro-forms.is-inview .ui-intake li,
+  .product-frame--micro-hours.is-inview .ui-hours__block,
+  .product-frame--micro-team.is-inview .ui-team li {
+    animation: micro-scene-in 480ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .product-frame--micro-reservation.is-inview .ui-appt:nth-child(2),
+  .product-frame--micro-availability.is-inview .ui-hours__block:nth-child(2),
+  .product-frame--micro-record.is-inview .ui-visits li:nth-child(2),
+  .product-frame--micro-panel.is-inview .ui-today-list li:nth-child(2),
+  .product-frame--micro-services.is-inview .ui-services li:nth-child(2),
+  .product-frame--micro-forms.is-inview .ui-intake li:nth-child(2),
+  .product-frame--micro-hours.is-inview .ui-hours__block:nth-child(2),
+  .product-frame--micro-team.is-inview .ui-team li:nth-child(2) { animation-delay: 90ms; }
+
+  .product-frame--micro-panel.is-inview .ui-today-list li:nth-child(3),
+  .product-frame--micro-record.is-inview .ui-visits li:nth-child(3),
+  .product-frame--micro-services.is-inview .ui-services li:nth-child(3),
+  .product-frame--micro-forms.is-inview .ui-intake li:nth-child(3),
+  .product-frame--micro-hours.is-inview .ui-hours__block:nth-child(3),
+  .product-frame--micro-team.is-inview .ui-team li:nth-child(3) { animation-delay: 180ms; }
+
+  .product-frame--micro-services .ui-services li:nth-child(1) {
+    background: color-mix(in srgb, var(--color-brand) 12%, var(--color-surface));
+  }
+
+  .product-frame--micro-services .ui-services li:nth-child(2) {
+    background: color-mix(in srgb, var(--color-status-ok) 12%, var(--color-surface));
+  }
+
+  .product-frame--micro-services .ui-services li:nth-child(3) {
+    background: color-mix(in srgb, var(--color-status-warn) 11%, var(--color-surface));
+  }
+
+  .product-frame--micro-services .ui-services,
+  .product-frame--micro-forms .ui-intake,
+  .product-frame--micro-hours .ui-hours,
+  .product-frame--micro-team .ui-team {
+    padding: 0.7rem;
+  }
+
+  .product-frame--micro-services .ui-services ul,
+  .product-frame--micro-team .ui-team ul {
+    gap: 0.35rem;
+    margin-top: 0.5rem;
+  }
+
+  .product-frame--micro-services .ui-services li,
+  .product-frame--micro-team .ui-team li {
+    padding: 0.45rem 0.55rem;
+    font-size: 0.72rem;
+  }
+
+  .product-frame--micro-forms .ui-intake__field {
+    display: none;
+  }
+
+  .product-frame--micro-hours .ui-hours__legend {
+    display: none;
+  }
+
+  .product-frame--micro-hours .ui-hours__meta {
+    margin-bottom: 0.45rem;
+    font-size: 0.62rem;
+  }
+
+  .product-frame--micro-record .ui-client__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .product-frame--micro-record .ui-panel:nth-child(2) {
+    display: none;
+  }
+
+  .product-frame--micro-panel,
+  .product-frame--micro-services,
+  .product-frame--micro-forms,
+  .product-frame--micro-hours,
+  .product-frame--micro-team {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .product-frame--micro-panel .product-frame__shell,
+  .product-frame--micro-services .product-frame__shell,
+  .product-frame--micro-forms .product-frame__shell,
+  .product-frame--micro-hours .product-frame__shell,
+  .product-frame--micro-team .product-frame__shell {
+    flex: 1;
+    min-height: 0;
+  }
+
+  @container (max-width: 34rem) {
+    .ui-panel-principal__summary {
+      display: grid;
+    }
+
+    .ui-today-list li {
+      padding: 0.5rem;
+    }
+  }
+
   @keyframes appt-in {
     from {
       opacity: 0;
@@ -1134,6 +1539,23 @@ const nav = [
       opacity: 1;
       transform: translateY(0);
     }
+  }
+
+  @keyframes micro-scene-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.35rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes note-plan-highlight {
+    0% { background: transparent; }
+    35% { background: color-mix(in srgb, var(--color-brand) 12%, transparent); }
+    100% { background: transparent; }
   }
 
   @keyframes appointment-breathe {
@@ -1166,12 +1588,45 @@ const nav = [
     .ui-toolbar h3 { font-size: 0.92rem; }
     .ui-toolbar__meta { font-size: 0.66rem; }
     .ui-day { min-height: 10.5rem; }
+
+    .product-frame--crop .ui-week {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .product-frame--crop .ui-day:nth-child(n + 3) {
+      display: none;
+    }
+
+    .product-frame--crop .ui-day {
+      min-height: 11.25rem;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .ui-appt,
     .product-frame.is-inview .ui-appt,
-    .product-frame.is-inview .ui-appt--now {
+    .product-frame.is-inview .ui-appt--now,
+    .product-frame--micro-reservation .ui-appt,
+    .product-frame--micro-availability .ui-hours__block,
+    .product-frame--micro-record .ui-panel,
+    .product-frame--micro-record .ui-visits li,
+    .product-frame--micro-panel .ui-today-list li,
+    .product-frame--micro-services .ui-services li,
+    .product-frame--micro-forms .ui-intake li,
+    .product-frame--micro-hours .ui-hours__block,
+    .product-frame--micro-team .ui-team li {
+      opacity: 1;
+      transform: none;
+      animation: none;
+    }
+
+    .product-frame[data-product-frame='client'] .ui-visits li,
+    .product-frame[data-product-frame='intake'] .ui-intake li,
+    .product-frame[data-product-frame='intake'] .ui-intake__field,
+    .product-frame[data-product-frame='intake'] .ui-intake__signature,
+    .product-frame[data-product-frame='note'] .ui-note__plan,
+    .product-frame[data-product-frame='note'] .ui-note__plan-copy,
+    .product-frame[data-product-frame='intake'] .ui-intake li.is-current span {
       opacity: 1;
       transform: none;
       animation: none;

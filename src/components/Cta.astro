@@ -18,10 +18,10 @@ const {
   tone = 'navy',
   showFlow = false,
   label = 'Tu clínica, con orden',
-  copy = 'Reúne agenda, ingreso, ficha y seguimiento en un solo flujo. Empieza sin costo y crece cuando tu equipo lo necesite.',
+  copy = 'Reúne agenda, formulario, ficha y seguimiento en un solo flujo. Empieza sin costo y crece cuando tu equipo lo necesite.',
 } = Astro.props
 
-const flowSteps = ['Cita', 'Ingreso', 'Ficha', 'Nota'] as const
+const flowSteps = ['Reserva', 'Formulario', 'Sesión', 'Seguimiento'] as const
 ---
 
 <section class:list={['closing-cta', 'section', tone === 'warm' && 'closing-cta--warm']}>

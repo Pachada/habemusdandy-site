@@ -2,7 +2,7 @@
 
 Public marketing site for [HabemusDandy](https://habemusfisio.com): product, pricing, and other visitor-facing pages.
 
-The clinic dashboard lives in a separate repo (`Habemusfisio-ui`) and should stay on the app origin (for example `habemusfisio.com`). This site is static and SEO-oriented.
+The clinic dashboard lives in a separate repo (`Habemusfisio-ui`) and should stay on the app origin (`https://app.habemusfisio.com`). This site is static and SEO-oriented.
 
 ## Stack
 
@@ -16,7 +16,7 @@ cp .env.example .env
 npm install
 ```
 
-`PUBLIC_APP_ORIGIN` controls login/signup links (`/login`, `/signup`). Default: `https://habemusfisio.com`.
+`PUBLIC_APP_ORIGIN` controls login/signup links (`/login`, `/signup`). Default: `https://app.habemusfisio.com`.
 
 ## Commands
 

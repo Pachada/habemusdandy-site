@@ -23,54 +23,59 @@ export const footerProductLinks = [
 
 export const faqItems = [
   {
-    question: '¿Es solo para fisioterapia?',
+    question: '¿Por qué usar una herramienta de gestión si ya tengo WhatsApp y Calendar?',
     answer:
-      'Empezamos con clínicas de fisioterapia, pero el sistema sirve a cualquier consulta que viva de citas, fichas e historial. Si atiendes con horario y servicios, HabemusDandy encaja.',
+      'WhatsApp sirve para conversar y Calendar para bloquear tiempo, pero ninguno conserva juntos el ingreso, la ficha, las notas y el seguimiento. HabemusDandy conecta ese flujo para que el equipo deje de reconstruir la historia en cada visita.',
   },
   {
-    question: '¿Mis pacientes necesitan una cuenta?',
+    question: '¿Qué diferencia a HabemusDandy de una agenda online?',
+    answer:
+      'No empieza y termina en reservar una hora. Está pensado para clínicas: disponibilidad, servicios, ingreso, ficha, notas y continuidad viven en el mismo flujo. Es una herramienta de operación clínica, no solo un calendario con una página de reservas.',
+  },
+  {
+    question: '¿Cómo sé si HabemusDandy encaja con mi clínica?',
+    answer:
+      'Encaja si tu día gira alrededor de citas, servicios, pacientes e historial. Empezamos con fisioterapia, pero la lógica también sirve para consultas y prácticas que necesitan ordenar su atención sin perder contexto.',
+  },
+  {
+    question: '¿El paciente necesita crear una cuenta?',
     answer:
       'No. El equipo trabaja en el panel. El paciente solo abre el enlace de ingreso cuando tú se lo envías; no ve la agenda ni las notas clínicas.',
   },
   {
-    question: '¿Se sincroniza con Google Calendar?',
+    question: '¿Puedo adaptar la herramienta a la forma en que trabaja mi equipo?',
     answer:
-      'Sí. Las citas de la clínica salen hacia un calendario de Google dedicado (una vía). También puedes suscribirte en solo lectura desde Apple Calendar con un enlace privado.',
+      'Sí. Configuras servicios, duración, precios, horarios, excepciones y formularios de ingreso. También defines qué puede hacer cada persona según su rol: Owner, Manager o Staff.',
   },
   {
-    question: '¿Puedo usar mis propios formularios?',
+    question: '¿Dónde quedan los datos de mi clínica?',
     answer:
-      'Sí. Defines los formularios de ingreso de la clínica y los envías antes de la visita. Las respuestas quedan ligadas a la ficha del cliente.',
-  },
-  {
-    question: '¿Qué pasa con los datos de los pacientes?',
-    answer:
-      'Cada clínica es un espacio aislado. Solo el personal con rol adecuado ve fichas y notas. Los pacientes no entran al panel. Más detalle en Seguridad.',
+      'Cada clínica es un espacio aislado. Solo el personal con el rol adecuado ve fichas y notas, y los pacientes no entran al panel. Consulta la página de Seguridad para conocer el enfoque de acceso y privacidad.',
     answerHtml:
-      'Cada clínica es un espacio aislado. Solo el personal con rol adecuado ve fichas y notas. Los pacientes no entran al panel. Más detalle en <a href="/seguridad">Seguridad</a>.',
+      'Cada clínica es un espacio aislado. Solo el personal con el rol adecuado ve fichas y notas, y los pacientes no entran al panel. Consulta la página de <a href="/seguridad">Seguridad</a> para conocer el enfoque de acceso y privacidad.',
   },
   {
-    question: '¿Puedo empezar gratis?',
+    question: '¿Puedo empezar sin comprometerme a pagar?',
     answer:
-      'Sí. El plan Gratis permite comenzar con la operación esencial de la clínica. Puedes pasar al plan Equipos cuando necesites más capacidad para trabajar con otras personas.',
-  },
-  {
-    question: '¿Funciona en el celular?',
-    answer:
-      'Sí. El panel está pensado para escritorio y móvil, así puedes revisar citas y fichas entre sesiones sin depender del WhatsApp.',
+      'Sí. El plan Gratis permite comenzar con la operación esencial de la clínica. Cuando necesites trabajar con más personas, formularios e integraciones, puedes pasar a Equipos.',
   },
 ] as const
 
 export const pricingFaqItems = [
   {
-    question: '¿El precio de Equipos es por persona?',
+    question: '¿Qué cambia realmente al pasar de Gratis a Equipos?',
     answer:
-      'No. Equipos se cobra por clínica: $249 al mes o el equivalente a $199 al mes cuando pagas el año completo.',
+      'Gratis cubre la operación esencial: citas, clientes, fichas y notas. Equipos suma colaboración con roles, formularios de ingreso, administración e integraciones para que todo el equipo trabaje sobre el mismo contexto.',
   },
   {
-    question: '¿Qué incluye el plan Gratis?',
+    question: '¿El precio de Equipos es por clínica o por persona?',
     answer:
-      'Incluye las herramientas esenciales para organizar citas, clientes y notas. La tabla de esta página muestra qué capacidades añade Equipos.',
+      'Es por clínica, no por persona. Así puedes sumar al equipo según sus responsabilidades sin convertir cada nuevo acceso en otro cobro individual.',
+  },
+  {
+    question: '¿Cómo sé si necesito Equipos?',
+    answer:
+      'Si trabajas solo y necesitas ordenar citas, clientes y notas, Gratis puede ser suficiente. Equipos tiene sentido cuando colaboran varias personas o quieres usar formularios, roles e integraciones en la operación diaria.',
   },
   {
     question: '¿Cómo funciona el pago anual?',
@@ -78,8 +83,13 @@ export const pricingFaqItems = [
       'Equipos cuesta $2,388 por año, equivalente a $199 al mes. Frente al pago mensual de $249, ahorras $600 al año.',
   },
   {
-    question: '¿Qué pasa si dejo de usar HabemusDandy?',
+    question: '¿Qué diferencia a HabemusDandy de una agenda genérica?',
     answer:
-      'Tus datos siguen siendo de tu clínica. Cuando existan términos comerciales y exportación formal, los documentaremos en Seguridad y legal.',
+      'HabemusDandy conecta agenda, ingreso, ficha y notas clínicas en un mismo flujo. El valor no está solo en encontrar un hueco: está en que el contexto de la visita llegue preparado y permanezca para la siguiente.',
+  },
+  {
+    question: '¿Qué pasa con mis datos si dejo de usarlo?',
+    answer:
+      'Tus datos siguen siendo de tu clínica. Las condiciones comerciales y las opciones formales de exportación se documentarán en la información legal correspondiente a medida que estén disponibles.',
   },
 ] as const

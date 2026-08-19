@@ -9,7 +9,7 @@ import { appSignupUrl, faqItems, salesContactUrl } from '../config/site'
 
 const title = 'Tu clínica ordenada, de la cita al seguimiento'
 const description =
-  'Agenda, formularios, fichas y notas clínicas en un solo flujo. HabemusDandy organiza la operación de la clínica.'
+  'Agenda, formularios, fichas y notas clínicas en un solo flujo. Para clínicas que quieren dejar de operar desde el chat.'
 
 const setupSteps = [
   {
@@ -38,7 +38,7 @@ const setupSteps = [
 const capabilityTiles = [
   {
     title: 'Servicios',
-    copy: 'Duración, precio y color de cada atención, listos para reservar.',
+    copy: 'Duración, precio y color de cada atención, listos para la agenda.',
     frame: 'services' as const,
     frameProps: { compact: true, micro: 'services', activeNav: 'Servicios', label: 'Servicios de la clínica' },
   },
@@ -50,7 +50,7 @@ const capabilityTiles = [
   },
   {
     title: 'Horario',
-    copy: 'Disponibilidad semanal, excepciones de fecha y zona horaria, en un solo lugar.',
+    copy: 'Disponibilidad semanal, excepciones de fecha y zona horaria.',
     frame: 'hours' as const,
     frameProps: { compact: true, micro: 'hours', activeNav: 'Horario', label: 'Horario de la clínica' },
   },
@@ -79,9 +79,11 @@ const capabilityTiles = [
         </div>
         <p class="hero__trust"><span>Plan gratuito</span><span>Configuración en minutos</span></p>
       </div>
-      <div class="hero__visual reveal" data-reveal="scale">
+      <div class="hero__visual reveal" data-reveal="scale" data-ambient>
         <div class="hero__halo" aria-hidden="true"></div>
-        <ProductFrame variant="agenda" crop activeNav="Citas" label="Agenda semanal" />
+        <div class="hero__stage ambient-float ambient-float--slow">
+          <ProductFrame variant="agenda" crop activeNav="Citas" label="Agenda semanal" />
+        </div>
         <div class="signal-card signal-card--intake" aria-hidden="true">
           <span class="signal-card__icon">✓</span>
           <span><strong>Ingreso completo</strong><small>Ana Rojas · hace 2 min</small></span>
@@ -94,14 +96,14 @@ const capabilityTiles = [
     </div>
   </section>
 
-  <section class="section problem-section">
+  <section class="section problem-section" data-ambient>
     <div class="container">
       <div class="reveal">
         <p class="section-label">Problema</p>
         <h2 class="section-title">Hoy la clínica se arma en el chat.</h2>
       </div>
-      <div class="problem-grid">
-        <article class="problem-card reveal">
+      <div class="problem-cases">
+        <article class="problem-card problem-card--lead reveal">
           <div class="problem-card__scene" aria-hidden="true">
             <div class="pain-chat">
               <p class="pain-chat__meta">Chat · Interesado</p>
@@ -110,8 +112,10 @@ const capabilityTiles = [
               <p class="pain-chat__waiting">Sin respuesta · 2 h</p>
             </div>
           </div>
-          <h3>Dijiste que revisabas y no contestaste</h3>
-          <p>El interesado pregunta si hay hueco. Tú ibas a mirar el horario. El mensaje se quedó visto.</p>
+          <div class="problem-card__copy">
+            <h3>Dijiste que revisabas y no contestaste</h3>
+            <p>El interesado pregunta si hay hueco. Tú ibas a mirar el horario. El mensaje se quedó visto.</p>
+          </div>
         </article>
         <article class="problem-card reveal">
           <div class="problem-card__scene" aria-hidden="true">
@@ -130,8 +134,10 @@ const capabilityTiles = [
               </ul>
             </div>
           </div>
-          <h3>Cada visita empieza de cero</h3>
-          <p>Lo de la sesión pasada no está en la ficha. Vuelves a preguntar lo que ya sabías.</p>
+          <div class="problem-card__copy">
+            <h3>Cada visita empieza de cero</h3>
+            <p>Lo de la sesión pasada no está en la ficha. Vuelves a preguntar lo que ya sabías.</p>
+          </div>
         </article>
         <article class="problem-card reveal">
           <div class="problem-card__scene" aria-hidden="true">
@@ -146,17 +152,19 @@ const capabilityTiles = [
               </ul>
             </div>
           </div>
-          <h3>La sesión termina y el hilo se corta</h3>
-          <p>No hay próxima cita, ni plan a la vista, ni recordatorio. El seguimiento vive en la cabeza.</p>
+          <div class="problem-card__copy">
+            <h3>La sesión termina y el hilo se corta</h3>
+            <p>No hay próxima cita, ni plan a la vista, ni recordatorio. El seguimiento vive en la cabeza.</p>
+          </div>
         </article>
       </div>
     </div>
   </section>
 
-  <div class="problem-bridge" aria-label="Del problema al flujo">
-    <div class="container problem-bridge__inner reveal">
-      <span class="problem-bridge__line" aria-hidden="true"></span>
-      <p><strong>Del mensaje pendiente al siguiente paso.</strong> El flujo empieza antes de la visita y deja la ficha preparada para después.</p>
+  <div class="story-bridge story-bridge--warm" aria-label="Del problema al flujo">
+    <div class="container story-bridge__inner reveal">
+      <span class="story-bridge__line" aria-hidden="true"></span>
+      <p><strong>El chat no es un sistema.</strong> El siguiente paso es un horario real, una reserva en la agenda y la ficha lista al atender.</p>
     </div>
   </div>
 
@@ -173,33 +181,42 @@ const capabilityTiles = [
           <a class="btn btn--ghost" href="#recorrido">Ver el flujo de una visita</a>
         </div>
       </div>
-      <div class="setup-grid">
+      <ol class="setup-flow" data-ambient>
         {
-          setupSteps.map((step) => (
-            <article class="setup-card reveal">
-              <span class="setup-card__n">{step.n}</span>
-              <div class="setup-card__frame">
+          setupSteps.map((step, index) => (
+            <li class="setup-step reveal" data-stagger={String(index * 90)}>
+              <span class="setup-step__n"><span>{step.n}</span></span>
+              <div class="setup-step__frame ambient-float">
                 <ProductFrame variant={step.frame} {...step.frameProps} />
               </div>
-              <h3>{step.title}</h3>
-              <p>{step.line}</p>
-            </article>
+              <div class="setup-step__copy">
+                <h3>{step.title}</h3>
+                <p>{step.line}</p>
+              </div>
+            </li>
           ))
         }
-      </div>
+      </ol>
     </div>
   </section>
+
+  <div class="story-bridge" aria-label="Del setup a las capacidades">
+    <div class="container story-bridge__inner reveal">
+      <span class="story-bridge__line" aria-hidden="true"></span>
+      <p><strong>La primera cita no basta.</strong> Servicios, formularios, horario y roles son lo que sostiene el resto del día.</p>
+    </div>
+  </div>
 
   <section class="section section--tight capability-section">
     <div class="container">
       <div class="reveal">
         <p class="section-label">Más que una agenda</p>
-        <h2 class="section-title">Todo lo que sostiene la clínica, también está aquí.</h2>
-        <p class="section-lead">Organiza el día, configura servicios, prepara formularios y define quién puede hacer qué.</p>
+        <h2 class="section-title">La operación alrededor de la visita.</h2>
+        <p class="section-lead">Servicios, formularios, horario y roles. Cada pieza con su lugar, sin otra herramienta.</p>
       </div>
-      <div class="capability-bento" aria-label="Capacidades operativas de la clínica">
-        <article class="capability-bento__panel reveal">
-          <div class="capability-bento__visual">
+      <div class="capability-bento" aria-label="Capacidades operativas de la clínica" data-ambient>
+        <article class="capability-bento__panel reveal" data-stagger="0">
+          <div class="capability-bento__visual ambient-float ambient-float--slow">
             <ProductFrame variant="panel" compact micro="panel" activeNav="Panel principal" label="Panel principal" />
           </div>
           <div class="capability-bento__copy">
@@ -210,9 +227,9 @@ const capabilityTiles = [
         </article>
         <div class="capability-bento__tiles">
           {
-            capabilityTiles.map((tile) => (
-              <article class="capability-tile reveal">
-                <div class="capability-tile__visual">
+            capabilityTiles.map((tile, index) => (
+              <article class="capability-tile reveal" data-stagger={String(90 + index * 90)}>
+                <div class="capability-tile__visual ambient-float">
                   <ProductFrame variant={tile.frame} {...tile.frameProps} />
                 </div>
                 <div class="capability-tile__copy">
@@ -234,28 +251,35 @@ const capabilityTiles = [
         <div>
           <p class="section-label">Integraciones</p>
           <h2 class="section-title">Se conecta con lo que ya usas.</h2>
-          <p class="section-lead">HabemusDandy mantiene las citas visibles en los calendarios que el equipo ya consulta.</p>
+          <p class="section-lead">Las citas de la clínica aparecen en los calendarios que el equipo ya abre cada día.</p>
         </div>
         <a class="text-link" href="/producto#integraciones">Ver integraciones</a>
       </div>
-      <div class="integrations" aria-label="Integraciones de calendario">
+      <div class="integrations" aria-label="Integraciones de calendario" data-ambient>
         <article class="integrations__card reveal">
-          <span class="integration-icon" aria-hidden="true"><img src="/integrations/google-calendar.svg" alt="" width="40" height="40" /></span>
+          <span class="integration-icon ambient-float" aria-hidden="true"><img src="/integrations/google-calendar.svg" alt="" width="40" height="40" /></span>
           <div>
             <h3>Google Calendar</h3>
-            <p><span class="integration-status">Una vía</span> Tus citas → Google Calendar</p>
+            <p>Las citas de HabemusDandy se ven en el calendario de Google.</p>
           </div>
         </article>
         <article class="integrations__card reveal">
-          <span class="integration-icon" aria-hidden="true"><img src="/integrations/apple-calendar.svg" alt="" width="40" height="40" /></span>
+          <span class="integration-icon ambient-float ambient-float--late" aria-hidden="true"><img src="/integrations/apple-calendar.svg" alt="" width="40" height="40" /></span>
           <div>
             <h3>Apple Calendar</h3>
-            <p><span class="integration-status">Solo lectura</span> Enlace privado de suscripción</p>
+            <p>Consulta las mismas citas desde Apple Calendar.</p>
           </div>
         </article>
       </div>
     </div>
   </section>
+
+  <div class="story-bridge" aria-label="De las capacidades a los precios">
+    <div class="container story-bridge__inner reveal">
+      <span class="story-bridge__line" aria-hidden="true"></span>
+      <p><strong>La operación ya está en el sistema.</strong> Elige el plan con el que quieres empezar.</p>
+    </div>
+  </div>
 
   <section class="section section--tight pricing-home">
     <div class="container">
@@ -283,14 +307,18 @@ const capabilityTiles = [
           <span class="pricing-card__badge">Recomendado</span>
           <p class="pricing-card__eyebrow">Para el equipo</p>
           <h3>Equipos</h3>
-          <p class="pricing-card__price" aria-live="polite">
-            <strong data-billing-content="monthly">$249</strong>
-            <strong data-billing-content="annual" hidden>$199</strong>
+          <p class="pricing-card__price">
+            <span class="billing-swap">
+              <strong data-billing-content="monthly">$249</strong>
+              <strong data-billing-content="annual" hidden>$199</strong>
+            </span>
             <span>/ mes</span>
           </p>
           <p class="pricing-card__billing">
-            <span data-billing-content="monthly">Pago mes a mes</span>
-            <span data-billing-content="annual" hidden>$2,388 facturados al año · ahorras $600</span>
+            <span class="billing-swap">
+              <span data-billing-content="monthly">Pago mes a mes</span>
+              <span data-billing-content="annual" hidden>$2,388 facturados al año · ahorras $600</span>
+            </span>
           </p>
           <ul>
             <li>Precio por clínica, no por persona</li>
@@ -315,6 +343,13 @@ const capabilityTiles = [
     </div>
   </section>
 
+  <div class="story-bridge story-bridge--to-journey" aria-label="De los precios al recorrido">
+    <div class="container story-bridge__inner reveal">
+      <span class="story-bridge__line" aria-hidden="true"></span>
+      <p><strong>El plan cubre la operación.</strong> Así se siente una visita, de la reserva a la nota.</p>
+    </div>
+  </div>
+
   <section class="section journey-section" id="recorrido">
     <div class="container">
       <div class="journey-intro reveal">
@@ -323,7 +358,7 @@ const capabilityTiles = [
           <h2 class="section-title">El contexto avanza con cada visita.</h2>
         </div>
         <div>
-          <p class="section-lead">No son módulos separados. Cada paso prepara el siguiente para que el equipo atienda sin reconstruir la historia.</p>
+          <p class="section-lead">Cada paso deja listo el siguiente. El equipo atiende con el hilo a la vista, no reconstruyéndolo.</p>
           <a class="text-link" href={appSignupUrl}>Comenzar gratis</a>
         </div>
       </div>
@@ -340,7 +375,7 @@ const capabilityTiles = [
     position: relative;
     display: flex;
     align-items: center;
-    min-height: calc(100svh - var(--header-h));
+    min-height: calc(100svh - var(--header-h) - env(safe-area-inset-top, 0px));
     padding-top: clamp(2rem, 5vw, 3.5rem);
     padding-bottom: clamp(4rem, 9vw, 7rem);
   }
@@ -377,6 +412,7 @@ const capabilityTiles = [
     font-weight: 500;
     letter-spacing: -0.055em;
     line-height: 1.02;
+    text-wrap: pretty;
   }
 
   .hero h1 span {
@@ -421,12 +457,19 @@ const capabilityTiles = [
     isolation: isolate;
   }
 
-  .problem-bridge {
+  .story-bridge {
     padding-block: 0 clamp(1.25rem, 3vw, 2.5rem);
+  }
+
+  .story-bridge--warm {
     background: color-mix(in srgb, var(--color-warm) 62%, transparent);
   }
 
-  .problem-bridge__inner {
+  .story-bridge--to-journey {
+    padding-bottom: 0;
+  }
+
+  .story-bridge__inner {
     display: flex;
     align-items: center;
     gap: var(--space-4);
@@ -437,16 +480,17 @@ const capabilityTiles = [
     font-size: 0.96rem;
   }
 
-  .problem-bridge__inner p {
+  .story-bridge__inner p {
     margin: 0;
+    text-wrap: pretty;
   }
 
-  .problem-bridge__inner strong {
+  .story-bridge__inner strong {
     color: var(--color-ink);
     font-weight: 600;
   }
 
-  .problem-bridge__line {
+  .story-bridge__line {
     width: 2.5rem;
     height: 2px;
     flex: 0 0 auto;
@@ -454,9 +498,12 @@ const capabilityTiles = [
     background: var(--color-brand);
   }
 
-  .hero__visual :global(.product-frame) {
+  .hero__stage {
     position: relative;
     z-index: 2;
+  }
+
+  .hero__visual :global(.product-frame) {
     transform: perspective(1400px) rotateY(-5deg) rotateX(1.5deg);
     transform-origin: left center;
   }
@@ -491,8 +538,12 @@ const capabilityTiles = [
 
   .hero__visual.is-visible .signal-card {
     animation:
-      signal-enter 640ms cubic-bezier(0.16, 1, 0.3, 1) both,
-      signal-float 7s ease-in-out 900ms infinite;
+      signal-enter 640ms var(--ease-out) both,
+      signal-float var(--duration-ambient) ease-in-out 900ms infinite;
+  }
+
+  .hero__visual.is-visible:not(.is-ambient) .signal-card {
+    animation-play-state: running, paused;
   }
 
   .signal-card--intake {
@@ -550,12 +601,18 @@ const capabilityTiles = [
   }
 
   @keyframes signal-float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-6px); }
+    0%, 100% {
+      transform: translateY(0);
+      box-shadow: var(--shadow-card-hover);
+    }
+    50% {
+      transform: translateY(calc(var(--shift-3) * -1));
+      box-shadow: var(--shadow-float);
+    }
   }
 
-  .problem-grid,
-  .setup-grid,
+  .problem-cases,
+  .setup-flow,
   .integrations,
   .pricing-teaser,
   .capability-bento {
@@ -570,8 +627,11 @@ const capabilityTiles = [
     background: color-mix(in srgb, var(--color-warm) 62%, transparent);
   }
 
+  .problem-cases {
+    gap: var(--space-3);
+  }
+
   .problem-card,
-  .setup-card,
   .integrations__card,
   .pricing-card {
     padding: var(--space-5);
@@ -580,38 +640,38 @@ const capabilityTiles = [
     box-shadow: var(--shadow-card);
   }
 
-  .problem-card,
-  .setup-card {
-    display: grid;
-    height: 100%;
-    min-height: 0;
-    overflow: hidden;
-  }
-
   .problem-card {
-    grid-template-rows: 11rem minmax(2.7em, auto) 1fr;
+    display: grid;
     gap: var(--space-4);
-    transition: transform var(--motion-base), box-shadow var(--motion-base);
-  }
-
-  .problem-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-card-hover);
-  }
-
-  .problem-card__scene,
-  .setup-card__frame {
-    height: 11rem;
-    min-height: 11rem;
+    min-width: 0;
     overflow: hidden;
-    border-radius: var(--radius-md);
+    transition: box-shadow var(--motion-base);
+  }
+
+  .problem-card:hover,
+  .problem-card:focus-within {
+    box-shadow: var(--shadow-card-hover);
   }
 
   .problem-card__scene {
     display: grid;
     align-content: center;
+    min-height: 10.5rem;
     padding: 0.85rem;
+    overflow: hidden;
+    border-radius: var(--radius-md);
     background: var(--color-frame);
+  }
+
+  .problem-card__copy {
+    display: grid;
+    align-content: center;
+    gap: var(--space-2);
+    min-width: 0;
+  }
+
+  .problem-card--lead .problem-card__scene {
+    background: color-mix(in srgb, var(--color-brand) 5.5%, var(--color-frame));
   }
 
   .pain-chat,
@@ -787,36 +847,97 @@ const capabilityTiles = [
     box-shadow: var(--shadow-card);
   }
 
+  :global(.js) .problem-card:not(.is-visible) .pain-chat__bubble,
+  :global(.js) .problem-card:not(.is-visible) .pain-chat__waiting,
+  :global(.js) .problem-card:not(.is-visible) .pain-ficha dl,
+  :global(.js) .problem-card:not(.is-visible) .pain-ficha__visits li,
+  :global(.js) .problem-card:not(.is-visible) .pain-follow li {
+    opacity: 0;
+    transform: translateY(0.4rem);
+  }
+
+  .problem-card.is-visible .pain-chat__bubble--in {
+    animation: scene-in var(--duration-enter) var(--ease-out) 80ms both;
+  }
+
+  .problem-card.is-visible .pain-chat__bubble--out {
+    animation: scene-in var(--duration-enter) var(--ease-out) 240ms both;
+  }
+
+  .problem-card.is-visible .pain-chat__waiting {
+    animation: scene-in var(--duration-enter) var(--ease-out) 460ms both;
+  }
+
+  .problem-section.is-ambient .pain-chat__waiting {
+    animation:
+      scene-in var(--duration-enter) var(--ease-out) 460ms both,
+      wait-breathe 3.8s ease-in-out 1.1s infinite;
+  }
+
+  .problem-card.is-visible .pain-ficha dl {
+    animation: scene-in var(--duration-enter) var(--ease-out) 90ms both;
+  }
+
+  .problem-card.is-visible .pain-ficha__visits li:nth-child(1) {
+    animation: scene-in var(--duration-enter) var(--ease-out) 180ms both;
+  }
+
+  .problem-card.is-visible .pain-ficha__visits li:nth-child(2) {
+    animation: scene-in var(--duration-enter) var(--ease-out) 270ms both;
+  }
+
+  .problem-card.is-visible .pain-follow li:nth-child(1) {
+    animation: scene-in var(--duration-enter) var(--ease-out) 120ms both;
+  }
+
+  .problem-card.is-visible .pain-follow li:nth-child(2) {
+    animation: scene-in var(--duration-enter) var(--ease-out) 220ms both;
+  }
+
+  @keyframes scene-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.4rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes wait-breathe {
+    0%,
+    100% { opacity: 0.58; }
+    50% { opacity: 1; }
+  }
+
   .problem-card h3,
-  .setup-card h3,
+  .setup-step h3,
   .integrations__card h3,
   .pricing-card h3 {
     margin: 0 0 var(--space-2);
     font-size: 1.1rem;
     font-weight: 600;
     letter-spacing: -0.02em;
+    text-wrap: pretty;
   }
 
-  .problem-card h3,
-  .setup-card h3 {
-    display: flex;
-    align-items: flex-end;
-    min-height: 2.7em;
+  .problem-card h3 {
     margin: 0;
-    line-height: 1.35;
+    line-height: 1.3;
   }
 
   .problem-card p,
-  .setup-card > p,
+  .setup-step__copy p,
   .integrations__card p {
     margin: 0;
     color: var(--color-muted);
   }
 
   .problem-card p,
-  .setup-card > p {
-    min-height: 4.8em;
-    line-height: 1.6;
+  .setup-step__copy p {
+    line-height: 1.55;
+    text-wrap: pretty;
   }
 
   .setup-section {
@@ -842,97 +963,227 @@ const capabilityTiles = [
     margin-top: var(--space-5);
   }
 
-  .setup-card {
-    grid-template-rows: auto 13.5rem minmax(2.7em, auto) 1fr;
-    gap: var(--space-3);
+  .setup-flow {
+    --setup-gap: var(--space-6);
+    --setup-card-h: 13.25rem;
+    --setup-num: 2.15rem;
+    position: relative;
+    margin: var(--space-6) 0 0;
+    padding: 0;
+    list-style: none;
+    gap: var(--setup-gap);
   }
 
-  .setup-card__n {
-    width: fit-content;
-    padding: 0.28rem 0.55rem;
-    border-radius: 999px;
-    background: color-mix(in srgb, var(--color-ink) 6%, var(--color-surface));
-    color: var(--color-muted);
+  .setup-step {
+    display: grid;
+    grid-template-columns: var(--setup-num) minmax(0, 1fr);
+    grid-template-rows: var(--setup-card-h) auto;
+    column-gap: var(--space-4);
+    row-gap: var(--space-3);
+    min-width: 0;
+    align-items: start;
+  }
+
+  .setup-step__n {
+    grid-row: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: stretch;
+    width: var(--setup-num);
+    color: var(--color-ink);
     font-size: 0.72rem;
     font-weight: 600;
     letter-spacing: 0.04em;
   }
 
-  .setup-card__frame {
+  .setup-step__n > span {
     display: grid;
-    align-content: center;
-    height: 13.5rem;
-    background: var(--color-frame);
+    place-items: center;
+    width: var(--setup-num);
+    height: var(--setup-num);
+    border-radius: 999px;
+    background: var(--color-surface);
+    box-shadow: var(--shadow-card);
   }
 
-  .setup-card__frame :global(.product-frame) {
+  .setup-step__n::after {
+    content: '';
+    width: 1px;
+    flex: 1;
+    min-height: 2.5rem;
+    margin-top: 0.5rem;
+    background: color-mix(in srgb, var(--color-ink) 12%, transparent);
+  }
+
+  .setup-step:last-child .setup-step__n::after {
+    display: none;
+  }
+
+  .setup-step__frame {
+    grid-column: 2;
+    display: grid;
+    height: var(--setup-card-h);
+    min-height: var(--setup-card-h);
+    max-height: var(--setup-card-h);
+    padding: 0.55rem;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    background: color-mix(in srgb, var(--color-ink) 3.5%, var(--color-surface));
+    box-shadow: var(--shadow-surface);
+  }
+
+  .setup-step__copy {
+    grid-column: 2;
+    display: grid;
+    grid-template-rows: minmax(2.75rem, auto) auto;
+    align-content: start;
+    gap: 0.35rem;
+    min-width: 0;
+  }
+
+  .setup-step__copy h3 {
+    margin: 0;
+    min-height: 2.75rem;
+    line-height: 1.25;
+  }
+
+  .setup-step__copy p {
+    margin: 0;
+  }
+
+  .setup-flow.is-ambient .setup-step:nth-child(2) .setup-step__frame {
+    animation-delay: 0.55s;
+  }
+
+  .setup-flow.is-ambient .setup-step:nth-child(3) .setup-step__frame {
+    animation-delay: 1.1s;
+  }
+
+  .setup-step__frame :global(.product-frame) {
+    height: 100%;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
     box-shadow: none;
     border-radius: var(--radius-md);
   }
 
-  .setup-card__frame :global(.product-frame__chrome) {
+  .setup-step__frame :global(.product-frame__shell) {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .setup-step__frame :global(.product-frame--crop .product-frame__shell) {
+    min-height: 0;
+  }
+
+  .setup-step__frame :global(.product-frame__chrome) {
     padding: 0.5rem 0.75rem;
   }
 
-  .setup-card__frame :global(.product-frame__main) {
+  .setup-step__frame :global(.product-frame__main) {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
     padding: 0.65rem;
   }
 
-  .setup-card__frame :global(.ui-toolbar) {
+  .setup-step__frame :global(.ui-toolbar) {
     margin-bottom: 0.65rem;
   }
 
-  .setup-card__frame :global(.ui-toolbar h3),
-  .setup-card__frame :global(.product-frame h3) {
+  .setup-step__frame :global(.ui-toolbar h3),
+  .setup-step__frame :global(.product-frame h3) {
     font-size: 0.85rem;
   }
 
-  .setup-card__frame :global(.ui-hours__legend),
-  .setup-card__frame :global(.ui-client__chip),
-  .setup-card__frame :global(.ui-panel:nth-child(2)),
-  .setup-card__frame :global(.ui-toolbar__meta) {
+  .setup-step__frame :global(.ui-hours__legend),
+  .setup-step__frame :global(.ui-client__chip),
+  .setup-step__frame :global(.ui-panel:nth-child(2)),
+  .setup-step__frame :global(.ui-toolbar__meta) {
     display: none;
   }
 
-  .setup-card__frame :global(.ui-client__grid) {
+  .setup-step__frame :global(.ui-client__grid) {
     gap: 0.5rem;
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .setup-card__frame :global(.ui-panel--visits) {
+  .setup-step__frame :global(.ui-panel--visits) {
+    flex: 1 1 auto;
+    min-height: 0;
     padding: 0.65rem 0.75rem;
   }
 
-  .setup-card__frame :global(.ui-visits li:nth-child(n + 3)) {
+  .setup-step__frame :global(.ui-visits li:nth-child(n + 3)) {
     display: none;
   }
 
-  .setup-card__frame :global(.ui-hours__grid) {
+  .setup-step__frame :global(.ui-hours),
+  .setup-step__frame :global(.ui-client__grid) {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .setup-step__frame :global(.ui-hours__grid) {
+    flex: 1 1 auto;
+    min-height: 0;
     margin-top: 0;
   }
 
-  .setup-card__frame :global(.product-frame--crop .ui-week) {
+  .setup-step__frame :global(.ui-hours__col) {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    height: 100%;
+  }
+
+  .setup-step__frame :global(.ui-hours__col span) {
+    flex: 0 0 auto;
+  }
+
+  .setup-step__frame :global(.product-frame--crop .ui-week) {
+    flex: 1 1 auto;
+    min-height: 0;
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .setup-card__frame :global(.product-frame--crop .ui-day:nth-child(n + 3)) {
+  .setup-step__frame :global(.product-frame--crop .ui-day:nth-child(n + 3)) {
     display: none;
   }
 
-  .setup-card__frame :global(.product-frame--crop .ui-day) {
-    min-height: 7.5rem;
+  .setup-step__frame :global(.product-frame--crop .ui-day) {
+    min-height: 0;
   }
 
-  .setup-card__frame :global(.ui-hours__block--morning) {
-    height: 1.4rem;
+  .setup-step__frame :global(.ui-hours__block--morning),
+  .setup-step__frame :global(.ui-hours__block--afternoon),
+  .setup-step__frame :global(.ui-hours__block--evening) {
+    height: auto;
   }
 
-  .setup-card__frame :global(.ui-hours__block--afternoon) {
-    height: 1.6rem;
+  .setup-step__frame :global(.ui-hours__block--morning) {
+    flex: 1.4 1 0;
+    min-height: 1.4rem;
   }
 
-  .setup-card__frame :global(.ui-hours__block--evening) {
-    height: 1rem;
+  .setup-step__frame :global(.ui-hours__block--gap) {
+    flex: 0 0 0.5rem;
+    height: auto;
+  }
+
+  .setup-step__frame :global(.ui-hours__block--afternoon) {
+    flex: 1.6 1 0;
+    min-height: 1.6rem;
+  }
+
+  .setup-step__frame :global(.ui-hours__block--evening) {
+    flex: 1 1 0;
+    min-height: 1rem;
   }
 
   .journey-section {
@@ -975,6 +1226,15 @@ const capabilityTiles = [
     border-radius: var(--radius-lg);
     background: var(--color-surface);
     box-shadow: var(--shadow-card);
+    transition: transform var(--motion-base), box-shadow var(--motion-base);
+  }
+
+  .capability-bento__panel:hover,
+  .capability-bento__panel:focus-within,
+  .capability-tile:hover,
+  .capability-tile:focus-within {
+    transform: translateY(calc(var(--shift-2) * -1));
+    box-shadow: var(--shadow-card-hover);
   }
 
   .capability-bento__panel {
@@ -1060,6 +1320,11 @@ const capabilityTiles = [
     --capability-accent: var(--color-ink-mid);
   }
 
+  .capability-bento.is-ambient .capability-tile:nth-child(1) .capability-tile__visual { animation-delay: 0.2s; }
+  .capability-bento.is-ambient .capability-tile:nth-child(2) .capability-tile__visual { animation-delay: 0.55s; }
+  .capability-bento.is-ambient .capability-tile:nth-child(3) .capability-tile__visual { animation-delay: 0.9s; }
+  .capability-bento.is-ambient .capability-tile:nth-child(4) .capability-tile__visual { animation-delay: 1.25s; }
+
   .capability-tile::before {
     content: '';
     position: absolute;
@@ -1068,7 +1333,14 @@ const capabilityTiles = [
     width: 3px;
     border-radius: 0 999px 999px 0;
     background: var(--capability-accent);
-    opacity: 0.72;
+    opacity: 0.38;
+    box-shadow: none;
+    transition: opacity var(--motion-base), box-shadow var(--motion-base);
+  }
+
+  .capability-tile.is-visible::before {
+    opacity: 0.92;
+    box-shadow: 0 0 12px color-mix(in srgb, var(--capability-accent) 32%, transparent);
   }
 
   .capability-tile__visual {
@@ -1146,24 +1418,6 @@ const capabilityTiles = [
     object-fit: contain;
   }
 
-  .integration-status {
-    display: inline-flex;
-    align-items: center;
-    margin-right: 0.35rem;
-    color: var(--color-ink);
-    font-size: 0.75rem;
-    font-weight: 600;
-  }
-
-  .integration-status::before {
-    content: '';
-    width: 0.42rem;
-    height: 0.42rem;
-    margin-right: 0.35rem;
-    border-radius: 50%;
-    background: var(--color-status-ok);
-  }
-
   .pricing-teaser {
     grid-template-columns: 1fr;
   }
@@ -1205,6 +1459,10 @@ const capabilityTiles = [
   }
 
   .pricing-card__price {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.35rem;
     margin: var(--space-3) 0 0 !important;
     color: var(--color-ink) !important;
     font-size: 2rem;
@@ -1224,7 +1482,7 @@ const capabilityTiles = [
   }
 
   .pricing-card__billing {
-    min-height: 1.35rem;
+    min-height: 2.6em;
     margin: var(--space-2) 0 0 !important;
     color: var(--color-brand-deep) !important;
     font-size: 0.76rem;
@@ -1273,9 +1531,71 @@ const capabilityTiles = [
     margin-top: var(--space-5);
   }
 
-  @media (min-width: 700px) {
-    .setup-grid {
+  @media (min-width: 640px) {
+    .problem-card {
+      grid-template-columns: minmax(13rem, 17rem) minmax(0, 1fr);
+      align-items: center;
+      padding: var(--space-4) var(--space-5);
+    }
+
+    .problem-card__scene {
+      min-height: 11.25rem;
+    }
+  }
+
+  @media (min-width: 860px) {
+    .setup-flow {
+      --setup-gap: clamp(1.25rem, 2.5vw, 2rem);
+      --setup-card-h: 16.75rem;
       grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--setup-gap);
+      align-items: stretch;
+    }
+
+    .setup-flow::before {
+      content: '';
+      position: absolute;
+      top: calc(var(--setup-num) / 2);
+      left: calc((100% - 2 * var(--setup-gap)) / 6);
+      right: calc((100% - 2 * var(--setup-gap)) / 6);
+      height: 1px;
+      background: color-mix(in srgb, var(--color-ink) 12%, transparent);
+    }
+
+    .setup-step {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: var(--setup-num) var(--setup-card-h) auto;
+      justify-items: stretch;
+      row-gap: var(--space-3);
+    }
+
+    .setup-step__n {
+      grid-row: 1;
+      grid-column: 1;
+      justify-self: center;
+      align-self: center;
+      width: var(--setup-num);
+      z-index: 1;
+    }
+
+    .setup-step__n::after {
+      display: none;
+    }
+
+    .setup-step__frame,
+    .setup-step__copy {
+      grid-column: 1;
+      width: 100%;
+    }
+
+    .setup-step__frame {
+      height: var(--setup-card-h);
+      min-height: var(--setup-card-h);
+      max-height: var(--setup-card-h);
+    }
+
+    .setup-step__copy {
+      grid-template-rows: minmax(2.75rem, auto) auto;
     }
   }
 
@@ -1309,16 +1629,11 @@ const capabilityTiles = [
       grid-template-columns: 1fr 0.8fr;
     }
 
-    .problem-grid,
     .integrations {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .pricing-teaser {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .problem-grid {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
@@ -1354,10 +1669,6 @@ const capabilityTiles = [
   }
 
   @media (max-width: 699px) {
-    .setup-grid {
-      grid-template-columns: 1fr;
-    }
-
     .capability-bento__visual {
       min-height: 15rem;
     }
@@ -1369,6 +1680,10 @@ const capabilityTiles = [
 
     .capability-tile {
       grid-template-columns: 1fr;
+    }
+
+    .setup-flow {
+      --setup-card-h: 12.25rem;
     }
 
     .integrations__card + .integrations__card {
@@ -1410,15 +1725,33 @@ const capabilityTiles = [
       text-align: left;
     }
 
-    .problem-bridge__inner {
+    .story-bridge__inner {
       align-items: flex-start;
       gap: var(--space-3);
       font-size: 0.9rem;
     }
 
-    .problem-bridge__line {
+    .story-bridge__line {
       width: 1.6rem;
       margin-top: 0.75rem;
+    }
+
+    .hero__actions .btn,
+    .setup-intro__actions .btn {
+      min-height: 2.75rem;
+    }
+
+    .setup-step {
+      --setup-num: 2rem;
+    }
+
+    .setup-step__n {
+      width: var(--setup-num);
+    }
+
+    .setup-step__n > span {
+      width: var(--setup-num);
+      height: var(--setup-num);
     }
   }
 
@@ -1434,6 +1767,22 @@ const capabilityTiles = [
       animation: none;
     }
 
-    .problem-card:hover { transform: none; }
+    .problem-card:hover,
+    .problem-card:focus-within,
+    .capability-bento__panel:hover,
+    .capability-bento__panel:focus-within,
+    .capability-tile:hover,
+    .capability-tile:focus-within { transform: none; }
+
+    .problem-card.is-visible .pain-chat__bubble,
+    .problem-card.is-visible .pain-chat__waiting,
+    .problem-card.is-visible .pain-ficha dl,
+    .problem-card.is-visible .pain-ficha__visits li,
+    .problem-card.is-visible .pain-follow li,
+    .problem-section.is-ambient .pain-chat__waiting {
+      opacity: 1;
+      transform: none;
+      animation: none;
+    }
   }
 </style>

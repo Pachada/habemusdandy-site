@@ -56,7 +56,9 @@ const pageTitle = title.includes(siteName) ? title : `${title} · ${siteName}`
             { threshold: 0.12, rootMargin: '0px 0px -8% 0px' },
           )
           reveals.forEach((el, i) => {
-            ;(el as HTMLElement).style.transitionDelay = `${Math.min(i % 4, 3) * 60}ms`
+            const node = el as HTMLElement
+            const explicit = node.dataset.stagger
+            node.style.transitionDelay = explicit != null ? `${explicit}ms` : `${Math.min(i % 4, 3) * 60}ms`
             observer.observe(el)
           })
         } else {
@@ -64,6 +66,18 @@ const pageTitle = title.includes(siteName) ? title : `${title} · ${siteName}`
         }
       } else {
         document.querySelectorAll('.reveal').forEach((el) => el.classList.add('is-visible'))
+      }
+
+      if (!reduceMotion && 'IntersectionObserver' in window) {
+        document.querySelectorAll('[data-ambient]').forEach((el) => {
+          const observer = new IntersectionObserver(
+            ([entry]) => {
+              el.classList.toggle('is-ambient', Boolean(entry?.isIntersecting))
+            },
+            { threshold: 0.22 },
+          )
+          observer.observe(el)
+        })
       }
     </script>
   </body>

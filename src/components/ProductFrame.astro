@@ -360,6 +360,10 @@ const nav = [
               <li class="is-current"><span>2</span> Motivo</li>
               <li><span>3</span> Consentimiento</li>
             </ol>
+            <div class="ui-intake__field ui-intake__field--name">
+              <span>Nombre</span>
+              <div></div>
+            </div>
             <div class="ui-intake__field">
               <span>¿Qué te trae a la clínica?</span>
               <div></div>
@@ -434,14 +438,14 @@ const nav = [
                 <img src="/integrations/google-calendar.svg" alt="" width="28" height="28" />
                 <div>
                   <strong>Google Calendar</strong>
-                  <span>Una vía · citas → Google</span>
+                  <span>Citas visibles en Google</span>
                 </div>
               </li>
               <li>
                 <img src="/integrations/apple-calendar.svg" alt="" width="28" height="28" />
                 <div>
                   <strong>Apple Calendar</strong>
-                  <span>Solo lectura · suscripción</span>
+                  <span>Visible en Apple Calendar</span>
                 </div>
               </li>
             </ul>
@@ -692,7 +696,7 @@ const nav = [
   }
 
   .product-frame.is-inview .ui-appt {
-    animation: appt-in 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation: appt-in var(--duration-enter) var(--ease-out) both;
   }
 
   .ui-day:nth-child(1) .ui-appt:nth-child(1) { animation-delay: 40ms; }
@@ -714,13 +718,16 @@ const nav = [
 
   .ui-appt--now {
     background: color-mix(in srgb, var(--color-status-warn) 14%, var(--color-surface));
-    animation: appointment-breathe 6s ease-in-out infinite;
   }
 
   .product-frame.is-inview .ui-appt--now {
     animation:
-      appt-in 520ms cubic-bezier(0.16, 1, 0.3, 1) both,
-      appointment-breathe 6s ease-in-out 520ms infinite;
+      appt-in var(--duration-enter) var(--ease-out) both,
+      appt-active-tint 720ms ease-out 180ms both;
+  }
+
+  .product-frame.is-inview .ui-appt--now .status-dot {
+    animation: status-pulse 900ms ease-out 220ms both;
   }
 
   .ui-appt strong,
@@ -841,6 +848,7 @@ const nav = [
   }
 
   .ui-visits {
+    position: relative;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -849,6 +857,7 @@ const nav = [
   }
 
   .ui-visits li {
+    position: relative;
     display: grid;
     grid-template-columns: 3.4rem 1fr auto;
     gap: 0.5rem;
@@ -857,6 +866,18 @@ const nav = [
     border-radius: var(--radius-sm);
     background: color-mix(in srgb, var(--color-brand) 6%, var(--color-paper));
     font-size: 0.75rem;
+  }
+
+  .ui-visits li:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0.82rem;
+    top: calc(50% + 0.45rem);
+    width: 1px;
+    height: calc(100% - 0.15rem);
+    background: color-mix(in srgb, var(--color-brand) 28%, transparent);
+    transform: scaleY(0);
+    transform-origin: top;
   }
 
   .ui-visits__when {
@@ -920,14 +941,23 @@ const nav = [
   }
 
   :global(.js) .product-frame[data-product-frame='client'] .ui-visits li,
-  :global(.js) .product-frame[data-product-frame='intake'] .ui-intake li {
+  :global(.js) .product-frame[data-product-frame='intake'] .ui-intake li,
+  :global(.js) .product-frame[data-product-frame='intake'] .ui-intake__field,
+  :global(.js) .product-frame[data-product-frame='intake'] .ui-intake__signature,
+  :global(.js) .product-frame[data-product-frame='hours'] .ui-hours__block,
+  :global(.js) .product-frame[data-product-frame='team'] .ui-team li,
+  :global(.js) .product-frame[data-product-frame='services'] .ui-services li {
     opacity: 0;
     transform: translateY(0.35rem);
   }
 
   .product-frame.is-inview[data-product-frame='client'] .ui-visits li,
   .product-frame.is-inview[data-product-frame='intake'] .ui-intake li {
-    animation: micro-scene-in 460ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation: micro-scene-in var(--duration-enter) var(--ease-out) both;
+  }
+
+  .product-frame.is-inview[data-product-frame='client'] .ui-visits li:not(:last-child)::after {
+    animation: visit-link 420ms var(--ease-out) 220ms both;
   }
 
   .product-frame.is-inview[data-product-frame='client'] .ui-visits li:nth-child(2),
@@ -940,9 +970,42 @@ const nav = [
     animation-delay: 180ms;
   }
 
-  .product-frame.is-inview[data-product-frame='intake'] .ui-intake__field,
+  .product-frame.is-inview[data-product-frame='intake'] .ui-intake__field--name {
+    animation: micro-scene-in var(--duration-enter) var(--ease-out) 160ms both;
+  }
+
+  .product-frame.is-inview[data-product-frame='intake'] .ui-intake__field:not(.ui-intake__field--name) {
+    animation: micro-scene-in var(--duration-enter) var(--ease-out) 280ms both;
+  }
+
   .product-frame.is-inview[data-product-frame='intake'] .ui-intake__signature {
-    animation: micro-scene-in 520ms cubic-bezier(0.16, 1, 0.3, 1) 240ms both;
+    animation: micro-scene-in var(--duration-enter) var(--ease-out) 400ms both;
+  }
+
+  .product-frame.is-inview[data-product-frame='intake'] .ui-intake__signature strong {
+    animation: sign-ready 520ms ease-out 560ms both;
+  }
+
+  .product-frame.is-inview[data-product-frame='hours'] .ui-hours__block,
+  .product-frame.is-inview[data-product-frame='team'] .ui-team li,
+  .product-frame.is-inview[data-product-frame='services'] .ui-services li {
+    animation: micro-scene-in var(--duration-enter) var(--ease-out) both;
+  }
+
+  .product-frame.is-inview[data-product-frame='hours'] .ui-hours__block:nth-child(2),
+  .product-frame.is-inview[data-product-frame='team'] .ui-team li:nth-child(2),
+  .product-frame.is-inview[data-product-frame='services'] .ui-services li:nth-child(2) {
+    animation-delay: var(--stagger);
+  }
+
+  .product-frame.is-inview[data-product-frame='hours'] .ui-hours__block:nth-child(3),
+  .product-frame.is-inview[data-product-frame='team'] .ui-team li:nth-child(3),
+  .product-frame.is-inview[data-product-frame='services'] .ui-services li:nth-child(3) {
+    animation-delay: calc(var(--stagger) * 2);
+  }
+
+  .product-frame.is-inview[data-product-frame='hours'] .ui-hours__block:nth-child(4) {
+    animation-delay: calc(var(--stagger) * 3);
   }
 
   .product-frame.is-inview[data-product-frame='note'] .ui-note__plan,
@@ -1111,6 +1174,10 @@ const nav = [
     background: var(--color-ink-soft);
   }
 
+  .ui-intake__field--name div {
+    height: 1.35rem;
+  }
+
   .ui-intake__signature {
     display: flex;
     justify-content: space-between;
@@ -1126,6 +1193,10 @@ const nav = [
   .ui-intake__signature strong {
     color: var(--color-status-ok);
     font-weight: 600;
+  }
+
+  :global(.js) .product-frame[data-product-frame='intake']:not(.is-inview) .ui-intake__signature strong {
+    opacity: 0.42;
   }
 
   .ui-note-mini strong {
@@ -1430,7 +1501,7 @@ const nav = [
   .product-frame--micro-forms.is-inview .ui-intake li,
   .product-frame--micro-hours.is-inview .ui-hours__block,
   .product-frame--micro-team.is-inview .ui-team li {
-    animation: micro-scene-in 480ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation: micro-scene-in var(--duration-enter) var(--ease-out) both;
   }
 
   .product-frame--micro-reservation.is-inview .ui-appt:nth-child(2),
@@ -1558,17 +1629,23 @@ const nav = [
     100% { background: transparent; }
   }
 
-  @keyframes appointment-breathe {
-    0%,
-    72%,
-    100% {
-      transform: translateY(0);
-      box-shadow: none;
+  @keyframes appt-active-tint {
+    from {
+      background: color-mix(in srgb, var(--color-brand) 8%, var(--color-surface));
     }
-    78% {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 18px color-mix(in srgb, var(--color-brand) 12%, transparent);
+    to {
+      background: color-mix(in srgb, var(--color-status-warn) 14%, var(--color-surface));
     }
+  }
+
+  @keyframes visit-link {
+    from { transform: scaleY(0); }
+    to { transform: scaleY(1); }
+  }
+
+  @keyframes sign-ready {
+    from { opacity: 0.42; }
+    to { opacity: 1; }
   }
 
   @keyframes status-pulse {
@@ -1621,12 +1698,18 @@ const nav = [
     }
 
     .product-frame[data-product-frame='client'] .ui-visits li,
+    .product-frame[data-product-frame='client'] .ui-visits li::after,
     .product-frame[data-product-frame='intake'] .ui-intake li,
     .product-frame[data-product-frame='intake'] .ui-intake__field,
     .product-frame[data-product-frame='intake'] .ui-intake__signature,
+    .product-frame[data-product-frame='intake'] .ui-intake__signature strong,
     .product-frame[data-product-frame='note'] .ui-note__plan,
     .product-frame[data-product-frame='note'] .ui-note__plan-copy,
-    .product-frame[data-product-frame='intake'] .ui-intake li.is-current span {
+    .product-frame[data-product-frame='intake'] .ui-intake li.is-current span,
+    .product-frame[data-product-frame='hours'] .ui-hours__block,
+    .product-frame[data-product-frame='team'] .ui-team li,
+    .product-frame[data-product-frame='services'] .ui-services li,
+    .product-frame.is-inview .ui-appt--now .status-dot {
       opacity: 1;
       transform: none;
       animation: none;

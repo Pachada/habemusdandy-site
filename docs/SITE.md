@@ -165,9 +165,7 @@ Optional later: a metric row *only with real data* (citas, clínicas, no-show dr
 
 Separate chapter after the hero: extra top padding (~4–5rem) and a warm/paper band (`--color-warm` mix) so Hero and Problem do not share one canvas.
 
-Three short columns. Pain the owner already feels, shown as CSS scenes (decorative, `aria-hidden`; titles/lines are the accessible content). No WhatsApp branding.
-
-Problem and Setup cards share one rhythm: equal card height, fixed visual zone (~11rem, content centered), title + body pinned below with min-height (~2-line title, ~3-line body) so H3s align.
+Problem is a dossier of three cases, not a matching 3-up card grid. Each case is a documentary still plus copy. From 640px the still sits beside the copy; on small screens the still stacks above. Chat bubbles, empty ficha rows, and follow-up warnings enter once; “Sin respuesta” breathes only while the section is in view.
 
 | Scene | Title | Line |
 | --- | --- | --- |
@@ -179,14 +177,12 @@ Headline: `Hoy la clínica se arma en el chat.`
 
 ### 5.4 Setup (how it works)
 
-Centered intro, id `como-funciona` (Cal-style 3-step, our product):
+Numbered process (`ol`), id `como-funciona` — not a twin of the Problem case list. On mobile a left rail connects 01–03; from 860px the three steps sit in a row with equal-height frames, copy aligned on one baseline, and numbers centered on the connector above each card. Each step has a focused ProductFrame that floats 3px while in view.
 
 - Label: `Cómo funciona`
 - H2: `Empezar no debería tomar una semana.`
 - Lead: `Horario, servicios y la primera cita. El resto del flujo ya está en el mismo sitio.`
 - Buttons: `Comenzar gratis` (primary) + `Ver el flujo de una visita` (ghost, `#recorrido`)
-
-Three equal-height cards matching Problem: muted number pills (01–03), fixed focused micro-scene ProductFrame zone, then title + line. The scenes stay readable at desktop scale: availability, reservation confirmation, and a prepared client record rather than tiny full-interface screenshots:
 
 | # | Title | Line | Frame |
 | --- | --- | --- | --- |
@@ -215,11 +211,18 @@ Tab statuses may keep product-state wording (including “Ingreso”). Agenda vi
 
 ### 5.7 Operational breadth
 
-Label: `Más que una agenda`. Title: `Todo lo que sostiene la clínica, también está aquí.` Lead: `Organiza el día, configura servicios, prepara formularios y define quién puede hacer qué.`
+Label: `Más que una agenda`. Title: `La operación alrededor de la visita.` Lead: `Servicios, formularios, horario y roles. Cada pieza con su lugar, sin otra herramienta.`
 
 Use an asymmetric editorial bento: one dominant **Panel principal** scene for today’s appointments, statuses, quick actions, and pending intake; four smaller operational tiles for **Servicios** (duration, price, accent color), **Formularios** (branded/custom intake, consent/signature), **Horario** (weekly availability, date exceptions, timezone), and **Equipo y roles** (Owner/Manager/Staff access). The dominant panel and four tiles are static focused ProductFrame/CSS scenes, not tiny full-app screenshots, icon soup, or another carousel. Give the four smaller tiles enough separation to read as independent objects, using stronger soft shadows, restrained category accents, and lightly tinted visual stages rather than heavy borders. Desktop uses a 12-column composition; tablet uses a balanced dominant-plus-2×2 treatment; mobile stacks without overflow. One CTA, `Ver todas las capacidades`, points to `/producto`.
 
 The problem section flows into Setup through one short narrative bridge, not solution badges repeated inside each problem card.
+
+**Shipped bridges:**
+
+- Problem → Setup: `El chat no es un sistema.`
+- Setup → Capabilities: `La primera cita no basta.`
+- Capabilities (after the calendar strip) → Pricing: `La operación ya está en el sistema.`
+- Pricing → Journey: `El plan cubre la operación.`
 
 ### 5.8 Mid-page CTA
 
@@ -227,7 +230,7 @@ Do **not** ship a warm mid-page CTA. The closing navy band is the only full-widt
 
 ### 5.9 Integrations
 
-One quiet shared strip/row: Google Calendar + Apple Calendar. Keep the truthful statuses (`Una vía` and `Solo lectura`) and the headline `Se conecta con lo que ya usas.` Text link to `/producto#integraciones`.
+One quiet shared strip/row: Google Calendar + Apple Calendar. Headline `Se conecta con lo que ya usas.` Copy talks about appearing in calendars the team already uses. Do not label the cards `Una vía` or `Solo lectura`. Text link to `/producto#integraciones`.
 Do not show Zoom/Salesforce/Zapier just because Calendly does.
 
 ### 5.10 Pricing teaser
@@ -244,20 +247,22 @@ Two-column on desktop: intro left (optional text link `Comenzar gratis`, not a s
 
 Draft:
 
-1. ¿Es solo para fisioterapia?
-2. ¿Mis pacientes necesitan una cuenta?
-3. ¿Se sincroniza con Google Calendar?
-4. ¿Puedo usar mis propios formularios?
-5. ¿Qué pasa con los datos de los pacientes?
-6. ¿Puedo empezar gratis?
-7. ¿Funciona en el celular?
+1. ¿Por qué usar una herramienta de gestión si ya tengo WhatsApp y Calendar?
+2. ¿Qué diferencia a HabemusDandy de una agenda online?
+3. ¿Cómo sé si HabemusDandy encaja con mi clínica?
+4. ¿El paciente necesita crear una cuenta?
+5. ¿Puedo adaptar la herramienta a la forma en que trabaja mi equipo?
+6. ¿Dónde quedan los datos de mi clínica?
+7. ¿Puedo empezar sin comprometerme a pagar?
 
 Answers: two to four sentences. Link `/seguridad` from the data question.
 
 ### 5.13 Closing CTA
 
 Full-width navy band.
-H2: `Empieza a ordenar la clínica.`
+H2: `Empieza con la próxima cita.`
+Label: `Siguiente paso`
+Copy: `Reserva, ingreso, sesión y seguimiento, sin reconstruir la historia. Plan gratuito para comenzar.`
 Buttons: `Comenzar gratis` + `Ver precios`.
 Right side: quiet 4-step strip — Reserva → Formulario → Sesión → Seguimiento (`showFlow` on homepage only).
 ---
@@ -330,7 +335,7 @@ Luxury refined minimalism, same family as the dashboard — marketing is allowed
 | Brand | `#1769e0` — primary actions and focus only |
 | Depth | Soft shadow, no card borders |
 | Radius | Medium, same as product |
-| Motion | Fade/slide on scroll, one-shot product-state reveals in Setup and the operational bento, Journey crossfade (~6s), FAQ height; respect `prefers-reduced-motion` |
+| Motion | Fade/slide on scroll, one-shot product-state reveals, Journey crossfade (~6s), FAQ height; ambient 3px float on product frames and integration icons while in view; hero signal cards float 3px; problem scenes enter once; respect `prefers-reduced-motion` |
 
 **Closer to Calendly than Koalendar:** lots of air, typography hierarchy, product shots on paper, and an editorial monochrome shell. Color comes from product UI, icons, motion states, and restrained primary actions.
 **Closer to Cal.com than Calendly:** the screenshot *is* our app, not an illustrated metaphor.
@@ -346,7 +351,7 @@ Rules:
 - Product UI mocks use existing status/appointment tokens for quiet color — not beige + one blue button only
 - No hardcoded one-off colors; CSS variables only
 - No Calendly organic blobs / illustration style
-- Static HTML first. JS only for the header drawer, billing toggle, journey tabs, FAQ accordion, reveal, and one-shot product-state entry. Animate product state, never bouncing marketing text. Setup reveals availability blocks, a settling reservation, and ficha rows once; the bento reveals panel rows plus service/form/horario/role states once; Journey re-triggers only the newly active panel’s product state. Reduced motion shows final state immediately.
+- Static HTML first. JS only for the header drawer, billing toggle, journey tabs, FAQ accordion, reveal, ambient pause of in-view product frames, and one-shot product-state entry. Animate product state, never bouncing marketing text. Setup reveals availability blocks, a settling reservation, and ficha rows once; the bento reveals panel rows plus service/form/horario/role states once; Journey re-triggers only the newly active panel’s product state. Hero signal cards and product frames float 3px while in view. Reduced motion shows final state immediately.
 ---
 
 ## 10. Voice

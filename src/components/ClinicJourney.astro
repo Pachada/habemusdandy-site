@@ -43,7 +43,7 @@ const moments = [
 const STEP_MS = 6000
 ---
 
-<div class="journey reveal" data-journey data-step-ms={STEP_MS}>
+<div class="journey reveal" data-journey data-step-ms={STEP_MS} style={`--journey-step: ${STEP_MS}ms`}>
   <div class="journey__rail" role="tablist" aria-label="Recorrido de una cita">
     {
       moments.map((moment, index) => (
@@ -165,6 +165,12 @@ const STEP_MS = 6000
       timer = undefined
     }
 
+    const pauseForUser = () => {
+      userPaused = true
+      journey.classList.add('is-manual')
+      stop()
+    }
+
     let inView = false
 
     const start = () => {
@@ -190,16 +196,20 @@ const STEP_MS = 6000
     tabs.forEach((tab, index) => {
       tab.addEventListener('click', () => {
         select(index)
-        userPaused = true
-        stop()
+        pauseForUser()
       })
       tab.addEventListener('keydown', (event) => {
         if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return
         event.preventDefault()
-        userPaused = true
-        stop()
+        pauseForUser()
         select(active + (event.key === 'ArrowRight' ? 1 : -1), true)
       })
+    })
+
+    journey.addEventListener('pointerdown', (event) => {
+      if (!(event.target instanceof Element)) return
+      if (event.pointerType === 'mouse' && !event.target.closest('[data-journey-tab]')) return
+      if (event.pointerType === 'touch' || event.pointerType === 'pen') pauseForUser()
     })
 
     journey.addEventListener('mouseenter', stop)
@@ -244,6 +254,7 @@ const STEP_MS = 6000
     align-items: center;
     gap: 0.65rem;
     min-width: 0;
+    min-height: 2.75rem;
     padding: 0.85rem 0.9rem;
     border: 0;
     border-radius: var(--radius-md);
@@ -277,7 +288,12 @@ const STEP_MS = 6000
   }
 
   .journey__tab[aria-selected='true']::after {
-    animation: journey-progress 6s linear both;
+    animation: journey-progress var(--journey-step, 6s) linear both;
+  }
+
+  .journey.is-manual .journey__tab[aria-selected='true']::after {
+    animation: none;
+    transform: scaleX(1);
   }
 
   .journey__number {
@@ -299,7 +315,7 @@ const STEP_MS = 6000
     padding: clamp(2rem, 5vw, 4.5rem);
     opacity: 0;
     transform: translateY(0.5rem);
-    transition: opacity 420ms cubic-bezier(0.16, 1, 0.3, 1), transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition: opacity var(--duration-crossfade) var(--ease-out), transform var(--duration-crossfade) var(--ease-out);
   }
 
   .journey__panel.is-active {
@@ -330,6 +346,7 @@ const STEP_MS = 6000
     font-weight: 500;
     letter-spacing: -0.055em;
     line-height: 1.02;
+    text-wrap: pretty;
   }
 
   .journey__copy > p:not(.section-label) {
@@ -405,6 +422,9 @@ const STEP_MS = 6000
       display: flex;
       overflow-x: auto;
       scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      mask-image: linear-gradient(to right, #000 88%, transparent);
+      -webkit-mask-image: linear-gradient(to right, #000 88%, transparent);
     }
 
     .journey__tab {

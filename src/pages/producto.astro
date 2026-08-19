@@ -96,10 +96,10 @@ const groups = [
     id: 'integraciones',
     label: 'Integraciones',
     title: 'Calendarios que ya conoces',
-    intro: 'Solo lo que está vivo: Google y Apple.',
+    intro: 'Se integra con los calendarios que el equipo ya usa.',
     items: [
-      { title: 'Google Calendar', line: 'Una vía · citas → Google.' },
-      { title: 'Apple Calendar', line: 'Solo lectura · suscripción privada.' },
+      { title: 'Google Calendar', line: 'Las citas de la clínica aparecen en Google.' },
+      { title: 'Apple Calendar', line: 'Consulta las mismas citas desde Apple Calendar.' },
     ],
     frame: 'integrations' as const,
     activeNav: 'Integraciones',
@@ -132,8 +132,10 @@ const groups = [
         <a class="btn btn--ghost" href="/precios">Ver precios</a>
       </div>
     </div>
-    <div class="container hero__visual reveal" data-reveal="scale">
-      <ProductFrame variant="agenda" activeNav="Citas" label="Agenda semanal" />
+    <div class="container hero__visual reveal" data-reveal="scale" data-ambient>
+      <div class="ambient-float ambient-float--slow">
+        <ProductFrame variant="agenda" activeNav="Citas" label="Agenda semanal" />
+      </div>
     </div>
   </section>
 
@@ -154,13 +156,15 @@ const groups = [
               ))}
             </ul>
           </div>
-          <div class="reveal">
-            <ProductFrame
-              variant={group.frame}
-              activeNav={group.activeNav}
-              label={group.label}
-              compact={group.frame !== 'agenda' && group.frame !== 'client' && group.frame !== 'note'}
-            />
+          <div class="group__visual reveal" data-ambient>
+            <div class="ambient-float ambient-float--slow">
+              <ProductFrame
+                variant={group.frame}
+                activeNav={group.activeNav}
+                label={group.label}
+                compact={group.frame !== 'agenda' && group.frame !== 'client' && group.frame !== 'note'}
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -233,6 +237,10 @@ const groups = [
   .group span {
     color: var(--color-muted);
     font-size: 0.95rem;
+  }
+
+  .group__visual {
+    min-width: 0;
   }
 
   @media (min-width: 900px) {

@@ -12,13 +12,13 @@ interface Props {
 }
 
 const {
-  title = 'Empieza a ordenar la clínica.',
+  title = 'Empieza con la próxima cita.',
   secondaryHref = '/precios',
   secondaryLabel = 'Ver precios',
   tone = 'navy',
   showFlow = false,
-  label = 'Tu clínica, con orden',
-  copy = 'Reúne agenda, formulario, ficha y seguimiento en un solo flujo. Empieza sin costo y crece cuando tu equipo lo necesite.',
+  label = 'Siguiente paso',
+  copy = 'Reserva, ingreso, sesión y seguimiento, sin reconstruir la historia. Plan gratuito para comenzar.',
 } = Astro.props
 
 const flowSteps = ['Reserva', 'Formulario', 'Sesión', 'Seguimiento'] as const

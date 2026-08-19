@@ -44,15 +44,21 @@ const description =
       <article class="plan plan--featured reveal">
         <p class="plan__eyebrow">Para el equipo <span class="plan__badge">Recomendado</span></p>
         <h2>Equipos</h2>
-        <p class="plan__price" aria-live="polite">
-          <strong data-billing-content="monthly">$249</strong>
-          <strong data-billing-content="annual" hidden>$199</strong>
-          <span data-billing-content="monthly">por clínica / mes</span>
-          <span data-billing-content="annual" hidden>por clínica / mes · $2,388 facturados al año</span>
+        <p class="plan__price">
+          <span class="billing-swap">
+            <strong data-billing-content="monthly">$249</strong>
+            <strong data-billing-content="annual" hidden>$199</strong>
+          </span>
+          <span class="billing-swap">
+            <span data-billing-content="monthly">por clínica / mes</span>
+            <span data-billing-content="annual" hidden>por clínica / mes · $2,388 facturados al año</span>
+          </span>
         </p>
         <p class="plan__saving">
-          <span data-billing-content="monthly">Cambia a anual y ahorra $600</span>
-          <span data-billing-content="annual" hidden>Ahorra $600 al año</span>
+          <span class="billing-swap">
+            <span data-billing-content="monthly">Cambia a anual y ahorra $600</span>
+            <span data-billing-content="annual" hidden>Ahorra $600 al año</span>
+          </span>
         </p>
         <p class="plan__desc">Para equipos que necesitan operar y dar seguimiento juntos.</p>
         <ul>
@@ -153,7 +159,7 @@ const description =
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    min-height: 34rem;
+    min-height: 36rem;
     padding: clamp(1.5rem, 4vw, 3rem);
     background: var(--color-surface);
     border-radius: var(--radius-xl);
@@ -234,13 +240,20 @@ const description =
     line-height: 1;
   }
 
-  .plan__price span {
+  .plan__price span.billing-swap {
+    display: block;
+    min-height: 2.5em;
     margin-top: 0.4rem;
     color: var(--color-muted);
     font-size: 0.85rem;
   }
 
+  .plan__price span.billing-swap span {
+    margin-top: 0;
+  }
+
   .plan__saving {
+    min-height: 2.1rem;
     margin: var(--space-3) 0 0;
     padding: 0.45rem 0.65rem;
     border-radius: 999px;

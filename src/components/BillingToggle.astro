@@ -53,6 +53,15 @@ const { controls } = Astro.props
         const period = button.dataset.billingOption
         if (period === 'monthly' || period === 'annual') selectPeriod(period)
       })
+      button.addEventListener('keydown', (event) => {
+        if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft' && event.key !== 'Home' && event.key !== 'End') {
+          return
+        }
+        event.preventDefault()
+        const nextPeriod = event.key === 'ArrowRight' || event.key === 'End' ? 'annual' : 'monthly'
+        selectPeriod(nextPeriod)
+        buttons.find((item) => item.dataset.billingOption === nextPeriod)?.focus()
+      })
     })
 
     selectPeriod('monthly')
@@ -92,8 +101,8 @@ const { controls } = Astro.props
     align-items: center;
     justify-content: center;
     gap: var(--space-2);
-    min-height: 2.6rem;
-    padding: 0.58rem 0.9rem;
+    min-height: 2.75rem;
+    padding: 0.58rem 1rem;
     border: 0;
     border-radius: 999px;
     background: transparent;

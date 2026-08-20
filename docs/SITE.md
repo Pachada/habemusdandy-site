@@ -85,10 +85,11 @@ app.habemusfisio.com                dashboard (Habemusfisio-ui)
 /producto           Product / features
 /precios            Pricing
 /seguridad          Privacy & trust (short)
+/privacidad         Políticas de privacidad (footer)
+/terminos           Términos y condiciones (footer)
+404                 Not found → home / producto / precios
 /login              → app login
 /signup             → app signup (or login while signup is gated)
-
-Legal (footer only, later): /privacidad, /terminos
 ```
 
 Out of v1: blog, use-case microsites, careers, changelog, “vs Calendly”, comparison tables, chatbot.
@@ -125,7 +126,7 @@ Four columns, quiet:
 
 1. Producto, Precios, Seguridad
 2. Iniciar sesión, Comenzar
-3. Privacidad, Términos (placeholders until legal exists)
+3. Políticas de privacidad (`/privacidad`), Términos y condiciones (`/terminos`)
 4. Short brand line + email
 
 No 40-link Cal.com footer. No social proof wall in the footer.
@@ -315,7 +316,7 @@ Short trust page (Calendly “built to keep you secure,” without enterprise th
 - Who can see clinic data (tenant isolation, roles)
 - What patients see (intake link, no dashboard)
 - What we do not do
-- Link to privacy policy when it exists
+- Links to `/privacidad` and `/terminos`
 
 No SOC/HIPAA badges unless they are real.
 
@@ -351,7 +352,7 @@ Rules:
 - Product UI mocks use existing status/appointment tokens for quiet color — not beige + one blue button only
 - No hardcoded one-off colors; CSS variables only
 - No Calendly organic blobs / illustration style
-- Static HTML first. JS only for the header drawer, billing toggle, journey tabs, FAQ accordion, reveal, ambient pause of in-view product frames, and one-shot product-state entry. Animate product state, never bouncing marketing text. Setup reveals availability blocks, a settling reservation, and ficha rows once; the bento reveals panel rows plus service/form/horario/role states once; Journey re-triggers only the newly active panel’s product state. Hero signal cards and product frames float 3px while in view. Reduced motion shows final state immediately.
+- Static HTML first. JS only for the header drawer, billing toggle, journey tabs, FAQ accordion, reveal, ambient pause of in-view product frames, one-shot product-state entry, and the cookie notice (localStorage preference only; no analytics). Animate product state, never bouncing marketing text. Setup reveals availability blocks, a settling reservation, and ficha rows once; the bento reveals panel rows plus service/form/horario/role states once; Journey re-triggers only the newly active panel’s product state. Hero signal cards and product frames float 3px while in view. Reduced motion shows final state immediately.
 ---
 
 ## 10. Voice
@@ -361,6 +362,7 @@ Rules:
 - Short sentences. One idea per heading
 - Spanish from Spain/LatAm-neutral; match dashboard copy (`Citas`, `Clientes`, `Formularios`)
 - Never claim a feature the app does not ship
+- Never claim certifications, analytics, or tracking we do not have
 
 ---
 
@@ -371,13 +373,15 @@ Rules:
 - Chrome (header/footer)
 - Home with all sections except empty proof/testimonials (omit if empty)
 - `/producto`, `/precios` (structure), `/seguridad` (short)
+- `/privacidad`, `/terminos` (footer legal)
+- 404 (home / producto / precios)
+- Cookie notice (essential preference in localStorage; no ads/analytics cookies)
 - CTAs pointing at the app
 
 **Later**
 
 - Real logos, quotes, metrics
 - Sales / demo CTA
-- Legal pages
 - Blog or guides
 - Extra locales
 - Comparison or “vs” pages only if we compete with clinic software, not with Calendly

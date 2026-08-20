@@ -48,9 +48,13 @@ const description =
       <p class="section-label">Legal</p>
       <h2 class="section-title">Privacidad y términos</h2>
       <p class="section-lead">
-        Las páginas legales formales llegarán cuando estén listas. El producto opera con aislamiento
-        por clínica y acceso por roles.
+        El detalle del tratamiento de datos y las condiciones del servicio está en las páginas
+        legales.
       </p>
+      <div class="note__links">
+        <a class="text-link" href="/privacidad">Políticas de privacidad</a>
+        <a class="text-link" href="/terminos">Términos y condiciones</a>
+      </div>
     </div>
   </section>
 
@@ -120,6 +124,13 @@ const description =
     border-radius: var(--radius-lg);
     background: color-mix(in srgb, var(--color-brand) 4%, var(--color-surface));
     box-shadow: var(--shadow-card);
+  }
+
+  .note__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4) var(--space-6);
+    margin-top: var(--space-5);
   }
 
   @media (prefers-reduced-motion: reduce) {

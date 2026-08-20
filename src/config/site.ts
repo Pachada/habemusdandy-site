@@ -37,6 +37,11 @@ export const footerProductLinks = [
   { href: '/seguridad', label: 'Seguridad' },
 ] as const
 
+export const footerLegalLinks = [
+  { href: '/privacidad', label: 'Políticas de privacidad' },
+  { href: '/terminos', label: 'Términos y condiciones' },
+] as const
+
 export const faqItems = [
   {
     question: '¿Por qué usar una herramienta de gestión si ya tengo WhatsApp y Calendar?',
@@ -106,6 +111,8 @@ export const pricingFaqItems = [
   {
     question: '¿Qué pasa con mis datos si dejo de usarlo?',
     answer:
-      'Tus datos siguen siendo de tu clínica. Las condiciones comerciales y las opciones formales de exportación se documentarán en la información legal correspondiente a medida que estén disponibles.',
+      'Tus datos siguen siendo de tu clínica. Consulta Políticas de privacidad y Términos y condiciones para el tratamiento, la conservación y las condiciones del servicio.',
+    answerHtml:
+      'Tus datos siguen siendo de tu clínica. Consulta <a href="/privacidad">Políticas de privacidad</a> y <a href="/terminos">Términos y condiciones</a> para el tratamiento, la conservación y las condiciones del servicio.',
   },
 ] as const

@@ -7,7 +7,7 @@ const pathname = Astro.url.pathname.replace(/\/$/, '') || '/'
 <header class="site-header" data-site-header>
   <div class="site-header__inner container">
     <a class="site-header__logo" href="/" aria-label={`${siteName}, inicio`}>
-      <img src="/logo.svg" alt="" width="168" height="32" />
+      <img src="/logo.svg" alt="" width="168" height="32" decoding="async" />
     </a>
 
     <nav class="site-header__nav" aria-label="Principal">

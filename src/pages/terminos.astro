@@ -1,0 +1,201 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+
+const title = 'Términos y condiciones'
+const description =
+  'Condiciones de uso del servicio HabemusDandy para la operación de clínicas.'
+const updated = '19 de agosto de 2026'
+---
+
+<BaseLayout title={title} description={description}>
+  <article class="legal section">
+    <div class="container legal__inner">
+      <header class="legal__header">
+        <p class="section-label">Legal</p>
+        <h1>Términos y condiciones</h1>
+        <p class="legal__updated">Última actualización: {updated}</p>
+        <p class="legal__lead">
+          Estos términos regulan el uso del servicio HabemusDandy. Están escritos para que el dueño
+          de la clínica entienda las reglas básicas; no son un dictamen jurídico certificado.
+        </p>
+      </header>
+
+      <div class="legal__body">
+        <section>
+          <h2>El servicio</h2>
+          <p>
+            HabemusDandy es un software como servicio (SaaS) para la operación de clínicas: agenda,
+            clientes, formularios de ingreso, notas clínicas y administración del equipo. El acceso
+            al panel está en
+            <a href="https://app.habemusfisio.com">app.habemusfisio.com</a>. El sitio de marketing
+            en habemusdandy.com describe el producto y no sustituye el panel.
+          </p>
+        </section>
+
+        <section>
+          <h2>Planes y precios</h2>
+          <p>
+            Ofrecemos planes Gratis, Equipos y Empresas, con precios y límites publicados en
+            <a href="/precios">Precios</a>. Las promociones de lanzamiento son ofertas comerciales:
+            no crean un derecho distinto ni anulan estas condiciones. Podemos actualizar precios y
+            beneficios; los cambios se comunicarán de forma razonable.
+          </p>
+        </section>
+
+        <section>
+          <h2>Cuenta y responsabilidad de la clínica</h2>
+          <p>
+            Al crear o administrar un espacio, aceptas estos términos en nombre de la clínica. El
+            Owner es responsable del workspace, de las personas que invita y del uso lícito de los
+            datos de pacientes dentro del producto. Debes contar con la base legal y los avisos que
+            tu práctica requiera para tratar información de salud o de clientes.
+          </p>
+        </section>
+
+        <section>
+          <h2>Uso aceptable</h2>
+          <p>Te comprometes a:</p>
+          <ul>
+            <li>Usar el servicio solo para la operación legítima de tu clínica.</li>
+            <li>No intentar acceder a espacios ajenos ni interferir con la plataforma.</li>
+            <li>
+              No compartir cuentas de forma que eluda los asientos contratados o los roles
+              asignados.
+            </li>
+            <li>No cargar contenido ilegal, engañoso o que vulnere derechos de terceros.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Datos de la clínica</h2>
+          <p>
+            Los datos que ingresas en el espacio siguen siendo de tu clínica. HabemusDandy los
+            procesa para prestar el servicio. La disponibilidad y las vías para recuperar o exportar
+            información dependen de las funciones que el producto ofrezca en cada momento; no
+            prometemos aquí un mecanismo de exportación formal distinto del que esté documentado o
+            disponible en el panel.
+          </p>
+        </section>
+
+        <section>
+          <h2>Disponibilidad y “tal cual”</h2>
+          <p>
+            Prestamos el servicio con diligencia comercial razonable, pero lo ofrecemos “tal cual”
+            y “según disponibilidad”. No garantizamos interrupciones cero ni atribuimos al producto
+            certificaciones (por ejemplo, SOC o HIPAA) que no poseamos de forma real y vigente.
+          </p>
+        </section>
+
+        <section>
+          <h2>Limitación</h2>
+          <p>
+            En la medida que permita la ley aplicable, HabemusDandy no responde por daños
+            indirectos, lucro cesante o pérdida de datos derivados del uso o de la imposibilidad de
+            usar el servicio, salvo dolo o negligencia grave. Nada en estos términos limita derechos
+            irrenunciables del consumidor o usuario cuando la ley los reserve.
+          </p>
+        </section>
+
+        <section>
+          <h2>Ley aplicable</h2>
+          <p>
+            Estos términos se interpretan conforme a las leyes de México. Cualquier controversia se
+            someterá a los tribunales competentes en México, sin perjuicio de normas imperativas que
+            te protejan en tu domicilio.
+          </p>
+        </section>
+
+        <section>
+          <h2>Contacto</h2>
+          <p>
+            Para dudas sobre estos términos, escribe a
+            <a href="mailto:hola@habemusdandy.com">hola@habemusdandy.com</a>.
+          </p>
+        </section>
+
+        <section>
+          <h2>Cambios</h2>
+          <p>
+            Podemos actualizar estos términos. Publicaremos la fecha de actualización en esta
+            página y, cuando el cambio sea material, avisaremos por un canal razonable. El uso
+            continuado del servicio después del aviso implica la aceptación de la versión vigente.
+          </p>
+        </section>
+
+        <section>
+          <h2>Más información</h2>
+          <p>
+            El tratamiento de datos se describe en
+            <a href="/privacidad">Políticas de privacidad</a>. El enfoque de acceso y aislamiento
+            está en <a href="/seguridad">Seguridad</a>.
+          </p>
+        </section>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .legal__inner {
+    max-width: 46rem;
+  }
+
+  .legal__header h1 {
+    margin: 0;
+    font-size: clamp(2.4rem, 5.5vw, 3.75rem);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 1.08;
+  }
+
+  .legal__updated {
+    margin: var(--space-4) 0 0;
+    color: var(--color-muted);
+    font-size: 0.9rem;
+  }
+
+  .legal__lead {
+    margin: var(--space-5) 0 0;
+    color: var(--color-muted);
+    font-size: 1.08rem;
+    line-height: 1.65;
+  }
+
+  .legal__body {
+    margin-top: clamp(2.5rem, 5vw, 3.5rem);
+    display: grid;
+    gap: clamp(1.75rem, 3vw, 2.25rem);
+  }
+
+  .legal__body h2 {
+    margin: 0 0 var(--space-3);
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .legal__body p,
+  .legal__body li {
+    margin: 0;
+    color: var(--color-ink-mid);
+    line-height: 1.7;
+  }
+
+  .legal__body p + p,
+  .legal__body ul {
+    margin-top: var(--space-3);
+  }
+
+  .legal__body ul {
+    padding-left: 1.2rem;
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .legal__body a {
+    color: var(--color-ink);
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+  }
+</style>

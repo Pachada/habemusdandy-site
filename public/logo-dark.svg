@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 0 206 40" role="img" aria-label="HabemusDandy">
+  <!-- Platform mark: rounded square with geometric diamond (dark surfaces) -->
+  <rect x="0" y="2" width="36" height="36" rx="9" fill="#f8f9fa"/>
+  <path
+    fill="#1a2f3d"
+    d="M18 9.5L26.5 18L18 26.5L9.5 18L18 9.5ZM18 13.2L13.2 18L18 22.8L22.8 18L18 13.2Z"
+  />
+  <!-- Wordmark -->
+  <text
+    x="48"
+    y="27"
+    fill="#f8f9fa"
+    font-family="Outfit, system-ui, -apple-system, 'Segoe UI', sans-serif"
+    font-size="22"
+    font-weight="600"
+    letter-spacing="-0.03em"
+  >HabemusDandy</text>
+</svg>

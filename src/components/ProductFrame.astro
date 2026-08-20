@@ -1,0 +1,1718 @@
+---
+interface Props {
+  variant?:
+    | 'agenda'
+    | 'client'
+    | 'note'
+    | 'hours'
+    | 'intake'
+    | 'note-mini'
+    | 'services'
+    | 'workflows'
+    | 'team'
+    | 'integrations'
+    | 'panel'
+  compact?: boolean
+  crop?: boolean
+  micro?: 'availability' | 'reservation' | 'record' | 'panel' | 'services' | 'forms' | 'hours' | 'team'
+  activeNav?: string
+  label?: string
+}
+
+const {
+  variant = 'agenda',
+  compact = false,
+  crop = false,
+  micro,
+  activeNav = 'Citas',
+  label = 'HabemusDandy',
+} = Astro.props
+
+const hideSidebar = compact || crop
+
+const nav = [
+  'Panel principal',
+  'Citas',
+  'Clientes',
+  'Servicios',
+  'Formularios',
+  'Horario',
+  'Integraciones',
+  'Administración',
+]
+---
+
+<figure
+  class:list={[
+    'product-frame',
+    (compact || crop) && 'product-frame--compact',
+    crop && 'product-frame--crop',
+    micro && `product-frame--micro-${micro}`,
+  ]}
+  data-product-frame={variant}
+  role="img"
+  aria-label={`${label}, vista previa del producto`}
+>
+  <div class="product-frame__chrome" aria-hidden="true">
+    <span></span><span></span><span></span>
+    <p>{label}</p>
+  </div>
+  <div class="product-frame__shell">
+    {
+      !hideSidebar && (
+        <aside class="product-frame__sidebar">
+          <div class="product-frame__brand">
+            <span class="product-frame__mark"></span>
+            <span>HabemusDandy</span>
+          </div>
+          <ul>
+            {nav.map((item) => (
+              <li class:list={[item === activeNav && 'is-active']}>
+                <span class="product-frame__nav-dot"></span>
+                {item}
+              </li>
+            ))}
+          </ul>
+    </aside>
+      )
+    }
+    <div class="product-frame__main">
+      {
+        variant === 'panel' && (
+          <div class="ui-panel-principal">
+            <div class="ui-toolbar">
+              <div>
+                <p class="ui-kicker">Panel principal</p>
+                <h3>Hoy en la clínica</h3>
+              </div>
+              <div class="ui-toolbar__meta">
+                <span class="status-dot status-dot--ok"></span>
+                <span>4 citas hoy</span>
+              </div>
+            </div>
+            <div class="ui-panel-principal__summary">
+              <span>Mar · 14 mar</span>
+              <span>2 ingresos pendientes</span>
+            </div>
+            <ul class="ui-today-list">
+              <li class="is-done">
+                <span class="status-dot status-dot--ok"></span>
+                <span><strong>09:00 · Ana Rojas</strong><small>Fisioterapia</small></span>
+                <em>Lista</em>
+              </li>
+              <li class="is-current">
+                <span class="status-dot status-dot--brand"></span>
+                <span><strong>10:30 · Luis Mena</strong><small>Evaluación</small></span>
+                <em>En curso</em>
+              </li>
+              <li>
+                <span class="status-dot"></span>
+                <span><strong>12:00 · Carla Díaz</strong><small>Revisión</small></span>
+                <em>Confirmada</em>
+              </li>
+            </ul>
+            <div class="ui-panel-principal__actions">
+              <span>+ Nueva cita</span>
+              <span>Revisar ingresos</span>
+            </div>
+          </div>
+        )
+      }
+      {
+        variant === 'agenda' && (
+          <div class="ui-agenda">
+            <div class="ui-toolbar">
+              <div>
+                <p class="ui-kicker">Citas</p>
+                <h3>Semana del 11 al 17</h3>
+              </div>
+              <div class="ui-toolbar__meta">
+                <span class="status-dot status-dot--ok"></span>
+                <span>12 confirmadas</span>
+              </div>
+            </div>
+            <div class="ui-week">
+              {['Lun', 'Mar', 'Mié', 'Jue', 'Vie'].map((day, i) => (
+                <div class:list={['ui-day', i === 2 && 'is-today']}>
+                  <header>
+                    <span>{day}</span>
+                    <strong>{11 + i}</strong>
+                  </header>
+                  <div class="ui-slots">
+                    {i === 0 && (
+                      <>
+                        <article class="ui-appt">
+                          <span class="status-dot status-dot--brand"></span>
+                          <div>
+                            <strong>09:00 · Fisioterapia</strong>
+                            <p>Ana Rojas</p>
+                          </div>
+                        </article>
+                        <article class="ui-appt ui-appt--muted">
+                          <span class="status-dot"></span>
+                          <div>
+                            <strong>11:30 · Evaluación</strong>
+                            <p>Luis Mena</p>
+                          </div>
+                        </article>
+                      </>
+                    )}
+                    {i === 1 && (
+                      <article class="ui-appt">
+                        <span class="status-dot status-dot--ok"></span>
+                        <div>
+                          <strong>10:00 · Revisión</strong>
+                          <p>Carla Díaz</p>
+                        </div>
+                      </article>
+                    )}
+                    {i === 2 && (
+                      <>
+                        <article class="ui-appt ui-appt--now">
+                          <span class="status-dot status-dot--warn"></span>
+                          <div>
+                            <strong>08:30 · Sesión</strong>
+                            <p><span class="ui-appt__wide">En curso · Sofía P.</span><span class="ui-appt__compact">Sofía P.</span></p>
+                          </div>
+                        </article>
+                        <article class="ui-appt">
+                          <span class="status-dot status-dot--brand"></span>
+                          <div>
+                            <strong>13:00 · Deportiva</strong>
+                            <p>Marco V.</p>
+                          </div>
+                        </article>
+                      </>
+                    )}
+                    {i === 3 && (
+                      <article class="ui-appt">
+                        <span class="status-dot status-dot--ok"></span>
+                        <div>
+                          <strong>16:00 · Control</strong>
+                          <p>Elena Ruiz</p>
+                        </div>
+                      </article>
+                    )}
+                    {i === 4 && (
+                      <article class="ui-appt ui-appt--muted">
+                        <span class="status-dot"></span>
+                        <div>
+                          <strong>09:30 · Ingreso</strong>
+                          <p>Nuevo cliente</p>
+                        </div>
+                      </article>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )
+      }
+
+      {
+        variant === 'client' && (
+          <div class="ui-client">
+            <div class="ui-toolbar">
+              <div>
+                <p class="ui-kicker">Clientes</p>
+                <h3>Ficha · Ana Rojas</h3>
+              </div>
+              <div class="ui-toolbar__meta">
+                <span class="status-dot status-dot--ok"></span>
+                <span>Ingreso completo</span>
+              </div>
+            </div>
+            <div class="ui-client__chip">
+              <span class="status-dot status-dot--brand"></span>
+              <span>Sesión anterior · 12 mar · Fisioterapia</span>
+            </div>
+            <div class="ui-client__grid">
+              <div class="ui-panel">
+                <p class="ui-panel__label">Resumen</p>
+                <dl>
+                  <div><dt>Teléfono</dt><dd>+34 600 000 214</dd></div>
+                  <div><dt>Última visita</dt><dd>12 mar · Fisioterapia</dd></div>
+                  <div><dt>Próxima</dt><dd>Vie 09:00</dd></div>
+                </dl>
+              </div>
+              <div class="ui-panel">
+                <p class="ui-panel__label">Formulario de ingreso</p>
+                <ul class="ui-checklist">
+                  <li><span class="status-dot status-dot--ok"></span> Datos personales</li>
+                  <li><span class="status-dot status-dot--ok"></span> Motivo de consulta</li>
+                  <li><span class="status-dot status-dot--ok"></span> Consentimiento</li>
+                  <li><span class="status-dot status-dot--warn"></span> Antecedentes · pendiente revisión</li>
+                </ul>
+              </div>
+              <div class="ui-panel ui-panel--visits">
+                <p class="ui-panel__label">Visitas recientes</p>
+                <ul class="ui-visits">
+                  <li>
+                    <span class="ui-visits__when">12 mar</span>
+                    <span class="ui-visits__what">Fisioterapia</span>
+                    <span class="status-dot status-dot--ok" title="Completada"></span>
+                  </li>
+                  <li>
+                    <span class="ui-visits__when">05 mar</span>
+                    <span class="ui-visits__what">Revisión</span>
+                    <span class="status-dot status-dot--ok" title="Completada"></span>
+                  </li>
+                  <li>
+                    <span class="ui-visits__when">26 feb</span>
+                    <span class="ui-visits__what">Evaluación</span>
+                    <span class="status-dot status-dot--brand" title="Con nota"></span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        )
+      }
+
+      {
+        variant === 'note' && (
+          <div class="ui-note">
+            <div class="ui-toolbar">
+              <div>
+                <p class="ui-kicker">Clínica</p>
+                <h3>Nota de sesión</h3>
+              </div>
+              <div class="ui-toolbar__meta">
+                <span class="status-dot status-dot--brand"></span>
+                <span>Continuidad</span>
+              </div>
+            </div>
+            <div class="ui-note__chip">
+              <span class="status-dot status-dot--ok"></span>
+              <span>Sesión anterior · 12 mar · plan vigente</span>
+            </div>
+            <div class="ui-note__layout">
+              <div class="ui-note__card">
+                <header>
+                  <strong>Ana Rojas · Sesión 6</strong>
+                  <span>14 mar · 45 min</span>
+                </header>
+                <p class="ui-note__label">Objetivo</p>
+                <p>Recuperar movilidad lumbar sin dolor en carga.</p>
+                <p class="ui-note__label">Hallazgos</p>
+                <p>Mejora en flexión. Persiste tensión paravertebral izquierda.</p>
+                <p class="ui-note__label ui-note__plan">Plan</p>
+                <p class="ui-note__plan-copy">Progresar estabilización y revaluar en la siguiente visita.</p>
+              </div>
+              <aside class="ui-note__side">
+                <p class="ui-note__label">En esta visita</p>
+                <ul>
+                  <li><span class="status-dot status-dot--warn"></span> Dolor en carga</li>
+                  <li><span class="status-dot status-dot--ok"></span> Flexión mejor</li>
+                  <li><span class="status-dot status-dot--brand"></span> Plan siguiente</li>
+                </ul>
+              </aside>
+            </div>
+          </div>
+        )
+      }
+
+      {
+        variant === 'hours' && (
+          <div class="ui-hours">
+            <div class="ui-toolbar">
+              <div>
+                <p class="ui-kicker">Horario</p>
+                <h3>Disponibilidad semanal</h3>
+              </div>
+              <div class="ui-toolbar__meta">
+                <span class="status-dot status-dot--ok"></span>
+                <span>Lun–Vie · 08:00–20:00</span>
+              </div>
+            </div>
+            <div class="ui-hours__legend">
+              <span><i class="ui-hours__swatch ui-hours__swatch--open"></i> Disponible</span>
+              <span><i class="ui-hours__swatch ui-hours__swatch--block"></i> Bloqueo</span>
+              <span><i class="ui-hours__swatch ui-hours__swatch--short"></i> Cierre temprano</span>
+            </div>
+            <div class="ui-hours__meta">
+              <span>Zona horaria · Ciudad de México</span>
+              <strong>Excepción · 21 mar</strong>
+            </div>
+            <div class="ui-hours__grid">
+              {['Lun', 'Mar', 'Mié', 'Jue', 'Vie'].map((d, i) => (
+                <div class:list={['ui-hours__col', i === 4 && 'is-short']}>
+                  <span>{d}</span>
+                  <div class="ui-hours__block ui-hours__block--morning"></div>
+                  <div class="ui-hours__block ui-hours__block--gap"></div>
+                  <div class="ui-hours__block ui-hours__block--afternoon"></div>
+                  {i !== 4 && <div class="ui-hours__block ui-hours__block--evening"></div>}
+                </div>
+              ))}
+            </div>
+          </div>
+        )
+      }
+
+      {
+        variant === 'intake' && (
+          <div class="ui-intake">
+            <p class="ui-kicker">Ingreso · HabemusDandy</p>
+            <h3>Formulario del paciente</h3>
+            <ol>
+              <li class="is-done"><span>1</span> Datos</li>
+              <li class="is-current"><span>2</span> Motivo</li>
+              <li><span>3</span> Consentimiento</li>
+            </ol>
+            <div class="ui-intake__field ui-intake__field--name">
+              <span>Nombre</span>
+              <div></div>
+            </div>
+            <div class="ui-intake__field">
+              <span>¿Qué te trae a la clínica?</span>
+              <div></div>
+            </div>
+            <div class="ui-intake__signature">
+              <span>Consentimiento</span>
+              <strong>Firma lista</strong>
+            </div>
+          </div>
+        )
+      }
+
+      {
+        variant === 'note-mini' && (
+          <div class="ui-note-mini">
+            <p class="ui-kicker">Nota</p>
+            <strong>Sesión 6 · Continuidad</strong>
+            <p>Plan listo para la siguiente visita. Sin PDF suelto.</p>
+          </div>
+        )
+      }
+
+      {
+        variant === 'services' && (
+          <div class="ui-services">
+            <p class="ui-kicker">Servicios</p>
+            <h3>Duración y agenda</h3>
+            <ul>
+              <li><strong>Fisioterapia</strong><span>45 min</span></li>
+              <li><strong>Evaluación inicial</strong><span>60 min</span></li>
+              <li><strong>Revisión</strong><span>30 min</span></li>
+            </ul>
+          </div>
+        )
+      }
+
+      {
+        variant === 'workflows' && (
+          <div class="ui-workflows ui-workflows--roadmap">
+            <p class="ui-kicker">Próximamente</p>
+            <h3>Workflows en diseño</h3>
+            <span class="ui-workflows__badge">No disponible todavía</span>
+            <ul>
+              <li><span class="status-dot"></span> Recordatorios · planeado</li>
+              <li><span class="status-dot"></span> Reglas de seguimiento · planeado</li>
+            </ul>
+          </div>
+        )
+      }
+
+      {
+        variant === 'team' && (
+          <div class="ui-team">
+            <p class="ui-kicker">Equipo</p>
+            <h3>Roles</h3>
+            <ul>
+              <li><strong>Owner</strong><span>Configura la clínica</span></li>
+              <li><strong>Manager</strong><span>Coordina agenda y equipo</span></li>
+              <li><strong>Staff</strong><span>Atiende con el acceso necesario</span></li>
+            </ul>
+          </div>
+        )
+      }
+
+      {
+        variant === 'integrations' && (
+          <div class="ui-integrations">
+            <p class="ui-kicker">Integraciones</p>
+            <h3>Calendarios</h3>
+            <ul>
+              <li>
+                <img src="/integrations/google-calendar.svg" alt="" width="28" height="28" loading="lazy" decoding="async" />
+                <div>
+                  <strong>Google Calendar</strong>
+                  <span>Citas visibles en Google</span>
+                </div>
+              </li>
+              <li>
+                <img src="/integrations/apple-calendar.svg" alt="" width="28" height="28" loading="lazy" decoding="async" />
+                <div>
+                  <strong>Apple Calendar</strong>
+                  <span>Visible en Apple Calendar</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+        )
+      }
+    </div>
+  </div>
+</figure>
+
+<script>
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+  document.querySelectorAll<HTMLElement>('[data-product-frame]').forEach((frame) => {
+    if (reduceMotion) {
+      frame.classList.add('is-inview')
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return
+          frame.classList.add('is-inview')
+          observer.disconnect()
+        })
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -8% 0px' },
+    )
+
+    observer.observe(frame)
+  })
+</script>
+
+<style>
+  .product-frame {
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    container-type: inline-size;
+    background: var(--color-paper);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+  }
+
+  .product-frame__chrome {
+    display: grid;
+    grid-template-columns: auto auto auto 1fr;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 0.7rem 1rem;
+    background: color-mix(in srgb, var(--color-ink) 4%, var(--color-surface));
+  }
+
+  .product-frame__chrome span {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-ink) 18%, var(--color-surface));
+  }
+
+  .product-frame__chrome p {
+    margin: 0;
+    justify-self: center;
+    color: var(--color-muted);
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .product-frame__shell {
+    display: grid;
+    grid-template-columns: 11.5rem 1fr;
+    min-height: 22rem;
+    background: var(--color-paper);
+  }
+
+  .product-frame--compact .product-frame__shell {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+
+  .product-frame--crop .product-frame__shell {
+    min-height: 22.5rem;
+  }
+
+  .product-frame--crop .ui-week {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .product-frame--crop .ui-day {
+    display: block;
+    min-height: 13.25rem;
+  }
+
+  .product-frame--crop .ui-day:nth-child(n + 4) {
+    display: none;
+  }
+
+  .product-frame__sidebar {
+    padding: var(--space-4);
+    background: var(--color-surface);
+    border-right: 1px solid color-mix(in srgb, var(--color-ink) 6%, transparent);
+  }
+
+  .product-frame__brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .product-frame__mark {
+    width: 1.35rem;
+    height: 1.35rem;
+    border-radius: 0.35rem;
+    background:
+      linear-gradient(135deg, transparent 42%, var(--color-paper) 42% 58%, transparent 58%),
+      var(--color-ink);
+    background-size: 100% 100%;
+  }
+
+  .product-frame__sidebar ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.2rem;
+  }
+
+  .product-frame__sidebar li {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.38rem 0.45rem;
+    border-radius: var(--radius-sm);
+    color: var(--color-muted);
+    font-size: 0.72rem;
+    font-weight: 500;
+  }
+
+  .product-frame__sidebar li.is-active {
+    background: var(--color-brand-soft);
+    color: var(--color-ink);
+  }
+
+  .product-frame__nav-dot {
+    width: 0.35rem;
+    height: 0.35rem;
+    border-radius: 999px;
+    background: currentColor;
+    opacity: 0.45;
+  }
+
+  .product-frame__sidebar li.is-active .product-frame__nav-dot {
+    background: var(--color-brand);
+    opacity: 1;
+  }
+
+  .product-frame__main {
+    padding: var(--space-4);
+    overflow: hidden;
+    background: color-mix(in srgb, var(--color-paper) 82%, var(--color-surface));
+  }
+
+  .ui-toolbar {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-3);
+    align-items: flex-start;
+    margin-bottom: var(--space-4);
+  }
+
+  .ui-kicker {
+    margin: 0 0 0.2rem;
+    color: var(--color-muted);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .product-frame h3,
+  .ui-toolbar h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .ui-toolbar__meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--color-muted);
+    font-size: 0.75rem;
+  }
+
+  .ui-week {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: var(--space-2);
+  }
+
+  .ui-day {
+    min-height: 12rem;
+    min-width: 0;
+    padding: 0.65rem;
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+  }
+
+  .ui-day.is-today {
+    outline: 1px solid color-mix(in srgb, var(--color-brand) 28%, transparent);
+  }
+
+  .ui-day header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--space-2);
+    color: var(--color-muted);
+    font-size: 0.68rem;
+  }
+
+  .ui-slots {
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .ui-appt {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.35rem;
+    min-width: 0;
+    padding: 0.55rem;
+    border-radius: 0.75rem;
+    background: color-mix(in srgb, var(--color-brand) 10%, var(--color-surface));
+  }
+
+  :global(.js) .product-frame[data-product-frame='agenda']:not(.is-inview) .ui-appt {
+    opacity: 0;
+    transform: translateY(0.4rem);
+  }
+
+  .product-frame.is-inview .ui-appt {
+    animation: appt-in var(--duration-enter) var(--ease-out) both;
+  }
+
+  .ui-day:nth-child(1) .ui-appt:nth-child(1) { animation-delay: 40ms; }
+  .ui-day:nth-child(1) .ui-appt:nth-child(2) { animation-delay: 100ms; }
+  .ui-day:nth-child(2) .ui-appt:nth-child(1) { animation-delay: 160ms; }
+  .ui-day:nth-child(3) .ui-appt:nth-child(1) { animation-delay: 220ms; }
+  .ui-day:nth-child(3) .ui-appt:nth-child(2) { animation-delay: 280ms; }
+  .ui-day:nth-child(4) .ui-appt:nth-child(1) { animation-delay: 340ms; }
+  .ui-day:nth-child(5) .ui-appt:nth-child(1) { animation-delay: 400ms; }
+
+  .ui-appt > div {
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .ui-appt--muted {
+    background: color-mix(in srgb, var(--color-status-idle) 12%, var(--color-surface));
+  }
+
+  .ui-appt--now {
+    background: color-mix(in srgb, var(--color-status-warn) 14%, var(--color-surface));
+  }
+
+  .product-frame.is-inview .ui-appt--now {
+    animation:
+      appt-in var(--duration-enter) var(--ease-out) both,
+      appt-active-tint 720ms ease-out 180ms both;
+  }
+
+  .product-frame.is-inview .ui-appt--now .status-dot {
+    animation: status-pulse 900ms ease-out 220ms both;
+  }
+
+  .ui-appt strong,
+  .ui-appt p {
+    display: block;
+    overflow: hidden;
+    margin: 0;
+    font-size: 0.66rem;
+    line-height: 1.35;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-break: normal;
+    overflow-wrap: normal;
+  }
+
+  .ui-appt p {
+    color: var(--color-muted);
+    font-weight: 400;
+  }
+
+  .ui-appt__compact {
+    display: none;
+  }
+
+  .ui-client__chip,
+  .ui-note__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin: 0 0 var(--space-3);
+    padding: 0.45rem 0.7rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-brand) 10%, var(--color-surface));
+    color: var(--color-ink);
+    font-size: 0.72rem;
+    font-weight: 500;
+  }
+
+  .ui-note__chip {
+    background: color-mix(in srgb, var(--color-status-ok) 12%, var(--color-surface));
+  }
+
+  .ui-client__grid,
+  .ui-note__card,
+  .ui-note__side,
+  .ui-hours,
+  .ui-intake,
+  .ui-note-mini,
+  .ui-services,
+  .ui-workflows,
+  .ui-team,
+  .ui-integrations {
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+  }
+
+  .ui-client__grid {
+    display: grid;
+    gap: var(--space-3);
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .ui-panel {
+    padding: var(--space-4);
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+  }
+
+  .ui-panel__label,
+  .ui-note__label {
+    margin: 0 0 var(--space-2);
+    color: var(--color-muted);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  .ui-panel dl {
+    margin: 0;
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .ui-panel dl div {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-3);
+    font-size: 0.8rem;
+  }
+
+  .ui-panel dt {
+    color: var(--color-muted);
+  }
+
+  .ui-panel dd {
+    margin: 0;
+    font-weight: 500;
+  }
+
+  .ui-checklist {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: var(--space-2);
+    font-size: 0.82rem;
+  }
+
+  .ui-checklist li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .ui-visits {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  .ui-visits li {
+    position: relative;
+    display: grid;
+    grid-template-columns: 3.4rem 1fr auto;
+    gap: 0.5rem;
+    align-items: center;
+    padding: 0.45rem 0.55rem;
+    border-radius: var(--radius-sm);
+    background: color-mix(in srgb, var(--color-brand) 6%, var(--color-paper));
+    font-size: 0.75rem;
+  }
+
+  .ui-visits li:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0.82rem;
+    top: calc(50% + 0.45rem);
+    width: 1px;
+    height: calc(100% - 0.15rem);
+    background: color-mix(in srgb, var(--color-brand) 28%, transparent);
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+
+  .ui-visits__when {
+    color: var(--color-muted);
+    font-weight: 500;
+  }
+
+  .ui-visits__what {
+    font-weight: 500;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .ui-note__layout {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .ui-note__card {
+    padding: var(--space-4);
+  }
+
+  .ui-note__card header {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+    font-size: 0.85rem;
+  }
+
+  .ui-note__card header span {
+    color: var(--color-muted);
+  }
+
+  .ui-note__card p {
+    margin: 0 0 var(--space-3);
+    font-size: 0.88rem;
+    color: var(--color-ink);
+  }
+
+  .ui-note__side {
+    padding: var(--space-4);
+  }
+
+  .ui-note__side ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .ui-note__side li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+
+  :global(.js) .product-frame[data-product-frame='client'] .ui-visits li,
+  :global(.js) .product-frame[data-product-frame='intake'] .ui-intake li,
+  :global(.js) .product-frame[data-product-frame='intake'] .ui-intake__field,
+  :global(.js) .product-frame[data-product-frame='intake'] .ui-intake__signature,
+  :global(.js) .product-frame[data-product-frame='hours'] .ui-hours__block,
+  :global(.js) .product-frame[data-product-frame='team'] .ui-team li,
+  :global(.js) .product-frame[data-product-frame='services'] .ui-services li {
+    opacity: 0;
+    transform: translateY(0.35rem);
+  }
+
+  .product-frame.is-inview[data-product-frame='client'] .ui-visits li,
+  .product-frame.is-inview[data-product-frame='intake'] .ui-intake li {
+    animation: micro-scene-in var(--duration-enter) var(--ease-out) both;
+  }
+
+  .product-frame.is-inview[data-product-frame='client'] .ui-visits li:not(:last-child)::after {
+    animation: visit-link 420ms var(--ease-out) 220ms both;
+  }
+
+  .product-frame.is-inview[data-product-frame='client'] .ui-visits li:nth-child(2),
+  .product-frame.is-inview[data-product-frame='intake'] .ui-intake li:nth-child(2) {
+    animation-delay: 90ms;
+  }
+
+  .product-frame.is-inview[data-product-frame='client'] .ui-visits li:nth-child(3),
+  .product-frame.is-inview[data-product-frame='intake'] .ui-intake li:nth-child(3) {
+    animation-delay: 180ms;
+  }
+
+  .product-frame.is-inview[data-product-frame='intake'] .ui-intake__field--name {
+    animation: micro-scene-in var(--duration-enter) var(--ease-out) 160ms both;
+  }
+
+  .product-frame.is-inview[data-product-frame='intake'] .ui-intake__field:not(.ui-intake__field--name) {
+    animation: micro-scene-in var(--duration-enter) var(--ease-out) 280ms both;
+  }
+
+  .product-frame.is-inview[data-product-frame='intake'] .ui-intake__signature {
+    animation: micro-scene-in var(--duration-enter) var(--ease-out) 400ms both;
+  }
+
+  .product-frame.is-inview[data-product-frame='intake'] .ui-intake__signature strong {
+    animation: sign-ready 520ms ease-out 560ms both;
+  }
+
+  .product-frame.is-inview[data-product-frame='hours'] .ui-hours__block,
+  .product-frame.is-inview[data-product-frame='team'] .ui-team li,
+  .product-frame.is-inview[data-product-frame='services'] .ui-services li {
+    animation: micro-scene-in var(--duration-enter) var(--ease-out) both;
+  }
+
+  .product-frame.is-inview[data-product-frame='hours'] .ui-hours__block:nth-child(2),
+  .product-frame.is-inview[data-product-frame='team'] .ui-team li:nth-child(2),
+  .product-frame.is-inview[data-product-frame='services'] .ui-services li:nth-child(2) {
+    animation-delay: var(--stagger);
+  }
+
+  .product-frame.is-inview[data-product-frame='hours'] .ui-hours__block:nth-child(3),
+  .product-frame.is-inview[data-product-frame='team'] .ui-team li:nth-child(3),
+  .product-frame.is-inview[data-product-frame='services'] .ui-services li:nth-child(3) {
+    animation-delay: calc(var(--stagger) * 2);
+  }
+
+  .product-frame.is-inview[data-product-frame='hours'] .ui-hours__block:nth-child(4) {
+    animation-delay: calc(var(--stagger) * 3);
+  }
+
+  .product-frame.is-inview[data-product-frame='note'] .ui-note__plan,
+  .product-frame.is-inview[data-product-frame='note'] .ui-note__plan-copy {
+    animation: note-plan-highlight 900ms ease-out both;
+  }
+
+  .ui-hours,
+  .ui-intake,
+  .ui-note-mini,
+  .ui-services,
+  .ui-workflows,
+  .ui-team,
+  .ui-integrations {
+    padding: var(--space-4);
+  }
+
+  .ui-hours__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.1rem;
+    margin-bottom: var(--space-3);
+    color: var(--color-muted);
+    font-size: 0.72rem;
+  }
+
+  .ui-hours__legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .ui-hours__meta {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+    color: var(--color-muted);
+    font-size: 0.7rem;
+  }
+
+  .ui-hours__meta strong {
+    color: var(--color-status-warn);
+    font-weight: 500;
+  }
+
+  .ui-hours__swatch {
+    display: inline-block;
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 0.2rem;
+  }
+
+  .ui-hours__swatch--open {
+    background: color-mix(in srgb, var(--color-brand) 22%, var(--color-surface));
+  }
+
+  .ui-hours__swatch--block {
+    background: color-mix(in srgb, var(--color-status-idle) 28%, var(--color-surface));
+  }
+
+  .ui-hours__swatch--short {
+    background: color-mix(in srgb, var(--color-status-warn) 28%, var(--color-surface));
+  }
+
+  .ui-hours__grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+  }
+
+  .ui-hours__col {
+    display: grid;
+    gap: 0.35rem;
+    justify-items: center;
+  }
+
+  .ui-hours__col span {
+    color: var(--color-muted);
+    font-size: 0.72rem;
+    font-weight: 500;
+  }
+
+  .ui-hours__block {
+    width: 100%;
+    border-radius: var(--radius-sm);
+  }
+
+  .ui-hours__block--morning {
+    height: 2.1rem;
+    background: color-mix(in srgb, var(--color-brand) 18%, var(--color-surface));
+  }
+
+  .ui-hours__block--gap {
+    height: 0.7rem;
+    background: color-mix(in srgb, var(--color-status-idle) 22%, var(--color-surface));
+  }
+
+  .ui-hours__block--afternoon {
+    height: 2.4rem;
+    background: color-mix(in srgb, var(--color-brand) 26%, var(--color-surface));
+  }
+
+  .ui-hours__block--evening {
+    height: 1.5rem;
+    background: color-mix(in srgb, var(--color-status-ok) 18%, var(--color-surface));
+  }
+
+  .ui-hours__col.is-short .ui-hours__block--afternoon {
+    height: 1.2rem;
+    background: color-mix(in srgb, var(--color-status-warn) 24%, var(--color-surface));
+  }
+
+  .ui-intake ol {
+    margin: var(--space-3) 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    gap: var(--space-2);
+  }
+
+  .ui-intake li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--color-muted);
+    font-size: 0.75rem;
+  }
+
+  .ui-intake li span {
+    width: 1.2rem;
+    height: 1.2rem;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    background: var(--color-ink-soft);
+    font-size: 0.68rem;
+  }
+
+  .ui-intake li.is-done span,
+  .ui-intake li.is-current span {
+    background: var(--color-brand);
+    color: var(--color-surface);
+  }
+
+  .ui-intake li.is-current {
+    color: var(--color-ink);
+    font-weight: 500;
+  }
+
+  .product-frame.is-inview[data-product-frame='intake'] .ui-intake li.is-current span {
+    animation: status-pulse 900ms ease-out both;
+  }
+
+  .ui-intake__field span {
+    display: block;
+    margin-bottom: var(--space-2);
+    font-size: 0.78rem;
+    color: var(--color-muted);
+  }
+
+  .ui-intake__field div {
+    height: 3.5rem;
+    border-radius: var(--radius-sm);
+    background: var(--color-ink-soft);
+  }
+
+  .ui-intake__field--name div {
+    height: 1.35rem;
+  }
+
+  .ui-intake__signature {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+    padding: 0.45rem 0.6rem;
+    border-radius: var(--radius-sm);
+    background: color-mix(in srgb, var(--color-status-ok) 9%, var(--color-surface));
+    color: var(--color-muted);
+    font-size: 0.72rem;
+  }
+
+  .ui-intake__signature strong {
+    color: var(--color-status-ok);
+    font-weight: 600;
+  }
+
+  :global(.js) .product-frame[data-product-frame='intake']:not(.is-inview) .ui-intake__signature strong {
+    opacity: 0.42;
+  }
+
+  .ui-note-mini strong {
+    display: block;
+    margin: var(--space-2) 0;
+    font-size: 0.95rem;
+  }
+
+  .ui-note-mini p {
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 0.85rem;
+  }
+
+  .ui-services ul,
+  .ui-workflows ul,
+  .ui-team ul,
+  .ui-integrations ul {
+    margin: var(--space-3) 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .ui-services li,
+  .ui-team li {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: var(--space-3);
+    border-radius: var(--radius-sm);
+    background: var(--color-ink-soft);
+    font-size: 0.82rem;
+  }
+
+  .ui-services li:nth-child(1) {
+    background: color-mix(in srgb, var(--color-brand) 10%, var(--color-surface));
+  }
+
+  .ui-services li:nth-child(2) {
+    background: color-mix(in srgb, var(--color-status-ok) 10%, var(--color-surface));
+  }
+
+  .ui-workflows li:nth-child(1) {
+    background: color-mix(in srgb, var(--color-status-ok) 10%, var(--color-surface));
+  }
+
+  .ui-workflows li:nth-child(2) {
+    background: color-mix(in srgb, var(--color-brand) 10%, var(--color-surface));
+  }
+
+  .ui-services li span,
+  .ui-team li span,
+  .ui-integrations li span {
+    color: var(--color-muted);
+  }
+
+  .ui-workflows li,
+  .ui-integrations li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3);
+    border-radius: var(--radius-sm);
+    background: var(--color-ink-soft);
+    font-size: 0.82rem;
+  }
+
+  .ui-workflows--roadmap {
+    position: relative;
+    background: color-mix(in srgb, var(--color-status-warn) 4%, var(--color-surface));
+  }
+
+  .ui-workflows__badge {
+    display: inline-flex;
+    width: fit-content;
+    margin-top: var(--space-2);
+    padding: 0.28rem 0.5rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-status-warn) 12%, var(--color-surface));
+    color: var(--color-status-warn);
+    font-size: 0.68rem;
+    font-weight: 600;
+  }
+
+  .ui-workflows--roadmap li {
+    color: var(--color-muted);
+    opacity: 0.72;
+  }
+
+  .ui-integrations li {
+    align-items: flex-start;
+  }
+
+  .ui-integrations li img {
+    width: 2.15rem;
+    height: 2.15rem;
+    padding: 0.35rem;
+    border-radius: 0.65rem;
+    background: var(--color-surface);
+    box-shadow: var(--shadow-card);
+    object-fit: contain;
+  }
+
+  .ui-integrations li div {
+    display: grid;
+    gap: 0.15rem;
+  }
+
+  .ui-integrations li span::before {
+    content: '';
+    display: inline-block;
+    width: 0.4rem;
+    height: 0.4rem;
+    margin-right: 0.35rem;
+    border-radius: 50%;
+    background: var(--color-status-ok);
+  }
+
+  @container (min-width: 42rem) {
+    .ui-client__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .ui-panel--visits {
+      grid-column: 1 / -1;
+    }
+
+    .ui-note__layout {
+      grid-template-columns: 1.4fr 0.75fr;
+      align-items: start;
+    }
+  }
+
+  @media (max-width: 860px) {
+    .product-frame__shell {
+      grid-template-columns: 1fr;
+    }
+
+    .product-frame__sidebar {
+      display: none;
+    }
+
+    .ui-week {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .ui-day:nth-child(n + 5) {
+      display: none;
+    }
+  }
+
+  @container (max-width: 48rem) {
+    .product-frame__shell {
+      grid-template-columns: 1fr;
+    }
+
+    .product-frame__sidebar {
+      display: none;
+    }
+
+    .ui-week {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .ui-day:nth-child(n + 4) {
+      display: none;
+    }
+  }
+
+  @container (max-width: 34rem) {
+    .ui-appt__wide {
+      display: none;
+    }
+
+    .ui-appt__compact {
+      display: inline;
+    }
+
+    .ui-week {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .ui-day:nth-child(n + 3) {
+      display: none;
+    }
+
+    .ui-toolbar__meta {
+      display: none;
+    }
+  }
+
+  .ui-panel-principal,
+  .ui-services,
+  .ui-intake,
+  .ui-hours,
+  .ui-team {
+    min-width: 0;
+  }
+
+  .ui-panel-principal {
+    padding: var(--space-4);
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+  }
+
+  .ui-panel-principal__summary {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+    color: var(--color-muted);
+    font-size: 0.72rem;
+  }
+
+  .ui-today-list {
+    display: grid;
+    gap: 0.45rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .ui-today-list li {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 0.55rem;
+    align-items: center;
+    padding: 0.55rem 0.65rem;
+    border-radius: var(--radius-sm);
+    background: color-mix(in srgb, var(--color-ink) 4%, var(--color-surface));
+  }
+
+  .ui-today-list li.is-current {
+    background: color-mix(in srgb, var(--color-brand) 10%, var(--color-surface));
+  }
+
+  .ui-today-list li > span:nth-child(2) {
+    display: grid;
+    min-width: 0;
+  }
+
+  .ui-today-list strong,
+  .ui-today-list small {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .ui-today-list strong {
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .ui-today-list small,
+  .ui-today-list em {
+    color: var(--color-muted);
+    font-size: 0.66rem;
+    font-style: normal;
+  }
+
+  .ui-panel-principal__actions {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+    color: var(--color-brand-deep);
+    font-size: 0.7rem;
+    font-weight: 600;
+  }
+
+  /* Setup and bento micro-scenes animate product state once on entry. */
+  .product-frame--micro-availability .ui-hours__grid {
+    margin-top: 0.2rem;
+  }
+
+  .product-frame--micro-reservation .ui-appt--now {
+    background: color-mix(in srgb, var(--color-status-ok) 16%, var(--color-surface));
+  }
+
+  :global(.js) .product-frame--micro-reservation .ui-appt,
+  :global(.js) .product-frame--micro-availability .ui-hours__block,
+  :global(.js) .product-frame--micro-record .ui-panel,
+  :global(.js) .product-frame--micro-record .ui-visits li,
+  :global(.js) .product-frame--micro-panel .ui-today-list li,
+  :global(.js) .product-frame--micro-services .ui-services li,
+  :global(.js) .product-frame--micro-forms .ui-intake li,
+  :global(.js) .product-frame--micro-hours .ui-hours__block,
+  :global(.js) .product-frame--micro-team .ui-team li {
+    opacity: 0;
+    transform: translateY(0.35rem);
+  }
+
+  .product-frame--micro-reservation.is-inview .ui-appt,
+  .product-frame--micro-availability.is-inview .ui-hours__block,
+  .product-frame--micro-record.is-inview .ui-panel,
+  .product-frame--micro-record.is-inview .ui-visits li,
+  .product-frame--micro-panel.is-inview .ui-today-list li,
+  .product-frame--micro-services.is-inview .ui-services li,
+  .product-frame--micro-forms.is-inview .ui-intake li,
+  .product-frame--micro-hours.is-inview .ui-hours__block,
+  .product-frame--micro-team.is-inview .ui-team li {
+    animation: micro-scene-in var(--duration-enter) var(--ease-out) both;
+  }
+
+  .product-frame--micro-reservation.is-inview .ui-appt:nth-child(2),
+  .product-frame--micro-availability.is-inview .ui-hours__block:nth-child(2),
+  .product-frame--micro-record.is-inview .ui-visits li:nth-child(2),
+  .product-frame--micro-panel.is-inview .ui-today-list li:nth-child(2),
+  .product-frame--micro-services.is-inview .ui-services li:nth-child(2),
+  .product-frame--micro-forms.is-inview .ui-intake li:nth-child(2),
+  .product-frame--micro-hours.is-inview .ui-hours__block:nth-child(2),
+  .product-frame--micro-team.is-inview .ui-team li:nth-child(2) { animation-delay: 90ms; }
+
+  .product-frame--micro-panel.is-inview .ui-today-list li:nth-child(3),
+  .product-frame--micro-record.is-inview .ui-visits li:nth-child(3),
+  .product-frame--micro-services.is-inview .ui-services li:nth-child(3),
+  .product-frame--micro-forms.is-inview .ui-intake li:nth-child(3),
+  .product-frame--micro-hours.is-inview .ui-hours__block:nth-child(3),
+  .product-frame--micro-team.is-inview .ui-team li:nth-child(3) { animation-delay: 180ms; }
+
+  .product-frame--micro-services .ui-services li:nth-child(1) {
+    background: color-mix(in srgb, var(--color-brand) 12%, var(--color-surface));
+  }
+
+  .product-frame--micro-services .ui-services li:nth-child(2) {
+    background: color-mix(in srgb, var(--color-status-ok) 12%, var(--color-surface));
+  }
+
+  .product-frame--micro-services .ui-services li:nth-child(3) {
+    background: color-mix(in srgb, var(--color-status-warn) 11%, var(--color-surface));
+  }
+
+  .product-frame--micro-services .ui-services,
+  .product-frame--micro-forms .ui-intake,
+  .product-frame--micro-hours .ui-hours,
+  .product-frame--micro-team .ui-team {
+    padding: 0.7rem;
+  }
+
+  .product-frame--micro-services .ui-services ul,
+  .product-frame--micro-team .ui-team ul {
+    gap: 0.35rem;
+    margin-top: 0.5rem;
+  }
+
+  .product-frame--micro-services .ui-services li,
+  .product-frame--micro-team .ui-team li {
+    padding: 0.45rem 0.55rem;
+    font-size: 0.72rem;
+  }
+
+  .product-frame--micro-forms .ui-intake__field {
+    display: none;
+  }
+
+  .product-frame--micro-hours .ui-hours__legend {
+    display: none;
+  }
+
+  .product-frame--micro-hours .ui-hours__meta {
+    margin-bottom: 0.45rem;
+    font-size: 0.62rem;
+  }
+
+  .product-frame--micro-record .ui-client__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .product-frame--micro-record .ui-panel:nth-child(2) {
+    display: none;
+  }
+
+  .product-frame--micro-panel,
+  .product-frame--micro-services,
+  .product-frame--micro-forms,
+  .product-frame--micro-hours,
+  .product-frame--micro-team {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .product-frame--micro-panel .product-frame__shell,
+  .product-frame--micro-services .product-frame__shell,
+  .product-frame--micro-forms .product-frame__shell,
+  .product-frame--micro-hours .product-frame__shell,
+  .product-frame--micro-team .product-frame__shell {
+    flex: 1;
+    min-height: 0;
+  }
+
+  @container (max-width: 34rem) {
+    .ui-panel-principal__summary {
+      display: grid;
+    }
+
+    .ui-today-list li {
+      padding: 0.5rem;
+    }
+  }
+
+  @keyframes appt-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.4rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes micro-scene-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.35rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes note-plan-highlight {
+    0% { background: transparent; }
+    35% { background: color-mix(in srgb, var(--color-brand) 12%, transparent); }
+    100% { background: transparent; }
+  }
+
+  @keyframes appt-active-tint {
+    from {
+      background: color-mix(in srgb, var(--color-brand) 8%, var(--color-surface));
+    }
+    to {
+      background: color-mix(in srgb, var(--color-status-warn) 14%, var(--color-surface));
+    }
+  }
+
+  @keyframes visit-link {
+    from { transform: scaleY(0); }
+    to { transform: scaleY(1); }
+  }
+
+  @keyframes sign-ready {
+    from { opacity: 0.42; }
+    to { opacity: 1; }
+  }
+
+  @keyframes status-pulse {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-brand) 30%, transparent);
+    }
+    55% {
+      box-shadow: 0 0 0 0.45rem transparent;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .product-frame__main { padding: 0.75rem; }
+    .ui-toolbar { margin-bottom: 0.75rem; }
+    .product-frame h3,
+    .ui-toolbar h3 { font-size: 0.92rem; }
+    .ui-toolbar__meta { font-size: 0.66rem; }
+    .ui-day { min-height: 10.5rem; }
+
+    .product-frame--crop .ui-week {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .product-frame--crop .ui-day:nth-child(n + 3) {
+      display: none;
+    }
+
+    .product-frame--crop .ui-day {
+      min-height: 11.25rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ui-appt,
+    .product-frame.is-inview .ui-appt,
+    .product-frame.is-inview .ui-appt--now,
+    .product-frame--micro-reservation .ui-appt,
+    .product-frame--micro-availability .ui-hours__block,
+    .product-frame--micro-record .ui-panel,
+    .product-frame--micro-record .ui-visits li,
+    .product-frame--micro-panel .ui-today-list li,
+    .product-frame--micro-services .ui-services li,
+    .product-frame--micro-forms .ui-intake li,
+    .product-frame--micro-hours .ui-hours__block,
+    .product-frame--micro-team .ui-team li {
+      opacity: 1;
+      transform: none;
+      animation: none;
+    }
+
+    .product-frame[data-product-frame='client'] .ui-visits li,
+    .product-frame[data-product-frame='client'] .ui-visits li::after,
+    .product-frame[data-product-frame='intake'] .ui-intake li,
+    .product-frame[data-product-frame='intake'] .ui-intake__field,
+    .product-frame[data-product-frame='intake'] .ui-intake__signature,
+    .product-frame[data-product-frame='intake'] .ui-intake__signature strong,
+    .product-frame[data-product-frame='note'] .ui-note__plan,
+    .product-frame[data-product-frame='note'] .ui-note__plan-copy,
+    .product-frame[data-product-frame='intake'] .ui-intake li.is-current span,
+    .product-frame[data-product-frame='hours'] .ui-hours__block,
+    .product-frame[data-product-frame='team'] .ui-team li,
+    .product-frame[data-product-frame='services'] .ui-services li,
+    .product-frame.is-inview .ui-appt--now .status-dot {
+      opacity: 1;
+      transform: none;
+      animation: none;
+    }
+  }
+</style>

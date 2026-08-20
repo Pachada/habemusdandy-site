@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import { appLoginUrl } from '../config/site'
+
+const title = 'Página no encontrada'
+const description = 'Esa página no existe o se movió. Vuelve al inicio de HabemusDandy.'
+---
+
+<BaseLayout title={title} description={description} robots="noindex">
+  <section class="section not-found">
+    <div class="container not-found__inner reveal">
+      <p class="section-label">404</p>
+      <h1>Esta página no está en la clínica.</h1>
+      <p class="section-lead">
+        El enlace no existe o se movió. Vuelve al inicio, o entra al producto y a los precios.
+      </p>
+      <div class="not-found__actions">
+        <a class="btn btn--primary" href="/">Ir al inicio</a>
+        <a class="btn btn--ghost" href="/producto">Ver producto</a>
+      </div>
+      <p class="not-found__links">
+        <a class="text-link" href="/precios">Precios</a>
+        <a class="text-link" href={appLoginUrl}>Iniciar sesión</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found {
+    min-height: calc(100svh - var(--header-h) - 18rem);
+    display: grid;
+    align-items: center;
+  }
+
+  .not-found__inner {
+    max-width: 42rem;
+    padding-block: clamp(3rem, 8vw, 6rem);
+  }
+
+  .not-found h1 {
+    margin: 0;
+    font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+    text-wrap: pretty;
+  }
+
+  .not-found__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+  }
+
+  .not-found__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4) var(--space-6);
+    margin: var(--space-6) 0 0;
+  }
+</style>

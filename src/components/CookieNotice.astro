@@ -1,0 +1,176 @@
+---
+/**
+ * Essential-only cookie notice. Shown via JS if localStorage preference is absent.
+ * No document.cookie, no third-party scripts.
+ */
+const storageKey = 'habemusdandy-cookie-notice'
+---
+
+<div
+  class="cookie-notice"
+  data-cookie-notice
+  data-storage-key={storageKey}
+  role="region"
+  aria-label="Aviso sobre cookies"
+  hidden
+>
+  <span class="cookie-notice__icon" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" width="22" height="22">
+      <path
+        d="M12.2 3.2c.4 1.5 1.6 2.6 3.1 2.9 1.1.2 2 .9 2.5 1.8 1.6.4 2.8 1.8 3 3.5.1.5.1 1 .1 1.5 0 4.6-3.9 8.3-8.7 8.3S3.5 17.5 3.5 12.9c0-4.2 3.2-7.7 7.4-8.3.4-.4.9-.8 1.3-1.4Z"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linejoin="round"
+      />
+      <circle cx="9.2" cy="10.4" r="1" fill="currentColor" />
+      <circle cx="13.6" cy="9.4" r="0.75" fill="currentColor" />
+      <circle cx="11.4" cy="14.1" r="0.9" fill="currentColor" />
+      <circle cx="15.2" cy="13.6" r="0.7" fill="currentColor" />
+    </svg>
+  </span>
+  <p class="cookie-notice__text">
+    Guardamos en tu dispositivo solo la preferencia de este aviso. No usamos cookies de analítica ni
+    de publicidad.
+    <a class="cookie-notice__link" href="/privacidad">Políticas de privacidad</a>
+  </p>
+  <button class="cookie-notice__accept" type="button" data-cookie-accept>
+    Aceptar
+  </button>
+</div>
+
+<script>
+  const root = document.querySelector('[data-cookie-notice]') as HTMLElement | null
+  if (root) {
+    const key = root.dataset.storageKey || 'habemusdandy-cookie-notice'
+    const accept = root.querySelector('[data-cookie-accept]') as HTMLButtonElement | null
+    let accepted = false
+
+    try {
+      accepted = window.localStorage.getItem(key) === 'accepted'
+    } catch {
+      accepted = false
+    }
+
+    if (!accepted) {
+      root.hidden = false
+      root.classList.add('is-ready')
+    }
+
+    accept?.addEventListener('click', () => {
+      try {
+        window.localStorage.setItem(key, 'accepted')
+      } catch {
+        /* storage may be blocked; still dismiss for this session */
+      }
+      root.classList.remove('is-ready')
+      root.hidden = true
+    })
+  }
+</script>
+
+<style>
+  .cookie-notice {
+    position: fixed;
+    z-index: 30;
+    left: max(var(--space-4), env(safe-area-inset-left, 0px));
+    right: max(var(--space-4), env(safe-area-inset-right, 0px));
+    bottom: max(var(--space-4), env(safe-area-inset-bottom, 0px));
+    display: none;
+    align-items: center;
+    gap: var(--space-4);
+    max-width: none;
+    padding: var(--space-4) var(--space-5);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-float);
+    color: var(--color-ink);
+  }
+
+  .cookie-notice.is-ready {
+    display: flex;
+  }
+
+  .cookie-notice[hidden] {
+    display: none !important;
+  }
+
+  .cookie-notice__icon {
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    width: 2.35rem;
+    height: 2.35rem;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--color-brand) 10%, var(--color-surface));
+    color: var(--color-brand-deep);
+  }
+
+  .cookie-notice__text {
+    margin: 0;
+    flex: 1;
+    color: var(--color-ink-mid);
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+
+  .cookie-notice__link {
+    display: inline;
+    margin-left: 0.15rem;
+    color: var(--color-ink);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+
+  .cookie-notice__accept {
+    flex-shrink: 0;
+    align-self: center;
+    min-height: 2.35rem;
+    padding: 0.55rem 1rem;
+    border: none;
+    border-radius: 999px;
+    background: var(--color-brand);
+    color: var(--color-surface);
+    font: inherit;
+    font-size: 0.88rem;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: var(--shadow-card);
+    transition: background var(--motion-fast);
+  }
+
+  .cookie-notice__accept:hover {
+    background: var(--color-brand-deep);
+  }
+
+  .cookie-notice__accept:focus-visible,
+  .cookie-notice__link:focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 3px;
+  }
+
+  @media (min-width: 640px) {
+    .cookie-notice {
+      right: auto;
+      max-width: 28.5rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .cookie-notice.is-ready {
+      animation: cookie-notice-in 320ms var(--ease-out) both;
+    }
+  }
+
+  @keyframes cookie-notice-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.6rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

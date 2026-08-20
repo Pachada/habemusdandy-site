@@ -1,0 +1,305 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import ProductFrame from '../components/ProductFrame.astro'
+import Cta from '../components/Cta.astro'
+import { appSignupUrl } from '../config/site'
+
+const title = 'Producto'
+const description =
+  'Panel, citas, clientes, formularios, horario, roles e integraciones. Todo lo que la clínica necesita para operar.'
+
+const groups = [
+  {
+    id: 'panel',
+    label: 'Panel principal',
+    title: 'Hoy, sin buscar en cinco lugares.',
+    intro: 'Citas de hoy, estados y acciones rápidas en la vista que abre el equipo.',
+    items: [
+      { title: 'Citas de hoy', line: 'Lo próximo primero, sin buscar en varios lugares.' },
+      { title: 'Estados', line: 'Confirmada, en curso o lista para atender.' },
+      { title: 'Acciones rápidas', line: 'Nueva cita e ingresos pendientes a la mano.' },
+    ],
+    frame: 'panel' as const,
+    activeNav: 'Panel principal',
+  },
+  {
+    id: 'agenda',
+    label: 'Agenda',
+    title: 'La cita entra en la agenda.',
+    intro: 'Horario, servicios y disponibilidad para que reservar no dependa del chat.',
+    items: [
+      { title: 'Citas', line: 'Vista semanal clara para el día a día.' },
+      { title: 'Horario', line: 'Disponibilidad, excepciones y zona horaria.' },
+      { title: 'Servicios', line: 'Duración, precio y color definidos.' },
+      { title: 'Calendario', line: 'Salida a Google y suscripción Apple.' },
+    ],
+    frame: 'agenda' as const,
+    activeNav: 'Citas',
+  },
+  {
+    id: 'clientes',
+    label: 'Clientes',
+    title: 'La ficha abre con contexto.',
+    intro: 'Datos, visitas y notas anteriores aparecen juntos cuando llega el siguiente encuentro.',
+    items: [
+      { title: 'Fichas', line: 'Datos y visitas en un solo lugar.' },
+      { title: 'Historial', line: 'Lo anterior viaja con la ficha.' },
+      { title: 'Perfil', line: 'Información del cliente al abrir la ficha.' },
+      { title: 'Visitas', line: 'Sesiones recientes junto al contexto.' },
+    ],
+    frame: 'client' as const,
+    activeNav: 'Clientes',
+  },
+  {
+    id: 'clinica',
+    label: 'Clínica',
+    title: 'El seguimiento queda preparado.',
+    intro: 'Atiendes con el plan anterior a la vista y dejas listo el siguiente paso.',
+    items: [
+      { title: 'Notas', line: 'Registro por sesión, sin PDF perdido.' },
+      { title: 'Historial', line: 'Continuidad entre visitas.' },
+      { title: 'Seguimiento', line: 'Objetivo y plan visibles.' },
+      { title: 'Contexto', line: 'Ficha y nota juntas al atender.' },
+    ],
+    frame: 'note' as const,
+    activeNav: 'Clientes',
+  },
+  {
+    id: 'formularios',
+    label: 'Formularios',
+    title: 'El ingreso llega con tiempo.',
+    intro: 'Prepara preguntas, consentimiento y firma antes de que la persona llegue a la sesión.',
+    items: [
+      { title: 'Diseñador de ingreso', line: 'Campos y preguntas a tu medida.' },
+      { title: 'Marca', line: 'El formulario sigue el lenguaje de tu clínica.' },
+      { title: 'Consentimiento', line: 'Aceptación y firma en el mismo flujo.' },
+      { title: 'Enlace ligado', line: 'El ingreso llega antes de la cita.' },
+    ],
+    frame: 'intake' as const,
+    activeNav: 'Formularios',
+  },
+  {
+    id: 'equipo',
+    label: 'Administración',
+    title: 'Cada persona ve lo que necesita.',
+    intro: 'Roles, configuración y la identidad de la clínica en el mismo espacio de trabajo.',
+    items: [
+      { title: 'Usuarios', line: 'Owner, Manager y Staff según su responsabilidad.' },
+      { title: 'Roles', line: 'Acceso según la persona, no para todos igual.' },
+      { title: 'Branding', line: 'Personalización básica de la clínica.' },
+      { title: 'Configuración', line: 'Preferencias del espacio de trabajo.' },
+    ],
+    frame: 'team' as const,
+    activeNav: 'Administración',
+  },
+  {
+    id: 'integraciones',
+    label: 'Integraciones',
+    title: 'Se conecta con lo que ya usas.',
+    intro: 'Las citas de la clínica aparecen en los calendarios que el equipo ya abre cada día.',
+    items: [
+      { title: 'Google Calendar', line: 'Las citas de la clínica aparecen en Google.' },
+      { title: 'Apple Calendar', line: 'Consulta las mismas citas desde Apple Calendar.' },
+    ],
+    frame: 'integrations' as const,
+    activeNav: 'Integraciones',
+  },
+  {
+    id: 'automatizacion',
+    label: 'Próximamente',
+    title: 'Workflows, cuando estén listos',
+    intro: 'Planeamos automatizaciones para recordatorios y seguimiento; todavía no forman parte de lo que puedes usar hoy.',
+    items: [
+      { title: 'Recordatorios', line: 'Planeado para próximas versiones.' },
+      { title: 'Reglas de seguimiento', line: 'En diseño, aún no disponible.' },
+    ],
+    frame: 'workflows' as const,
+    activeNav: 'Workflows',
+  },
+]
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="section hero">
+    <div class="container hero__inner reveal">
+      <p class="section-label">Producto · de la cita al seguimiento</p>
+      <h1>Tu clínica ordenada, de la cita al seguimiento.</h1>
+      <p class="section-lead">
+        Agenda, formularios, fichas y notas clínicas en un solo flujo. Cada parte de la visita conserva el contexto de la anterior.
+      </p>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href={appSignupUrl}>Comenzar gratis</a>
+        <a class="btn btn--ghost" href="/precios">Ver precios</a>
+      </div>
+    </div>
+    <div class="container hero__visual reveal" data-reveal="scale" data-ambient>
+      <div class="ambient-float ambient-float--slow">
+        <ProductFrame variant="agenda" activeNav="Citas" label="Agenda semanal" />
+      </div>
+    </div>
+  </section>
+
+  {
+    groups.map((group, index) => (
+      <section class:list={['section', 'product-section', index % 2 === 1 && 'product-section--tint']} id={group.id}>
+        <div class:list={['container', 'group', index % 2 === 1 && 'group--reverse']}>
+          <div class="group__copy reveal">
+            <div class="group__label">
+              <span class="group__index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+              <p class="section-label">{group.label}</p>
+            </div>
+            <h2 class="section-title">{group.title}</h2>
+            <p class="section-lead">{group.intro}</p>
+            <ul>
+              {group.items.map((item) => (
+                <li>
+                  <strong>{item.title}</strong>
+                  <span>{item.line}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div class="group__visual reveal" data-ambient>
+            <div class="ambient-float ambient-float--slow">
+              <ProductFrame
+                variant={group.frame}
+                activeNav={group.activeNav}
+                label={group.label}
+                compact={group.frame !== 'agenda' && group.frame !== 'client' && group.frame !== 'note'}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+    ))
+  }
+
+  <Cta secondaryHref="/precios" secondaryLabel="Ver precios" />
+</BaseLayout>
+
+<style>
+  .hero__inner {
+    max-width: 48rem;
+  }
+
+  .hero h1 {
+    margin: 0;
+    max-width: 46rem;
+    font-size: clamp(2.55rem, 6vw, 4.8rem);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 1.02;
+    text-wrap: pretty;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-5);
+  }
+
+  .hero__visual {
+    width: min(100%, 62rem);
+    max-width: 100%;
+    min-width: 0;
+    margin: clamp(2.5rem, 5vw, 4rem) auto 0;
+  }
+
+  .group {
+    display: grid;
+    gap: clamp(2.5rem, 7vw, 7rem);
+    align-items: center;
+  }
+
+  .group__label {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  .group__label .section-label {
+    margin-bottom: var(--space-3);
+  }
+
+  .group__index {
+    display: inline-grid;
+    place-items: center;
+    width: 1.85rem;
+    height: 1.85rem;
+    margin-top: -0.2rem;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--color-brand) 10%, var(--color-surface));
+    color: var(--color-brand-deep);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  .product-section--tint {
+    background: color-mix(in srgb, var(--color-brand) 3%, var(--color-paper));
+  }
+
+  .group ul {
+    margin: var(--space-5) 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .group li {
+    position: relative;
+    display: grid;
+    grid-template-columns: 7.5rem 1fr;
+    gap: var(--space-3);
+    padding: 0.85rem 1rem;
+    border-radius: var(--radius-md);
+    background: color-mix(in srgb, var(--color-surface) 72%, transparent);
+    box-shadow: var(--shadow-card);
+  }
+
+  .group li::before {
+    content: '';
+    position: absolute;
+    left: 0.35rem;
+    top: 50%;
+    width: 0.25rem;
+    height: 0.25rem;
+    border-radius: 50%;
+    background: var(--color-brand);
+    transform: translateY(-50%);
+  }
+
+  .group li > * {
+    min-width: 0;
+  }
+
+  .group strong {
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  .group span {
+    color: var(--color-muted);
+    font-size: 0.95rem;
+  }
+
+  .group__visual {
+    min-width: 0;
+  }
+
+  @media (min-width: 900px) {
+    .group {
+      grid-template-columns: 0.95fr 1.05fr;
+    }
+
+    .group--reverse .group__copy {
+      order: 2;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .group li { grid-template-columns: 1fr; gap: 0.1rem; }
+  }
+</style>

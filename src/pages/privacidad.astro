@@ -1,0 +1,208 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+
+const title = 'Políticas de privacidad'
+const description =
+  'Cómo trata HabemusDandy los datos en el sitio de marketing y en el producto para clínicas.'
+const updated = '19 de agosto de 2026'
+---
+
+<BaseLayout title={title} description={description}>
+  <article class="legal section">
+    <div class="container legal__inner">
+      <header class="legal__header">
+        <p class="section-label">Legal</p>
+        <h1>Políticas de privacidad</h1>
+        <p class="legal__updated">Última actualización: {updated}</p>
+        <p class="legal__lead">
+          Esta política explica, en lenguaje claro, cómo tratamos información en el sitio de marketing
+          y en el producto HabemusDandy. No pretende sustituir un dictamen jurídico formal.
+        </p>
+      </header>
+
+      <div class="legal__body">
+        <section>
+          <h2>Responsable</h2>
+          <p>
+            El responsable del tratamiento descrito aquí es HabemusDandy. Para consultas sobre
+            privacidad, escribe a
+            <a href="mailto:hola@habemusdandy.com">hola@habemusdandy.com</a>.
+          </p>
+        </section>
+
+        <section>
+          <h2>Dos contextos distintos</h2>
+          <p>
+            Distinguimos el sitio público de marketing (<strong>habemusdandy.com</strong>) del
+            producto de operación clínica (<strong>app.habemusfisio.com</strong>).
+          </p>
+          <ul>
+            <li>
+              En el sitio de marketing puedes navegar páginas, leer precios y contactarnos. Hoy no
+              usamos cookies de publicidad ni de analítica.
+            </li>
+            <li>
+              En el producto, el personal de la clínica inicia sesión para gestionar agenda,
+              clientes, formularios, notas y equipo dentro de su espacio de trabajo.
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Espacio de la clínica y roles</h2>
+          <p>
+            Cada clínica opera como un espacio aislado. No mezclamos datos entre organizaciones. El
+            acceso del equipo se define por roles: Owner, Manager y Staff. Solo quien tiene el rol
+            adecuado puede ver o gestionar fichas y notas según la configuración de ese espacio.
+          </p>
+        </section>
+
+        <section>
+          <h2>Pacientes</h2>
+          <p>
+            Los pacientes no tienen panel en HabemusDandy y no necesitan crear una cuenta. Solo abren
+            el enlace de formulario de ingreso que la clínica les envía. No ven la agenda, las notas
+            clínicas ni los datos de otros clientes.
+          </p>
+          <p>
+            No vendemos listas de pacientes. Tampoco pedimos a tus clientes que se registren para
+            completar su ingreso.
+          </p>
+        </section>
+
+        <section>
+          <h2>Titularidad de los datos</h2>
+          <p>
+            Los datos de la clínica y de sus pacientes pertenecen a la clínica. HabemusDandy
+            procesa esa información para prestar el servicio de software. El Owner es responsable de
+            que el uso dentro del espacio sea lícito y acorde a la práctica de su clínica.
+          </p>
+        </section>
+
+        <section>
+          <h2>Derechos (ARCO)</h2>
+          <p>
+            Puedes solicitar acceso, rectificación, cancelación u oposición respecto de datos
+            personales que tratemos, escribiendo a
+            <a href="mailto:hola@habemusdandy.com">hola@habemusdandy.com</a>. Si la solicitud
+            concierne a datos de pacientes dentro de una clínica, te orientaremos para canalizarla
+            con el titular del espacio, que es quien decide sobre esos registros.
+          </p>
+        </section>
+
+        <section>
+          <h2>Sitio de marketing y preferencia de aviso</h2>
+          <p>
+            En este sitio no usamos cookies de publicidad ni de analítica. Podemos guardar en el
+            almacenamiento local de tu navegador una preferencia para recordar que aceptaste el
+            aviso y no volver a mostrarlo. Esa preferencia no identifica a un visitante con fines
+            publicitarios ni de medición de audiencia.
+          </p>
+        </section>
+
+        <section>
+          <h2>Conservación</h2>
+          <p>
+            Conservamos la cuenta y los datos del espacio mientras la clínica mantenga la
+            suscripción o el acceso activo. La información de ingreso y de atención se conserva el
+            tiempo necesario para la operación clínica y el funcionamiento del servicio. Si dejas de
+            usar el producto, puedes escribirnos para coordinar el cierre del espacio según las
+            condiciones vigentes.
+          </p>
+        </section>
+
+        <section>
+          <h2>Encargados del tratamiento</h2>
+          <p>
+            Para operar el sitio y el producto usamos proveedores de infraestructura (por ejemplo,
+            alojamiento). Solo reciben lo necesario para prestar ese servicio y no los usamos para
+            vender datos de pacientes.
+          </p>
+        </section>
+
+        <section>
+          <h2>Cambios</h2>
+          <p>
+            Podemos actualizar esta política. Publicaremos la fecha de la última actualización en
+            esta página. Si el cambio es relevante, te avisaremos por un canal razonable (por
+            ejemplo, el correo de la cuenta o un aviso en el producto).
+          </p>
+        </section>
+
+        <section>
+          <h2>Más información</h2>
+          <p>
+            Para el enfoque de acceso y aislamiento, consulta
+            <a href="/seguridad">Seguridad</a>. Las condiciones de uso del servicio están en
+            <a href="/terminos">Términos y condiciones</a>.
+          </p>
+        </section>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .legal__inner {
+    max-width: 46rem;
+  }
+
+  .legal__header h1 {
+    margin: 0;
+    font-size: clamp(2.4rem, 5.5vw, 3.75rem);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 1.08;
+  }
+
+  .legal__updated {
+    margin: var(--space-4) 0 0;
+    color: var(--color-muted);
+    font-size: 0.9rem;
+  }
+
+  .legal__lead {
+    margin: var(--space-5) 0 0;
+    color: var(--color-muted);
+    font-size: 1.08rem;
+    line-height: 1.65;
+  }
+
+  .legal__body {
+    margin-top: clamp(2.5rem, 5vw, 3.5rem);
+    display: grid;
+    gap: clamp(1.75rem, 3vw, 2.25rem);
+  }
+
+  .legal__body h2 {
+    margin: 0 0 var(--space-3);
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .legal__body p,
+  .legal__body li {
+    margin: 0;
+    color: var(--color-ink-mid);
+    line-height: 1.7;
+  }
+
+  .legal__body p + p,
+  .legal__body ul {
+    margin-top: var(--space-3);
+  }
+
+  .legal__body ul {
+    padding-left: 1.2rem;
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .legal__body a {
+    color: var(--color-ink);
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+  }
+</style>

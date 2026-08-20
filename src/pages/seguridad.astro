@@ -1,0 +1,145 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import Cta from '../components/Cta.astro'
+
+const title = 'Seguridad'
+const description =
+  'Quién ve los datos de la clínica, qué ven los pacientes y cómo se controla el acceso en HabemusDandy.'
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="section hero">
+    <div class="container hero__inner reveal">
+      <p class="section-label">Seguridad</p>
+      <h1>Datos de la clínica, con límites claros.</h1>
+      <p class="section-lead">
+        Cada clínica funciona como un espacio separado. Los roles limitan qué puede consultar y gestionar cada persona del equipo.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="container blocks">
+      <article class="block reveal">
+        <h2>Quién ve los datos de la clínica</h2>
+        <p>
+          Cada organización es un espacio propio. El personal entra con cuenta y rol: Owner configura
+          la clínica, Manager coordina agenda y equipo, Staff atiende con el acceso necesario. No mezclamos clínicas.
+        </p>
+      </article>
+      <article class="block reveal">
+        <h2>Qué ven los pacientes</h2>
+        <p>
+          El paciente no tiene panel. Solo abre el enlace de formulario de ingreso cuando tú se lo
+          envías. No ve agenda, notas clínicas ni datos de otros clientes.
+        </p>
+      </article>
+      <article class="block reveal">
+        <h2>Qué no hacemos</h2>
+        <p>
+          No vendemos listas de pacientes ni pedimos a tus clientes que creen una cuenta para completar su ingreso. Tampoco atribuimos al producto certificaciones que aún no posee.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="container note reveal">
+      <p class="section-label">Legal</p>
+      <h2 class="section-title">Privacidad y términos</h2>
+      <p class="section-lead">
+        El detalle del tratamiento de datos y las condiciones del servicio está en las páginas
+        legales.
+      </p>
+      <div class="note__links">
+        <a class="text-link" href="/privacidad">Políticas de privacidad</a>
+        <a class="text-link" href="/terminos">Términos y condiciones</a>
+      </div>
+    </div>
+  </section>
+
+  <Cta secondaryHref="/producto" secondaryLabel="Ver producto" />
+</BaseLayout>
+
+<style>
+  .hero__inner,
+  .note {
+    max-width: 50rem;
+  }
+
+  .hero h1 {
+    margin: 0;
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+  }
+
+  .blocks {
+    display: grid;
+    gap: var(--space-4);
+    counter-reset: security-block;
+  }
+
+  .block {
+    position: relative;
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    transition: transform var(--motion-base), box-shadow var(--motion-base);
+  }
+
+  .block:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  .block::before {
+    content: '0' counter(security-block);
+    counter-increment: security-block;
+    display: block;
+    margin-bottom: var(--space-7);
+    color: var(--color-ink);
+    font-size: 0.76rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+  }
+
+  .block h2 {
+    margin: 0 0 var(--space-3);
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .block p {
+    margin: 0;
+    color: var(--color-muted);
+    line-height: 1.65;
+  }
+
+  .note {
+    padding: clamp(1.5rem, 4vw, 3rem);
+    border-radius: var(--radius-lg);
+    background: color-mix(in srgb, var(--color-brand) 4%, var(--color-surface));
+    box-shadow: var(--shadow-card);
+  }
+
+  .note__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4) var(--space-6);
+    margin-top: var(--space-5);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .block:hover { transform: none; }
+  }
+
+  @media (min-width: 860px) {
+    .blocks {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+</style>

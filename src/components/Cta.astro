@@ -1,0 +1,211 @@
+---
+import { appSignupUrl } from '../config/site'
+
+interface Props {
+  title?: string
+  secondaryHref?: string
+  secondaryLabel?: string
+  tone?: 'navy' | 'warm'
+  showFlow?: boolean
+  label?: string
+  copy?: string
+}
+
+const {
+  title = 'Empieza con la próxima cita.',
+  secondaryHref = '/precios',
+  secondaryLabel = 'Ver precios',
+  tone = 'navy',
+  showFlow = false,
+  label = 'Siguiente paso',
+  copy = 'Reserva, ingreso, sesión y seguimiento, sin reconstruir la historia. Plan gratuito para comenzar.',
+} = Astro.props
+
+const flowSteps = ['Reserva', 'Formulario', 'Sesión', 'Seguimiento'] as const
+---
+
+<section class:list={['closing-cta', 'section', tone === 'warm' && 'closing-cta--warm']}>
+  <div class:list={['closing-cta__inner', 'container', 'reveal', showFlow && 'closing-cta__inner--split']}>
+    <div class="closing-cta__content">
+      <p class="section-label">{label}</p>
+      <h2 class="section-title">{title}</h2>
+      <p class="closing-cta__copy">{copy}</p>
+      <div class="closing-cta__actions">
+        <a class="btn btn--primary" href={appSignupUrl}>Comenzar gratis</a>
+        <a class="btn btn--ghost" href={secondaryHref}>{secondaryLabel}</a>
+      </div>
+    </div>
+    {
+      showFlow && (
+        <ol class="closing-cta__flow" aria-label="Flujo de la visita">
+          {flowSteps.map((step, index) => (
+            <li>
+              <span class="closing-cta__flow-num">0{index + 1}</span>
+              <span class="closing-cta__flow-label">{step}</span>
+            </li>
+          ))}
+        </ol>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .closing-cta__inner {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(3.5rem, 8vw, 7rem) clamp(1.5rem, 7vw, 6rem);
+    border-radius: var(--radius-xl);
+    background: var(--color-navy);
+    box-shadow: var(--shadow-float);
+    color: var(--color-surface);
+  }
+
+  .closing-cta--warm .closing-cta__inner {
+    background: color-mix(in srgb, var(--color-warm) 88%, var(--color-surface));
+    color: var(--color-ink);
+    box-shadow: var(--shadow-card);
+  }
+
+  .closing-cta__inner--split {
+    display: grid;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: center;
+  }
+
+  .closing-cta__inner::after {
+    content: '';
+    position: absolute;
+    width: 24rem;
+    height: 24rem;
+    right: -8rem;
+    bottom: -15rem;
+    border-radius: 50%;
+    border: 1px solid color-mix(in srgb, var(--color-surface) 16%, transparent);
+    box-shadow: 0 0 0 3rem color-mix(in srgb, var(--color-surface) 3%, transparent);
+  }
+
+  .closing-cta--warm .closing-cta__inner::after {
+    border-color: color-mix(in srgb, var(--color-ink) 8%, transparent);
+    box-shadow: 0 0 0 3rem color-mix(in srgb, var(--color-ink) 2%, transparent);
+  }
+
+  .closing-cta__inner :global(.section-label) {
+    color: color-mix(in srgb, var(--color-surface) 62%, transparent);
+  }
+
+  .closing-cta--warm .closing-cta__inner :global(.section-label) {
+    color: var(--color-muted);
+  }
+
+  .closing-cta__inner :global(.btn--ghost) {
+    color: var(--color-surface);
+    background: color-mix(in srgb, var(--color-surface) 8%, transparent);
+    border-color: color-mix(in srgb, var(--color-surface) 22%, transparent);
+  }
+
+  .closing-cta__inner :global(.btn--ghost:hover) {
+    color: var(--color-surface);
+    background: color-mix(in srgb, var(--color-surface) 16%, transparent);
+    border-color: color-mix(in srgb, var(--color-surface) 38%, transparent);
+  }
+
+  .closing-cta--warm .closing-cta__inner :global(.btn--ghost) {
+    color: var(--color-ink);
+    background: color-mix(in srgb, var(--color-surface) 72%, transparent);
+    border-color: color-mix(in srgb, var(--color-ink) 14%, transparent);
+  }
+
+  .closing-cta--warm .closing-cta__inner :global(.btn--ghost:hover) {
+    color: var(--color-ink);
+    background: var(--color-surface);
+    border-color: color-mix(in srgb, var(--color-ink) 26%, transparent);
+  }
+
+  .closing-cta__copy {
+    max-width: 34rem;
+    margin: var(--space-4) 0 0;
+    color: color-mix(in srgb, var(--color-surface) 68%, transparent);
+  }
+
+  .closing-cta--warm .closing-cta__copy {
+    color: var(--color-muted);
+  }
+
+  .closing-cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-5);
+  }
+
+  .closing-cta__inner :global(.section-title) {
+    max-width: 38rem;
+    font-size: clamp(2.3rem, 5vw, 4.5rem);
+  }
+
+  .closing-cta__inner :global(.btn--primary) {
+    background: var(--color-surface);
+    color: var(--color-navy);
+    box-shadow: none;
+  }
+
+  .closing-cta__inner :global(.btn--primary:hover) {
+    background: var(--color-ink-soft);
+    color: var(--color-navy);
+  }
+
+  .closing-cta--warm .closing-cta__inner :global(.btn--primary) {
+    background: var(--color-brand);
+    color: var(--color-surface);
+    box-shadow: 0 7px 16px rgba(0, 0, 0, 0.12);
+  }
+
+  .closing-cta--warm .closing-cta__inner :global(.btn--primary:hover) {
+    background: var(--color-brand-deep);
+    color: var(--color-surface);
+  }
+
+  .closing-cta__flow {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .closing-cta__flow li {
+    display: grid;
+    gap: 0.35rem;
+    padding: 0.95rem 1rem;
+    border-radius: var(--radius-md);
+    background: color-mix(in srgb, var(--color-surface) 8%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-surface) 12%, transparent);
+  }
+
+  .closing-cta__flow-num {
+    color: color-mix(in srgb, var(--color-surface) 55%, transparent);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+  }
+
+  .closing-cta__flow-label {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  @media (min-width: 900px) {
+    .closing-cta__inner--split {
+      grid-template-columns: 1.2fr 0.8fr;
+    }
+
+    .closing-cta__flow {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

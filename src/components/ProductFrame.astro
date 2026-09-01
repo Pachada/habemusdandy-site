@@ -9,6 +9,7 @@ interface Props {
     | 'note-mini'
     | 'services'
     | 'workflows'
+    | 'insights'
     | 'team'
     | 'integrations'
     | 'panel'
@@ -415,6 +416,49 @@ const nav = [
       }
 
       {
+        variant === 'insights' && (
+          <div class="ui-insights ui-insights--roadmap">
+            <div class="ui-insights__header">
+              <div>
+                <p class="ui-kicker">Próximamente</p>
+                <h3>Reportes</h3>
+              </div>
+              <span class="ui-insights__badge">No disponible todavía</span>
+            </div>
+            <div class="ui-insights__kpis">
+              <article class="ui-insights__kpi">
+                <span class="ui-insights__kpi-label">Citas</span>
+                <strong>48</strong>
+                <span class="ui-insights__kpi-meta">Esta semana</span>
+              </article>
+              <article class="ui-insights__kpi">
+                <span class="ui-insights__kpi-label">Ocupación</span>
+                <strong>72%</strong>
+                <span class="ui-insights__kpi-meta">Promedio semanal</span>
+              </article>
+              <article class="ui-insights__kpi">
+                <span class="ui-insights__kpi-label">Clientes</span>
+                <strong>126</strong>
+                <span class="ui-insights__kpi-meta">Activos</span>
+              </article>
+              <article class="ui-insights__kpi">
+                <span class="ui-insights__kpi-label">Servicios</span>
+                <strong>4</strong>
+                <span class="ui-insights__kpi-meta">Con citas</span>
+              </article>
+            </div>
+            <article class="ui-insights__ai">
+              <span class="status-dot status-dot--brand"></span>
+              <div>
+                <strong>Insight · ejemplo</strong>
+                <p>La ocupación del miércoles está por debajo del promedio. Podrías mover citas de seguimiento a ese día.</p>
+              </div>
+            </article>
+          </div>
+        )
+      }
+
+      {
         variant === 'team' && (
           <div class="ui-team">
             <p class="ui-kicker">Equipo</p>
@@ -778,6 +822,7 @@ const nav = [
   .ui-note-mini,
   .ui-services,
   .ui-workflows,
+  .ui-insights,
   .ui-team,
   .ui-integrations {
     background: var(--color-surface);
@@ -1018,6 +1063,7 @@ const nav = [
   .ui-note-mini,
   .ui-services,
   .ui-workflows,
+  .ui-insights,
   .ui-team,
   .ui-integrations {
     padding: var(--space-4);
@@ -1286,6 +1332,122 @@ const nav = [
   .ui-workflows--roadmap li {
     color: var(--color-muted);
     opacity: 0.72;
+  }
+
+  .ui-insights--roadmap {
+    position: relative;
+    background: color-mix(in srgb, var(--color-status-warn) 4%, var(--color-surface));
+  }
+
+  .ui-insights__header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+
+  .ui-insights__header h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .ui-insights__badge {
+    display: inline-flex;
+    flex-shrink: 0;
+    width: fit-content;
+    padding: 0.28rem 0.5rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-status-warn) 12%, var(--color-surface));
+    color: var(--color-status-warn);
+    font-size: 0.68rem;
+    font-weight: 600;
+  }
+
+  .ui-insights__kpis {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+  }
+
+  .ui-insights__kpi {
+    display: grid;
+    gap: 0.15rem;
+    padding: var(--space-3);
+    border-radius: var(--radius-sm);
+    background: color-mix(in srgb, var(--color-ink) 4%, var(--color-surface));
+    opacity: 0.72;
+  }
+
+  .ui-insights__kpi:nth-child(1) {
+    background: color-mix(in srgb, var(--color-brand) 10%, var(--color-surface));
+  }
+
+  .ui-insights__kpi:nth-child(2) {
+    background: color-mix(in srgb, var(--color-status-ok) 10%, var(--color-surface));
+  }
+
+  .ui-insights__kpi:nth-child(3) {
+    background: color-mix(in srgb, var(--color-brand) 8%, var(--color-surface));
+  }
+
+  .ui-insights__kpi:nth-child(4) {
+    background: color-mix(in srgb, var(--color-status-idle) 12%, var(--color-surface));
+  }
+
+  .ui-insights__kpi-label {
+    color: var(--color-muted);
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  .ui-insights__kpi strong {
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  .ui-insights__kpi-meta {
+    color: var(--color-muted);
+    font-size: 0.66rem;
+  }
+
+  .ui-insights__ai {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.55rem;
+    align-items: start;
+    padding: var(--space-3);
+    border-radius: var(--radius-sm);
+    background: color-mix(in srgb, var(--color-brand) 8%, var(--color-surface));
+    opacity: 0.72;
+  }
+
+  .ui-insights__ai strong {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+  }
+
+  .ui-insights__ai p {
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 0.75rem;
+    line-height: 1.45;
+  }
+
+  @container (min-width: 36rem) {
+    .ui-insights__kpis {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
   }
 
   .ui-integrations li {

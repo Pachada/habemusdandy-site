@@ -6,7 +6,7 @@ import { appSignupUrl } from '../config/site'
 
 const title = 'Producto'
 const description =
-  'Panel, citas, clientes, formularios, horario, roles e integraciones. Todo lo que la clínica necesita para operar.'
+  'Panel, citas, clientes, formularios, horario, roles e integraciones. Reportes e insights con IA en camino para la organización.'
 
 const groups = [
   {
@@ -116,6 +116,31 @@ const groups = [
     frame: 'workflows' as const,
     activeNav: 'Workflows',
   },
+  {
+    id: 'reportes',
+    label: 'Próximamente',
+    title: 'Insights con IA para tu organización.',
+    intro:
+      'Cuando esté listo, el panel leerá la actividad de tu clínica y te devolverá indicadores e insights para decidir con más claridad.',
+    items: [
+      {
+        title: 'Paneles y gráficos',
+        line: 'Visualiza citas, clientes, ocupación y servicios en un solo lugar.',
+      },
+      {
+        title: 'Vista de un vistazo',
+        line: 'Lo importante de tu organización, sin salir del panel.',
+      },
+      {
+        title: 'Insights con IA',
+        line: 'Análisis y recomendaciones a partir de la actividad de la clínica.',
+      },
+    ],
+    frame: 'insights' as const,
+    activeNav: 'Reportes',
+    frameLabel: 'Reportes',
+    footnote: 'La disponibilidad irá ligada al plan de tu organización.',
+  },
 ]
 ---
 
@@ -158,13 +183,16 @@ const groups = [
                 </li>
               ))}
             </ul>
+            {'footnote' in group && group.footnote && (
+              <p class="group__footnote">{group.footnote}</p>
+            )}
           </div>
           <div class="group__visual reveal" data-ambient>
             <div class="ambient-float ambient-float--slow">
               <ProductFrame
                 variant={group.frame}
                 activeNav={group.activeNav}
-                label={group.label}
+                label={'frameLabel' in group && group.frameLabel ? group.frameLabel : group.label}
                 compact={group.frame !== 'agenda' && group.frame !== 'client' && group.frame !== 'note'}
               />
             </div>
@@ -283,6 +311,13 @@ const groups = [
   .group span {
     color: var(--color-muted);
     font-size: 0.95rem;
+  }
+
+  .group__footnote {
+    margin: var(--space-4) 0 0;
+    color: var(--color-muted);
+    font-size: 0.82rem;
+    line-height: 1.45;
   }
 
   .group__visual {

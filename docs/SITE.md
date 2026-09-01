@@ -285,6 +285,7 @@ Calendly `/features` shape: hero, then grouped capabilities, then CTA. Not a sec
 6. **Administración** — usuarios, roles Owner/Manager/Staff, branding y configuración
 7. **Integraciones** — Google Calendar y Apple Calendar, únicamente lo que está vivo
 8. **Próximamente: Workflows** — recordatorios y reglas de seguimiento planeados, no disponibles todavía
+9. **Próximamente: Reportes e insights** — paneles, KPIs e insights con IA planeados para la organización, no disponibles todavía. Footnote quieta: disponibilidad ligada al plan.
 
 Each group: H2, short intro, 4–6 items (title + one line). One product mock per group, not per item.
 
@@ -299,7 +300,7 @@ Calendly `/pricing` shape, Koalendar scannability, our plans.
 1. H1: `Empieza gratis. Crece con tu equipo.`
 2. Billing toggle (`Mensual` by default; `Anual` shows `−25%`, the $149 MXN / month launch price, and $1,788 MXN billed per seat per year)
 3. Plan cards (audience label, price, 5–8 bullets, CTA)
-4. Feature comparison table (rows grouped: Agenda, Clientes, Clínica, Equipo)
+4. Feature comparison table (rows grouped: Agenda, Clientes, Clínica, Equipo; roadmap rows for Workflows and Reportes e insights con IA use `—` / `Próximamente`, never imply live)
 5. FAQ (what counts as a seat, trial, invoices, what happens if you cancel)
 6. Closing CTA
 
@@ -363,6 +364,7 @@ Rules:
 - Spanish from Spain/LatAm-neutral; match dashboard copy (`Citas`, `Clientes`, `Formularios`)
 - Never claim a feature the app does not ship
 - Never claim certifications, analytics, or tracking we do not have
+- IA, reportes e insights are roadmap only — use `Próximamente` and future tense; never imply live AI or live metrics
 
 ---
 

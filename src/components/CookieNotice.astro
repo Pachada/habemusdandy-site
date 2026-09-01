@@ -3,7 +3,7 @@
  * Essential-only cookie notice. Shown via JS if localStorage preference is absent.
  * No document.cookie, no third-party scripts.
  */
-const storageKey = 'habemusdandy-cookie-notice'
+const storageKey = 'kintook-cookie-notice'
 ---
 
 <div
@@ -41,7 +41,7 @@ const storageKey = 'habemusdandy-cookie-notice'
 <script>
   const root = document.querySelector('[data-cookie-notice]') as HTMLElement | null
   if (root) {
-    const key = root.dataset.storageKey || 'habemusdandy-cookie-notice'
+    const key = root.dataset.storageKey || 'kintook-cookie-notice'
     const accept = root.querySelector('[data-cookie-accept]') as HTMLButtonElement | null
     let accepted = false
 

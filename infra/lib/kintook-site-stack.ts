@@ -24,7 +24,6 @@ export class KintookSiteStack extends cdk.Stack {
     cdk.Tags.of(this).add('DeployEnvironment', 'production')
     cdk.Tags.of(this).add('Project', 'Kintook')
 
-    const githubEnvironment = 'production'
     const appDeployWorkflow = 'deploy-prod.yml'
     const infraDeployWorkflow = 'deploy-infra.yml'
     const wwwDomainName = `www.${props.domainName}`
@@ -135,9 +134,9 @@ function handler(event) {
         {
           StringEquals: {
             'token.actions.githubusercontent.com:aud': 'sts.amazonaws.com',
-            'token.actions.githubusercontent.com:sub': `repo:${props.githubOrg}/${props.githubRepo}:environment:${githubEnvironment}`,
           },
           StringLike: {
+            'token.actions.githubusercontent.com:sub': `repo:${props.githubOrg}/${props.githubRepo}:*`,
             'token.actions.githubusercontent.com:job_workflow_ref': `${props.githubOrg}/${props.githubRepo}/.github/workflows/${appDeployWorkflow}@*`,
           },
         },
@@ -158,9 +157,9 @@ function handler(event) {
         {
           StringEquals: {
             'token.actions.githubusercontent.com:aud': 'sts.amazonaws.com',
-            'token.actions.githubusercontent.com:sub': `repo:${props.githubOrg}/${props.githubRepo}:environment:${githubEnvironment}`,
           },
           StringLike: {
+            'token.actions.githubusercontent.com:sub': `repo:${props.githubOrg}/${props.githubRepo}:*`,
             'token.actions.githubusercontent.com:job_workflow_ref': `${props.githubOrg}/${props.githubRepo}/.github/workflows/${infraDeployWorkflow}@*`,
           },
         },

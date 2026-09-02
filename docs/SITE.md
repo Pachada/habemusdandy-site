@@ -396,4 +396,4 @@ Rules:
 - Product shots: real dashboard captures (light scheme), lightly framed
 - `Comenzar` / `Iniciar sesión` are absolute URLs to the app origin (env), defaulting to `https://app.habemusfisio.com`
 - No auth, no org context, no API client in this repo
-- Hosting: S3 + CloudFront via CDK in `infra/` (see `infra/README.md`). Production domain is `kintook.com`. Dashboard stays on `app.habemusfisio.com`.
+- Hosting: S3 + CloudFront via CDK in `infra/` (see `infra/README.md`). Production domain is `kintook.com`. DNS stays at Cloudflare; CNAMEs point at CloudFront. Dashboard stays on `app.habemusfisio.com`.

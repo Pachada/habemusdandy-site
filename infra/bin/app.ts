@@ -5,8 +5,6 @@ import { KintookSiteStack } from '../lib/kintook-site-stack'
 const app = new cdk.App()
 
 const domainName = app.node.tryGetContext('domainName') as string
-const hostedZoneId = app.node.tryGetContext('hostedZoneId') as string
-const hostedZoneName = app.node.tryGetContext('hostedZoneName') as string
 const githubOrg = app.node.tryGetContext('githubOrg') as string
 const githubRepo = app.node.tryGetContext('githubRepo') as string
 const configuredOidcArn = app.node.tryGetContext('githubOidcProviderArn') as
@@ -18,8 +16,6 @@ const isPlaceholder = (value: string | undefined) =>
 
 for (const [key, value] of Object.entries({
   domainName,
-  hostedZoneId,
-  hostedZoneName,
   githubOrg,
   githubRepo,
 })) {
@@ -45,8 +41,6 @@ new KintookSiteStack(app, 'KintookSiteStack', {
     region: 'us-east-1',
   },
   domainName,
-  hostedZoneId,
-  hostedZoneName,
   githubOrg,
   githubRepo,
   githubOidcProviderArn,

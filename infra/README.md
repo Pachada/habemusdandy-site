@@ -1,11 +1,15 @@
 # Kintook Site — Infrastructure
 
 AWS CDK (TypeScript) for **production** marketing-site hosting in a single AWS
-account: S3 (private) + CloudFront + custom domain + GitHub OIDC deploy roles.
+account: S3 (private) + CloudFront + ACM + GitHub OIDC deploy roles.
 
-Same pattern as `Habemusfisio-ui`, without a staging stack. This is a multi-page
-Astro site, not an SPA. CloudFront serves real HTML routes and a real
-`/404.html`.
+DNS stays at **Cloudflare** (required by Cloudflare Registrar). This stack does
+**not** create a Route 53 hosted zone or records. You CNAME `kintook.com` and
+`www.kintook.com` at Cloudflare to the CloudFront domain.
+
+Same hosting pattern as `Habemusfisio-ui`, without a staging stack. This is a
+multi-page Astro site, not an SPA. CloudFront serves real HTML routes and a
+real `/404.html`.
 
 | Git branch | GitHub Environment | Stack              | Site URL       |
 | ---------- | ------------------ | ------------------ | -------------- |
@@ -17,8 +21,7 @@ Astro site, not an SPA. CloudFront serves real HTML routes and a real
 | ----------------------- | ----------------------------------------------------------------------- |
 | S3 Bucket               | Compiled static assets (private, OAC-only access)                       |
 | CloudFront Distribution | HTTPS, pretty-URL rewrite to `index.html`, hashed `/_astro/*` cache     |
-| ACM Certificate         | `kintook.com` (DNS-validated)                                           |
-| Route 53 A Record       | ALIAS to CloudFront                                                     |
+| ACM Certificate         | `kintook.com` + `www.kintook.com` (you add validation CNAMEs in Cloudflare) |
 | IAM OIDC Provider       | Import existing account provider (only one GitHub OIDC per account)     |
 | AppDeployRole           | Least-privilege role for app deploys (S3 sync + CF invalidation)        |
 | InfraDeployRole         | Elevated role for CDK deploys                                           |
@@ -39,42 +42,65 @@ Astro site, not an SPA. CloudFront serves real HTML routes and a real
 npx aws-cdk bootstrap aws://YOUR_ACCOUNT_ID/us-east-1
 ```
 
-### 2. Configure `cdk.json`
+If you already created a Route 53 hosted zone for `kintook.com`, you can delete
+it. It is unused.
 
-Set the Route 53 hosted zone ID for `kintook.com`. GitHub OIDC is imported from
-the target account (`arn:aws:iam::<account>:oidc-provider/token.actions.githubusercontent.com`).
-`githubRepo` stays `habemusdandy-site` until the GitHub repository is renamed.
+### 2. `cdk.json`
+
+GitHub OIDC is imported from the target account. `githubRepo` stays
+`habemusdandy-site` until the GitHub repository is renamed.
 
 ```json
 {
   "domainName": "kintook.com",
-  "hostedZoneId": "ZXXXXXXXXXXXXX",
-  "hostedZoneName": "kintook.com",
   "githubOrg": "Pachada",
   "githubRepo": "habemusdandy-site"
 }
 ```
 
-### 3. First deploy (local)
+### 3. First deploy (local) + Cloudflare DNS
 
 Chicken-and-egg: `InfraDeployRole` does not exist until the stack is created.
+ACM also waits until Cloudflare has the validation CNAMEs.
 
 ```bash
 cd infra
 npm ci
-
-npx cdk diff KintookSiteStack
 npx cdk deploy KintookSiteStack
 ```
+
+The deploy **pauses** on the ACM certificate. In another window:
+
+1. AWS Console → Certificate Manager (us-east-1) → the pending `kintook.com` cert.
+2. Copy both **CNAME name / CNAME value** pairs (apex and `www`).
+3. In Cloudflare DNS for `kintook.com`, add each as a **CNAME**, **DNS only**
+   (grey cloud, not proxied).
+
+When ACM becomes Issued, the rest of the stack creates. Copy
+`DistributionDomainName` from the outputs (`dxxxxx.cloudfront.net`).
+
+4. In Cloudflare DNS, add (also **DNS only** / grey cloud):
+
+   | Type  | Name | Target                         |
+   | ----- | ---- | ------------------------------ |
+   | CNAME | `@`  | `dxxxxx.cloudfront.net`        |
+   | CNAME | `www`| `dxxxxx.cloudfront.net`        |
+
+   Cloudflare flattens the apex CNAME. Do **not** orange-cloud (proxy) these
+   records: TLS is on CloudFront with the ACM cert.
+
+5. Remove any leftover A/AAAA records for `@` / `www` that would conflict.
 
 Outputs:
 
 ```
-KintookSiteStack.BucketName         = ...
-KintookSiteStack.DistributionId     = ...
-KintookSiteStack.AppDeployRoleArn   = arn:aws:iam::...:role/...
-KintookSiteStack.InfraDeployRoleArn = arn:aws:iam::...:role/...
-KintookSiteStack.SiteUrl            = https://kintook.com
+KintookSiteStack.BucketName              = ...
+KintookSiteStack.DistributionId          = ...
+KintookSiteStack.DistributionDomainName  = dxxxxx.cloudfront.net
+KintookSiteStack.CertificateArn          = arn:aws:acm:...
+KintookSiteStack.AppDeployRoleArn        = arn:aws:iam::...:role/...
+KintookSiteStack.InfraDeployRoleArn      = arn:aws:iam::...:role/...
+KintookSiteStack.SiteUrl                 = https://kintook.com
 ```
 
 ### 4. GitHub Environment secrets
@@ -94,11 +120,11 @@ OIDC trust is scoped to `environment:production` and workflow ref
 
 ### 5. Workflows
 
-| Workflow          | When                |
-| ----------------- | ------------------- |
-| `ci.yml`          | Pull requests       |
-| `deploy-prod.yml` | Push to `main`      |
-| `deploy-infra.yml`| Manual CDK          |
+| Workflow           | When           |
+| ------------------ | -------------- |
+| `ci.yml`           | Pull requests  |
+| `deploy-prod.yml`  | Push to `main` |
+| `deploy-infra.yml` | Manual CDK     |
 
 ---
 

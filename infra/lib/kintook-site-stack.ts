@@ -3,15 +3,11 @@ import * as s3 from 'aws-cdk-lib/aws-s3'
 import * as cloudfront from 'aws-cdk-lib/aws-cloudfront'
 import * as origins from 'aws-cdk-lib/aws-cloudfront-origins'
 import * as acm from 'aws-cdk-lib/aws-certificatemanager'
-import * as route53 from 'aws-cdk-lib/aws-route53'
-import * as targets from 'aws-cdk-lib/aws-route53-targets'
 import * as iam from 'aws-cdk-lib/aws-iam'
 import { Construct } from 'constructs'
 
 export interface KintookSiteStackProps extends cdk.StackProps {
   domainName: string
-  hostedZoneId: string
-  hostedZoneName: string
   githubOrg: string
   githubRepo: string
   /**
@@ -32,14 +28,14 @@ export class KintookSiteStack extends cdk.Stack {
     const appDeployWorkflow = 'deploy-prod.yml'
     const infraDeployWorkflow = 'deploy-infra.yml'
     const oidcWorkflowRef = 'refs/heads/main'
+    const wwwDomainName = `www.${props.domainName}`
 
-    const hostedZone = route53.HostedZone.fromHostedZoneAttributes(this, 'HostedZone', {
-      hostedZoneId: props.hostedZoneId,
-      zoneName: props.hostedZoneName,
-    })
+    // DNS stays at Cloudflare Registrar. Validation CNAMEs are added there
+    // while this deploy waits on ACM (see infra/README.md).
     const certificate = new acm.Certificate(this, 'Certificate', {
       domainName: props.domainName,
-      validation: acm.CertificateValidation.fromDns(hostedZone),
+      subjectAlternativeNames: [wwwDomainName],
+      validation: acm.CertificateValidation.fromDns(),
     })
 
     const siteBucket = new s3.Bucket(this, 'SiteBucket', {
@@ -99,7 +95,7 @@ function handler(event) {
           compress: true,
         },
       },
-      domainNames: [props.domainName],
+      domainNames: [props.domainName, wwwDomainName],
       certificate,
       defaultRootObject: 'index.html',
       errorResponses: [
@@ -117,12 +113,6 @@ function handler(event) {
         },
       ],
       minimumProtocolVersion: cloudfront.SecurityPolicyProtocol.TLS_V1_2_2021,
-    })
-
-    new route53.ARecord(this, 'SiteAliasRecord', {
-      zone: hostedZone,
-      recordName: props.domainName,
-      target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(distribution)),
     })
 
     const githubOidcProvider = props.githubOidcProviderArn
@@ -192,6 +182,16 @@ function handler(event) {
     new cdk.CfnOutput(this, 'DistributionId', {
       value: distribution.distributionId,
       description: 'Set as PROD_CF_DISTRIBUTION_ID in the GitHub "production" environment',
+    })
+    new cdk.CfnOutput(this, 'DistributionDomainName', {
+      value: distribution.distributionDomainName,
+      description:
+        'Cloudflare CNAME target for @ and www (DNS only / grey cloud, not proxied)',
+    })
+    new cdk.CfnOutput(this, 'CertificateArn', {
+      value: certificate.certificateArn,
+      description:
+        'ACM cert. While deploy waits, copy DNS validation CNAMEs from the ACM console into Cloudflare.',
     })
     new cdk.CfnOutput(this, 'AppDeployRoleArn', {
       value: appDeployRole.roleArn,

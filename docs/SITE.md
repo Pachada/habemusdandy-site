@@ -353,7 +353,7 @@ Rules:
 - Product UI mocks use existing status/appointment tokens for quiet color — not beige + one blue button only
 - No hardcoded one-off colors; CSS variables only
 - No Calendly organic blobs / illustration style
-- Static HTML first. JS only for the header drawer, billing toggle, journey tabs, FAQ accordion, reveal, ambient pause of in-view product frames, one-shot product-state entry, and the cookie notice (localStorage preference only; no analytics). Animate product state, never bouncing marketing text. Setup reveals availability blocks, a settling reservation, and ficha rows once; the bento reveals panel rows plus service/form/horario/role states once; Journey re-triggers only the newly active panel’s product state. Hero signal cards and product frames float 3px while in view. Reduced motion shows final state immediately.
+- Static HTML first. JS only for the header drawer, billing toggle, journey tabs, FAQ accordion, reveal, ambient pause of in-view product frames, one-shot product-state entry, the cookie notice (localStorage preference only; no analytics), and a short first-paint page loader. Animate product state, never bouncing marketing text. Setup reveals availability blocks, a settling reservation, and ficha rows once; the bento reveals panel rows plus service/form/horario/role states once; Journey re-triggers only the newly active panel’s product state. Hero signal cards and product frames float 3px while in view. Reduced motion shows final state immediately.
 ---
 
 ## 10. Voice

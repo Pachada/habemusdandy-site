@@ -1,0 +1,112 @@
+---
+import { siteName } from '../config/site'
+---
+
+<div class="page-loader" data-page-loader role="status" aria-live="polite">
+  <p class="sr-only">Cargando</p>
+  <div class="page-loader__mark">
+    <img src="/logo.svg" alt={siteName} width="118" height="32" decoding="async" />
+    <span class="page-loader__pulse" aria-hidden="true"></span>
+  </div>
+</div>
+
+<script>
+  const root = document.querySelector('[data-page-loader]') as HTMLElement | null
+  const html = document.documentElement
+  if (root) {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const finish = () => {
+      html.classList.remove('is-page-loading')
+      root.classList.add('is-done')
+      const drop = () => root.remove()
+      root.addEventListener('transitionend', drop, { once: true })
+      window.setTimeout(drop, 800)
+    }
+
+    if (reduceMotion) {
+      finish()
+    } else {
+      const started = performance.now()
+      const minMs = 400
+      const maxMs = 900
+      const painted = new Promise<void>((resolve) => {
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve()))
+      })
+      const fonts = document.fonts?.ready ?? Promise.resolve()
+      const cap = new Promise<void>((resolve) => {
+        window.setTimeout(resolve, maxMs)
+      })
+
+      Promise.race([Promise.all([painted, fonts]), cap]).then(() => {
+        const wait = Math.max(0, minMs - (performance.now() - started))
+        window.setTimeout(finish, wait)
+      })
+    }
+  }
+</script>
+
+<style>
+  .page-loader {
+    display: none;
+  }
+
+  :global(html.js) .page-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    display: grid;
+    place-items: center;
+    background: var(--color-paper);
+    transition: opacity var(--motion-base);
+  }
+
+  :global(html.js) .page-loader.is-done {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .page-loader__mark {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-4);
+  }
+
+  .page-loader__pulse {
+    width: 0.42rem;
+    height: 0.42rem;
+    border-radius: 50%;
+    background: var(--color-brand);
+    animation: page-loader-pulse var(--duration-ambient) var(--ease-standard) infinite;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  @keyframes page-loader-pulse {
+    0%,
+    100% {
+      transform: translateY(0);
+      opacity: 0.55;
+    }
+    50% {
+      transform: translateY(calc(var(--shift-3) * -1));
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .page-loader,
+    :global(html.js) .page-loader {
+      display: none;
+    }
+  }
+</style>

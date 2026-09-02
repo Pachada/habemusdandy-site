@@ -29,3 +29,9 @@ jobs:
         run: npm run build
         env:
           PUBLIC_APP_ORIGIN: https://app.habemusfisio.com
+
+      - name: Typecheck CDK
+        working-directory: infra
+        run: |
+          npm ci
+          npx tsc --noEmit

@@ -174,6 +174,12 @@ function handler(event) {
         resources: [`arn:aws:iam::${this.account}:role/${this.stackName}-*`],
       }),
     )
+    infraDeployRole.addToPolicy(
+      new iam.PolicyStatement({
+        actions: ['iam:GetRole', 'iam:PassRole', 'sts:AssumeRole'],
+        resources: [`arn:aws:iam::${this.account}:role/cdk-*`],
+      }),
+    )
 
     new cdk.CfnOutput(this, 'BucketName', {
       value: siteBucket.bucketName,

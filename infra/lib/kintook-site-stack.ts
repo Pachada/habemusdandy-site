@@ -27,7 +27,6 @@ export class KintookSiteStack extends cdk.Stack {
     const githubEnvironment = 'production'
     const appDeployWorkflow = 'deploy-prod.yml'
     const infraDeployWorkflow = 'deploy-infra.yml'
-    const oidcWorkflowRef = 'refs/heads/main'
     const wwwDomainName = `www.${props.domainName}`
 
     // DNS stays at Cloudflare Registrar. Validation CNAMEs are added there
@@ -137,7 +136,9 @@ function handler(event) {
           StringEquals: {
             'token.actions.githubusercontent.com:aud': 'sts.amazonaws.com',
             'token.actions.githubusercontent.com:sub': `repo:${props.githubOrg}/${props.githubRepo}:environment:${githubEnvironment}`,
-            'token.actions.githubusercontent.com:job_workflow_ref': `${props.githubOrg}/${props.githubRepo}/.github/workflows/${appDeployWorkflow}@${oidcWorkflowRef}`,
+          },
+          StringLike: {
+            'token.actions.githubusercontent.com:job_workflow_ref': `${props.githubOrg}/${props.githubRepo}/.github/workflows/${appDeployWorkflow}@*`,
           },
         },
       ),
@@ -158,7 +159,9 @@ function handler(event) {
           StringEquals: {
             'token.actions.githubusercontent.com:aud': 'sts.amazonaws.com',
             'token.actions.githubusercontent.com:sub': `repo:${props.githubOrg}/${props.githubRepo}:environment:${githubEnvironment}`,
-            'token.actions.githubusercontent.com:job_workflow_ref': `${props.githubOrg}/${props.githubRepo}/.github/workflows/${infraDeployWorkflow}@${oidcWorkflowRef}`,
+          },
+          StringLike: {
+            'token.actions.githubusercontent.com:job_workflow_ref': `${props.githubOrg}/${props.githubRepo}/.github/workflows/${infraDeployWorkflow}@*`,
           },
         },
       ),

@@ -86,6 +86,7 @@ function handler(event) {
         cachePolicy: htmlCachePolicy,
         compress: true,
         functionAssociations: [rewriteAssociation],
+        responseHeadersPolicy: cloudfront.ResponseHeadersPolicy.SECURITY_HEADERS,
       },
       additionalBehaviors: {
         '/_astro/*': {
@@ -93,6 +94,7 @@ function handler(event) {
           viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
           cachePolicy: cloudfront.CachePolicy.CACHING_OPTIMIZED,
           compress: true,
+          responseHeadersPolicy: cloudfront.ResponseHeadersPolicy.SECURITY_HEADERS,
         },
       },
       domainNames: [props.domainName, wwwDomainName],

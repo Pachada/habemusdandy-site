@@ -1,13 +1,13 @@
-# HabemusDandy Site
+# Kintook Site
 
-Public marketing site for [HabemusDandy](https://habemusfisio.com): product, pricing, and other visitor-facing pages.
+Public marketing site for [Kintook](https://kintook.com): product, pricing, and other visitor-facing pages.
 
 The clinic dashboard lives in a separate repo (`Habemusfisio-ui`) and should stay on the app origin (`https://app.habemusfisio.com`). This site is static and SEO-oriented.
 
 ## Stack
 
 - [Astro](https://astro.build) + TypeScript
-- Outfit typeface (self-hosted via `@fontsource/outfit`) and HabemusDandy brand tokens
+- Outfit typeface (self-hosted via `@fontsource/outfit`) and Kintook brand tokens
 
 ## Setup
 
@@ -29,6 +29,17 @@ npm install
 | `npm run preview`  | Preview the production build locally        |
 
 Background dev (see `AGENTS.md`): `astro dev --background`.
+
+## Deploy
+
+Static hosting is S3 + CloudFront in a single production AWS account, deployed
+with GitHub Actions over OIDC. See [`infra/README.md`](infra/README.md).
+
+| Workflow | When |
+| --- | --- |
+| `ci.yml` | Pull requests |
+| `deploy-prod.yml` | Push to `main` |
+| `deploy-infra.yml` | Manual CDK |
 
 ## Related repos
 

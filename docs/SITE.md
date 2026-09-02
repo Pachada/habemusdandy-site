@@ -1,6 +1,6 @@
-# HabemusDandy marketing site — baseline
+# Kintook marketing site — baseline
 
-This is the source of truth for information architecture, sections, and look of the public site. It is inspired by [Calendly](https://calendly.com/?redirect=false), [Cal.com](https://cal.com/es/), and [Koalendar](https://koalendar.com/), then brought down to **HabemusDandy**: clinic operations software, not a generic meeting scheduler.
+This is the source of truth for information architecture, sections, and look of the public site. It is inspired by [Calendly](https://calendly.com/?redirect=false), [Cal.com](https://cal.com/es/), and [Koalendar](https://koalendar.com/), then brought down to **Kintook**: clinic operations software, not a generic meeting scheduler.
 
 Copy language: **Spanish**. Dashboard login/signup stay in `Habemusfisio-ui`.
 
@@ -48,7 +48,7 @@ What we **do** take:
 
 ## 2. Our positioning
 
-HabemusDandy is the **operating system of the clinic**, not a booking link.
+Kintook is the **operating system of the clinic**, not a booking link.
 
 Calendly / Cal / Koalendar stop at “someone picks a time.” We continue into the visit: client record, intake, services, clinical notes, hours, and staff administration.
 
@@ -78,7 +78,7 @@ If a section does not serve one of those pillars, it does not belong on v1.
 Keep the first version small. These sites look large in the footer; their **conversion path** is three pages plus auth.
 
 ```text
-habemusdandy.com                    marketing (this repo)
+kintook.com                         marketing (this repo)
 app.habemusfisio.com                dashboard (Habemusfisio-ui)
 
 /                   Home
@@ -249,8 +249,8 @@ Two-column on desktop: intro left (optional text link `Comenzar gratis`, not a s
 Draft:
 
 1. ¿Por qué usar una herramienta de gestión si ya tengo WhatsApp y Calendar?
-2. ¿Qué diferencia a HabemusDandy de una agenda online?
-3. ¿Cómo sé si HabemusDandy encaja con mi clínica?
+2. ¿Qué diferencia a Kintook de una agenda online?
+3. ¿Cómo sé si Kintook encaja con mi clínica?
 4. ¿El paciente necesita crear una cuenta?
 5. ¿Puedo adaptar la herramienta a la forma en que trabaja mi equipo?
 6. ¿Dónde quedan los datos de mi clínica?
@@ -396,3 +396,4 @@ Rules:
 - Product shots: real dashboard captures (light scheme), lightly framed
 - `Comenzar` / `Iniciar sesión` are absolute URLs to the app origin (env), defaulting to `https://app.habemusfisio.com`
 - No auth, no org context, no API client in this repo
+- Hosting: S3 + CloudFront via CDK in `infra/` (see `infra/README.md`). Production domain is `kintook.com`. DNS stays at Cloudflare; CNAMEs point at CloudFront. Dashboard stays on `app.habemusfisio.com`.

@@ -23,6 +23,9 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 
+# CDK
+infra/cdk.out/
+
 # local visual references
 /cal/
 /calendly/

@@ -28,6 +28,11 @@ const pageTitle = title.includes(siteName) ? title : `${title} · ${siteName}`
       document.documentElement.classList.add('js')
       if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         document.documentElement.classList.add('is-page-loading')
+        window.setTimeout(function () {
+          document.documentElement.classList.remove('is-page-loading')
+          var loader = document.querySelector('[data-page-loader]')
+          if (loader) loader.remove()
+        }, 2000)
       }
     </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />

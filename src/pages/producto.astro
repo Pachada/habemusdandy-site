@@ -4,9 +4,9 @@ import ProductFrame from '../components/ProductFrame.astro'
 import Cta from '../components/Cta.astro'
 import { appSignupUrl } from '../config/site'
 
-const title = 'Producto'
+const title = 'Agenda, clientes y clínica, en el mismo flujo'
 const description =
-  'Panel, citas, clientes, formularios, horario, roles e integraciones. Reportes e insights con IA en camino para la organización.'
+  'Panel, agenda, fichas, formularios, automatizaciones, reportes, roles e integraciones: el flujo completo de la visita en un solo producto.'
 
 const groups = [
   {
@@ -62,7 +62,7 @@ const groups = [
       { title: 'Contexto', line: 'Ficha y nota juntas al atender.' },
     ],
     frame: 'note' as const,
-    activeNav: 'Clientes',
+    activeNav: 'Citas',
   },
   {
     id: 'formularios',
@@ -106,26 +106,36 @@ const groups = [
   },
   {
     id: 'automatizacion',
-    label: 'Próximamente',
-    title: 'Workflows, cuando estén listos',
-    intro: 'Planeamos automatizaciones para recordatorios y seguimiento; todavía no forman parte de lo que puedes usar hoy.',
+    label: 'Automatizaciones',
+    title: 'El recordatorio sale solo.',
+    intro:
+      'Email y SMS alrededor de la cita, configurados para tu clínica; incluidos en Equipos y Empresas, no en Gratis.',
     items: [
-      { title: 'Recordatorios', line: 'Planeado para próximas versiones.' },
-      { title: 'Reglas de seguimiento', line: 'En diseño, aún no disponible.' },
+      {
+        title: 'Cuándo se envía',
+        line: 'Minutos, horas o días antes del inicio o después del fin de la cita.',
+      },
+      { title: 'Email y SMS', line: 'Recordatorios y seguimiento por los dos canales.' },
+      {
+        title: 'A quién',
+        line: 'Cliente, profesional asignado u organización, según el flujo.',
+      },
+      { title: 'Pausar el flujo', line: 'Detén una automatización sin borrar la configuración.' },
     ],
     frame: 'workflows' as const,
-    activeNav: 'Workflows',
+    activeNav: 'Automatizaciones',
+    footnote: 'Incluidas en Equipos y Empresas. Gratis no las incluye.',
   },
   {
     id: 'reportes',
-    label: 'Próximamente',
-    title: 'Insights con IA para tu organización.',
+    label: 'Reportes',
+    title: 'Paneles e insights para tu organización.',
     intro:
-      'Cuando esté listo, el panel leerá la actividad de tu clínica y te devolverá indicadores e insights para decidir con más claridad.',
+      'Citas, clientes, ocupación y servicios en paneles, más insights a partir de la actividad; incluidos en Equipos y Empresas, no en Gratis.',
     items: [
       {
         title: 'Paneles y gráficos',
-        line: 'Visualiza citas, clientes, ocupación y servicios en un solo lugar.',
+        line: 'Citas, clientes, ocupación y servicios en un solo lugar.',
       },
       {
         title: 'Vista de un vistazo',
@@ -139,7 +149,7 @@ const groups = [
     frame: 'insights' as const,
     activeNav: 'Reportes',
     frameLabel: 'Reportes',
-    footnote: 'La disponibilidad irá ligada al plan de tu organización.',
+    footnote: 'Incluidos en Equipos y Empresas. Gratis no los incluye.',
   },
 ]
 ---
@@ -147,10 +157,10 @@ const groups = [
 <BaseLayout title={title} description={description}>
   <section class="section hero">
     <div class="container hero__inner reveal">
-      <p class="section-label">Producto · de la cita al seguimiento</p>
-      <h1>Tu clínica ordenada, de la cita al seguimiento.</h1>
+      <p class="section-label">Producto</p>
+      <h1>Agenda, clientes y clínica, en el mismo flujo.</h1>
       <p class="section-lead">
-        Agenda, formularios, fichas y notas clínicas en un solo flujo. Cada parte de la visita conserva el contexto de la anterior.
+        Panel, reservas, fichas y notas comparten el mismo contexto: cada módulo continúa donde terminó el anterior.
       </p>
       <div class="hero__actions">
         <a class="btn btn--primary" href={appSignupUrl}>Comenzar gratis</a>

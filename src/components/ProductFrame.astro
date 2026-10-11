@@ -31,7 +31,7 @@ const {
 
 const hideSidebar = compact || crop
 
-const nav = [
+const baseNav = [
   'Panel principal',
   'Citas',
   'Clientes',
@@ -41,6 +41,13 @@ const nav = [
   'Integraciones',
   'Administración',
 ]
+
+const nav =
+  variant === 'workflows'
+    ? [...baseNav.slice(0, -1), 'Automatizaciones', baseNav[baseNav.length - 1]]
+    : variant === 'insights'
+      ? [...baseNav.slice(0, -1), 'Reportes', baseNav[baseNav.length - 1]]
+      : baseNav
 ---
 
 <figure
@@ -403,13 +410,30 @@ const nav = [
 
       {
         variant === 'workflows' && (
-          <div class="ui-workflows ui-workflows--roadmap">
-            <p class="ui-kicker">Próximamente</p>
-            <h3>Workflows en diseño</h3>
-            <span class="ui-workflows__badge">No disponible todavía</span>
+          <div class="ui-workflows">
+            <div class="ui-toolbar">
+              <div>
+                <p class="ui-kicker">Automatizaciones</p>
+                <h3>Recordatorio antes de la cita</h3>
+              </div>
+              <div class="ui-toolbar__meta">
+                <span class="status-dot status-dot--ok"></span>
+                <span>3 flujos activos</span>
+              </div>
+            </div>
             <ul>
-              <li><span class="status-dot"></span> Recordatorios · planeado</li>
-              <li><span class="status-dot"></span> Reglas de seguimiento · planeado</li>
+              <li>
+                <span class="status-dot status-dot--ok"></span>
+                <span><strong>Email al cliente</strong> · 24 h antes del inicio</span>
+              </li>
+              <li>
+                <span class="status-dot status-dot--brand"></span>
+                <span><strong>SMS al cliente</strong> · 2 h antes del inicio</span>
+              </li>
+              <li>
+                <span class="status-dot status-dot--ok"></span>
+                <span><strong>SMS al cliente</strong> · 1 h después de la sesión</span>
+              </li>
             </ul>
           </div>
         )
@@ -417,13 +441,12 @@ const nav = [
 
       {
         variant === 'insights' && (
-          <div class="ui-insights ui-insights--roadmap">
+          <div class="ui-insights">
             <div class="ui-insights__header">
               <div>
-                <p class="ui-kicker">Próximamente</p>
-                <h3>Reportes</h3>
+                <p class="ui-kicker">Reportes</p>
+                <h3>Actividad de la clínica</h3>
               </div>
-              <span class="ui-insights__badge">No disponible todavía</span>
             </div>
             <div class="ui-insights__kpis">
               <article class="ui-insights__kpi">
@@ -450,7 +473,7 @@ const nav = [
             <article class="ui-insights__ai">
               <span class="status-dot status-dot--brand"></span>
               <div>
-                <strong>Insight · ejemplo</strong>
+                <strong>Insight</strong>
                 <p>La ocupación del miércoles está por debajo del promedio. Podrías mover citas de seguimiento a ese día.</p>
               </div>
             </article>
@@ -1295,6 +1318,14 @@ const nav = [
     background: color-mix(in srgb, var(--color-brand) 10%, var(--color-surface));
   }
 
+  .ui-workflows li:nth-child(3) {
+    background: color-mix(in srgb, var(--color-status-ok) 8%, var(--color-surface));
+  }
+
+  .ui-workflows li strong {
+    font-weight: 600;
+  }
+
   .ui-services li span,
   .ui-team li span,
   .ui-integrations li span {
@@ -1310,33 +1341,6 @@ const nav = [
     border-radius: var(--radius-sm);
     background: var(--color-ink-soft);
     font-size: 0.82rem;
-  }
-
-  .ui-workflows--roadmap {
-    position: relative;
-    background: color-mix(in srgb, var(--color-status-warn) 4%, var(--color-surface));
-  }
-
-  .ui-workflows__badge {
-    display: inline-flex;
-    width: fit-content;
-    margin-top: var(--space-2);
-    padding: 0.28rem 0.5rem;
-    border-radius: 999px;
-    background: color-mix(in srgb, var(--color-status-warn) 12%, var(--color-surface));
-    color: var(--color-status-warn);
-    font-size: 0.68rem;
-    font-weight: 600;
-  }
-
-  .ui-workflows--roadmap li {
-    color: var(--color-muted);
-    opacity: 0.72;
-  }
-
-  .ui-insights--roadmap {
-    position: relative;
-    background: color-mix(in srgb, var(--color-status-warn) 4%, var(--color-surface));
   }
 
   .ui-insights__header {
@@ -1355,18 +1359,6 @@ const nav = [
     letter-spacing: -0.02em;
   }
 
-  .ui-insights__badge {
-    display: inline-flex;
-    flex-shrink: 0;
-    width: fit-content;
-    padding: 0.28rem 0.5rem;
-    border-radius: 999px;
-    background: color-mix(in srgb, var(--color-status-warn) 12%, var(--color-surface));
-    color: var(--color-status-warn);
-    font-size: 0.68rem;
-    font-weight: 600;
-  }
-
   .ui-insights__kpis {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1380,7 +1372,6 @@ const nav = [
     padding: var(--space-3);
     border-radius: var(--radius-sm);
     background: color-mix(in srgb, var(--color-ink) 4%, var(--color-surface));
-    opacity: 0.72;
   }
 
   .ui-insights__kpi:nth-child(1) {
@@ -1427,7 +1418,6 @@ const nav = [
     padding: var(--space-3);
     border-radius: var(--radius-sm);
     background: color-mix(in srgb, var(--color-brand) 8%, var(--color-surface));
-    opacity: 0.72;
   }
 
   .ui-insights__ai strong {

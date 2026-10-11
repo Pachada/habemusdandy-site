@@ -1,8 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
 import ProductFrame from '../components/ProductFrame.astro'
+import HeroVisitSequence from '../components/HeroVisitSequence.astro'
 import ClinicJourney from '../components/ClinicJourney.astro'
 import BillingToggle from '../components/BillingToggle.astro'
+import PlanAssurance from '../components/PlanAssurance.astro'
 import Faq from '../components/Faq.astro'
 import Cta from '../components/Cta.astro'
 import { appSignupUrl, equiposPricing, faqItems, formatMxn, salesContactUrl } from '../config/site'
@@ -13,9 +15,9 @@ const annualList = formatMxn(equiposPricing.annualListPerMonth)
 const annualPromo = formatMxn(equiposPricing.annualPromoPerMonth)
 const annualBilled = formatMxn(equiposPricing.annualBilled)
 
-const title = 'Tu clínica ordenada, de la cita al seguimiento'
+const title = 'La clínica, en un solo lugar'
 const description =
-  'Agenda, formularios, fichas y notas clínicas en un solo flujo. Para clínicas que quieren dejar de operar desde el chat.'
+  'Agenda, formularios, fichas y notas, fuera del chat y del calendario compartido.'
 
 const setupSteps = [
   {
@@ -74,10 +76,9 @@ const capabilityTiles = [
     <div class="container hero__grid">
       <div class="hero__copy reveal">
         <p class="hero__eyebrow"><span class="status-dot status-dot--ok"></span> Para clínicas</p>
-        <h1>Tu clínica ordenada, <span>de la cita al seguimiento.</span></h1>
+        <h1>La clínica, en un solo lugar.</h1>
         <p class="hero__sub">
-          Agenda, formularios, fichas y notas clínicas en un solo flujo. Menos mensajes
-          pendientes; más tiempo para atender.
+          Agenda, formularios, fichas y notas, fuera del chat y del calendario compartido.
         </p>
         <div class="hero__actions">
           <a class="btn btn--primary" href={appSignupUrl}>Comenzar gratis</a>
@@ -88,16 +89,17 @@ const capabilityTiles = [
       <div class="hero__visual reveal" data-reveal="scale" data-ambient>
         <div class="hero__halo" aria-hidden="true"></div>
         <div class="hero__stage ambient-float ambient-float--slow">
-          <ProductFrame variant="agenda" crop activeNav="Citas" label="Agenda semanal" />
+          <ProductFrame variant="panel" activeNav="Panel principal" label="Hoy en la clínica" />
+          <div class="signal-card signal-card--intake">
+            <span class="signal-card__icon" aria-hidden="true">✓</span>
+            <span><strong>Ingreso completo</strong><small>Ana Rojas · hace 2 min</small></span>
+          </div>
+          <div class="signal-card signal-card--note">
+            <span class="status-dot status-dot--brand"></span>
+            <span><strong>Nota lista</strong><small>Sesión anterior vinculada</small></span>
+          </div>
         </div>
-        <div class="signal-card signal-card--intake" aria-hidden="true">
-          <span class="signal-card__icon">✓</span>
-          <span><strong>Ingreso completo</strong><small>Ana Rojas · hace 2 min</small></span>
-        </div>
-        <div class="signal-card signal-card--note" aria-hidden="true">
-          <span class="status-dot status-dot--brand"></span>
-          <span><strong>Nota lista</strong><small>Sesión anterior vinculada</small></span>
-        </div>
+        <HeroVisitSequence />
       </div>
     </div>
   </section>
@@ -280,10 +282,33 @@ const capabilityTiles = [
     </div>
   </section>
 
-  <div class="story-bridge" aria-label="De las capacidades a los precios">
+  <div class="story-bridge" aria-label="De las integraciones al recorrido de una visita">
     <div class="container story-bridge__inner reveal">
       <span class="story-bridge__line" aria-hidden="true"></span>
-      <p><strong>La operación ya está en el sistema.</strong> Elige el plan con el que quieres empezar.</p>
+      <p><strong>La operación ya está en el sistema.</strong> Sigue una visita de principio a fin.</p>
+    </div>
+  </div>
+
+  <section class="section journey-section" id="recorrido">
+    <div class="container">
+      <div class="journey-intro reveal">
+        <div>
+          <p class="section-label">Una cita, de principio a fin</p>
+          <h2 class="section-title">El contexto avanza con cada visita.</h2>
+        </div>
+        <div>
+          <p class="section-lead">Cada paso deja listo el siguiente. El equipo atiende con el hilo a la vista, no reconstruyéndolo.</p>
+          <a class="text-link" href={appSignupUrl}>Comenzar gratis</a>
+        </div>
+      </div>
+      <ClinicJourney />
+    </div>
+  </section>
+
+  <div class="story-bridge story-bridge--to-pricing" aria-label="De la visita a los precios">
+    <div class="container story-bridge__inner reveal">
+      <span class="story-bridge__line" aria-hidden="true"></span>
+      <p><strong>El plan cubre la operación.</strong> Elige la capacidad con la que empiezas.</p>
     </div>
   </div>
 
@@ -310,6 +335,7 @@ const capabilityTiles = [
             <li>Agenda semanal y citas</li>
             <li>Clientes y fichas</li>
             <li>Notas clínicas</li>
+            <li>Servicios y horario</li>
           </ul>
           <a class="btn btn--ghost" href={appSignupUrl}>Comenzar gratis</a>
         </article>
@@ -340,8 +366,10 @@ const capabilityTiles = [
             <li>Precio por asiento activo</li>
             <li>Formularios de ingreso</li>
             <li>Equipo, roles e integraciones</li>
+            <li>Automatizaciones y reportes</li>
           </ul>
-          <a class="btn btn--primary" href={appSignupUrl}>Elegir Equipos</a>
+          <a class="btn btn--primary" href={appSignupUrl}>Comenzar</a>
+          <p class="pricing-card__note">El plan lo eliges en el panel.</p>
         </article>
         <article class="pricing-card pricing-card--dark reveal">
           <p class="pricing-card__eyebrow">Operaciones grandes</p>
@@ -357,32 +385,11 @@ const capabilityTiles = [
             <li>Condiciones a tu medida</li>
           </ul>
           <a class="btn btn--text pricing-card__sales" href={salesContactUrl}>Contactar a ventas</a>
+          <p class="pricing-card__note pricing-card__note--on-dark">Te responde una persona del equipo.</p>
         </article>
       </div>
+      <PlanAssurance />
       <a class="text-link pricing-home__link" href="/precios">Comparar todos los planes</a>
-    </div>
-  </section>
-
-  <div class="story-bridge story-bridge--to-journey" aria-label="De los precios al recorrido">
-    <div class="container story-bridge__inner reveal">
-      <span class="story-bridge__line" aria-hidden="true"></span>
-      <p><strong>El plan cubre la operación.</strong> Así se siente una visita, de la reserva a la nota.</p>
-    </div>
-  </div>
-
-  <section class="section journey-section" id="recorrido">
-    <div class="container">
-      <div class="journey-intro reveal">
-        <div>
-          <p class="section-label">Una cita, de principio a fin</p>
-          <h2 class="section-title">El contexto avanza con cada visita.</h2>
-        </div>
-        <div>
-          <p class="section-lead">Cada paso deja listo el siguiente. El equipo atiende con el hilo a la vista, no reconstruyéndolo.</p>
-          <a class="text-link" href={appSignupUrl}>Comenzar gratis</a>
-        </div>
-      </div>
-      <ClinicJourney />
     </div>
   </section>
 
@@ -485,8 +492,19 @@ const capabilityTiles = [
     background: color-mix(in srgb, var(--color-warm) 62%, transparent);
   }
 
-  .story-bridge--to-journey {
+  .story-bridge--to-pricing {
     padding-bottom: 0;
+  }
+
+  .pricing-card__note {
+    margin: var(--space-2) 0 0;
+    color: var(--color-muted);
+    font-size: 0.85rem;
+    line-height: 1.45;
+  }
+
+  .pricing-card__note--on-dark {
+    color: color-mix(in srgb, var(--color-surface) 68%, transparent);
   }
 
   .story-bridge__inner {
@@ -521,11 +539,6 @@ const capabilityTiles = [
   .hero__stage {
     position: relative;
     z-index: 2;
-  }
-
-  .hero__visual :global(.product-frame) {
-    transform: perspective(1400px) rotateY(-5deg) rotateX(1.5deg);
-    transform-origin: left center;
   }
 
   .hero__halo {
@@ -1648,6 +1661,18 @@ const capabilityTiles = [
     .pricing-teaser {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
+
+    .pricing-card {
+      padding-bottom: calc(var(--space-5) + 3.5rem);
+    }
+
+    .pricing-card__note {
+      position: absolute;
+      right: var(--space-5);
+      bottom: var(--space-5);
+      left: var(--space-5);
+      margin: 0;
+    }
   }
 
   @media (min-width: 1200px) {
@@ -1710,8 +1735,10 @@ const capabilityTiles = [
       gap: 0.65rem;
     }
 
-    .hero__visual :global(.product-frame) {
-      transform: none;
+    .hero__stage {
+      display: grid;
+      gap: 0.65rem;
+      justify-items: start;
     }
 
     .signal-card {
@@ -1768,10 +1795,6 @@ const capabilityTiles = [
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .hero__visual :global(.product-frame) {
-      transform: none;
-    }
-
     .signal-card,
     .hero__visual.is-visible .signal-card {
       opacity: 1;

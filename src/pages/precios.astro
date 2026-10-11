@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro'
 import Faq from '../components/Faq.astro'
 import Cta from '../components/Cta.astro'
 import BillingToggle from '../components/BillingToggle.astro'
+import PlanAssurance from '../components/PlanAssurance.astro'
 import { appSignupUrl, equiposPricing, formatMxn, pricingFaqItems, salesContactUrl } from '../config/site'
 
 const title = 'Precios'
@@ -80,8 +81,10 @@ const annualBilled = formatMxn(equiposPricing.annualBilled)
           <li>Formularios de ingreso</li>
           <li>Administración de usuarios</li>
           <li>Google y Apple Calendar</li>
+          <li>Automatizaciones y reportes</li>
         </ul>
-        <a class="btn btn--primary" href={appSignupUrl}>Elegir Equipos</a>
+        <a class="btn btn--primary" href={appSignupUrl}>Comenzar</a>
+        <p class="plan__note">El plan lo eliges en el panel.</p>
       </article>
 
       <article class="plan plan--dark reveal">
@@ -100,8 +103,10 @@ const annualBilled = formatMxn(equiposPricing.annualBilled)
           <li>Soporte y condiciones comerciales</li>
         </ul>
         <a class="btn btn--text plan__sales" href={salesContactUrl}>Contactar a ventas</a>
+        <p class="plan__note plan__note--on-dark">Te responde una persona del equipo.</p>
       </article>
       </div>
+      <PlanAssurance />
     </div>
   </section>
 
@@ -124,8 +129,8 @@ const annualBilled = formatMxn(equiposPricing.annualBilled)
             ['Clientes y notas clínicas', 'Incluido', 'Incluido', 'Incluido'],
             ['Formularios de ingreso', '—', 'Incluido', 'Incluido'],
             ['Equipo y roles', '—', 'Incluido', 'Incluido'],
-            ['Workflows y recordatorios', '—', 'Próximamente', 'Próximamente'],
-            ['Reportes e insights con IA', '—', 'Próximamente', 'Próximamente'],
+            ['Workflows y recordatorios', '—', 'Incluido', 'Incluido'],
+            ['Reportes e insights con IA', '—', 'Incluido', 'Incluido'],
             ['Calendarios externos', '—', 'Incluido', 'Incluido'],
             ['Acompañamiento dedicado', '—', '—', 'Incluido'],
           ].map(([feature, a, b, c]) => (
@@ -178,7 +183,6 @@ const annualBilled = formatMxn(equiposPricing.annualBilled)
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    min-height: 36rem;
     padding: clamp(1.5rem, 4vw, 3rem);
     background: var(--color-surface);
     border-radius: var(--radius-xl);
@@ -274,7 +278,17 @@ const annualBilled = formatMxn(equiposPricing.annualBilled)
     display: grid;
     gap: var(--space-2);
     color: var(--color-muted);
-    flex: 1;
+  }
+
+  .plan__note {
+    margin: var(--space-2) 0 0;
+    color: var(--color-muted);
+    font-size: 0.85rem;
+    line-height: 1.45;
+  }
+
+  .plan__note--on-dark {
+    color: color-mix(in srgb, var(--color-surface) 68%, transparent);
   }
 
   .compare {
@@ -314,6 +328,23 @@ const annualBilled = formatMxn(equiposPricing.annualBilled)
   @media (min-width: 860px) {
     .plans {
       grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .plan {
+      min-height: 36rem;
+      padding-bottom: calc(clamp(1.5rem, 4vw, 3rem) + 3.5rem);
+    }
+
+    .plan ul {
+      flex: 1;
+    }
+
+    .plan__note {
+      position: absolute;
+      right: clamp(1.5rem, 4vw, 3rem);
+      bottom: clamp(1.5rem, 4vw, 3rem);
+      left: clamp(1.5rem, 4vw, 3rem);
+      margin: 0;
     }
 
     .plan--featured {

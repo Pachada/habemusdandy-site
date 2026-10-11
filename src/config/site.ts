@@ -78,7 +78,7 @@ export const faqItems = [
   {
     question: '¿Puedo empezar sin comprometerme a pagar?',
     answer:
-      'Sí. El plan Gratis permite comenzar con la operación esencial de la clínica. Cuando necesites trabajar con más personas, formularios e integraciones, puedes pasar a Equipos.',
+      'Sí. El plan Gratis permite comenzar con la operación esencial de la clínica. Cuando necesites más personas, formularios, automatizaciones o reportes, puedes pasar a Equipos.',
   },
 ] as const
 

@@ -1661,6 +1661,18 @@ const capabilityTiles = [
     .pricing-teaser {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
+
+    .pricing-card {
+      padding-bottom: calc(var(--space-5) + 2.6rem);
+    }
+
+    .pricing-card__note {
+      position: absolute;
+      right: var(--space-5);
+      bottom: var(--space-5);
+      left: var(--space-5);
+      margin: 0;
+    }
   }
 
   @media (min-width: 1200px) {

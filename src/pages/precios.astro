@@ -332,10 +332,19 @@ const annualBilled = formatMxn(equiposPricing.annualBilled)
 
     .plan {
       min-height: 36rem;
+      padding-bottom: calc(clamp(1.5rem, 4vw, 3rem) + 2.6rem);
     }
 
     .plan ul {
       flex: 1;
+    }
+
+    .plan__note {
+      position: absolute;
+      right: clamp(1.5rem, 4vw, 3rem);
+      bottom: clamp(1.5rem, 4vw, 3rem);
+      left: clamp(1.5rem, 4vw, 3rem);
+      margin: 0;
     }
 
     .plan--featured {

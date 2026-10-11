@@ -57,6 +57,16 @@ const annualSavings = formatMxn(equiposPricing.annualSavings)
 
     toggle.dataset.ready = 'true'
 
+    const syncPeriodToUrl = (period: 'monthly' | 'annual') => {
+      const url = new URL(window.location.href)
+      if (period === 'annual') {
+        url.searchParams.set('periodo', 'anual')
+      } else {
+        url.searchParams.delete('periodo')
+      }
+      history.replaceState(null, '', url)
+    }
+
     const selectPeriod = (period: 'monthly' | 'annual') => {
       target.dataset.billing = period
       buttons.forEach((button) => {
@@ -72,6 +82,12 @@ const annualSavings = formatMxn(equiposPricing.annualSavings)
           ? `Facturación anual seleccionada. Precio de lista ${annualList} pesos al mes. Promoción de lanzamiento: ${annualPrice} pesos mexicanos por asiento al mes, facturados como ${annualBilled} al año. Ahorras ${annualSavings} por asiento, un ${discount} por ciento frente a pagar mes a mes.`
           : `Facturación mensual seleccionada. Precio de lista ${monthlyList} pesos. Promoción de lanzamiento: ${monthlyPrice} pesos mexicanos por asiento al mes.`
       }
+      syncPeriodToUrl(period)
+    }
+
+    const initialPeriod = (): 'monthly' | 'annual' => {
+      const params = new URLSearchParams(window.location.search)
+      return params.get('periodo') === 'anual' ? 'annual' : 'monthly'
     }
 
     buttons.forEach((button) => {
@@ -90,7 +106,7 @@ const annualSavings = formatMxn(equiposPricing.annualSavings)
       })
     })
 
-    selectPeriod('monthly')
+    selectPeriod(initialPeriod())
   })
 </script>
 

@@ -1,0 +1,52 @@
+---
+import { appOrigin } from '../config/site'
+
+const appHost = new URL(appOrigin).host
+
+const trustLinks = [
+  { href: '/seguridad', label: 'Datos aislados por clínica' },
+  { href: '/seguridad', label: 'El paciente no tiene panel' },
+  { href: '/seguridad', label: 'No vendemos listas' },
+] as const
+---
+
+<div class="plan-assurance">
+  <p class="plan-assurance__handoff">El siguiente paso abre el panel en {appHost}.</p>
+  <ul class="plan-assurance__trust">
+    {
+      trustLinks.map((link) => (
+        <li>
+          <a class="text-link" href={link.href}>
+            {link.label}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<style>
+  .plan-assurance {
+    margin-top: var(--space-5);
+  }
+
+  .plan-assurance__handoff {
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .plan-assurance__trust {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 1.25rem;
+    margin: var(--space-3) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .plan-assurance__trust .text-link {
+    font-size: 0.88rem;
+  }
+</style>

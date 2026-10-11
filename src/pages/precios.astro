@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro'
 import Faq from '../components/Faq.astro'
 import Cta from '../components/Cta.astro'
 import BillingToggle from '../components/BillingToggle.astro'
+import PlanAssurance from '../components/PlanAssurance.astro'
 import { appSignupUrl, equiposPricing, formatMxn, pricingFaqItems, salesContactUrl } from '../config/site'
 
 const title = 'Precios'
@@ -80,8 +81,10 @@ const annualBilled = formatMxn(equiposPricing.annualBilled)
           <li>Formularios de ingreso</li>
           <li>Administración de usuarios</li>
           <li>Google y Apple Calendar</li>
+          <li>Automatizaciones y reportes</li>
         </ul>
-        <a class="btn btn--primary" href={appSignupUrl}>Elegir Equipos</a>
+        <a class="btn btn--primary" href={appSignupUrl}>Comenzar</a>
+        <p class="plan__note">El plan lo eliges en el panel.</p>
       </article>
 
       <article class="plan plan--dark reveal">
@@ -100,8 +103,10 @@ const annualBilled = formatMxn(equiposPricing.annualBilled)
           <li>Soporte y condiciones comerciales</li>
         </ul>
         <a class="btn btn--text plan__sales" href={salesContactUrl}>Contactar a ventas</a>
+        <p class="plan__note plan__note--on-dark">Te responde una persona del equipo.</p>
       </article>
       </div>
+      <PlanAssurance />
     </div>
   </section>
 
@@ -275,6 +280,17 @@ const annualBilled = formatMxn(equiposPricing.annualBilled)
     gap: var(--space-2);
     color: var(--color-muted);
     flex: 1;
+  }
+
+  .plan__note {
+    margin: var(--space-2) 0 0;
+    color: var(--color-muted);
+    font-size: 0.85rem;
+    line-height: 1.45;
+  }
+
+  .plan__note--on-dark {
+    color: color-mix(in srgb, var(--color-surface) 68%, transparent);
   }
 
   .compare {

@@ -1,0 +1,189 @@
+---
+const stepMs = 2400
+const cycleMs = stepMs * 3
+---
+
+<div
+  class="hero-visit"
+  data-hero-visit
+  style={`--hero-visit-step: ${stepMs}ms; --hero-visit-cycle: ${cycleMs}ms`}
+  role="group"
+  aria-label="De la pregunta a la ficha"
+>
+  <div class="hero-visit__card">
+    <div class="hero-visit__state hero-visit__state--chat" aria-hidden="true">
+      <p class="hero-visit__line">¿Tienes el jueves a las 5?</p>
+      <p class="hero-visit__status hero-visit__status--muted">Sin respuesta</p>
+    </div>
+    <div class="hero-visit__state hero-visit__state--slot" aria-hidden="true">
+      <p class="hero-visit__line">Jueves · 17:00</p>
+      <p class="hero-visit__status hero-visit__status--ok">Confirmada</p>
+    </div>
+    <div class="hero-visit__state hero-visit__state--ficha">
+      <p class="hero-visit__line">Ficha de Ana Rojas</p>
+      <p class="hero-visit__status">Nota de la sesión anterior</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-hero-visit]').forEach((root) => {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (reduceMotion) return
+
+    const target = root.closest('.hero') ?? root
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          root.classList.toggle('is-playing', Boolean(entry?.isIntersecting))
+        },
+        { threshold: 0.12, rootMargin: '0px 0px -6% 0px' },
+      )
+      observer.observe(target)
+    } else {
+      root.classList.add('is-playing')
+    }
+  })
+</script>
+
+<style>
+  .hero-visit {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: min(19rem, 100%);
+    min-width: 0;
+    margin-top: clamp(0.75rem, 2vw, 1.15rem);
+  }
+
+  .hero-visit__card {
+    position: relative;
+    min-height: 4.35rem;
+    border-radius: var(--radius-md);
+    background: color-mix(in srgb, var(--color-surface) 92%, transparent);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+  }
+
+  .hero-visit__state {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    align-content: center;
+    gap: 0.2rem;
+    min-width: 0;
+    padding: 0.8rem 0.95rem;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .hero-visit__state--ficha {
+    opacity: 1;
+  }
+
+  .hero-visit__line {
+    margin: 0;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.35;
+    color: var(--color-ink);
+    overflow-wrap: anywhere;
+  }
+
+  .hero-visit__status {
+    margin: 0;
+    font-size: 0.72rem;
+    font-weight: 500;
+    line-height: 1.35;
+    color: var(--color-muted);
+    overflow-wrap: anywhere;
+  }
+
+  .hero-visit__status--muted {
+    color: color-mix(in srgb, var(--color-muted) 88%, transparent);
+    font-style: italic;
+  }
+
+  .hero-visit__status--ok {
+    color: var(--color-status-ok);
+  }
+
+  @keyframes hero-visit-chat {
+    0%,
+    27% {
+      opacity: 1;
+    }
+    33%,
+    99% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes hero-visit-slot {
+    0%,
+    27% {
+      opacity: 0;
+    }
+    33%,
+    60% {
+      opacity: 1;
+    }
+    66%,
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes hero-visit-ficha {
+    0%,
+    60% {
+      opacity: 0;
+    }
+    66%,
+    94% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    :global(html.js) .hero-visit.is-playing .hero-visit__state--chat {
+      animation: hero-visit-chat var(--hero-visit-cycle) var(--ease-out) infinite;
+      animation-play-state: running;
+    }
+
+    :global(html.js) .hero-visit.is-playing .hero-visit__state--slot {
+      animation: hero-visit-slot var(--hero-visit-cycle) var(--ease-out) infinite;
+      animation-play-state: running;
+    }
+
+    :global(html.js) .hero-visit.is-playing .hero-visit__state--ficha {
+      animation: hero-visit-ficha var(--hero-visit-cycle) var(--ease-out) infinite;
+      animation-play-state: running;
+    }
+
+    :global(html.js) .hero-visit.is-playing .hero-visit__state {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-visit__state--chat,
+    .hero-visit__state--slot {
+      display: none;
+    }
+
+    .hero-visit__state--ficha {
+      position: relative;
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+</style>

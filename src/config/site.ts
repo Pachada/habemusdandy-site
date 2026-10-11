@@ -86,7 +86,7 @@ export const pricingFaqItems = [
   {
     question: '¿Qué cambia realmente al pasar de Gratis a Equipos?',
     answer:
-      'Gratis cubre la operación esencial: citas, clientes, fichas y notas. Equipos suma colaboración con roles, formularios de ingreso, administración e integraciones para que todo el equipo trabaje sobre el mismo contexto.',
+      'Gratis cubre la operación esencial: citas, clientes, fichas y notas. Equipos suma roles, formularios, automatizaciones, reportes e integraciones para que el equipo trabaje sobre el mismo contexto.',
   },
   {
     question: '¿Qué cuenta como un asiento?',
@@ -96,7 +96,7 @@ export const pricingFaqItems = [
   {
     question: '¿Cómo sé si necesito Equipos?',
     answer:
-      'Si trabajas solo y necesitas ordenar citas, clientes y notas, Gratis puede ser suficiente. Equipos tiene sentido cuando colaboran varias personas o quieres usar formularios, roles e integraciones en la operación diaria.',
+      'Si trabajas solo y necesitas ordenar citas, clientes y notas, Gratis puede ser suficiente. Equipos tiene sentido cuando colaboran varias personas o quieres formularios, roles, automatizaciones, reportes e integraciones en la operación diaria.',
   },
   {
     question: '¿Cómo funciona el pago anual?',

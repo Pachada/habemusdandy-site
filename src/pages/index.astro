@@ -13,9 +13,9 @@ const annualList = formatMxn(equiposPricing.annualListPerMonth)
 const annualPromo = formatMxn(equiposPricing.annualPromoPerMonth)
 const annualBilled = formatMxn(equiposPricing.annualBilled)
 
-const title = 'Tu clínica ordenada, de la cita al seguimiento'
+const title = 'La clínica, en un solo lugar'
 const description =
-  'Agenda, formularios, fichas y notas clínicas en un solo flujo. Para clínicas que quieren dejar de operar desde el chat.'
+  'Agenda, formularios, fichas y notas, fuera del chat y del calendario compartido.'
 
 const setupSteps = [
   {
@@ -74,10 +74,9 @@ const capabilityTiles = [
     <div class="container hero__grid">
       <div class="hero__copy reveal">
         <p class="hero__eyebrow"><span class="status-dot status-dot--ok"></span> Para clínicas</p>
-        <h1>Tu clínica ordenada, <span>de la cita al seguimiento.</span></h1>
+        <h1>La clínica, en un solo lugar.</h1>
         <p class="hero__sub">
-          Agenda, formularios, fichas y notas clínicas en un solo flujo. Menos mensajes
-          pendientes; más tiempo para atender.
+          Agenda, formularios, fichas y notas, fuera del chat y del calendario compartido.
         </p>
         <div class="hero__actions">
           <a class="btn btn--primary" href={appSignupUrl}>Comenzar gratis</a>
@@ -88,13 +87,13 @@ const capabilityTiles = [
       <div class="hero__visual reveal" data-reveal="scale" data-ambient>
         <div class="hero__halo" aria-hidden="true"></div>
         <div class="hero__stage ambient-float ambient-float--slow">
-          <ProductFrame variant="agenda" crop activeNav="Citas" label="Agenda semanal" />
+          <ProductFrame variant="panel" activeNav="Panel principal" label="Hoy en la clínica" />
         </div>
-        <div class="signal-card signal-card--intake" aria-hidden="true">
-          <span class="signal-card__icon">✓</span>
+        <div class="signal-card signal-card--intake">
+          <span class="signal-card__icon" aria-hidden="true">✓</span>
           <span><strong>Ingreso completo</strong><small>Ana Rojas · hace 2 min</small></span>
         </div>
-        <div class="signal-card signal-card--note" aria-hidden="true">
+        <div class="signal-card signal-card--note">
           <span class="status-dot status-dot--brand"></span>
           <span><strong>Nota lista</strong><small>Sesión anterior vinculada</small></span>
         </div>
@@ -521,11 +520,6 @@ const capabilityTiles = [
   .hero__stage {
     position: relative;
     z-index: 2;
-  }
-
-  .hero__visual :global(.product-frame) {
-    transform: perspective(1400px) rotateY(-5deg) rotateX(1.5deg);
-    transform-origin: left center;
   }
 
   .hero__halo {
@@ -1710,10 +1704,6 @@ const capabilityTiles = [
       gap: 0.65rem;
     }
 
-    .hero__visual :global(.product-frame) {
-      transform: none;
-    }
-
     .signal-card {
       position: relative;
       inset: auto;
@@ -1768,10 +1758,6 @@ const capabilityTiles = [
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .hero__visual :global(.product-frame) {
-      transform: none;
-    }
-
     .signal-card,
     .hero__visual.is-visible .signal-card {
       opacity: 1;

@@ -90,14 +90,14 @@ const capabilityTiles = [
         <div class="hero__halo" aria-hidden="true"></div>
         <div class="hero__stage ambient-float ambient-float--slow">
           <ProductFrame variant="panel" activeNav="Panel principal" label="Hoy en la clínica" />
-        </div>
-        <div class="signal-card signal-card--intake">
-          <span class="signal-card__icon" aria-hidden="true">✓</span>
-          <span><strong>Ingreso completo</strong><small>Ana Rojas · hace 2 min</small></span>
-        </div>
-        <div class="signal-card signal-card--note">
-          <span class="status-dot status-dot--brand"></span>
-          <span><strong>Nota lista</strong><small>Sesión anterior vinculada</small></span>
+          <div class="signal-card signal-card--intake">
+            <span class="signal-card__icon" aria-hidden="true">✓</span>
+            <span><strong>Ingreso completo</strong><small>Ana Rojas · hace 2 min</small></span>
+          </div>
+          <div class="signal-card signal-card--note">
+            <span class="status-dot status-dot--brand"></span>
+            <span><strong>Nota lista</strong><small>Sesión anterior vinculada</small></span>
+          </div>
         </div>
         <HeroVisitSequence />
       </div>
@@ -1663,7 +1663,7 @@ const capabilityTiles = [
     }
 
     .pricing-card {
-      padding-bottom: calc(var(--space-5) + 2.6rem);
+      padding-bottom: calc(var(--space-5) + 3.5rem);
     }
 
     .pricing-card__note {
@@ -1733,6 +1733,12 @@ const capabilityTiles = [
     .hero__visual {
       display: grid;
       gap: 0.65rem;
+    }
+
+    .hero__stage {
+      display: grid;
+      gap: 0.65rem;
+      justify-items: start;
     }
 
     .signal-card {

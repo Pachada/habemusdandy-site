@@ -57,13 +57,24 @@ const annualSavings = formatMxn(equiposPricing.annualSavings)
 
     toggle.dataset.ready = 'true'
 
+    const applyPeriodToPricingLinks = (period: 'monthly' | 'annual') => {
+      document.querySelectorAll<HTMLAnchorElement>('a[href^="/precios"]').forEach((link) => {
+        const next = new URL(link.href, window.location.origin)
+        if (period === 'annual') next.searchParams.set('periodo', 'anual')
+        else next.searchParams.delete('periodo')
+        const href = `${next.pathname}${next.search}${next.hash}`
+        if (link.getAttribute('href') !== href) link.setAttribute('href', href)
+      })
+    }
+
     const syncPeriodToUrl = (period: 'monthly' | 'annual') => {
       const url = new URL(window.location.href)
-      if (period === 'annual') {
-        url.searchParams.set('periodo', 'anual')
-      } else {
-        url.searchParams.delete('periodo')
-      }
+      const current = url.searchParams.get('periodo')
+      const next = period === 'annual' ? 'anual' : null
+      applyPeriodToPricingLinks(period)
+      if (current === next) return
+      if (next) url.searchParams.set('periodo', next)
+      else url.searchParams.delete('periodo')
       history.replaceState(null, '', url)
     }
 

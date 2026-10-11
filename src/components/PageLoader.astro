@@ -1,11 +1,7 @@
----
-import { siteName } from '../config/site'
----
-
 <div class="page-loader" data-page-loader role="status" aria-live="polite">
   <p class="sr-only">Cargando</p>
   <div class="page-loader__mark">
-    <img src="/logo.svg" alt={siteName} width="118" height="32" decoding="async" />
+    <img src="/logo.svg" alt="" width="118" height="32" decoding="async" />
     <span class="page-loader__pulse" aria-hidden="true"></span>
   </div>
 </div>
@@ -26,8 +22,6 @@ import { siteName } from '../config/site'
     if (reduceMotion) {
       finish()
     } else {
-      const started = performance.now()
-      const minMs = 400
       const maxMs = 900
       const painted = new Promise<void>((resolve) => {
         requestAnimationFrame(() => requestAnimationFrame(() => resolve()))
@@ -38,8 +32,7 @@ import { siteName } from '../config/site'
       })
 
       Promise.race([Promise.all([painted, fonts]), cap]).then(() => {
-        const wait = Math.max(0, minMs - (performance.now() - started))
-        window.setTimeout(finish, wait)
+        finish()
       })
     }
   }

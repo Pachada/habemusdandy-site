@@ -64,6 +64,8 @@ const STEP_MS = 6000
     }
   </div>
 
+  <p class="journey__hint">Selecciona cada momento para recorrer la cita.<span class="journey__scroll-cue">Desliza para ver más momentos&nbsp;→</span></p>
+
   <div class="journey__stage">
     {
       moments.map((moment, index) => (
@@ -96,8 +98,6 @@ const STEP_MS = 6000
       ))
     }
   </div>
-
-  <p class="journey__hint">Selecciona cada momento para recorrer la cita.<span class="journey__scroll-cue">Desliza para ver más momentos&nbsp;→</span></p>
 </div>
 
 <script>
@@ -393,7 +393,7 @@ const STEP_MS = 6000
   }
 
   .journey__hint {
-    margin: 0 0 0.5rem;
+    margin: 0.45rem 0 var(--space-4);
     color: var(--color-muted);
     font-size: 0.78rem;
     text-align: center;
@@ -436,10 +436,6 @@ const STEP_MS = 6000
       display: block;
       margin-top: 0.3rem;
       color: color-mix(in srgb, var(--color-muted) 80%, var(--color-surface));
-    }
-
-    .journey__stage {
-      min-height: 44rem;
     }
 
     .journey__panel {

@@ -41,9 +41,9 @@ jobs:
 
       - name: CDK Diff (preview changes)
         working-directory: infra
-        run: npx cdk diff KintookSiteStack
+        run: npx cdk diff HorayaSiteStack
         continue-on-error: true
 
       - name: CDK Deploy
         working-directory: infra
-        run: npx cdk deploy KintookSiteStack --require-approval never
+        run: npx cdk deploy HorayaSiteStack --require-approval never

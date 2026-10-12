@@ -1,13 +1,13 @@
-# Kintook Site
+# Horaya Site
 
-Public marketing site for [Kintook](https://kintook.com): product, pricing, and other visitor-facing pages.
+Public marketing site for [Horaya](https://horaya.mx): product, pricing, and other visitor-facing pages.
 
-The clinic dashboard lives in a separate repo (`Habemusfisio-ui`) and should stay on the app origin (`https://app.habemusfisio.com`). This site is static and SEO-oriented.
+The clinic dashboard lives in a separate repo and stays on `https://app.horaya.mx`. This site is static and SEO-oriented.
 
 ## Stack
 
 - [Astro](https://astro.build) + TypeScript
-- Outfit typeface (self-hosted via `@fontsource/outfit`) and Kintook brand tokens
+- Outfit typeface (self-hosted via `@fontsource/outfit`) and Horaya brand tokens
 
 ## Setup
 
@@ -16,7 +16,7 @@ cp .env.example .env
 npm install
 ```
 
-`PUBLIC_APP_ORIGIN` controls login/signup links (`/login`, `/signup`). Default: `https://app.habemusfisio.com`.
+`PUBLIC_APP_ORIGIN` controls login/signup links (`/login`, `/signup`). Default: `https://app.horaya.mx`.
 
 ## Commands
 
@@ -32,8 +32,8 @@ Background dev (see `AGENTS.md`): `astro dev --background`.
 
 ## Deploy
 
-Static hosting is S3 + CloudFront in a single production AWS account, deployed
-with GitHub Actions over OIDC. See [`infra/README.md`](infra/README.md).
+Static hosting is S3 + CloudFront in the Horaya account (`651694720404`),
+domain `horaya.mx`, deployed with GitHub Actions over OIDC. See [`infra/README.md`](infra/README.md).
 
 | Workflow | When |
 | --- | --- |

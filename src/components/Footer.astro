@@ -4,6 +4,7 @@ import {
   appSignupUrl,
   footerLegalLinks,
   footerProductLinks,
+  salesEmail,
   siteName,
 } from '../config/site'
 ---
@@ -13,7 +14,7 @@ import {
     <div class="site-footer__brand">
       <img src="/logo.svg" alt={siteName} width="118" height="32" loading="lazy" decoding="async" />
       <p>El sistema operativo de la clínica.</p>
-      <a class="site-footer__email" href="mailto:hola@kintook.com">hola@kintook.com</a>
+      <a class="site-footer__email" href={`mailto:${salesEmail}`}>{salesEmail}</a>
     </div>
 
     <div class="site-footer__cols">

@@ -1,8 +1,8 @@
-# Kintook marketing site — baseline
+# Horaya marketing site — baseline
 
-This is the source of truth for information architecture, sections, and look of the public site. It is inspired by [Calendly](https://calendly.com/?redirect=false), [Cal.com](https://cal.com/es/), and [Koalendar](https://koalendar.com/), then brought down to **Kintook**: clinic operations software, not a generic meeting scheduler.
+This is the source of truth for information architecture, sections, and look of the public site. It is inspired by [Calendly](https://calendly.com/?redirect=false), [Cal.com](https://cal.com/es/), and [Koalendar](https://koalendar.com/), then brought down to **Horaya**: clinic operations software, not a generic meeting scheduler.
 
-Copy language: **Spanish**. Dashboard login/signup stay in `Habemusfisio-ui`.
+Copy language: **Spanish**. Dashboard login/signup stay on `https://app.horaya.mx`.
 
 ---
 
@@ -48,7 +48,7 @@ What we **do** take:
 
 ## 2. Our positioning
 
-Kintook is the **operating system of the clinic**, not a booking link.
+Horaya is the **operating system of the clinic**, not a booking link.
 
 Calendly / Cal / Koalendar stop at “someone picks a time.” We continue into the visit: client record, intake, services, clinical notes, hours, and staff administration.
 
@@ -78,8 +78,8 @@ If a section does not serve one of those pillars, it does not belong on v1.
 Keep the first version small. These sites look large in the footer; their **conversion path** is three pages plus auth.
 
 ```text
-kintook.com                         marketing (this repo)
-app.habemusfisio.com                dashboard (Habemusfisio-ui)
+horaya.mx                         marketing (this repo)
+app.horaya.mx                dashboard (Habemusfisio-ui)
 
 /                   Home
 /producto           Product / features
@@ -235,7 +235,7 @@ Do not show Zoom/Salesforce/Zapier just because Calendly does.
 
 ### 5.10 Pricing teaser
 
-Three plan cards: **Gratis**, **Equipos** (marketing name for API plan id `business`; list `$249 MXN` monthly / `$199 MXN` annual per seat; launch promo `$199 MXN / asiento / mes`, or `$149 MXN / asiento / mes` billed annually as `$1,788` — 25% off vs monthly promo / `$600` saved per seat), y **Empresas** (contact sales only — not a third API plan; includes everything in Equipos plus dedicated accompaniment as already described). A compact `Mensual / Anual` toggle appears above the cards on Home and `/precios`; Mensual is the default and Anual carries a visible `−25%` label. Both periods show the list price struck through next to the launch price, plus a `Promoción de lanzamiento` chip. Equipos shows a visible `Recomendado` pill and a solid primary CTA labeled **`Comenzar`** (never `Elegir Equipos`) on both Home and `/precios`; under that button, a visible line that the plan is chosen inside the panel (e.g. `El plan lo eliges en el panel`). Gratis CTA stays **`Comenzar gratis`**; Empresas remains a text link. Signup at the dashboard only creates an account — it cannot receive a plan from the marketing site. Beside the price actions, three quiet trust lines (each links to `/seguridad`): `Datos aislados por clínica` · `El paciente no tiene panel` · `No vendemos listas`. One handoff line under the primary signup path: the next screen is the panel at `app.habemusfisio.com`. Link to `Ver precios` / comparar planes; do not publish competitor comparison tables.
+Three plan cards: **Gratis**, **Equipos** (marketing name for API plan id `business`; list `$249 MXN` monthly / `$199 MXN` annual per seat; launch promo `$199 MXN / asiento / mes`, or `$149 MXN / asiento / mes` billed annually as `$1,788` — 25% off vs monthly promo / `$600` saved per seat), y **Empresas** (contact sales only — not a third API plan; includes everything in Equipos plus dedicated accompaniment as already described). A compact `Mensual / Anual` toggle appears above the cards on Home and `/precios`; Mensual is the default and Anual carries a visible `−25%` label. Both periods show the list price struck through next to the launch price, plus a `Promoción de lanzamiento` chip. Equipos shows a visible `Recomendado` pill and a solid primary CTA labeled **`Comenzar`** (never `Elegir Equipos`) on both Home and `/precios`; under that button, a visible line that the plan is chosen inside the panel (e.g. `El plan lo eliges en el panel`). Gratis CTA stays **`Comenzar gratis`**; Empresas remains a text link. Signup at the dashboard only creates an account — it cannot receive a plan from the marketing site. Beside the price actions, three quiet trust lines (each links to `/seguridad`): `Datos aislados por clínica` · `El paciente no tiene panel` · `No vendemos listas`. One handoff line under the primary signup path: the next screen is the panel at `app.horaya.mx`. Link to `Ver precios` / comparar planes; do not publish competitor comparison tables.
 
 ### 5.11 Testimonials
 
@@ -248,8 +248,8 @@ Two-column on desktop: intro left (optional text link `Comenzar gratis`, not a s
 Draft:
 
 1. ¿Por qué usar una herramienta de gestión si ya tengo WhatsApp y Calendar?
-2. ¿Qué diferencia a Kintook de una agenda online?
-3. ¿Cómo sé si Kintook encaja con mi clínica?
+2. ¿Qué diferencia a Horaya de una agenda online?
+3. ¿Cómo sé si Horaya encaja con mi clínica?
 4. ¿El paciente necesita crear una cuenta?
 5. ¿Puedo adaptar la herramienta a la forma en que trabaja mi equipo?
 6. ¿Dónde quedan los datos de mi clínica?
@@ -305,7 +305,7 @@ Calendly `/pricing` shape, Koalendar scannability, our plans.
 
 Do not add “vs Calendly / Cal.com / Koalendar.” Different category; that table would confuse the buyer.
 
-Plans: Gratis, Equipos (API id `business`; list `$249` / `$199` annual; launch `$199 MXN / asiento / mes`, or `$149 MXN / asiento / mes` when billed annually), and Empresas (contact sales only). Equipos card CTA: **`Comenzar`**, plus the panel plan-choice line, the three trust lines linking to `/seguridad`, and the handoff line to the panel at `app.habemusfisio.com` (same rules as the homepage pricing teaser).
+Plans: Gratis, Equipos (API id `business`; list `$249` / `$199` annual; launch `$199 MXN / asiento / mes`, or `$149 MXN / asiento / mes` when billed annually), and Empresas (contact sales only). Equipos card CTA: **`Comenzar`**, plus the panel plan-choice line, the three trust lines linking to `/seguridad`, and the handoff line to the panel at `app.horaya.mx` (same rules as the homepage pricing teaser).
 
 ---
 
@@ -393,6 +393,6 @@ Rules:
 
 - Astro pages, shared `BaseLayout`, CSS variables in global styles
 - Product shots: real dashboard captures (light scheme), lightly framed
-- `Comenzar` / `Iniciar sesión` are absolute URLs to the app origin (env), defaulting to `https://app.habemusfisio.com`
+- `Comenzar` / `Iniciar sesión` are absolute URLs to the app origin (env), defaulting to `https://app.horaya.mx`
 - No auth, no org context, no API client in this repo
-- Hosting: S3 + CloudFront via CDK in `infra/` (see `infra/README.md`). Production domain is `kintook.com`. DNS stays at Cloudflare; CNAMEs point at CloudFront. Dashboard stays on `app.habemusfisio.com`.
+- Hosting: S3 + CloudFront via CDK in `infra/` (see `infra/README.md`). Production domain is `horaya.mx`. DNS is the existing Route 53 zone in the Horaya account; the stack writes apex and `www` aliases. Dashboard stays on `app.horaya.mx`.

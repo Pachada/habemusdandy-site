@@ -1,6 +1,6 @@
 # Homepage: historia, color y movimiento (especificación)
 
-Especificación para implementar en `src/pages/index.astro` y `src/components/ClinicJourney.astro`. No reabre la migración de dominio ni la marca (commit `7336ff9`). Cuando se implemente, `docs/SITE.md` se actualiza en las secciones listadas al final; hasta entonces este documento manda sobre la homepage.
+Especificación de la homepage, ya implementada en `src/pages/index.astro` y `src/components/ClinicJourney.astro`. No reabre la migración de dominio ni la marca (commit `7336ff9`). `docs/SITE.md` es la fuente de verdad del sitio; este documento conserva el porqué de la visita.
 
 Referencias revisadas: `calendly/0–10.png`, `cal/0–7.png` (móvil, en orden de scroll) y el contenido de escritorio de `calendly.com/?redirect=false` y `cal.com/es/`. El movimiento descrito de Calendly y Cal sale de lo que muestran las capturas (estados intermedios, elementos atenuados) y de la estructura de escritorio; no se grabó en navegador.
 
@@ -314,7 +314,7 @@ Límites, para no pasarse:
 
 ---
 
-## 8. Cambios pendientes en `docs/SITE.md` al implementar
+## 8. Cambios ya aplicados en `docs/SITE.md`
 
 - §5 «Shipped order»: Hero → Problema → Visita (`#recorrido`) → Cómo empezar (`#como-empezar`) → bento → Calendarios → Precios → FAQ → Cierre.
 - §5.1: segundo botón «Ver una visita» → `#recorrido`; quitar la secuencia de estados del hero.

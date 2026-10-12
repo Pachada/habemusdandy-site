@@ -275,21 +275,21 @@ Right side: quiet 4-step strip — Reserva → Formulario → Sesión → Seguim
 Calendly `/features` shape: hero, then grouped capabilities, then CTA. Not a second homepage.
 
 **Hero:** distinct from home — H1 `Agenda, clientes y clínica, en el mismo flujo.` + `Comenzar gratis` / `Ver precios`
-**Hero visual:** one agenda ProductFrame under the hero copy (do not clone the homepage panel hero).
+**Hero visual:** one agenda ProductFrame under the hero copy (do not clone the homepage panel hero). It may use the same in-view ambient float as the home hero. Group mocks stay still.
 
-**Groups** (match the live dashboard, not a scheduler feature list):
+**Groups** (match the live dashboard, not a scheduler feature list). Odd groups sit on paper; even groups sit on `--color-frame`, with no brand wash. The index is a neutral pill (Outfit, tabular numerals, `--color-ink-mid`; `--color-frame` on paper, `--color-surface` on a frame band). Item markers are ink. Paid groups carry one quiet plan note, `En Equipos y Empresas.`, and do not repeat the plan in the intro. Titles for Agenda, Clientes, Clínica, and Formularios are inventory lines, not the home visit chapter titles.
 
-1. **Panel principal** — citas de hoy, estados, acciones rápidas, ingresos pendientes
-2. **Agenda** — Citas, Servicios, Horario (excepciones y zona horaria), calendario
-3. **Clientes** — perfil, fichas, visitas e historial
-4. **Clínica** — notas, seguimiento y continuidad (group mock: note frame highlighting **Citas**; the product sidebar has no Clínica item)
-5. **Formularios** — diseñador de ingreso, marca, consentimiento y firma
-6. **Administración** — usuarios, roles Owner/Manager/Staff, branding y configuración
-7. **Integraciones** — Google Calendar y Apple Calendar, únicamente lo que está vivo
-8. **Automatizaciones** — recordatorios por email y SMS alrededor de la cita; incluido en Equipos y Empresas, no en Gratis (present tense; live today)
-9. **Reportes e insights** — paneles e insights para la organización; misma regla de plan que Automatizaciones (present tense; live today). Footnote quieta: ambos pertenecen al plan de pago.
+1. **Panel principal** — citas de hoy, estados, acciones rápidas, ingresos pendientes. Title: `Hoy, sin buscar en cinco lugares.`
+2. **Agenda** — Citas, Servicios, Horario (excepciones y zona horaria). Title: `Horario, servicios y citas, en una sola semana.` Google and Apple Calendar are not listed here.
+3. **Clientes** — perfil, fichas, visitas e historial. Title: `Cada cliente, con su historia.`
+4. **Clínica** — notas, seguimiento y continuidad (group mock: note frame highlighting **Citas**; the product sidebar has no Clínica item). Title: `Notas y seguimiento, sesión tras sesión.`
+5. **Formularios** — diseñador de ingreso, marca, consentimiento y firma. Title: `Ingreso, consentimiento y firma, antes de la cita.` Plan note.
+6. **Administración** — usuarios, roles Owner/Manager/Staff, branding y configuración. Plan note.
+7. **Integraciones** — Google Calendar y Apple Calendar, únicamente lo que está vivo. Plan note.
+8. **Automatizaciones** — recordatorios por email y SMS alrededor de la cita (present tense; live today). Plan note only.
+9. **Reportes e insights** — paneles e insights para la organización (present tense; live today). Plan note only.
 
-Each group: H2, short intro, 4–6 items (title + one line). One product mock per group, not per item.
+Each group: H2, short intro, item list (title + one line). One product mock per group, not per item.
 
 Close with the same CTA band as home.
 
@@ -308,7 +308,7 @@ Calendly `/pricing` shape, Koalendar scannability, our plans.
 
 Do not add “vs Calendly / Cal.com / Koalendar.” Different category; that table would confuse the buyer.
 
-Plans: Gratis, Equipos (API id `business`; list `$249` / `$199` annual; launch `$199 MXN / asiento / mes`, or `$149 MXN / asiento / mes` when billed annually), and Empresas (contact sales only). Equipos card CTA: **`Comenzar`**, plus the panel plan-choice line, the three trust lines linking to `/seguridad`, and the handoff line to the panel at `app.horaya.mx` (same rules as the homepage pricing teaser).
+Plans: Gratis, Equipos (API id `business`; list `$249` / `$199` annual; launch `$199 MXN / asiento / mes`, or `$149 MXN / asiento / mes` when billed annually), and Empresas (contact sales only). Equipos card CTA: **`Comenzar`**, plus the panel plan-choice line, the three trust lines linking to `/seguridad`, and the handoff line to the panel at `app.horaya.mx` (same rules as the homepage pricing teaser). From 860px the Equipos card stays slightly raised. It does not lift further on hover. Its light brand wash and `Recomendado` pill stay. In the comparison table the Equipos column is ink at weight 600, not brand. Row rules stay.
 
 ---
 
@@ -320,6 +320,8 @@ Short trust page (Calendly “built to keep you secure,” without enterprise th
 - What patients see (intake link, no dashboard)
 - What we do not do
 - Links to `/privacidad` and `/terminos`
+
+The three blocks do not lift on hover. Their numbers use the same neutral pill as Cómo empezar (`--color-frame`, `--color-ink-mid`). The legal note sits on `--color-frame`, not a brand wash.
 
 No SOC/HIPAA badges unless they are real.
 

@@ -1,8 +1,8 @@
-# Kintook marketing site — baseline
+# Horaya marketing site — baseline
 
-This is the source of truth for information architecture, sections, and look of the public site. It is inspired by [Calendly](https://calendly.com/?redirect=false), [Cal.com](https://cal.com/es/), and [Koalendar](https://koalendar.com/), then brought down to **Kintook**: clinic operations software, not a generic meeting scheduler.
+This is the source of truth for information architecture, sections, and look of the public site. It is inspired by [Calendly](https://calendly.com/?redirect=false), [Cal.com](https://cal.com/es/), and [Koalendar](https://koalendar.com/), then brought down to **Horaya**: clinic operations software, not a generic meeting scheduler.
 
-Copy language: **Spanish**. Dashboard login/signup stay in `Habemusfisio-ui`.
+Copy language: **Spanish**. Dashboard login/signup stay on `https://app.horaya.mx`.
 
 ---
 
@@ -48,7 +48,7 @@ What we **do** take:
 
 ## 2. Our positioning
 
-Kintook is the **operating system of the clinic**, not a booking link.
+Horaya is the **operating system of the clinic**, not a booking link.
 
 Calendly / Cal / Koalendar stop at “someone picks a time.” We continue into the visit: client record, intake, services, clinical notes, hours, and staff administration.
 
@@ -78,8 +78,8 @@ If a section does not serve one of those pillars, it does not belong on v1.
 Keep the first version small. These sites look large in the footer; their **conversion path** is three pages plus auth.
 
 ```text
-kintook.com                         marketing (this repo)
-app.habemusfisio.com                dashboard (Habemusfisio-ui)
+horaya.mx                         marketing (this repo)
+app.horaya.mx                dashboard (Habemusfisio-ui)
 
 /                   Home
 /producto           Product / features
@@ -142,7 +142,7 @@ Every major band ends with **Comenzar**. Secondary link is **Ver precios** or **
 This is the page that has to work alone. Order is the conversion story, not the org chart.
 
 **Shipped order:**
-Hero → Problem → Setup (`#como-funciona`) → Operational breadth bento → Integrations → Journey (`#recorrido`) → Pricing teaser → FAQ → Closing CTA
+Hero → Problem → Visit (`#recorrido`) → Cómo empezar (`#como-empezar`) → Operational breadth bento → Integrations → Pricing teaser → FAQ → Closing CTA
 
 Do **not** ship Agenda/Clientes homepage pillars or a warm mid-page CTA. Continuity lives in Journey and `/producto`.
 
@@ -151,9 +151,9 @@ Do **not** ship Agenda/Clientes homepage pillars or a warm mid-page CTA. Continu
 - Eyebrow (status-dot pill): `Para clínicas`
 - H1: `La clínica, en un solo lugar.`
 - Sub: `Agenda, formularios, fichas y notas, fuera del chat y del calendario compartido.`
-- CTAs: `Comenzar gratis` + `Ver cómo funciona` (anchor `#como-funciona`)
+- CTAs: `Comenzar gratis` + `Ver una visita` (anchor `#recorrido`)
 - Trust line under buttons: `Plan gratuito` · `Configuración en minutos` (do not claim “sin tarjeta”)
-- **Visual:** first screen. `min-height: calc(100svh - var(--header-h))`, content vertically centered, extra bottom padding so Problem starts on the next scroll. Split layout from 900px (copy left, product right). ProductFrame variant **`panel`** (visit panel / today’s flow), not the week grid — the cropped agenda lives in Setup, not here. `Ingreso completo` and `Nota lista` sit on the frame: readable, visible in the layout, and **not** `aria-hidden`. No perspective or `rotateY` tilt on the hero mock. On small screens, copy then a compact panel frame with the same two signals. No isometric 3D, no mascot, no stock photography. Do not restore sidebar or a 5-day week.
+- **Visual:** first screen. `min-height: calc(100svh - var(--header-h))`, content vertically centered, extra bottom padding so Problem starts on the next scroll. Split layout from 900px (copy left, product right). ProductFrame variant **`panel`** (visit panel / today’s flow), not the week grid — the cropped agenda lives in the visit, not here. `Ingreso completo` and `Nota lista` sit on the frame: readable, visible in the layout, and **not** `aria-hidden`. No perspective or `rotateY` tilt on the hero mock. On small screens, copy then a compact panel frame with the same two signals. No isometric 3D, no mascot, no stock photography. Do not restore sidebar or a 5-day week. The hero does not run a rotating visit-state sequence; that story is `#recorrido`.
 
 ### 5.2 Logo / proof strip
 
@@ -165,7 +165,7 @@ Optional later: a metric row *only with real data* (citas, clínicas, no-show dr
 
 Separate chapter after the hero: extra top padding (~4–5rem) and a warm/paper band (`--color-warm` mix) so Hero and Problem do not share one canvas.
 
-Problem is a dossier of three cases, not a matching 3-up card grid. Each case is a documentary still plus copy. From 640px the still sits beside the copy; on small screens the still stacks above. Chat bubbles, empty ficha rows, and follow-up warnings enter once; “Sin respuesta” breathes only while the section is in view.
+Problem is a dossier of three cases, not a matching 3-up card grid. Each case is a documentary still plus copy. From 640px the still sits beside the copy; on small screens the still stacks above. Scenes stay neutral so the visit reads as what comes after: case 1 uses `--color-frame` (no brand wash) and the outgoing chat bubble is an ink mix, not brand. Cards do not lift on hover. Chat bubbles, empty ficha rows, and follow-up warnings enter once; “Sin respuesta” breathes only while the section is in view, and under reduced motion it stays at full opacity.
 
 | Scene | Title | Line |
 | --- | --- | --- |
@@ -175,20 +175,21 @@ Problem is a dossier of three cases, not a matching 3-up card grid. Each case is
 
 Headline: `Hoy la clínica se arma en el chat.`
 
-### 5.4 Setup (how it works)
+### 5.4 Cómo empezar
 
-Numbered process (`ol`), id `como-funciona` — not a twin of the Problem case list. On mobile a left rail connects 01–03; from 860px the three steps sit in a row with equal-height frames, copy aligned on one baseline, and numbers centered on the connector above each card. Each step has a focused ProductFrame that floats 3px while in view.
+Numbered process (`ol`), id `como-empezar`. White cards on a `--color-frame` band: the number sits in a pill inside the card, top left (Outfit, tabular numerals, `--color-frame` pill, `--color-ink-mid` text), then the title and line, then the mock cropped by the bottom edge of the card. No connector line and no vertical rail. From 860px the three steps are equal-height columns. No inner gray stage and no hover lift. One button: `Comenzar gratis`. No ghost link back to the visit.
 
-- Label: `Cómo funciona`
+- Label: `Cómo empezar`
 - H2: `Empezar no debería tomar una semana.`
-- Lead: `Horario, servicios y la primera cita. El resto del flujo ya está en el mismo sitio.`
-- Buttons: `Comenzar gratis` (primary) + `Ver el flujo de una visita` (ghost, `#recorrido`)
+- Lead: `Horario, servicios y formulario de ingreso. Con eso, la próxima visita corre como la acabas de ver.`
 
 | # | Title | Line | Frame |
 | --- | --- | --- | --- |
-| 01 | Define horario y servicios | Cuándo atiendes y qué ofreces | `hours` compact |
-| 02 | Recibe la reserva | El hueco queda en la agenda, no en el chat | `agenda` crop/compact |
-| 03 | Atiende con la ficha lista | Datos y visitas anteriores al abrir | `client` compact |
+| 01 | Define tu horario | Los días y horas en que atiendes. | `hours` compact, micro `availability` |
+| 02 | Da de alta tus servicios | Qué ofreces, cuánto dura y cuánto cuesta. | `services` compact |
+| 03 | Prepara el formulario de ingreso | Los datos y el motivo de consulta que quieres antes de la cita. | `intake` compact |
+
+Step 03 carries a quiet plan note: `Formularios de ingreso: en Equipos y Empresas.`
 
 ### 5.5 Product pillars
 
@@ -198,31 +199,33 @@ Do **not** ship a separate Clínica homepage band.
 
 ### 5.6 Journey (how a visit flows)
 
-Placed after Integrations, before the pricing teaser. Dark band, id `recorrido`. Headline: `El contexto avanza con cada visita.` Secondary text link: `Comenzar gratis`.
+Placed after the problem bridge and before Cómo empezar. Paper band, id `recorrido`. Headline: `El contexto avanza con cada visita.` Secondary text link: `Comenzar gratis`. No primary button in this band.
 
-Four tabs (~6s each, crossfade). Autoplay starts only when `#recorrido` / `[data-journey]` intersects (`IntersectionObserver`). Pause off-screen and on hover/focus. A subtle mobile cue indicates that more tabs are horizontally available. A manual click or keyboard selection stops autoplay for that Journey instance. `prefers-reduced-motion`: no autoplay. Progress underline matches the step duration.
+One markup of four `<article>` chapters. Below 860px they stack as cards (no tab roles, no `hidden`, no autoplay); each card is at least one screen, unless the viewport is 640px tall or shorter. From 860px, JS turns them into tabs (`role="tablist"` / `tab` / `tabpanel`, arrows, `aria-selected`, roving `tabindex`) via `matchMedia('(min-width: 860px)')`, and tears that down when the viewport crosses back. Without JS they stay stacked on desktop too. The rail sits on `--color-frame` above one white card. The card is two columns: copy on white, tinted stage on the right, fixed at `34rem` so a tab change does not shift the page. No outer float container.
 
-1. **La cita entra en la agenda** — horario y duración ya definidos
+Autoplay is one pass, about 6s per chapter, 01 → 04, then it stops on 04 with the progress bar full. It does not loop. It starts when the section is in view, pauses off-screen and on hover or focus, and a click or arrow stops it for good. Leaving early resumes from the current chapter. `prefers-reduced-motion`: no autoplay, chapter 01 selected, instant tab change, full progress bar on the active tab.
+
+Each chapter has a kicker, title, remate, copy, a three-step timeline (existing `status-dot` classes), an optional plan note, and one tinted ProductFrame. Tints are visit-only (`--tint-cita`, `--tint-ingreso`, `--tint-ficha`, `--tint-seguimiento`, plus glow and key). Chapter 02 plan note: `Formularios de ingreso: en Equipos y Empresas.` Entrance runs once: copy is already visible, the tint reveals, the mock lands, one protagonist product state plays, then the timeline dots take their state with a single ring.
+
+1. **La cita entra en la agenda** — hueco del jueves 17:00 en la agenda (bloque `17:00 · Revisión` en la columna Jue)
 2. **El ingreso llega con tiempo** — formulario antes del box
-3. **La ficha abre con contexto** — datos y visitas juntos
-4. **El seguimiento queda preparado** — nota y plan en el mismo flujo
+3. **La ficha abre con contexto** — datos, visitas y nota previa
+4. **El seguimiento queda preparado** — nota, próxima cita y plan
 
-Tab statuses may keep product-state wording (including “Ingreso”). Agenda visual rule: journey step 1 may reuse agenda inside journey chrome; the hero does not show the week grid.
+Tab labels: `Cita confirmada`, `Ingreso recibido`, `Contexto listo`, `Seguimiento preparado`. Agenda visual rule: journey step 1 may reuse agenda inside journey chrome and highlights Thursday 17:00; the hero does not show the week grid.
 
 ### 5.7 Operational breadth
 
-Label: `Más que una agenda`. Title: `La operación alrededor de la visita.` Lead: `Servicios, formularios, horario y roles. Cada pieza con su lugar, sin otra herramienta.`
+Label: `Más que una agenda`. Title: `La operación alrededor de la visita.` Lead: `El panel del día, los roles del equipo y el detalle de cada pieza. Sin otra herramienta.`
 
-Use an asymmetric editorial bento: one dominant **Panel principal** scene for today’s appointments, statuses, quick actions, and pending intake; four smaller operational tiles for **Servicios** (duration, price, accent color), **Formularios** (branded/custom intake, consent/signature), **Horario** (weekly availability, date exceptions, timezone), and **Equipo y roles** (Owner/Manager/Staff access). The dominant panel and four tiles are static focused ProductFrame/CSS scenes, not tiny full-app screenshots, icon soup, or another carousel. Give the four smaller tiles enough separation to read as independent objects, using stronger soft shadows, restrained category accents, and lightly tinted visual stages rather than heavy borders. Desktop uses a 12-column composition; tablet uses a balanced dominant-plus-2×2 treatment; mobile stacks without overflow. One CTA, `Ver todas las capacidades`, points to `/producto`.
+Use an asymmetric editorial bento: one dominant **Panel principal** scene for today’s appointments, statuses, quick actions, and pending intake; four smaller operational tiles for **Servicios** (color chips per service), **Formularios** (brand, consent, and signature on one row), **Horario** (a date exception and timezone, not the weekly blocks), and **Equipo y roles** (Owner/Manager/Staff access). The dominant panel and four tiles are static focused ProductFrame/CSS scenes, not tiny full-app screenshots, icon soup, or another carousel. Tile copy: `Color por servicio, para distinguir cada atención de un vistazo.` · `Tu marca, consentimiento y firma en el mismo formulario.` · `Excepciones de fecha y zona horaria, sin rehacer la semana.` The panel line stays `Hoy, sin buscar en cinco lugares.` No variant and `micro` pair is repeated between Cómo empezar and this bento. Give the four smaller tiles enough separation to read as independent objects, using the current double soft shadow. Stages use `--color-frame`. No category accent tint and no 3px accent bar. No hover lift. Desktop uses a 12-column composition; tablet uses a balanced dominant-plus-2×2 treatment; mobile stacks without overflow. One CTA, `Ver todas las capacidades`, points to `/producto`. Quiet plan note under the bento: `Formularios, equipo y roles: en Equipos y Empresas.`
 
-The problem section flows into Setup through one short narrative bridge, not solution badges repeated inside each problem card.
+The problem section flows into the visit through one short narrative bridge, not solution badges repeated inside each problem card.
 
 **Shipped bridges:**
 
-- Problem → Setup: `El chat no es un sistema.`
-- Setup → Capabilities: `La primera cita no basta.`
-- Capabilities (after the calendar strip) → Integrations: `La operación ya está en el sistema.`
-- Journey → Pricing: `El plan cubre la operación.`
+- Problem → Visit: `El chat no es un sistema.` Así se ve el mismo jueves cuando la visita vive en un solo lugar.
+- Integrations → Pricing: `El plan cubre la operación.`
 
 ### 5.8 Mid-page CTA
 
@@ -230,12 +233,12 @@ Do **not** ship a warm mid-page CTA. The closing navy band is the only full-widt
 
 ### 5.9 Integrations
 
-One quiet shared strip/row: Google Calendar + Apple Calendar. Headline `Se conecta con lo que ya usas.` Copy talks about appearing in calendars the team already uses. Do not label the cards `Una vía` or `Solo lectura`. Text link to `/producto#integraciones`.
+One quiet shared strip/row on `--color-surface` (no brand tint): Google Calendar + Apple Calendar. The strip does not float. Headline `Se conecta con lo que ya usas.` Copy talks about appearing in calendars the team already uses. Plan note under the lead: `Incluido en Equipos y Empresas.` Do not label the cards `Una vía` or `Solo lectura`. Text link to `/producto#integraciones`.
 Do not show Zoom/Salesforce/Zapier just because Calendly does.
 
 ### 5.10 Pricing teaser
 
-Three plan cards: **Gratis**, **Equipos** (marketing name for API plan id `business`; list `$249 MXN` monthly / `$199 MXN` annual per seat; launch promo `$199 MXN / asiento / mes`, or `$149 MXN / asiento / mes` billed annually as `$1,788` — 25% off vs monthly promo / `$600` saved per seat), y **Empresas** (contact sales only — not a third API plan; includes everything in Equipos plus dedicated accompaniment as already described). A compact `Mensual / Anual` toggle appears above the cards on Home and `/precios`; Mensual is the default and Anual carries a visible `−25%` label. Both periods show the list price struck through next to the launch price, plus a `Promoción de lanzamiento` chip. Equipos shows a visible `Recomendado` pill and a solid primary CTA labeled **`Comenzar`** (never `Elegir Equipos`) on both Home and `/precios`; under that button, a visible line that the plan is chosen inside the panel (e.g. `El plan lo eliges en el panel`). Gratis CTA stays **`Comenzar gratis`**; Empresas remains a text link. Signup at the dashboard only creates an account — it cannot receive a plan from the marketing site. Beside the price actions, three quiet trust lines (each links to `/seguridad`): `Datos aislados por clínica` · `El paciente no tiene panel` · `No vendemos listas`. One handoff line under the primary signup path: the next screen is the panel at `app.habemusfisio.com`. Link to `Ver precios` / comparar planes; do not publish competitor comparison tables.
+Three plan cards: **Gratis**, **Equipos** (marketing name for API plan id `business`; list `$249 MXN` monthly / `$199 MXN` annual per seat; launch promo `$199 MXN / asiento / mes`, or `$149 MXN / asiento / mes` billed annually as `$1,788` — 25% off vs monthly promo / `$600` saved per seat), y **Empresas** (contact sales only — not a third API plan; includes everything in Equipos plus dedicated accompaniment as already described). A compact `Mensual / Anual` toggle appears above the cards on Home and `/precios`; Mensual is the default and Anual carries a visible `−25%` label. Both periods show the list price struck through next to the launch price, plus a `Promoción de lanzamiento` chip. Equipos shows a visible `Recomendado` pill and a solid primary CTA labeled **`Comenzar`** (never `Elegir Equipos`) on both Home and `/precios`; under that button, a visible line that the plan is chosen inside the panel (e.g. `El plan lo eliges en el panel`). Gratis CTA stays **`Comenzar gratis`**; Empresas remains a text link. Signup at the dashboard only creates an account — it cannot receive a plan from the marketing site. Beside the price actions, three quiet trust lines (each links to `/seguridad`): `Datos aislados por clínica` · `El paciente no tiene panel` · `No vendemos listas`. One handoff line under the primary signup path: the next screen is the panel at `app.horaya.mx`. Link to `Ver precios` / comparar planes; do not publish competitor comparison tables.
 
 ### 5.11 Testimonials
 
@@ -248,8 +251,8 @@ Two-column on desktop: intro left (optional text link `Comenzar gratis`, not a s
 Draft:
 
 1. ¿Por qué usar una herramienta de gestión si ya tengo WhatsApp y Calendar?
-2. ¿Qué diferencia a Kintook de una agenda online?
-3. ¿Cómo sé si Kintook encaja con mi clínica?
+2. ¿Qué diferencia a Horaya de una agenda online?
+3. ¿Cómo sé si Horaya encaja con mi clínica?
 4. ¿El paciente necesita crear una cuenta?
 5. ¿Puedo adaptar la herramienta a la forma en que trabaja mi equipo?
 6. ¿Dónde quedan los datos de mi clínica?
@@ -272,21 +275,21 @@ Right side: quiet 4-step strip — Reserva → Formulario → Sesión → Seguim
 Calendly `/features` shape: hero, then grouped capabilities, then CTA. Not a second homepage.
 
 **Hero:** distinct from home — H1 `Agenda, clientes y clínica, en el mismo flujo.` + `Comenzar gratis` / `Ver precios`
-**Hero visual:** one agenda ProductFrame under the hero copy (do not clone the homepage panel hero).
+**Hero visual:** one agenda ProductFrame under the hero copy (do not clone the homepage panel hero). It may use the same in-view ambient float as the home hero. Group mocks stay still.
 
-**Groups** (match the live dashboard, not a scheduler feature list):
+**Groups** (match the live dashboard, not a scheduler feature list). Odd groups sit on paper; even groups sit on `--color-frame`, with no brand wash. The index is a neutral pill (Outfit, tabular numerals, `--color-ink-mid`; `--color-frame` on paper, `--color-surface` on a frame band). Item markers are ink. Paid groups carry one quiet plan note, `En Equipos y Empresas.`, and do not repeat the plan in the intro. Titles for Agenda, Clientes, Clínica, and Formularios are inventory lines, not the home visit chapter titles.
 
-1. **Panel principal** — citas de hoy, estados, acciones rápidas, ingresos pendientes
-2. **Agenda** — Citas, Servicios, Horario (excepciones y zona horaria), calendario
-3. **Clientes** — perfil, fichas, visitas e historial
-4. **Clínica** — notas, seguimiento y continuidad (group mock: note frame highlighting **Citas**; the product sidebar has no Clínica item)
-5. **Formularios** — diseñador de ingreso, marca, consentimiento y firma
-6. **Administración** — usuarios, roles Owner/Manager/Staff, branding y configuración
-7. **Integraciones** — Google Calendar y Apple Calendar, únicamente lo que está vivo
-8. **Automatizaciones** — recordatorios por email y SMS alrededor de la cita; incluido en Equipos y Empresas, no en Gratis (present tense; live today)
-9. **Reportes e insights** — paneles e insights para la organización; misma regla de plan que Automatizaciones (present tense; live today). Footnote quieta: ambos pertenecen al plan de pago.
+1. **Panel principal** — citas de hoy, estados, acciones rápidas, ingresos pendientes. Title: `Hoy, sin buscar en cinco lugares.`
+2. **Agenda** — Citas, Servicios, Horario (excepciones y zona horaria). Title: `Horario, servicios y citas, en una sola semana.` Google and Apple Calendar are not listed here.
+3. **Clientes** — perfil, fichas, visitas e historial. Title: `Cada cliente, con su historia.`
+4. **Clínica** — notas, seguimiento y continuidad (group mock: note frame highlighting **Citas**; the product sidebar has no Clínica item). Title: `Notas y seguimiento, sesión tras sesión.`
+5. **Formularios** — diseñador de ingreso, marca, consentimiento y firma. Title: `Ingreso, consentimiento y firma, antes de la cita.` Plan note.
+6. **Administración** — usuarios, roles Owner/Manager/Staff, branding y configuración. Plan note.
+7. **Integraciones** — Google Calendar y Apple Calendar, únicamente lo que está vivo. Plan note.
+8. **Automatizaciones** — recordatorios por email y SMS alrededor de la cita (present tense; live today). Plan note only.
+9. **Reportes e insights** — paneles e insights para la organización (present tense; live today). Plan note only.
 
-Each group: H2, short intro, 4–6 items (title + one line). One product mock per group, not per item.
+Each group: H2, short intro, item list (title + one line). One product mock per group, not per item.
 
 Close with the same CTA band as home.
 
@@ -305,7 +308,7 @@ Calendly `/pricing` shape, Koalendar scannability, our plans.
 
 Do not add “vs Calendly / Cal.com / Koalendar.” Different category; that table would confuse the buyer.
 
-Plans: Gratis, Equipos (API id `business`; list `$249` / `$199` annual; launch `$199 MXN / asiento / mes`, or `$149 MXN / asiento / mes` when billed annually), and Empresas (contact sales only). Equipos card CTA: **`Comenzar`**, plus the panel plan-choice line, the three trust lines linking to `/seguridad`, and the handoff line to the panel at `app.habemusfisio.com` (same rules as the homepage pricing teaser).
+Plans: Gratis, Equipos (API id `business`; list `$249` / `$199` annual; launch `$199 MXN / asiento / mes`, or `$149 MXN / asiento / mes` when billed annually), and Empresas (contact sales only). Equipos card CTA: **`Comenzar`**, plus the panel plan-choice line, the three trust lines linking to `/seguridad`, and the handoff line to the panel at `app.horaya.mx` (same rules as the homepage pricing teaser). From 860px the Equipos card stays slightly raised. It does not lift further on hover. Its light brand wash and `Recomendado` pill stay. In the comparison table the Equipos column is ink at weight 600, not brand. Row rules stay.
 
 ---
 
@@ -317,6 +320,8 @@ Short trust page (Calendly “built to keep you secure,” without enterprise th
 - What patients see (intake link, no dashboard)
 - What we do not do
 - Links to `/privacidad` and `/terminos`
+
+The three blocks do not lift on hover. Their numbers use the same neutral pill as Cómo empezar (`--color-frame`, `--color-ink-mid`). The legal note sits on `--color-frame`, not a brand wash.
 
 No SOC/HIPAA badges unless they are real.
 
@@ -333,10 +338,10 @@ Luxury refined minimalism, same family as the dashboard — marketing is allowed
 | Muted | `#6b6b68` |
 | Paper | `#fafaf8` |
 | Surface | `#ffffff` |
-| Brand | `#1769e0` — primary actions and focus only |
+| Brand | `#1769e0` — primary actions and focus only. One visit exception: chapter 01 may use brand as wash, glow, kicker dot, tab dot, and progress bar — never as text, a button, or a solid fill, and in no other section |
 | Depth | Soft shadow, no card borders |
 | Radius | Medium, same as product |
-| Motion | Fade/slide on scroll, one-shot product-state reveals, Journey crossfade (~6s), FAQ height, billing toggle swap; ambient 3px float on product frames and integration icons while in view; hero panel floats 3px; problem scenes enter once; **hero only:** one CSS product-state sequence (unanswered chat → booked slot → filled ficha) while the hero block is on screen; `prefers-reduced-motion` shows the final state immediately; respect `prefers-reduced-motion` elsewhere |
+| Motion | Fade/slide on scroll, one-shot product-state reveals, visit entrance once per chapter (tint, mock, one protagonist state), desktop visit autoplay one pass (~6s, no loop), FAQ height, billing toggle swap; ambient 3px float only on the hero panel and its signals while in view; problem scenes enter once and “Sin respuesta” breathes only while that section is in view; `prefers-reduced-motion` shows the final state immediately, with no float and no autoplay |
 
 **Closer to Calendly than Koalendar:** lots of air, typography hierarchy, product shots on paper, and an editorial monochrome shell. Color comes from product UI, icons, motion states, and restrained primary actions.
 **Closer to Cal.com than Calendly:** the screenshot *is* our app, not an illustrated metaphor.
@@ -347,12 +352,12 @@ Rules:
 - One H1 per page
 - Section labels are small + muted; section titles are large + light-to-medium weight
 - Primary button once per band
-- Dual CTAs: self-serve primary; secondary is text or ghost (`Ver precios`, `Ver producto`, `Ver cómo funciona`)
+- Dual CTAs: self-serve primary; secondary is text or ghost (`Ver precios`, `Ver producto`, `Ver una visita`)
 - Status and proof use dots / quiet text, not filled badges (except pricing `Recomendado` pill)
 - Product UI mocks use existing status/appointment tokens for quiet color — not beige + one blue button only
 - No hardcoded one-off colors; CSS variables only
 - No Calendly organic blobs / illustration style
-- Static HTML first. JS only for the header drawer, billing toggle, journey tabs, FAQ accordion, reveal, ambient pause of in-view product frames, one-shot product-state entry, the hero CSS state sequence, the cookie notice (localStorage preference only; no analytics), and a short first-paint page loader. Animate product state, never bouncing marketing text. Setup reveals availability blocks, a settling reservation, and ficha rows once; the bento reveals panel rows plus service/form/horario/role states once; Journey re-triggers only the newly active panel’s product state. Hero product frame floats 3px while in view; the hero state sequence runs only while the hero intersects the viewport. **No Three.js, WebGL, or WebGL-based libraries.** Reduced motion shows final state immediately.
+- Static HTML first. JS only for the header drawer, billing toggle, journey tabs (desktop, `matchMedia` at 860px), FAQ accordion, reveal, ambient pause of the in-view hero, one-shot product-state entry, the cookie notice (localStorage preference only; no analytics), and a short first-paint page loader. Animate product state, never bouncing marketing text. The visit entrance animates only `opacity`, `transform`, and `clip-path`: copy is already visible, the tint reveals with `clip-path`, the mock lands from scale 0.96, one protagonist state plays, then timeline dots take their color with a single ring. Limits: at most 12px of travel, scale never below 0.96 or above 1 except the one-shot ring, `--ease-out` with no bounce, each four-beat entrance within 1.2s, no loop inside the visit. Desktop tab changes crossfade copy (200ms out, `--duration-crossfade` in) with no `translateY`, then replay tint, mock, and protagonist. Autoplay is one pass. Cómo empezar reveals availability blocks, service rows, and intake fields once. The bento reveals panel rows and each tile’s product state once, without floating or hover lift. Ambient 3px float stays on the hero only. Visit tints are exclusive to `#recorrido`. Plan notes are quiet 0.8rem `--color-muted` text, present tense, no pill: chapter 02, Cómo empezar step 03, the bento footer, and integrations. **No Three.js, WebGL, or WebGL-based libraries.** `scroll-behavior: smooth` only without `prefers-reduced-motion: reduce`. Reduced motion shows the final state immediately, including a static “Sin respuesta” at full opacity, no float, and no visit autoplay.
 ---
 
 ## 10. Voice
@@ -393,6 +398,6 @@ Rules:
 
 - Astro pages, shared `BaseLayout`, CSS variables in global styles
 - Product shots: real dashboard captures (light scheme), lightly framed
-- `Comenzar` / `Iniciar sesión` are absolute URLs to the app origin (env), defaulting to `https://app.habemusfisio.com`
+- `Comenzar` / `Iniciar sesión` are absolute URLs to the app origin (env), defaulting to `https://app.horaya.mx`
 - No auth, no org context, no API client in this repo
-- Hosting: S3 + CloudFront via CDK in `infra/` (see `infra/README.md`). Production domain is `kintook.com`. DNS stays at Cloudflare; CNAMEs point at CloudFront. Dashboard stays on `app.habemusfisio.com`.
+- Hosting: S3 + CloudFront via CDK in `infra/` (see `infra/README.md`). Production domain is `horaya.mx`. DNS is the existing Route 53 zone in the Horaya account; the stack writes apex and `www` aliases. Dashboard stays on `app.horaya.mx`.

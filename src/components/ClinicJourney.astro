@@ -3,98 +3,152 @@ import ProductFrame from './ProductFrame.astro'
 
 const moments = [
   {
+    id: 'cita',
     kicker: 'Antes de la visita',
     title: 'La cita entra en la agenda',
-    copy: 'El horario y la duración del servicio ya están definidos. La semana se mantiene clara para todo el equipo.',
+    remate: 'Sin “deja checo y te aviso”.',
+    copy: 'El horario y la duración del servicio ya están definidos. Ves el hueco libre y la cita queda en la agenda, no en un chat visto.',
     status: 'Cita confirmada',
-    detail: 'Mar · 10:00 · Revisión',
     frame: 'agenda' as const,
+    scene: 'cita' as const,
     activeNav: 'Citas',
+    timeline: [
+      { state: 'idle' as const, text: 'Horario y duración definidos' },
+      { state: 'idle' as const, text: 'Jueves 17:00 libre' },
+      { state: 'ok' as const, text: 'Cita confirmada · Jue 17:00' },
+    ],
   },
   {
+    id: 'ingreso',
     kicker: 'Antes de atender',
     title: 'El ingreso llega con tiempo',
+    remate: 'Nada que preguntar en la puerta.',
     copy: 'El paciente completa sus datos y el motivo de consulta antes de entrar al box.',
+    note: 'Formularios de ingreso: en Equipos y Empresas.',
     status: 'Ingreso recibido',
-    detail: 'Formulario vinculado a la cita',
     frame: 'intake' as const,
+    scene: 'ingreso' as const,
     activeNav: 'Formularios',
+    timeline: [
+      { state: 'idle' as const, text: 'Formulario vinculado a la cita' },
+      { state: 'ok' as const, text: 'Datos y motivo de consulta' },
+      { state: 'ok' as const, text: 'Ingreso recibido' },
+    ],
   },
   {
+    id: 'ficha',
     kicker: 'Durante la sesión',
     title: 'La ficha abre con contexto',
-    copy: 'Datos, visitas anteriores y próximos pasos permanecen juntos; no hay que reconstruir la historia desde un chat.',
+    remate: 'La sesión empieza donde quedó la anterior.',
+    copy: 'Datos, visitas anteriores y la nota de la última sesión, juntos al abrir la ficha. Ya no vuelves a preguntar lo que sabías.',
     status: 'Contexto listo',
-    detail: 'Ficha · Ana Rojas',
     frame: 'client' as const,
+    scene: 'ficha' as const,
     activeNav: 'Clientes',
+    timeline: [
+      { state: 'warn' as const, text: 'Sesión en curso · Ana Rojas' },
+      { state: 'ok' as const, text: 'Última visita · hace 2 semanas' },
+      { state: 'ok' as const, text: 'Nota previa vinculada' },
+    ],
   },
   {
+    id: 'seguimiento',
     kicker: 'Después de atender',
     title: 'El seguimiento queda preparado',
-    copy: 'La nota de la sesión y el plan para la siguiente visita continúan en el mismo flujo.',
+    remate: 'El hilo sigue después de la sesión.',
+    copy: 'La nota queda guardada, la próxima cita en la agenda y el plan a la vista en la ficha. El seguimiento ya no vive en la cabeza.',
     status: 'Seguimiento preparado',
-    detail: 'Nota clínica vinculada',
     frame: 'note' as const,
+    scene: 'seguimiento' as const,
     activeNav: 'Clientes',
+    timeline: [
+      { state: 'idle' as const, text: 'Sesión 6 · finalizada' },
+      { state: 'ok' as const, text: 'Próxima cita agendada' },
+      { state: 'ok' as const, text: 'Plan registrado' },
+    ],
   },
 ]
 
 const STEP_MS = 6000
+
+const tone = (state: 'idle' | 'ok' | 'warn') =>
+  state === 'ok' ? '--color-status-ok' : state === 'warn' ? '--color-status-warn' : '--color-status-idle'
 ---
 
-<div class="journey reveal" data-journey data-step-ms={STEP_MS} style={`--journey-step: ${STEP_MS}ms`}>
-  <div class="journey__rail" role="tablist" aria-label="Recorrido de una cita">
+<div class="journey" data-journey data-step-ms={STEP_MS} style={`--journey-step: ${STEP_MS}ms`}>
+  <div class="journey__rail" data-journey-rail>
     {
       moments.map((moment, index) => (
         <button
           class="journey__tab"
           type="button"
-          role="tab"
           id={`journey-tab-${index}`}
-          aria-controls={`journey-panel-${index}`}
-          aria-selected={index === 0 ? 'true' : 'false'}
-          tabindex={index === 0 ? 0 : -1}
           data-journey-tab={index}
+          style={`--key: var(--tint-${moment.id}-key)`}
         >
-          <span class="journey__number">0{index + 1}</span>
-          <span>{moment.status}</span>
+          <span class="journey__tab-dot" aria-hidden="true"></span>
+          <span class="journey__number">{String(index + 1).padStart(2, '0')}</span>
+          <span class="journey__tab-label">{moment.status}</span>
         </button>
       ))
     }
   </div>
 
-  <p class="journey__hint">Selecciona cada momento para recorrer la cita.<span class="journey__scroll-cue">Desliza para ver más momentos&nbsp;→</span></p>
-
-  <div class="journey__stage">
+  <div class="journey__cards">
     {
       moments.map((moment, index) => (
-        <section
-          class:list={['journey__panel', index === 0 && 'is-active']}
-          role="tabpanel"
+        <article
+          class={`journey__card journey__card--${moment.id}`}
           id={`journey-panel-${index}`}
-          aria-labelledby={`journey-tab-${index}`}
-          hidden={index !== 0}
           data-journey-panel={index}
+          style={`--tint: var(--tint-${moment.id}); --glow: var(--tint-${moment.id}-glow); --key: var(--tint-${moment.id}-key)`}
         >
           <div class="journey__copy">
-            <p class="section-label">{moment.kicker}</p>
+            <p class="journey__kicker">
+              <span class="journey__kicker-dot" aria-hidden="true"></span>
+              {moment.kicker}
+            </p>
             <h3>{moment.title}</h3>
-            <p>{moment.copy}</p>
-            <div class="journey__signal">
-              <span class="journey__pulse" aria-hidden="true"></span>
-              <span><strong>{moment.status}</strong><small>{moment.detail}</small></span>
+            <p class="journey__remate">{moment.remate}</p>
+            <p class="journey__text">{moment.copy}</p>
+            <ol class="journey__timeline">
+              {
+                moment.timeline.map((item) => (
+                  <li style={`--tl: var(${tone(item.state)})`}>
+                    <span class="journey__tl-mark">
+                      <span class="status-dot journey__tl-idle" aria-hidden="true"></span>
+                      <span
+                        class:list={[
+                          'status-dot',
+                          'journey__tl-state',
+                          item.state === 'ok' && 'status-dot--ok',
+                          item.state === 'warn' && 'status-dot--warn',
+                        ]}
+                        aria-hidden="true"
+                      ></span>
+                      <span class="journey__tl-ring" aria-hidden="true"></span>
+                    </span>
+                    <span>{item.text}</span>
+                  </li>
+                ))
+              }
+            </ol>
+            {'note' in moment && moment.note && <p class="plan-note">{moment.note}</p>}
+          </div>
+          <div class="journey__stage" data-journey-stage>
+            <span class="journey__wash" aria-hidden="true"></span>
+            <span class="journey__glow" aria-hidden="true"></span>
+            <div class="journey__mock">
+              <ProductFrame
+                variant={moment.frame}
+                scene={moment.scene}
+                activeNav={moment.activeNav}
+                label={moment.status}
+                compact
+              />
             </div>
           </div>
-          <div class="journey__product">
-            <ProductFrame
-              variant={moment.frame}
-              activeNav={moment.activeNav}
-              label={moment.status}
-              compact={moment.frame === 'intake'}
-            />
-          </div>
-        </section>
+        </article>
       ))
     }
   </div>
@@ -104,54 +158,178 @@ const STEP_MS = 6000
   document.querySelectorAll<HTMLElement>('[data-journey]').forEach((journey) => {
     const tabs = Array.from(journey.querySelectorAll<HTMLButtonElement>('[data-journey-tab]'))
     const panels = Array.from(journey.querySelectorAll<HTMLElement>('[data-journey-panel]'))
-    const stepMs = Number(journey.dataset.stepMs) || 6000
+    const rail = journey.querySelector<HTMLElement>('[data-journey-rail]')
+    const mq = window.matchMedia('(min-width: 860px)')
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const stepMs = Number(journey.dataset.stepMs) || 6000
     let active = 0
     let timer: number | undefined
-    let swapTimer: number | undefined
+    let remaining = stepMs
+    let startedAt = 0
     let userPaused = false
+    let finished = false
+    let inView = false
+    let enhanced = false
+    let swapTimer: number | undefined
+    const cardObservers: IntersectionObserver[] = []
 
-    const select = (next: number, focus = false) => {
-      const previous = active
-      active = (next + tabs.length) % tabs.length
-      if (previous === active) return
+    const playStage = (panel: HTMLElement) => {
+      const stage = panel.querySelector<HTMLElement>('[data-journey-stage]')
+      if (!stage) return
+      const prev = Number(stage.dataset.settle || 0)
+      if (prev) window.clearTimeout(prev)
+      stage.classList.remove('is-played', 'is-settled')
+      void stage.offsetWidth
+      stage.classList.add('is-played')
+      stage.dataset.settle = String(window.setTimeout(() => stage.classList.add('is-settled'), 1200))
+    }
 
-      tabs.forEach((tab, index) => {
-        const selected = index === active
-        tab.setAttribute('aria-selected', String(selected))
-        tab.tabIndex = selected ? 0 : -1
-        if (focus && selected) tab.focus()
-      })
-
-      if (reduceMotion) {
-        panels.forEach((panel, index) => {
-          panel.hidden = index !== active
-          panel.classList.toggle('is-active', index === active)
-          panel.classList.remove('is-leaving')
-        })
+    const showCopy = (panel: HTMLElement, animateDots: boolean) => {
+      if (panel.classList.contains('is-entered')) {
+        if (!animateDots) panel.classList.add('is-copy-final')
         return
       }
+      panel.classList.toggle('is-copy-final', !animateDots)
+      panel.classList.add('is-entered')
+    }
+
+    const settleAll = () => {
+      panels.forEach((panel) => {
+        panel.classList.add('is-entered', 'is-copy-final')
+        panel.querySelector('[data-journey-stage]')?.classList.add('is-played', 'is-settled')
+      })
+    }
+
+    const clearCardObservers = () => {
+      cardObservers.forEach((observer) => observer.disconnect())
+      cardObservers.length = 0
+    }
+
+    const clearTabs = () => {
+      journey.classList.remove('is-tabs', 'is-switching')
+      rail?.removeAttribute('role')
+      rail?.removeAttribute('aria-label')
+      tabs.forEach((tab) => {
+        tab.removeAttribute('role')
+        tab.removeAttribute('aria-selected')
+        tab.removeAttribute('aria-controls')
+        tab.removeAttribute('tabindex')
+      })
+      panels.forEach((panel) => {
+        panel.removeAttribute('role')
+        panel.removeAttribute('aria-labelledby')
+        panel.hidden = false
+        panel.classList.remove('is-leaving', 'is-active')
+      })
+    }
+
+    const applyTabs = () => {
+      rail?.setAttribute('role', 'tablist')
+      rail?.setAttribute('aria-label', 'Recorrido de una cita')
+      journey.classList.add('is-tabs')
+      tabs.forEach((tab, index) => {
+        const on = index === active
+        tab.setAttribute('role', 'tab')
+        tab.setAttribute('aria-controls', panels[index].id)
+        tab.setAttribute('aria-selected', String(on))
+        tab.tabIndex = on ? 0 : -1
+      })
+      panels.forEach((panel, index) => {
+        const on = index === active
+        panel.setAttribute('role', 'tabpanel')
+        panel.setAttribute('aria-labelledby', tabs[index].id)
+        panel.hidden = !on
+        panel.classList.toggle('is-active', on)
+      })
+    }
+
+    const stopTimer = () => {
+      if (timer) window.clearTimeout(timer)
+      timer = undefined
+    }
+
+    const pause = () => {
+      if (timer) {
+        remaining = Math.max(0, remaining - (performance.now() - startedAt))
+        stopTimer()
+      }
+      journey.classList.add('is-paused')
+    }
+
+    const held = () => !inView || journey.matches(':hover') || journey.matches(':focus-within')
+
+    const arm = () => {
+      if (reduceMotion || !enhanced || userPaused || finished || timer) return
+      if (held()) {
+        journey.classList.add('is-paused')
+        return
+      }
+      journey.classList.remove('is-paused')
+      startedAt = performance.now()
+      timer = window.setTimeout(() => {
+        timer = undefined
+        remaining = stepMs
+        if (active >= tabs.length - 1) {
+          finished = true
+          journey.classList.add('is-complete')
+          journey.classList.remove('is-paused')
+          return
+        }
+        select(active + 1)
+        arm()
+      }, remaining)
+    }
+
+    const pauseForUser = () => {
+      userPaused = true
+      journey.classList.add('is-manual')
+      journey.classList.remove('is-paused')
+      stopTimer()
+      remaining = stepMs
+    }
+
+    const select = (next: number, focus = false) => {
+      if (!enhanced) return
+      const clamped = Math.max(0, Math.min(tabs.length - 1, next))
+      if (clamped === active) {
+        if (focus) tabs[clamped]?.focus()
+        return
+      }
+      const previous = active
+      active = clamped
+      tabs.forEach((tab, index) => {
+        const on = index === active
+        tab.setAttribute('aria-selected', String(on))
+        tab.tabIndex = on ? 0 : -1
+        if (focus && on) tab.focus()
+      })
 
       const currentPanel = panels[previous]
       const nextPanel = panels[active]
       if (!currentPanel || !nextPanel) return
 
-      if (swapTimer) window.clearTimeout(swapTimer)
+      if (reduceMotion) {
+        panels.forEach((panel, index) => {
+          const on = index === active
+          panel.hidden = !on
+          panel.classList.toggle('is-active', on)
+          panel.classList.remove('is-leaving')
+        })
+        showCopy(nextPanel, false)
+        playStage(nextPanel)
+        return
+      }
 
+      journey.classList.add('is-switching')
+      if (swapTimer) window.clearTimeout(swapTimer)
       currentPanel.classList.remove('is-active')
       currentPanel.classList.add('is-leaving')
       nextPanel.classList.remove('is-leaving')
       nextPanel.hidden = false
-      const nextFrame = nextPanel.querySelector<HTMLElement>('[data-product-frame]')
-      if (nextFrame) {
-        nextFrame.classList.remove('is-inview')
-        void nextFrame.offsetWidth
-        nextFrame.classList.add('is-inview')
-      }
-      // Force reflow so enter transition runs
       void nextPanel.offsetWidth
       nextPanel.classList.add('is-active')
-
+      showCopy(nextPanel, false)
+      playStage(nextPanel)
       swapTimer = window.setTimeout(() => {
         if (!currentPanel.classList.contains('is-active')) {
           currentPanel.hidden = true
@@ -160,45 +338,94 @@ const STEP_MS = 6000
       }, 420)
     }
 
-    const stop = () => {
-      if (timer) window.clearInterval(timer)
-      timer = undefined
+    const playActive = (animateDots: boolean) => {
+      const panel = panels[active]
+      if (!panel || panel.classList.contains('is-entered')) return
+      showCopy(panel, animateDots)
+      playStage(panel)
     }
 
-    const pauseForUser = () => {
-      userPaused = true
-      journey.classList.add('is-manual')
-      stop()
+    const bindMobile = () => {
+      clearCardObservers()
+      if (reduceMotion || mq.matches) return
+      if (!('IntersectionObserver' in window)) {
+        panels.forEach((panel) => {
+          showCopy(panel, true)
+          playStage(panel)
+        })
+        return
+      }
+      panels.forEach((panel) => {
+        if (panel.classList.contains('is-entered')) return
+        const observer = new IntersectionObserver(
+          ([entry]) => {
+            if (!entry?.isIntersecting) return
+            showCopy(panel, true)
+            playStage(panel)
+            observer.disconnect()
+          },
+          { threshold: 0.3 },
+        )
+        observer.observe(panel)
+        cardObservers.push(observer)
+      })
     }
 
-    let inView = false
-
-    const start = () => {
-      if (reduceMotion || timer || !inView || userPaused) return
-      timer = window.setInterval(() => select(active + 1), stepMs)
+    const enhance = () => {
+      enhanced = true
+      clearCardObservers()
+      applyTabs()
+      if (reduceMotion) {
+        settleAll()
+        return
+      }
+      if (inView) playActive(true)
+      arm()
     }
+
+    const teardown = () => {
+      enhanced = false
+      stopTimer()
+      if (swapTimer) window.clearTimeout(swapTimer)
+      journey.classList.remove('is-paused')
+      clearTabs()
+      bindMobile()
+    }
+
+    const onMq = () => {
+      if (mq.matches) enhance()
+      else teardown()
+    }
+
+    if (reduceMotion) settleAll()
+    onMq()
+    mq.addEventListener('change', onMq)
 
     if (!reduceMotion && 'IntersectionObserver' in window) {
-      const observer = new IntersectionObserver(
+      const view = new IntersectionObserver(
         ([entry]) => {
           inView = Boolean(entry?.isIntersecting)
-          if (inView) start()
-          else stop()
+          if (inView && enhanced) playActive(true)
+          if (inView) arm()
+          else pause()
         },
-        { rootMargin: '0px 0px -12% 0px', threshold: 0.28 },
+        { threshold: 0.3 },
       )
-      observer.observe(journey)
+      view.observe(journey)
     } else if (!reduceMotion) {
       inView = true
-      start()
+      if (enhanced) playActive(true)
+      arm()
     }
 
     tabs.forEach((tab, index) => {
       tab.addEventListener('click', () => {
-        select(index)
+        if (!enhanced) return
         pauseForUser()
+        select(index)
       })
       tab.addEventListener('keydown', (event) => {
+        if (!enhanced) return
         if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return
         event.preventDefault()
         pauseForUser()
@@ -206,56 +433,411 @@ const STEP_MS = 6000
       })
     })
 
-    journey.addEventListener('pointerdown', (event) => {
-      if (!(event.target instanceof Element)) return
-      if (event.pointerType === 'mouse' && !event.target.closest('[data-journey-tab]')) return
-      if (event.pointerType === 'touch' || event.pointerType === 'pen') pauseForUser()
+    journey.addEventListener('mouseenter', () => {
+      if (enhanced) pause()
     })
-
-    journey.addEventListener('mouseenter', stop)
-    journey.addEventListener('mouseleave', start)
-    journey.addEventListener('focusin', stop)
+    journey.addEventListener('mouseleave', () => {
+      if (enhanced) arm()
+    })
+    journey.addEventListener('focusin', () => {
+      if (enhanced) pause()
+    })
     journey.addEventListener('focusout', (event) => {
-      if (!journey.contains(event.relatedTarget as Node | null)) start()
+      if (!enhanced) return
+      if (!journey.contains(event.relatedTarget as Node | null)) arm()
     })
   })
 </script>
 
 <style>
-  .journey {
-    position: relative;
-    padding: clamp(0.65rem, 2vw, 1rem);
-    border-radius: var(--radius-xl);
-    background: color-mix(in srgb, var(--color-surface) 92%, transparent);
-    box-shadow: var(--shadow-float);
+  .journey__rail {
+    display: none;
   }
 
-  .journey__rail {
+  .journey__cards {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .journey__card {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    overflow: hidden;
+    border-radius: var(--radius-xl);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-surface);
+  }
+
+  .journey__copy {
+    padding: clamp(1.25rem, 3vw, 2.5rem);
+  }
+
+  .journey__kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 0.76rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .journey__kicker-dot,
+  .journey__tab-dot {
+    width: 0.45rem;
+    height: 0.45rem;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    background: var(--key);
+  }
+
+  .journey__copy h3 {
+    max-width: 18ch;
+    margin: var(--space-3) 0 0;
+    font-size: clamp(1.7rem, 3vw, 2.5rem);
+    font-weight: 500;
+    letter-spacing: -0.045em;
+    line-height: 1.08;
+    text-wrap: pretty;
+  }
+
+  .journey__remate {
+    max-width: 28rem;
+    margin: var(--space-3) 0 0;
+    color: var(--color-ink);
+    font-size: 1.05rem;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.35;
+  }
+
+  .journey__text {
+    max-width: 34rem;
+    margin: var(--space-3) 0 0;
+    color: var(--color-muted);
+    line-height: 1.55;
+  }
+
+  .journey__timeline {
+    position: relative;
+    margin: var(--space-5) 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.85rem;
+  }
+
+  .journey__timeline li {
+    position: relative;
+    display: grid;
+    grid-template-columns: 0.45rem minmax(0, 1fr);
+    gap: 0.75rem;
+    align-items: center;
+    color: var(--color-ink);
+    font-size: 0.92rem;
+    line-height: 1.35;
+  }
+
+  .journey__timeline li:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 0.55rem;
+    left: 0.2rem;
+    width: 1px;
+    height: calc(100% + 0.85rem);
+    background: color-mix(in srgb, var(--color-ink) 12%, transparent);
+  }
+
+  .journey__tl-mark {
+    position: relative;
+    z-index: 1;
+    width: 0.45rem;
+    height: 0.45rem;
+  }
+
+  .journey__tl-mark .status-dot {
+    position: absolute;
+    inset: 0;
+    width: 0.45rem;
+    height: 0.45rem;
+  }
+
+  .journey__tl-state {
+    opacity: 1;
+  }
+
+  .journey__tl-ring {
+    position: absolute;
+    inset: 0;
+    border: 1px solid var(--tl);
+    border-radius: 50%;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .journey__stage {
+    position: relative;
+    display: flex;
+    flex: 1 1 auto;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: 13rem;
+    overflow: hidden;
+    padding: var(--space-5) 0;
+  }
+
+  .journey__wash,
+  .journey__glow {
+    position: absolute;
+    pointer-events: none;
+  }
+
+  .journey__wash {
+    inset: 0;
+    background: linear-gradient(to bottom, transparent, var(--tint));
+    clip-path: inset(0);
+  }
+
+  .journey__glow {
+    left: 50%;
+    top: 46%;
+    width: 78%;
+    height: 68%;
+    background: radial-gradient(ellipse at center, var(--glow) 0%, transparent 70%);
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+
+  .journey__mock {
+    position: relative;
+    z-index: 1;
+    width: calc(100% - 2 * var(--space-4));
+    max-width: 36rem;
+    min-width: 0;
+  }
+
+  .journey__mock::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-card-hover);
+    opacity: 1;
+    pointer-events: none;
+  }
+
+  .journey__mock :global(.product-frame) {
+    max-height: min(22rem, 56svh);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+  }
+
+  :global(.js) .journey__stage:not(.is-played) .journey__wash {
+    clip-path: inset(100% 0 0 0);
+  }
+
+  :global(.js) .journey__stage:not(.is-played) .journey__glow,
+  :global(.js) .journey__stage:not(.is-played) .journey__mock::after {
+    opacity: 0;
+  }
+
+  :global(.js) .journey__stage:not(.is-played) .journey__mock {
+    transform: scale(0.96);
+  }
+
+  :global(.js) .journey__card:not(.is-entered) .journey__tl-state {
+    opacity: 0;
+  }
+
+  :global(.js) .journey .journey__stage:not(.is-played) :global(.product-frame--visit) :global(.ui-appt--jue) {
+    transform: translateY(-8px);
+  }
+
+  :global(.js) .journey .journey__stage:not(.is-played) :global(.ui-appt__fill),
+  :global(.js) .journey .journey__stage:not(.is-played) :global(.ui-intake__tick),
+  :global(.js) .journey .journey__stage:not(.is-played) :global(.ui-visits) li,
+  :global(.js) .journey .journey__stage:not(.is-played) :global(.ui-prev-note),
+  :global(.js) .journey .journey__stage:not(.is-played) :global(.ui-next-chip) {
+    opacity: 0;
+  }
+
+  :global(.js) .journey .journey__stage:not(.is-played) :global(.ui-visits) li,
+  :global(.js) .journey .journey__stage:not(.is-played) :global(.ui-prev-note) {
+    transform: translateY(6px);
+  }
+
+  :global(.js) .journey .journey__stage:not(.is-played) :global(.ui-intake__tick) {
+    transform: rotate(-45deg) scale(0.96);
+  }
+
+  .journey .journey__stage.is-played:not(.is-settled) .journey__wash {
+    will-change: clip-path;
+  }
+
+  .journey .journey__stage.is-played:not(.is-settled) .journey__mock {
+    will-change: transform;
+  }
+
+  .journey .journey__stage.is-played .journey__wash {
+    animation: wash-reveal 700ms var(--ease-out) 120ms both;
+  }
+
+  .journey .journey__stage.is-played .journey__glow {
+    animation: fade-in 700ms var(--ease-out) 120ms both;
+  }
+
+  .journey .journey__stage.is-played .journey__mock {
+    animation: mock-land 520ms var(--ease-out) 280ms both;
+  }
+
+  .journey .journey__stage.is-played .journey__mock::after {
+    animation: fade-in 520ms var(--ease-out) 280ms both;
+  }
+
+  .journey .journey__stage.is-played :global(.product-frame--visit) :global(.ui-appt--jue) {
+    animation: jue-drop 420ms var(--ease-out) 600ms both;
+  }
+
+  .journey .journey__stage.is-played :global(.ui-appt__fill) {
+    animation: fade-in 420ms var(--ease-out) 680ms both;
+  }
+
+  .journey .journey__stage.is-played :global(.ui-intake__checks) li:nth-child(1) :global(.ui-intake__tick) {
+    animation: tick-in 280ms var(--ease-out) 600ms both;
+  }
+
+  .journey .journey__stage.is-played :global(.ui-intake__checks) li:nth-child(2) :global(.ui-intake__tick) {
+    animation: tick-in 280ms var(--ease-out) 680ms both;
+  }
+
+  .journey .journey__stage.is-played :global(.ui-intake__checks) li:nth-child(3) :global(.ui-intake__tick) {
+    animation: tick-in 280ms var(--ease-out) 760ms both;
+  }
+
+  .journey .journey__stage.is-played :global(.ui-visits) li:nth-child(1) {
+    animation: row-in 280ms var(--ease-out) 600ms both;
+  }
+
+  .journey .journey__stage.is-played :global(.ui-visits) li:nth-child(2) {
+    animation: row-in 280ms var(--ease-out) 680ms both;
+  }
+
+  .journey .journey__stage.is-played :global(.ui-visits) li:nth-child(3) {
+    animation: row-in 280ms var(--ease-out) 760ms both;
+  }
+
+  .journey .journey__stage.is-played :global(.ui-prev-note) {
+    animation: row-in 280ms var(--ease-out) 840ms both;
+  }
+
+  .journey .journey__stage.is-played :global(.ui-next-chip) {
+    animation: fade-in 320ms var(--ease-out) 600ms both;
+  }
+
+  .journey__card.is-entered:not(.is-copy-final) .journey__timeline li:nth-child(1) .journey__tl-state,
+  .journey__card.is-entered:not(.is-copy-final) .journey__timeline li:nth-child(1) .journey__tl-ring {
+    animation-delay: 760ms;
+  }
+
+  .journey__card.is-entered:not(.is-copy-final) .journey__timeline li:nth-child(2) .journey__tl-state,
+  .journey__card.is-entered:not(.is-copy-final) .journey__timeline li:nth-child(2) .journey__tl-ring {
+    animation-delay: 820ms;
+  }
+
+  .journey__card.is-entered:not(.is-copy-final) .journey__timeline li:nth-child(3) .journey__tl-state,
+  .journey__card.is-entered:not(.is-copy-final) .journey__timeline li:nth-child(3) .journey__tl-ring {
+    animation-delay: 880ms;
+  }
+
+  .journey__card.is-entered:not(.is-copy-final) .journey__tl-state {
+    animation-name: fade-in;
+    animation-duration: 200ms;
+    animation-timing-function: var(--ease-out);
+    animation-fill-mode: both;
+  }
+
+  .journey__card.is-entered:not(.is-copy-final) .journey__tl-ring {
+    animation-name: ring-once;
+    animation-duration: 320ms;
+    animation-timing-function: var(--ease-out);
+    animation-fill-mode: both;
+  }
+
+  .journey__card.is-copy-final .journey__tl-state {
+    opacity: 1;
+  }
+
+  .journey__stage.is-settled .journey__wash {
+    clip-path: inset(0);
+    animation: none;
+    will-change: auto;
+  }
+
+  .journey__stage.is-settled .journey__glow,
+  .journey__stage.is-settled .journey__mock::after,
+  .journey__stage.is-settled :global(.ui-appt__fill),
+  .journey__stage.is-settled :global(.ui-next-chip) {
+    opacity: 1;
+    animation: none;
+  }
+
+  .journey__stage.is-settled .journey__mock,
+  .journey__stage.is-settled :global(.product-frame--visit) :global(.ui-appt--jue),
+  .journey__stage.is-settled :global(.ui-visits) li,
+  .journey__stage.is-settled :global(.ui-prev-note) {
+    transform: none;
+    animation: none;
+    will-change: auto;
+  }
+
+  .journey__stage.is-settled :global(.ui-visits) li,
+  .journey__stage.is-settled :global(.ui-prev-note),
+  .journey__stage.is-settled :global(.ui-intake__tick) {
+    opacity: 1;
+  }
+
+  .journey__stage.is-settled :global(.ui-intake__tick) {
+    transform: rotate(-45deg) scale(1);
+    animation: none;
+  }
+
+  .journey__card--cita :global(.ui-week) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .journey__card--cita :global(.ui-week) :global(.ui-day) {
+    display: none;
+    min-height: 0;
+  }
+
+  .journey__card--cita :global(.ui-week) :global(.ui-day:nth-child(3)),
+  .journey__card--cita :global(.ui-week) :global(.ui-day:nth-child(4)) {
+    display: block;
+  }
+
+  :global(.js) .journey.is-tabs .journey__rail {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 0.35rem;
+    margin-bottom: var(--space-4);
     padding: 0.35rem;
     border-radius: calc(var(--radius-lg) + 0.2rem);
     background: var(--color-frame);
-  }
-
-  .journey__rail::-webkit-scrollbar {
-    height: 0.3rem;
-  }
-
-  .journey__rail::-webkit-scrollbar-thumb {
-    border-radius: 999px;
-    background: color-mix(in srgb, var(--color-ink) 24%, transparent);
   }
 
   .journey__tab {
     position: relative;
     display: flex;
     align-items: center;
-    gap: 0.65rem;
+    gap: 0.45rem;
     min-width: 0;
     min-height: 2.75rem;
-    padding: 0.85rem 0.9rem;
+    padding: 0.85rem 0.75rem 1rem;
     border: 0;
     border-radius: var(--radius-md);
     background: transparent;
@@ -265,20 +847,20 @@ const STEP_MS = 6000
     font-weight: 500;
     text-align: left;
     cursor: pointer;
-    transition: color var(--motion-fast), background var(--motion-fast), box-shadow var(--motion-fast);
+    transition: background-color 160ms var(--ease-out), color 160ms var(--ease-out), box-shadow 160ms var(--ease-out);
   }
 
   .journey__tab::after {
     content: '';
     position: absolute;
-    left: 0.9rem;
-    right: 0.9rem;
-    bottom: 0.25rem;
+    right: 0.75rem;
+    bottom: 0.35rem;
+    left: 0.75rem;
     height: 2px;
     border-radius: 999px;
-    background: var(--color-ink);
+    background: var(--key);
     transform: scaleX(0);
-    transform-origin: left;
+    transform-origin: left center;
   }
 
   .journey__tab[aria-selected='true'] {
@@ -291,7 +873,12 @@ const STEP_MS = 6000
     animation: journey-progress var(--journey-step, 6s) linear both;
   }
 
-  .journey.is-manual .journey__tab[aria-selected='true']::after {
+  .journey.is-paused .journey__tab[aria-selected='true']::after {
+    animation-play-state: paused;
+  }
+
+  .journey.is-manual .journey__tab[aria-selected='true']::after,
+  .journey.is-complete .journey__tab[aria-selected='true']::after {
     animation: none;
     transform: scaleX(1);
   }
@@ -299,160 +886,212 @@ const STEP_MS = 6000
   .journey__number {
     color: var(--color-ink);
     font-size: 0.72rem;
-    letter-spacing: 0.08em;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.06em;
   }
 
-  .journey__stage {
-    position: relative;
-    min-height: 34rem;
-    overflow: hidden;
-  }
-
-  .journey__panel {
-    display: grid;
-    gap: clamp(2rem, 5vw, 5rem);
-    align-items: center;
-    padding: clamp(2rem, 5vw, 4.5rem);
-    opacity: 0;
-    transform: translateY(0.5rem);
-    transition: opacity var(--duration-crossfade) var(--ease-out), transform var(--duration-crossfade) var(--ease-out);
-  }
-
-  .journey__panel.is-active {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .journey__panel.is-leaving {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    transform: translateY(-0.35rem);
-    pointer-events: none;
-  }
-
-  .journey__panel[hidden]:not(.is-leaving) {
-    display: none;
-  }
-
-  .journey__panel[hidden].is-leaving {
-    display: grid;
-  }
-
-  .journey__copy h3 {
-    max-width: 26rem;
-    margin: 0;
-    font-size: clamp(2rem, 4vw, 3.55rem);
-    font-weight: 500;
-    letter-spacing: -0.055em;
-    line-height: 1.02;
-    text-wrap: pretty;
-  }
-
-  .journey__copy > p:not(.section-label) {
-    max-width: 30rem;
-    margin: var(--space-4) 0 0;
-    color: var(--color-muted);
-  }
-
-  .journey__signal {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.8rem;
-    margin-top: var(--space-6);
-    padding: 0.8rem 1rem;
-    border-radius: var(--radius-md);
-    background: var(--color-surface);
-    box-shadow: var(--shadow-card);
-  }
-
-  .journey__signal span:last-child {
-    display: grid;
-  }
-
-  .journey__signal strong {
-    font-size: 0.88rem;
-    font-weight: 600;
-  }
-
-  .journey__signal small {
-    color: var(--color-muted);
-    font-size: 0.76rem;
-  }
-
-  .journey__pulse {
-    width: 0.6rem;
-    height: 0.6rem;
-    border-radius: 50%;
-    background: var(--color-status-ok);
-    box-shadow: 0 0 0 0.35rem color-mix(in srgb, var(--color-status-ok) 12%, transparent);
-  }
-
-  .journey__product {
+  .journey__tab-label {
     min-width: 0;
   }
 
-  .journey__hint {
-    margin: 0.45rem 0 var(--space-4);
-    color: var(--color-muted);
-    font-size: 0.78rem;
-    text-align: center;
+  :global(.js) .journey.is-tabs .journey__cards {
+    display: block;
+    position: relative;
+    min-height: 34rem;
   }
 
-  .journey__scroll-cue {
+  :global(.js) .journey.is-tabs .journey__card {
     display: none;
+    min-height: 0;
   }
 
-  @keyframes journey-progress {
-    to { transform: scaleX(1); }
+  :global(.js) .journey.is-tabs .journey__card.is-active,
+  :global(.js) .journey.is-tabs .journey__card.is-leaving {
+    display: grid;
+    grid-template-columns: minmax(16rem, 0.78fr) minmax(0, 1.22fr);
+    height: 34rem;
+    min-height: 34rem;
+  }
+
+  :global(.js) .journey.is-tabs .journey__card.is-active {
+    position: relative;
+    z-index: 1;
+  }
+
+  :global(.js) .journey.is-tabs .journey__card.is-leaving {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  :global(.js) .journey.is-tabs .journey__card.is-leaving .journey__stage {
+    visibility: hidden;
+  }
+
+  :global(.js) .journey.is-tabs .journey__copy {
+    min-height: 0;
+    overflow: auto;
+  }
+
+  :global(.js) .journey.is-tabs.is-switching .journey__card.is-active .journey__copy {
+    animation: copy-in var(--duration-crossfade) var(--ease-out) both;
+  }
+
+  :global(.js) .journey.is-tabs .journey__card.is-leaving .journey__copy {
+    opacity: 0;
+    transition: opacity 200ms var(--ease-out);
+  }
+
+  :global(.js) .journey.is-tabs .journey__stage {
+    align-items: safe center;
+    height: 100%;
+    min-height: 0;
+    padding: var(--space-6) 0;
+  }
+
+  :global(.js) .journey.is-tabs .journey__mock :global(.product-frame) {
+    max-height: calc(34rem - 2 * var(--space-6));
+  }
+
+  :global(.js) .journey.is-tabs .journey__wash {
+    background: linear-gradient(to right bottom, transparent, var(--tint));
+  }
+
+  @media (max-width: 859px) {
+    .journey__card {
+      min-height: calc(100svh - var(--header-h) - 2 * var(--space-4));
+    }
+  }
+
+  @media (max-width: 859px) and (max-height: 640px) {
+    .journey__card {
+      min-height: auto;
+    }
   }
 
   @media (min-width: 860px) {
-    .journey__panel {
-      grid-template-columns: minmax(16rem, 0.75fr) minmax(0, 1.25fr);
+    .journey__card {
+      min-height: 0;
     }
 
-    .journey__panel[hidden].is-leaving {
-      grid-template-columns: minmax(16rem, 0.75fr) minmax(0, 1.25fr);
+    .journey__card--cita :global(.ui-week) {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+
+    .journey__card--cita :global(.ui-week) :global(.ui-day) {
+      display: block;
     }
   }
 
-  @media (max-width: 720px) {
-    .journey__rail {
-      display: flex;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      mask-image: linear-gradient(to right, #000 88%, transparent);
-      -webkit-mask-image: linear-gradient(to right, #000 88%, transparent);
-    }
+  @keyframes wash-reveal {
+    from { clip-path: inset(100% 0 0 0); }
+    to { clip-path: inset(0); }
+  }
 
-    .journey__tab {
-      flex: 0 0 10.5rem;
-      scroll-snap-align: start;
-    }
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
 
-    .journey__scroll-cue {
-      display: block;
-      margin-top: 0.3rem;
-      color: color-mix(in srgb, var(--color-muted) 80%, var(--color-surface));
-    }
+  @keyframes mock-land {
+    from { transform: scale(0.96); }
+    to { transform: scale(1); }
+  }
 
-    .journey__panel {
-      padding: 2.25rem 1rem 1.25rem;
-    }
+  @keyframes jue-drop {
+    from { transform: translateY(-8px); }
+    to { transform: translateY(0); }
+  }
+
+  @keyframes tick-in {
+    from { opacity: 0; transform: rotate(-45deg) scale(0.96); }
+    to { opacity: 1; transform: rotate(-45deg) scale(1); }
+  }
+
+  @keyframes row-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes ring-once {
+    from { opacity: 0.7; transform: scale(1); }
+    to { opacity: 0; transform: scale(2.4); }
+  }
+
+  @keyframes copy-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes journey-progress {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .journey__wash,
+    .journey .journey__stage.is-played .journey__wash,
+    .journey__stage.is-settled .journey__wash {
+      clip-path: inset(0) !important;
+      animation: none !important;
+    }
+
+    .journey__mock,
+    .journey .journey__stage.is-played .journey__mock {
+      transform: none !important;
+      animation: none !important;
+    }
+
+    .journey__mock::after,
+    .journey .journey__stage.is-played .journey__mock::after,
+    .journey__glow,
+    .journey .journey__stage.is-played .journey__glow,
+    .journey__tl-state {
+      opacity: 1 !important;
+      animation: none !important;
+    }
+
+    .journey__glow,
+    .journey .journey__stage.is-played .journey__glow {
+      transform: translate(-50%, -50%);
+    }
+
+    .journey__copy,
+    .journey__tab,
+    .journey__tab::after {
+      animation: none !important;
+      transition: none;
+    }
+
+    .journey__tl-ring,
+    .journey__card.is-entered:not(.is-copy-final) .journey__tl-ring {
+      opacity: 0 !important;
+      animation: none !important;
+    }
+
     .journey__tab[aria-selected='true']::after {
-      animation: none;
       transform: scaleX(1);
     }
 
-    .journey__panel {
-      opacity: 1;
-      transform: none;
-      transition: none;
+    .journey__stage :global(.ui-appt--jue),
+    .journey__stage :global(.ui-visits) li,
+    .journey__stage :global(.ui-prev-note) {
+      opacity: 1 !important;
+      transform: none !important;
+      animation: none !important;
+    }
+
+    .journey__stage :global(.ui-appt__fill),
+    .journey__stage :global(.ui-next-chip) {
+      opacity: 1 !important;
+      animation: none !important;
+    }
+
+    .journey__stage :global(.ui-intake__tick) {
+      opacity: 1 !important;
+      transform: rotate(-45deg) scale(1) !important;
+      animation: none !important;
     }
   }
 </style>

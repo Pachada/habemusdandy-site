@@ -39,7 +39,7 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          PUBLIC_APP_ORIGIN: ${{ vars.PUBLIC_APP_ORIGIN || secrets.PUBLIC_APP_ORIGIN || 'https://app.habemusfisio.com' }}
+          PUBLIC_APP_ORIGIN: ${{ vars.PUBLIC_APP_ORIGIN || secrets.PUBLIC_APP_ORIGIN || 'https://app.horaya.mx' }}
 
       - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4

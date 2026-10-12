@@ -20,10 +20,11 @@
     "@aws-cdk/aws-cloudfront:defaultSecurityPolicyTLSv1.2_2021": true,
     "@aws-cdk/aws-iam:minimizePolicies": true,
 
-    "domainName": "kintook.com",
+    "domainName": "horaya.mx",
+    "hostedZoneId": "Z06435213BPCSRDX9SAUG",
     "githubOrg": "Pachada",
     "githubRepo": "habemusdandy-site",
 
-    "githubOidcProviderArn": "arn:aws:iam::480810438191:oidc-provider/token.actions.githubusercontent.com"
+    "githubOidcProviderArn": "arn:aws:iam::651694720404:oidc-provider/token.actions.githubusercontent.com"
   }
 }

@@ -25,13 +25,12 @@ const groups = [
   {
     id: 'agenda',
     label: 'Agenda',
-    title: 'La cita entra en la agenda.',
+    title: 'Horario, servicios y citas, en una sola semana.',
     intro: 'Horario, servicios y disponibilidad para que reservar no dependa del chat.',
     items: [
       { title: 'Citas', line: 'Vista semanal clara para el día a día.' },
       { title: 'Horario', line: 'Disponibilidad, excepciones y zona horaria.' },
       { title: 'Servicios', line: 'Duración, precio y color definidos.' },
-      { title: 'Calendario', line: 'Salida a Google y suscripción Apple.' },
     ],
     frame: 'agenda' as const,
     activeNav: 'Citas',
@@ -39,7 +38,7 @@ const groups = [
   {
     id: 'clientes',
     label: 'Clientes',
-    title: 'La ficha abre con contexto.',
+    title: 'Cada cliente, con su historia.',
     intro: 'Datos, visitas y notas anteriores aparecen juntos cuando llega el siguiente encuentro.',
     items: [
       { title: 'Fichas', line: 'Datos y visitas en un solo lugar.' },
@@ -53,7 +52,7 @@ const groups = [
   {
     id: 'clinica',
     label: 'Clínica',
-    title: 'El seguimiento queda preparado.',
+    title: 'Notas y seguimiento, sesión tras sesión.',
     intro: 'Atiendes con el plan anterior a la vista y dejas listo el siguiente paso.',
     items: [
       { title: 'Notas', line: 'Registro por sesión, sin PDF perdido.' },
@@ -67,8 +66,9 @@ const groups = [
   {
     id: 'formularios',
     label: 'Formularios',
-    title: 'El ingreso llega con tiempo.',
+    title: 'Ingreso, consentimiento y firma, antes de la cita.',
     intro: 'Prepara preguntas, consentimiento y firma antes de que la persona llegue a la sesión.',
+    note: 'En Equipos y Empresas.',
     items: [
       { title: 'Diseñador de ingreso', line: 'Campos y preguntas a tu medida.' },
       { title: 'Marca', line: 'El formulario sigue el lenguaje de tu clínica.' },
@@ -91,6 +91,7 @@ const groups = [
     ],
     frame: 'team' as const,
     activeNav: 'Administración',
+    note: 'En Equipos y Empresas.',
   },
   {
     id: 'integraciones',
@@ -103,13 +104,13 @@ const groups = [
     ],
     frame: 'integrations' as const,
     activeNav: 'Integraciones',
+    note: 'En Equipos y Empresas.',
   },
   {
     id: 'automatizacion',
     label: 'Automatizaciones',
     title: 'El recordatorio sale solo.',
-    intro:
-      'Email y SMS alrededor de la cita, configurados para tu clínica; incluidos en Equipos y Empresas, no en Gratis.',
+    intro: 'Email y SMS alrededor de la cita, configurados para tu clínica.',
     items: [
       {
         title: 'Cuándo se envía',
@@ -124,14 +125,13 @@ const groups = [
     ],
     frame: 'workflows' as const,
     activeNav: 'Automatizaciones',
-    footnote: 'Incluidas en Equipos y Empresas. Gratis no las incluye.',
+    note: 'En Equipos y Empresas.',
   },
   {
     id: 'reportes',
     label: 'Reportes',
     title: 'Paneles e insights para tu organización.',
-    intro:
-      'Citas, clientes, ocupación y servicios en paneles, más insights a partir de la actividad; incluidos en Equipos y Empresas, no en Gratis.',
+    intro: 'Citas, clientes, ocupación y servicios en paneles, más insights a partir de la actividad.',
     items: [
       {
         title: 'Paneles y gráficos',
@@ -149,7 +149,7 @@ const groups = [
     frame: 'insights' as const,
     activeNav: 'Reportes',
     frameLabel: 'Reportes',
-    footnote: 'Incluidos en Equipos y Empresas. Gratis no los incluye.',
+    note: 'En Equipos y Empresas.',
   },
 ]
 ---
@@ -176,7 +176,7 @@ const groups = [
 
   {
     groups.map((group, index) => (
-      <section class:list={['section', 'product-section', index % 2 === 1 && 'product-section--tint']} id={group.id}>
+      <section class:list={['section', 'product-section', index % 2 === 1 && 'product-section--band']} id={group.id}>
         <div class:list={['container', 'group', index % 2 === 1 && 'group--reverse']}>
           <div class="group__copy reveal">
             <div class="group__label">
@@ -193,19 +193,15 @@ const groups = [
                 </li>
               ))}
             </ul>
-            {'footnote' in group && group.footnote && (
-              <p class="group__footnote">{group.footnote}</p>
-            )}
+            {'note' in group && group.note && <p class="plan-note">{group.note}</p>}
           </div>
-          <div class="group__visual reveal" data-ambient>
-            <div class="ambient-float ambient-float--slow">
-              <ProductFrame
-                variant={group.frame}
-                activeNav={group.activeNav}
-                label={'frameLabel' in group && group.frameLabel ? group.frameLabel : group.label}
-                compact={group.frame !== 'agenda' && group.frame !== 'client' && group.frame !== 'note'}
-              />
-            </div>
+          <div class="group__visual reveal">
+            <ProductFrame
+              variant={group.frame}
+              activeNav={group.activeNav}
+              label={'frameLabel' in group && group.frameLabel ? group.frameLabel : group.label}
+              compact={group.frame !== 'agenda' && group.frame !== 'client' && group.frame !== 'note'}
+            />
           </div>
         </div>
       </section>
@@ -254,28 +250,36 @@ const groups = [
     display: flex;
     align-items: center;
     gap: 0.65rem;
+    margin-bottom: var(--space-3);
   }
 
   .group__label .section-label {
-    margin-bottom: var(--space-3);
+    margin-bottom: 0;
   }
 
   .group__index {
     display: inline-grid;
     place-items: center;
-    width: 1.85rem;
-    height: 1.85rem;
-    margin-top: -0.2rem;
-    border-radius: 50%;
-    background: color-mix(in srgb, var(--color-brand) 10%, var(--color-surface));
-    color: var(--color-brand-deep);
-    font-size: 0.7rem;
+    width: fit-content;
+    min-width: 2.15rem;
+    height: 1.7rem;
+    padding-inline: 0.55rem;
+    border-radius: 999px;
+    background: var(--color-frame);
+    color: var(--color-ink-mid);
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
     font-weight: 600;
+    font-variant-numeric: tabular-nums;
     letter-spacing: 0.04em;
   }
 
-  .product-section--tint {
-    background: color-mix(in srgb, var(--color-brand) 3%, var(--color-paper));
+  .product-section--band {
+    background: var(--color-frame);
+  }
+
+  .product-section--band .group__index {
+    background: var(--color-surface);
   }
 
   .group ul {
@@ -305,7 +309,7 @@ const groups = [
     width: 0.25rem;
     height: 0.25rem;
     border-radius: 50%;
-    background: var(--color-brand);
+    background: var(--color-ink);
     transform: translateY(-50%);
   }
 
@@ -321,13 +325,6 @@ const groups = [
   .group span {
     color: var(--color-muted);
     font-size: 0.95rem;
-  }
-
-  .group__footnote {
-    margin: var(--space-4) 0 0;
-    color: var(--color-muted);
-    font-size: 0.82rem;
-    line-height: 1.45;
   }
 
   .group__visual {

@@ -4,10 +4,13 @@ import * as cloudfront from 'aws-cdk-lib/aws-cloudfront'
 import * as origins from 'aws-cdk-lib/aws-cloudfront-origins'
 import * as acm from 'aws-cdk-lib/aws-certificatemanager'
 import * as iam from 'aws-cdk-lib/aws-iam'
+import * as route53 from 'aws-cdk-lib/aws-route53'
+import * as targets from 'aws-cdk-lib/aws-route53-targets'
 import { Construct } from 'constructs'
 
-export interface KintookSiteStackProps extends cdk.StackProps {
+export interface HorayaSiteStackProps extends cdk.StackProps {
   domainName: string
+  hostedZoneId: string
   githubOrg: string
   githubRepo: string
   /**
@@ -17,23 +20,28 @@ export interface KintookSiteStackProps extends cdk.StackProps {
   githubOidcProviderArn?: string
 }
 
-export class KintookSiteStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props: KintookSiteStackProps) {
+export class HorayaSiteStack extends cdk.Stack {
+  constructor(scope: Construct, id: string, props: HorayaSiteStackProps) {
     super(scope, id, props)
 
     cdk.Tags.of(this).add('DeployEnvironment', 'production')
-    cdk.Tags.of(this).add('Project', 'Kintook')
+    cdk.Tags.of(this).add('Project', 'Horaya')
 
     const appDeployWorkflow = 'deploy-prod.yml'
     const infraDeployWorkflow = 'deploy-infra.yml'
     const wwwDomainName = `www.${props.domainName}`
 
-    // DNS stays at Cloudflare Registrar. Validation CNAMEs are added there
-    // while this deploy waits on ACM (see infra/README.md).
+    // Existing public zone in this account. Apex and www only.
+    // staging-api.horaya.mx stays owned by the API stacks.
+    const zone = route53.HostedZone.fromHostedZoneAttributes(this, 'Zone', {
+      hostedZoneId: props.hostedZoneId,
+      zoneName: props.domainName,
+    })
+
     const certificate = new acm.Certificate(this, 'Certificate', {
       domainName: props.domainName,
       subjectAlternativeNames: [wwwDomainName],
-      validation: acm.CertificateValidation.fromDns(),
+      validation: acm.CertificateValidation.fromDns(zone),
     })
 
     const siteBucket = new s3.Bucket(this, 'SiteBucket', {
@@ -115,6 +123,13 @@ function handler(event) {
       minimumProtocolVersion: cloudfront.SecurityPolicyProtocol.TLS_V1_2_2021,
     })
 
+    const alias = route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(distribution))
+
+    new route53.ARecord(this, 'ApexA', { zone, target: alias })
+    new route53.AaaaRecord(this, 'ApexAaaa', { zone, target: alias })
+    new route53.ARecord(this, 'WwwA', { zone, recordName: 'www', target: alias })
+    new route53.AaaaRecord(this, 'WwwAaaa', { zone, recordName: 'www', target: alias })
+
     const githubOidcProvider = props.githubOidcProviderArn
       ? iam.OpenIdConnectProvider.fromOpenIdConnectProviderArn(
           this,
@@ -195,13 +210,11 @@ function handler(event) {
     })
     new cdk.CfnOutput(this, 'DistributionDomainName', {
       value: distribution.distributionDomainName,
-      description:
-        'Cloudflare CNAME target for @ and www (DNS only / grey cloud, not proxied)',
+      description: 'CloudFront domain. Apex and www alias to it from the horaya.mx zone.',
     })
     new cdk.CfnOutput(this, 'CertificateArn', {
       value: certificate.certificateArn,
-      description:
-        'ACM cert. While deploy waits, copy DNS validation CNAMEs from the ACM console into Cloudflare.',
+      description: 'ACM certificate for horaya.mx and www.horaya.mx',
     })
     new cdk.CfnOutput(this, 'AppDeployRoleArn', {
       value: appDeployRole.roleArn,

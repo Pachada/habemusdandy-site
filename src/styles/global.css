@@ -22,6 +22,19 @@
   --color-status-idle: #8a9aa0;
   --color-overlay: rgba(0, 0, 0, 0.48);
 
+  --tint-cita: color-mix(in srgb, var(--color-brand) 16%, var(--color-surface));
+  --tint-cita-glow: color-mix(in srgb, var(--color-brand) 22%, transparent);
+  --tint-cita-key: var(--color-brand);
+  --tint-ingreso: color-mix(in srgb, var(--color-status-ok) 16%, var(--color-surface));
+  --tint-ingreso-glow: color-mix(in srgb, var(--color-status-ok) 22%, transparent);
+  --tint-ingreso-key: var(--color-status-ok);
+  --tint-ficha: color-mix(in srgb, var(--color-status-warn) 18%, var(--color-surface));
+  --tint-ficha-glow: color-mix(in srgb, var(--color-status-warn) 24%, transparent);
+  --tint-ficha-key: var(--color-status-warn);
+  --tint-seguimiento: color-mix(in srgb, var(--color-status-idle) 18%, var(--color-surface));
+  --tint-seguimiento-glow: color-mix(in srgb, var(--color-status-idle) 26%, transparent);
+  --tint-seguimiento-key: var(--color-status-idle);
+
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -193,6 +206,13 @@ a:hover {
   font-size: 1.08rem;
   line-height: 1.65;
   text-wrap: pretty;
+}
+
+.plan-note {
+  margin: var(--space-3) 0 0;
+  color: var(--color-muted);
+  font-size: 0.8rem;
+  line-height: 1.45;
 }
 
 .btn {

@@ -2,13 +2,13 @@
 
 ## Project
 
-Kintook Site is the public marketing frontend (home, product, pricing). It is a separate Astro project from the clinic dashboard (`Habemusfisio-ui`).
+Horaya Site is the public marketing frontend (home, product, pricing). It is a separate Astro project from the clinic dashboard.
 
 ## Required Context
 
 - Read [`docs/SITE.md`](docs/SITE.md) before adding pages, sections, or marketing copy. It is the source of truth for structure, positioning, and look.
 - Keep this site visitor-facing and static. Do not add authenticated dashboard features, API clients, or org/session logic here.
-- Match Kintook brand: Outfit typeface, luxury refined minimalism, shadow over border, soft accents.
+- Match Horaya brand: Outfit typeface, luxury refined minimalism, shadow over border, soft accents.
 - Spanish is the default copy language, matching the product UI.
 - Link into the dashboard for login and signup; do not reimplement those flows.
 

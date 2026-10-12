@@ -8,7 +8,7 @@ import { appSignupUrl, equiposPricing, formatMxn, pricingFaqItems, salesContactU
 
 const title = 'Precios'
 const description =
-  'Planes de Kintook para clínicas: Gratis, Equipos por asiento y Empresas.'
+  'Planes de Horaya para clínicas: Gratis, Equipos por asiento y Empresas.'
 const monthlyList = formatMxn(equiposPricing.monthlyList)
 const monthlyPromo = formatMxn(equiposPricing.monthlyPromo)
 const annualList = formatMxn(equiposPricing.annualListPerMonth)
@@ -187,7 +187,6 @@ const annualBilled = formatMxn(equiposPricing.annualBilled)
     background: var(--color-surface);
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-card);
-    transition: transform var(--motion-base), box-shadow var(--motion-base);
   }
 
   .plan--featured {
@@ -308,8 +307,8 @@ const annualBilled = formatMxn(equiposPricing.annualBilled)
   }
 
   .compare__row span:nth-child(3) {
-    color: var(--color-brand-deep);
-    font-weight: 500;
+    color: var(--color-ink);
+    font-weight: 600;
   }
 
   .compare__row + .compare__row {
@@ -348,11 +347,7 @@ const annualBilled = formatMxn(equiposPricing.annualBilled)
     }
 
     .plan--featured {
-      transform: translateY(-0.65rem);
-    }
-
-    .plan--featured:hover {
-      transform: translateY(-0.9rem);
+      translate: 0 -0.65rem;
     }
   }
 

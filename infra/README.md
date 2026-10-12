@@ -1,111 +1,76 @@
-# Kintook Site — Infrastructure
+# Horaya Site — Infrastructure
 
-AWS CDK (TypeScript) for **production** marketing-site hosting in a single AWS
-account: S3 (private) + CloudFront + ACM + GitHub OIDC deploy roles.
+AWS CDK (TypeScript) for the marketing site in the Horaya account
+`651694720404` (`us-east-1`): private S3, CloudFront, ACM, and GitHub OIDC
+deploy roles.
 
-DNS stays at **Cloudflare** (required by Cloudflare Registrar). This stack does
-**not** create a Route 53 hosted zone or records. You CNAME `kintook.com` and
-`www.kintook.com` at Cloudflare to the CloudFront domain.
+DNS is the existing public Route 53 zone `horaya.mx`
+(`Z06435213BPCSRDX9SAUG`). This stack does not create that zone. It writes
+the ACM validation records and the apex / `www` alias records. It does not
+touch `staging-api.horaya.mx` or `app.horaya.mx`.
 
-Same hosting pattern as `Habemusfisio-ui`, without a staging stack. This is a
-multi-page Astro site, not an SPA. CloudFront serves real HTML routes and a
-real `/404.html`.
+There is no staging stack. This is a multi-page Astro site. CloudFront
+serves real HTML routes and a real `/404.html`.
 
-| Git branch | GitHub Environment | Stack              | Site URL       |
-| ---------- | ------------------ | ------------------ | -------------- |
-| `main`     | `production`       | `KintookSiteStack` | `kintook.com`  |
+| Git branch | GitHub Environment | Stack              | Site URL     |
+| ---------- | ------------------ | ------------------ | ------------ |
+| `main`     | `production`       | `HorayaSiteStack`  | `horaya.mx`  |
 
 ## What the stack creates
 
-| Resource                | Purpose                                                                 |
-| ----------------------- | ----------------------------------------------------------------------- |
-| S3 Bucket               | Compiled static assets (private, OAC-only access)                       |
-| CloudFront Distribution | HTTPS, pretty-URL rewrite to `index.html`, hashed `/_astro/*` cache     |
-| ACM Certificate         | `kintook.com` + `www.kintook.com` (you add validation CNAMEs in Cloudflare) |
-| IAM OIDC Provider       | Import existing account provider (only one GitHub OIDC per account)     |
-| AppDeployRole           | Least-privilege role for app deploys (S3 sync + CF invalidation)        |
-| InfraDeployRole         | Elevated role for CDK deploys                                           |
+| Resource                | Purpose                                                          |
+| ----------------------- | ---------------------------------------------------------------- |
+| S3 Bucket               | Compiled static assets (private, OAC-only access)                |
+| CloudFront Distribution | HTTPS, pretty-URL rewrite to `index.html`, hashed `/_astro/*` cache |
+| ACM Certificate         | `horaya.mx` + `www.horaya.mx`, validated in the existing zone    |
+| Route 53 aliases        | Apex and `www`, A and AAAA, to CloudFront                        |
+| IAM OIDC Provider       | Import of the account's existing GitHub OIDC provider            |
+| AppDeployRole           | Least-privilege role for app deploys (S3 sync + CF invalidation) |
+| InfraDeployRole         | Elevated role for CDK deploys                                    |
 
-**Estimated cost:** ~$1–2/month for typical marketing traffic.
+CDK is already bootstrapped in this account (`CDKToolkit`).
 
----
-
-## One-time setup
-
-### 1. Prerequisites
-
-- AWS CLI with admin credentials for this account
-- Node.js 20+ (CDK) and Node.js 22+ (site build)
-- AWS CDK bootstrapped in the account/region:
-
-```bash
-npx aws-cdk bootstrap aws://YOUR_ACCOUNT_ID/us-east-1
-```
-
-If you already created a Route 53 hosted zone for `kintook.com`, you can delete
-it. It is unused.
-
-### 2. `cdk.json`
-
-GitHub OIDC is imported from the target account. `githubRepo` stays
-`habemusdandy-site` until the GitHub repository is renamed.
+## Context
 
 ```json
 {
-  "domainName": "kintook.com",
+  "domainName": "horaya.mx",
+  "hostedZoneId": "Z06435213BPCSRDX9SAUG",
   "githubOrg": "Pachada",
   "githubRepo": "habemusdandy-site"
 }
 ```
 
-### 3. First deploy (local) + Cloudflare DNS
+The stack account is pinned to `651694720404`. Deploy with
+`AWS_PROFILE=horaya`.
 
-Chicken-and-egg: `InfraDeployRole` does not exist until the stack is created.
-ACM also waits until Cloudflare has the validation CNAMEs.
+## Deploy
 
 ```bash
 cd infra
 npm ci
-npx cdk deploy KintookSiteStack
+AWS_PROFILE=horaya npx cdk deploy HorayaSiteStack
 ```
 
-The deploy **pauses** on the ACM certificate. In another window:
-
-1. AWS Console → Certificate Manager (us-east-1) → the pending `kintook.com` cert.
-2. Copy both **CNAME name / CNAME value** pairs (apex and `www`).
-3. In Cloudflare DNS for `kintook.com`, add each as a **CNAME**, **DNS only**
-   (grey cloud, not proxied).
-
-When ACM becomes Issued, the rest of the stack creates. Copy
-`DistributionDomainName` from the outputs (`dxxxxx.cloudfront.net`).
-
-4. In Cloudflare DNS, add (also **DNS only** / grey cloud):
-
-   | Type  | Name | Target                         |
-   | ----- | ---- | ------------------------------ |
-   | CNAME | `@`  | `dxxxxx.cloudfront.net`        |
-   | CNAME | `www`| `dxxxxx.cloudfront.net`        |
-
-   Cloudflare flattens the apex CNAME. Do **not** orange-cloud (proxy) these
-   records: TLS is on CloudFront with the ACM cert.
-
-5. Remove any leftover A/AAAA records for `@` / `www` that would conflict.
+ACM validation records are created in the zone, so the deploy does not pause
+for a manual CNAME. When it finishes, `https://horaya.mx` and
+`https://www.horaya.mx` both serve the distribution.
 
 Outputs:
 
 ```
-KintookSiteStack.BucketName              = ...
-KintookSiteStack.DistributionId          = ...
-KintookSiteStack.DistributionDomainName  = dxxxxx.cloudfront.net
-KintookSiteStack.CertificateArn          = arn:aws:acm:...
-KintookSiteStack.AppDeployRoleArn        = arn:aws:iam::...:role/...
-KintookSiteStack.InfraDeployRoleArn      = arn:aws:iam::...:role/...
-KintookSiteStack.SiteUrl                 = https://kintook.com
+HorayaSiteStack.BucketName              = ...
+HorayaSiteStack.DistributionId          = ...
+HorayaSiteStack.DistributionDomainName  = dxxxxx.cloudfront.net
+HorayaSiteStack.CertificateArn          = arn:aws:acm:...
+HorayaSiteStack.AppDeployRoleArn        = arn:aws:iam::...:role/...
+HorayaSiteStack.InfraDeployRoleArn      = arn:aws:iam::...:role/...
+HorayaSiteStack.SiteUrl                 = https://horaya.mx
 ```
 
-### 4. GitHub Environment secrets
+## GitHub Environment secrets
 
-Create a GitHub Environment named `production`.
+Environment name: `production`.
 
 | Secret                              | Value                    |
 | ----------------------------------- | ------------------------ |
@@ -113,12 +78,13 @@ Create a GitHub Environment named `production`.
 | `AWS_INFRA_ROLE_ARN`                | `InfraDeployRoleArn`     |
 | `PROD_S3_BUCKET`                    | `BucketName`             |
 | `PROD_CF_DISTRIBUTION_ID`           | `DistributionId`         |
-| `PUBLIC_APP_ORIGIN` (var, optional) | Dashboard origin         |
+| `PUBLIC_APP_ORIGIN` (var, optional) | `https://app.horaya.mx`  |
 
-OIDC trust is scoped to `environment:production` and workflow ref
-`refs/heads/main`. Run **Deploy Infrastructure** from `main`.
+OIDC trust is the repo `Pachada/habemusdandy-site` plus the workflow file.
+Update these secrets only after this Horaya code is on `main`. Until then, a
+push of the previous site would publish the old brand into the new bucket.
 
-### 5. Workflows
+## Workflows
 
 | Workflow           | When           |
 | ------------------ | -------------- |
@@ -126,15 +92,12 @@ OIDC trust is scoped to `environment:production` and workflow ref
 | `deploy-prod.yml`  | Push to `main` |
 | `deploy-infra.yml` | Manual CDK     |
 
----
-
 ## Rollback
 
-The bucket is **versioned**. Re-run **Deploy Production** from a known-good
+The bucket is versioned. Re-run **Deploy Production** from a known-good
 commit, or restore prior HTML in S3 and invalidate `/*`.
 
 ```bash
 cd infra
-npx cdk diff KintookSiteStack
-npx cdk synth
+AWS_PROFILE=horaya npx cdk diff HorayaSiteStack
 ```

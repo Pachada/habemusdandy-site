@@ -1,10 +1,14 @@
 #!/usr/bin/env node
 import * as cdk from 'aws-cdk-lib'
-import { KintookSiteStack } from '../lib/kintook-site-stack'
+import { HorayaSiteStack } from '../lib/horaya-site-stack'
 
 const app = new cdk.App()
 
+const account = '651694720404'
+const region = 'us-east-1'
+
 const domainName = app.node.tryGetContext('domainName') as string
+const hostedZoneId = app.node.tryGetContext('hostedZoneId') as string
 const githubOrg = app.node.tryGetContext('githubOrg') as string
 const githubRepo = app.node.tryGetContext('githubRepo') as string
 const configuredOidcArn = app.node.tryGetContext('githubOidcProviderArn') as
@@ -16,6 +20,7 @@ const isPlaceholder = (value: string | undefined) =>
 
 for (const [key, value] of Object.entries({
   domainName,
+  hostedZoneId,
   githubOrg,
   githubRepo,
 })) {
@@ -26,23 +31,20 @@ for (const [key, value] of Object.entries({
   }
 }
 
-const account = process.env.CDK_DEFAULT_ACCOUNT
-const oidcArnForAccount = `arn:aws:iam::${account}:oidc-provider/token.actions.githubusercontent.com`
 const githubOidcProviderArn =
-  configuredOidcArn && account && configuredOidcArn.includes(`::${account}:`)
+  configuredOidcArn && configuredOidcArn.includes(`::${account}:`)
     ? configuredOidcArn
-    : account
-      ? oidcArnForAccount
-      : configuredOidcArn || undefined
+    : `arn:aws:iam::${account}:oidc-provider/token.actions.githubusercontent.com`
 
-new KintookSiteStack(app, 'KintookSiteStack', {
+new HorayaSiteStack(app, 'HorayaSiteStack', {
   env: {
     account,
-    region: 'us-east-1',
+    region,
   },
   domainName,
+  hostedZoneId,
   githubOrg,
   githubRepo,
   githubOidcProviderArn,
-  description: 'Kintook marketing site — production S3 + CloudFront',
+  description: 'Horaya marketing site — production S3 + CloudFront',
 })

@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
 import ProductFrame from '../components/ProductFrame.astro'
-import HeroVisitSequence from '../components/HeroVisitSequence.astro'
 import ClinicJourney from '../components/ClinicJourney.astro'
 import BillingToggle from '../components/BillingToggle.astro'
 import PlanAssurance from '../components/PlanAssurance.astro'
@@ -22,51 +21,54 @@ const description =
 const setupSteps = [
   {
     n: '01',
-    title: 'Define horario y servicios',
-    line: 'Cuándo atiendes y qué ofreces',
+    title: 'Define tu horario',
+    line: 'Los días y horas en que atiendes.',
+    note: '',
     frame: 'hours' as const,
-    frameProps: { compact: true, micro: 'availability', activeNav: 'Horario', label: 'Disponibilidad' },
+    frameProps: { compact: true, micro: 'availability' as const, activeNav: 'Horario', label: 'Disponibilidad' },
   },
   {
     n: '02',
-    title: 'Recibe la reserva',
-    line: 'El hueco queda en la agenda, no en el chat',
-    frame: 'agenda' as const,
-    frameProps: { crop: true, compact: true, micro: 'reservation', activeNav: 'Citas', label: 'Reserva confirmada' },
+    title: 'Da de alta tus servicios',
+    line: 'Qué ofreces, cuánto dura y cuánto cuesta.',
+    note: '',
+    frame: 'services' as const,
+    frameProps: { compact: true, activeNav: 'Servicios', label: 'Servicios' },
   },
   {
     n: '03',
-    title: 'Atiende con la ficha lista',
-    line: 'Datos y visitas anteriores al abrir',
-    frame: 'client' as const,
-    frameProps: { compact: true, micro: 'record', activeNav: 'Clientes', label: 'Ficha preparada' },
+    title: 'Prepara el formulario de ingreso',
+    line: 'Los datos y el motivo de consulta que quieres antes de la cita.',
+    note: 'Formularios de ingreso: en Equipos y Empresas.',
+    frame: 'intake' as const,
+    frameProps: { compact: true, activeNav: 'Formularios', label: 'Formulario de ingreso' },
   },
 ] as const
 
 const capabilityTiles = [
   {
     title: 'Servicios',
-    copy: 'Duración, precio y color de cada atención, listos para la agenda.',
+    copy: 'Color por servicio, para distinguir cada atención de un vistazo.',
     frame: 'services' as const,
-    frameProps: { compact: true, micro: 'services', activeNav: 'Servicios', label: 'Servicios de la clínica' },
+    frameProps: { compact: true, micro: 'chips' as const, activeNav: 'Servicios', label: 'Color por servicio' },
   },
   {
     title: 'Formularios',
-    copy: 'Ingreso con tu marca, consentimiento y firma en el mismo flujo.',
+    copy: 'Tu marca, consentimiento y firma en el mismo formulario.',
     frame: 'intake' as const,
-    frameProps: { compact: true, micro: 'forms', activeNav: 'Formularios', label: 'Formulario de ingreso' },
+    frameProps: { compact: true, micro: 'consent' as const, activeNav: 'Formularios', label: 'Consentimiento y firma' },
   },
   {
     title: 'Horario',
-    copy: 'Disponibilidad semanal, excepciones de fecha y zona horaria.',
+    copy: 'Excepciones de fecha y zona horaria, sin rehacer la semana.',
     frame: 'hours' as const,
-    frameProps: { compact: true, micro: 'hours', activeNav: 'Horario', label: 'Horario de la clínica' },
+    frameProps: { compact: true, micro: 'exception' as const, activeNav: 'Horario', label: 'Excepción de fecha' },
   },
   {
     title: 'Equipo y roles',
     copy: 'Acceso según el rol: Owner, Manager o Staff, sin compartirlo todo.',
     frame: 'team' as const,
-    frameProps: { compact: true, micro: 'team', activeNav: 'Administración', label: 'Roles del equipo' },
+    frameProps: { compact: true, micro: 'team' as const, activeNav: 'Administración', label: 'Roles del equipo' },
   },
 ] as const
 ---
@@ -82,7 +84,7 @@ const capabilityTiles = [
         </p>
         <div class="hero__actions">
           <a class="btn btn--primary" href={appSignupUrl}>Comenzar gratis</a>
-          <a class="btn btn--ghost" href="#como-funciona">Ver cómo funciona</a>
+          <a class="btn btn--ghost" href="#recorrido">Ver una visita</a>
         </div>
         <p class="hero__trust"><span>Plan gratuito</span><span>Configuración en minutos</span></p>
       </div>
@@ -99,7 +101,6 @@ const capabilityTiles = [
             <span><strong>Nota lista</strong><small>Sesión anterior vinculada</small></span>
           </div>
         </div>
-        <HeroVisitSequence />
       </div>
     </div>
   </section>
@@ -169,123 +170,10 @@ const capabilityTiles = [
     </div>
   </section>
 
-  <div class="story-bridge story-bridge--warm" aria-label="Del problema al flujo">
+  <div class="story-bridge story-bridge--warm" aria-label="Del problema a la visita">
     <div class="container story-bridge__inner reveal">
       <span class="story-bridge__line" aria-hidden="true"></span>
-      <p><strong>El chat no es un sistema.</strong> El siguiente paso es un horario real, una reserva en la agenda y la ficha lista al atender.</p>
-    </div>
-  </div>
-
-  <section class="section setup-section" id="como-funciona">
-    <div class="container">
-      <div class="setup-intro reveal">
-        <p class="section-label">Cómo funciona</p>
-        <h2 class="section-title">Empezar no debería tomar una semana.</h2>
-        <p class="section-lead">
-          Horario, servicios y la primera cita. El resto del flujo ya está en el mismo sitio.
-        </p>
-        <div class="setup-intro__actions">
-          <a class="btn btn--primary" href={appSignupUrl}>Comenzar gratis</a>
-          <a class="btn btn--ghost" href="#recorrido">Ver el flujo de una visita</a>
-        </div>
-      </div>
-      <ol class="setup-flow" data-ambient>
-        {
-          setupSteps.map((step, index) => (
-            <li class="setup-step reveal" data-stagger={String(index * 90)}>
-              <span class="setup-step__n"><span>{step.n}</span></span>
-              <div class="setup-step__frame ambient-float">
-                <ProductFrame variant={step.frame} {...step.frameProps} />
-              </div>
-              <div class="setup-step__copy">
-                <h3>{step.title}</h3>
-                <p>{step.line}</p>
-              </div>
-            </li>
-          ))
-        }
-      </ol>
-    </div>
-  </section>
-
-  <div class="story-bridge" aria-label="Del setup a las capacidades">
-    <div class="container story-bridge__inner reveal">
-      <span class="story-bridge__line" aria-hidden="true"></span>
-      <p><strong>La primera cita no basta.</strong> Servicios, formularios, horario y roles son lo que sostiene el resto del día.</p>
-    </div>
-  </div>
-
-  <section class="section section--tight capability-section">
-    <div class="container">
-      <div class="reveal">
-        <p class="section-label">Más que una agenda</p>
-        <h2 class="section-title">La operación alrededor de la visita.</h2>
-        <p class="section-lead">Servicios, formularios, horario y roles. Cada pieza con su lugar, sin otra herramienta.</p>
-      </div>
-      <div class="capability-bento" aria-label="Capacidades operativas de la clínica" data-ambient>
-        <article class="capability-bento__panel reveal" data-stagger="0">
-          <div class="capability-bento__visual ambient-float ambient-float--slow">
-            <ProductFrame variant="panel" compact micro="panel" activeNav="Panel principal" label="Panel principal" />
-          </div>
-          <div class="capability-bento__copy">
-            <p class="capability-bento__eyebrow">Panel principal</p>
-            <h3>Hoy, sin buscar en cinco lugares.</h3>
-            <p>Citas de hoy, estados y acciones rápidas en la vista que abre el equipo.</p>
-          </div>
-        </article>
-        <div class="capability-bento__tiles">
-          {
-            capabilityTiles.map((tile, index) => (
-              <article class="capability-tile reveal" data-stagger={String(90 + index * 90)}>
-                <div class="capability-tile__visual ambient-float">
-                  <ProductFrame variant={tile.frame} {...tile.frameProps} />
-                </div>
-                <div class="capability-tile__copy">
-                  <h3>{tile.title}</h3>
-                  <p>{tile.copy}</p>
-                </div>
-              </article>
-            ))
-          }
-        </div>
-      </div>
-      <a class="text-link capability-section__cta" href="/producto">Ver todas las capacidades</a>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
-      <div class="integrations-intro reveal">
-        <div>
-          <p class="section-label">Integraciones</p>
-          <h2 class="section-title">Se conecta con lo que ya usas.</h2>
-          <p class="section-lead">Las citas de la clínica aparecen en los calendarios que el equipo ya abre cada día.</p>
-        </div>
-        <a class="text-link" href="/producto#integraciones">Ver integraciones</a>
-      </div>
-      <div class="integrations" aria-label="Integraciones de calendario" data-ambient>
-        <article class="integrations__card reveal">
-          <span class="integration-icon ambient-float" aria-hidden="true"><img src="/integrations/google-calendar.svg" alt="" width="40" height="40" loading="lazy" decoding="async" /></span>
-          <div>
-            <h3>Google Calendar</h3>
-            <p>Las citas de Kintook se ven en el calendario de Google.</p>
-          </div>
-        </article>
-        <article class="integrations__card reveal">
-          <span class="integration-icon ambient-float ambient-float--late" aria-hidden="true"><img src="/integrations/apple-calendar.svg" alt="" width="40" height="40" loading="lazy" decoding="async" /></span>
-          <div>
-            <h3>Apple Calendar</h3>
-            <p>Consulta las mismas citas desde Apple Calendar.</p>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <div class="story-bridge" aria-label="De las integraciones al recorrido de una visita">
-    <div class="container story-bridge__inner reveal">
-      <span class="story-bridge__line" aria-hidden="true"></span>
-      <p><strong>La operación ya está en el sistema.</strong> Sigue una visita de principio a fin.</p>
+      <p><strong>El chat no es un sistema.</strong> Así se ve el mismo jueves cuando la visita vive en un solo lugar.</p>
     </div>
   </div>
 
@@ -305,7 +193,110 @@ const capabilityTiles = [
     </div>
   </section>
 
-  <div class="story-bridge story-bridge--to-pricing" aria-label="De la visita a los precios">
+  <section class="section setup-section" id="como-empezar">
+    <div class="container">
+      <div class="setup-intro reveal">
+        <p class="section-label">Cómo empezar</p>
+        <h2 class="section-title">Empezar no debería tomar una semana.</h2>
+        <p class="section-lead">
+          Horario, servicios y formulario de ingreso. Con eso, la próxima visita corre como la acabas de ver.
+        </p>
+        <div class="setup-intro__actions">
+          <a class="btn btn--primary" href={appSignupUrl}>Comenzar gratis</a>
+        </div>
+      </div>
+      <ol class="setup-flow">
+        {
+          setupSteps.map((step, index) => (
+            <li class="setup-step reveal" data-stagger={String(index * 90)}>
+              <article class="setup-card">
+                <div class="setup-card__body">
+                  <span class="setup-card__n">{step.n}</span>
+                  <h3>{step.title}</h3>
+                  <p>{step.line}</p>
+                  {step.note && <p class="plan-note">{step.note}</p>}
+                </div>
+                <div class="setup-card__frame">
+                  <ProductFrame variant={step.frame} {...step.frameProps} />
+                </div>
+              </article>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--tight capability-section">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-label">Más que una agenda</p>
+        <h2 class="section-title">La operación alrededor de la visita.</h2>
+        <p class="section-lead">El panel del día, los roles del equipo y el detalle de cada pieza. Sin otra herramienta.</p>
+      </div>
+      <div class="capability-bento" aria-label="Capacidades operativas de la clínica">
+        <article class="capability-bento__panel reveal" data-stagger="0">
+          <div class="capability-bento__visual">
+            <ProductFrame variant="panel" compact micro="panel" activeNav="Panel principal" label="Panel principal" />
+          </div>
+          <div class="capability-bento__copy">
+            <p class="capability-bento__eyebrow">Panel principal</p>
+            <h3>Hoy, sin buscar en cinco lugares.</h3>
+            <p>Citas de hoy, estados y acciones rápidas en la vista que abre el equipo.</p>
+          </div>
+        </article>
+        <div class="capability-bento__tiles">
+          {
+            capabilityTiles.map((tile, index) => (
+              <article class="capability-tile reveal" data-stagger={String(90 + index * 90)}>
+                <div class="capability-tile__visual">
+                  <ProductFrame variant={tile.frame} {...tile.frameProps} />
+                </div>
+                <div class="capability-tile__copy">
+                  <h3>{tile.title}</h3>
+                  <p>{tile.copy}</p>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+      <p class="plan-note capability-section__note">Formularios, equipo y roles: en Equipos y Empresas.</p>
+      <a class="text-link capability-section__cta" href="/producto">Ver todas las capacidades</a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="integrations-intro reveal">
+        <div>
+          <p class="section-label">Integraciones</p>
+          <h2 class="section-title">Se conecta con lo que ya usas.</h2>
+          <p class="section-lead">Las citas de la clínica aparecen en los calendarios que el equipo ya abre cada día.</p>
+          <p class="plan-note">Incluido en Equipos y Empresas.</p>
+        </div>
+        <a class="text-link" href="/producto#integraciones">Ver integraciones</a>
+      </div>
+      <div class="integrations" aria-label="Integraciones de calendario">
+        <article class="integrations__card reveal">
+          <span class="integration-icon" aria-hidden="true"><img src="/integrations/google-calendar.svg" alt="" width="40" height="40" loading="lazy" decoding="async" /></span>
+          <div>
+            <h3>Google Calendar</h3>
+            <p>Las citas de Horaya se ven en el calendario de Google.</p>
+          </div>
+        </article>
+        <article class="integrations__card reveal">
+          <span class="integration-icon" aria-hidden="true"><img src="/integrations/apple-calendar.svg" alt="" width="40" height="40" loading="lazy" decoding="async" /></span>
+          <div>
+            <h3>Apple Calendar</h3>
+            <p>Consulta las mismas citas desde Apple Calendar.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <div class="story-bridge story-bridge--to-pricing" aria-label="De los calendarios a los precios">
     <div class="container story-bridge__inner reveal">
       <span class="story-bridge__line" aria-hidden="true"></span>
       <p><strong>El plan cubre la operación.</strong> Elige la capacidad con la que empiezas.</p>
@@ -678,12 +669,6 @@ const capabilityTiles = [
     gap: var(--space-4);
     min-width: 0;
     overflow: hidden;
-    transition: box-shadow var(--motion-base);
-  }
-
-  .problem-card:hover,
-  .problem-card:focus-within {
-    box-shadow: var(--shadow-card-hover);
   }
 
   .problem-card__scene {
@@ -701,10 +686,6 @@ const capabilityTiles = [
     align-content: center;
     gap: var(--space-2);
     min-width: 0;
-  }
-
-  .problem-card--lead .problem-card__scene {
-    background: color-mix(in srgb, var(--color-brand) 5.5%, var(--color-frame));
   }
 
   .pain-chat,
@@ -745,7 +726,7 @@ const capabilityTiles = [
 
   .pain-chat__bubble--out {
     justify-self: end;
-    background: color-mix(in srgb, var(--color-brand) 12%, var(--color-surface));
+    background: color-mix(in srgb, var(--color-ink) 6%, var(--color-surface));
   }
 
   .pain-chat__waiting {
@@ -961,21 +942,26 @@ const capabilityTiles = [
   }
 
   .problem-card p,
-  .setup-step__copy p,
+  .setup-card__body p,
   .integrations__card p {
     margin: 0;
     color: var(--color-muted);
   }
 
   .problem-card p,
-  .setup-step__copy p {
+  .setup-card__body p {
     line-height: 1.55;
     text-wrap: pretty;
+  }
+
+  .setup-card .plan-note {
+    margin-top: var(--space-3);
   }
 
   .setup-section {
     scroll-margin-top: calc(var(--header-h) + 1rem);
     padding-top: clamp(3rem, 5vw, 5rem);
+    background: var(--color-frame);
   }
 
   .setup-intro {
@@ -997,231 +983,76 @@ const capabilityTiles = [
   }
 
   .setup-flow {
-    --setup-gap: var(--space-6);
-    --setup-card-h: 13.25rem;
-    --setup-num: 2.15rem;
-    position: relative;
+    display: grid;
+    gap: var(--space-4);
     margin: var(--space-6) 0 0;
     padding: 0;
     list-style: none;
-    gap: var(--setup-gap);
   }
 
   .setup-step {
-    display: grid;
-    grid-template-columns: var(--setup-num) minmax(0, 1fr);
-    grid-template-rows: var(--setup-card-h) auto;
-    column-gap: var(--space-4);
-    row-gap: var(--space-3);
+    display: flex;
     min-width: 0;
-    align-items: start;
   }
 
-  .setup-step__n {
-    grid-row: 1 / -1;
+  .setup-card {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    align-self: stretch;
-    width: var(--setup-num);
-    color: var(--color-ink);
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-  }
-
-  .setup-step__n > span {
-    display: grid;
-    place-items: center;
-    width: var(--setup-num);
-    height: var(--setup-num);
-    border-radius: 999px;
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
     background: var(--color-surface);
     box-shadow: var(--shadow-card);
   }
 
-  .setup-step__n::after {
-    content: '';
-    width: 1px;
-    flex: 1;
-    min-height: 2.5rem;
-    margin-top: 0.5rem;
-    background: color-mix(in srgb, var(--color-ink) 12%, transparent);
-  }
-
-  .setup-step:last-child .setup-step__n::after {
-    display: none;
-  }
-
-  .setup-step__frame {
-    grid-column: 2;
+  .setup-card__body {
     display: grid;
-    height: var(--setup-card-h);
-    min-height: var(--setup-card-h);
-    max-height: var(--setup-card-h);
-    padding: 0.55rem;
-    overflow: hidden;
-    border-radius: var(--radius-lg);
-    background: color-mix(in srgb, var(--color-ink) 3.5%, var(--color-surface));
-    box-shadow: var(--shadow-surface);
-  }
-
-  .setup-step__copy {
-    grid-column: 2;
-    display: grid;
-    grid-template-rows: minmax(2.75rem, auto) auto;
     align-content: start;
     gap: 0.35rem;
-    min-width: 0;
+    padding: var(--space-5) var(--space-5) var(--space-4);
   }
 
-  .setup-step__copy h3 {
+  .setup-card__n {
+    display: inline-grid;
+    place-items: center;
+    width: fit-content;
+    min-width: 2.15rem;
+    height: 1.7rem;
+    margin-bottom: var(--space-3);
+    padding-inline: 0.55rem;
+    border-radius: 999px;
+    background: var(--color-frame);
+    color: var(--color-ink-mid);
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.04em;
+  }
+
+  .setup-card__body h3 {
     margin: 0;
-    min-height: 2.75rem;
-    line-height: 1.25;
   }
 
-  .setup-step__copy p {
-    margin: 0;
+  .setup-card__frame {
+    height: 12.5rem;
+    margin-top: auto;
+    overflow: hidden;
   }
 
-  .setup-flow.is-ambient .setup-step:nth-child(2) .setup-step__frame {
-    animation-delay: 0.55s;
+  .setup-card__frame :global(.product-frame) {
+    box-shadow: var(--shadow-card);
   }
 
-  .setup-flow.is-ambient .setup-step:nth-child(3) .setup-step__frame {
-    animation-delay: 1.1s;
-  }
-
-  .setup-step__frame :global(.product-frame) {
-    height: 100%;
-    min-height: 0;
-    display: flex;
-    flex-direction: column;
-    box-shadow: none;
-    border-radius: var(--radius-md);
-  }
-
-  .setup-step__frame :global(.product-frame__shell) {
-    flex: 1 1 auto;
-    min-height: 0;
-  }
-
-  .setup-step__frame :global(.product-frame--crop .product-frame__shell) {
-    min-height: 0;
-  }
-
-  .setup-step__frame :global(.product-frame__chrome) {
-    padding: 0.5rem 0.75rem;
-  }
-
-  .setup-step__frame :global(.product-frame__main) {
-    flex: 1 1 auto;
-    min-height: 0;
-    display: flex;
-    flex-direction: column;
-    padding: 0.65rem;
-  }
-
-  .setup-step__frame :global(.ui-toolbar) {
-    margin-bottom: 0.65rem;
-  }
-
-  .setup-step__frame :global(.ui-toolbar h3),
-  .setup-step__frame :global(.product-frame h3) {
-    font-size: 0.85rem;
-  }
-
-  .setup-step__frame :global(.ui-hours__legend),
-  .setup-step__frame :global(.ui-client__chip),
-  .setup-step__frame :global(.ui-panel:nth-child(2)),
-  .setup-step__frame :global(.ui-toolbar__meta) {
+  .setup-card__frame :global(.ui-hours__legend),
+  .setup-card__frame :global(.ui-hours__meta) {
     display: none;
-  }
-
-  .setup-step__frame :global(.ui-client__grid) {
-    gap: 0.5rem;
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .setup-step__frame :global(.ui-panel--visits) {
-    flex: 1 1 auto;
-    min-height: 0;
-    padding: 0.65rem 0.75rem;
-  }
-
-  .setup-step__frame :global(.ui-visits li:nth-child(n + 3)) {
-    display: none;
-  }
-
-  .setup-step__frame :global(.ui-hours),
-  .setup-step__frame :global(.ui-client__grid) {
-    flex: 1 1 auto;
-    min-height: 0;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .setup-step__frame :global(.ui-hours__grid) {
-    flex: 1 1 auto;
-    min-height: 0;
-    margin-top: 0;
-  }
-
-  .setup-step__frame :global(.ui-hours__col) {
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
-    height: 100%;
-  }
-
-  .setup-step__frame :global(.ui-hours__col span) {
-    flex: 0 0 auto;
-  }
-
-  .setup-step__frame :global(.product-frame--crop .ui-week) {
-    flex: 1 1 auto;
-    min-height: 0;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .setup-step__frame :global(.product-frame--crop .ui-day:nth-child(n + 3)) {
-    display: none;
-  }
-
-  .setup-step__frame :global(.product-frame--crop .ui-day) {
-    min-height: 0;
-  }
-
-  .setup-step__frame :global(.ui-hours__block--morning),
-  .setup-step__frame :global(.ui-hours__block--afternoon),
-  .setup-step__frame :global(.ui-hours__block--evening) {
-    height: auto;
-  }
-
-  .setup-step__frame :global(.ui-hours__block--morning) {
-    flex: 1.4 1 0;
-    min-height: 1.4rem;
-  }
-
-  .setup-step__frame :global(.ui-hours__block--gap) {
-    flex: 0 0 0.5rem;
-    height: auto;
-  }
-
-  .setup-step__frame :global(.ui-hours__block--afternoon) {
-    flex: 1.6 1 0;
-    min-height: 1.6rem;
-  }
-
-  .setup-step__frame :global(.ui-hours__block--evening) {
-    flex: 1 1 0;
-    min-height: 1rem;
   }
 
   .journey-section {
     scroll-margin-top: calc(var(--header-h) + 1rem);
-    background: var(--color-navy);
+    background: var(--color-paper);
   }
 
   .journey-intro {
@@ -1231,20 +1062,13 @@ const capabilityTiles = [
     margin-bottom: clamp(2rem, 5vw, 4rem);
   }
 
-  .journey-intro .section-label,
-  .journey-intro .section-title {
-    color: var(--color-surface);
-  }
-
   .journey-intro .section-lead {
     margin-top: 0;
-    color: color-mix(in srgb, var(--color-surface) 68%, transparent);
   }
 
   .journey-intro .text-link {
     display: inline-block;
     margin-top: var(--space-4);
-    color: var(--color-surface);
   }
 
   .capability-bento {
@@ -1259,15 +1083,6 @@ const capabilityTiles = [
     border-radius: var(--radius-lg);
     background: var(--color-surface);
     box-shadow: var(--shadow-card);
-    transition: transform var(--motion-base), box-shadow var(--motion-base);
-  }
-
-  .capability-bento__panel:hover,
-  .capability-bento__panel:focus-within,
-  .capability-tile:hover,
-  .capability-tile:focus-within {
-    transform: translateY(calc(var(--shift-2) * -1));
-    box-shadow: var(--shadow-card-hover);
   }
 
   .capability-bento__panel {
@@ -1292,6 +1107,10 @@ const capabilityTiles = [
   .capability-bento__visual :global(.product-frame),
   .capability-tile__visual :global(.product-frame) {
     box-shadow: var(--shadow-card);
+  }
+
+  .capability-tile__visual :global(.product-frame__chrome) {
+    display: none;
   }
 
   .capability-bento__copy {
@@ -1331,7 +1150,6 @@ const capabilityTiles = [
   }
 
   .capability-tile {
-    --capability-accent: var(--color-brand);
     position: relative;
     display: grid;
     grid-template-columns: minmax(8rem, 0.9fr) minmax(0, 1.1fr);
@@ -1341,48 +1159,13 @@ const capabilityTiles = [
       0 18px 44px rgba(17, 25, 39, 0.075);
   }
 
-  .capability-tile:nth-child(2) {
-    --capability-accent: var(--color-status-ok);
-  }
-
-  .capability-tile:nth-child(3) {
-    --capability-accent: var(--color-status-warn);
-  }
-
-  .capability-tile:nth-child(4) {
-    --capability-accent: var(--color-ink-mid);
-  }
-
-  .capability-bento.is-ambient .capability-tile:nth-child(1) .capability-tile__visual { animation-delay: 0.2s; }
-  .capability-bento.is-ambient .capability-tile:nth-child(2) .capability-tile__visual { animation-delay: 0.55s; }
-  .capability-bento.is-ambient .capability-tile:nth-child(3) .capability-tile__visual { animation-delay: 0.9s; }
-  .capability-bento.is-ambient .capability-tile:nth-child(4) .capability-tile__visual { animation-delay: 1.25s; }
-
-  .capability-tile::before {
-    content: '';
-    position: absolute;
-    inset: 1rem auto 1rem 0;
-    z-index: 2;
-    width: 3px;
-    border-radius: 0 999px 999px 0;
-    background: var(--capability-accent);
-    opacity: 0.38;
-    box-shadow: none;
-    transition: opacity var(--motion-base), box-shadow var(--motion-base);
-  }
-
-  .capability-tile.is-visible::before {
-    opacity: 0.92;
-    box-shadow: 0 0 12px color-mix(in srgb, var(--capability-accent) 32%, transparent);
-  }
-
   .capability-tile__visual {
     display: grid;
     align-items: stretch;
     height: auto;
     min-height: 11.5rem;
     padding: var(--space-3);
-    background: color-mix(in srgb, var(--capability-accent) 5%, var(--color-frame));
+    background: var(--color-frame);
   }
 
   .capability-tile__copy {
@@ -1400,8 +1183,12 @@ const capabilityTiles = [
     font-size: 0.88rem;
   }
 
-  .capability-section__cta {
+  .capability-section__note {
     margin-top: var(--space-5);
+  }
+
+  .capability-section__cta {
+    margin-top: var(--space-3);
     color: var(--color-brand-deep);
   }
 
@@ -1430,7 +1217,7 @@ const capabilityTiles = [
   .integrations {
     padding: var(--space-3);
     border-radius: var(--radius-xl);
-    background: color-mix(in srgb, var(--color-brand) 2.5%, var(--color-surface));
+    background: var(--color-surface);
     box-shadow: var(--shadow-card);
   }
 
@@ -1570,57 +1357,12 @@ const capabilityTiles = [
 
   @media (min-width: 860px) {
     .setup-flow {
-      --setup-gap: clamp(1.25rem, 2.5vw, 2rem);
-      --setup-card-h: 16.75rem;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: var(--setup-gap);
       align-items: stretch;
     }
 
-    .setup-flow::before {
-      content: '';
-      position: absolute;
-      top: calc(var(--setup-num) / 2);
-      left: calc((100% - 2 * var(--setup-gap)) / 6);
-      right: calc((100% - 2 * var(--setup-gap)) / 6);
-      height: 1px;
-      background: color-mix(in srgb, var(--color-ink) 12%, transparent);
-    }
-
-    .setup-step {
-      grid-template-columns: minmax(0, 1fr);
-      grid-template-rows: var(--setup-num) var(--setup-card-h) auto;
-      justify-items: stretch;
-      row-gap: var(--space-3);
-    }
-
-    .setup-step__n {
-      grid-row: 1;
-      grid-column: 1;
-      justify-self: center;
-      align-self: center;
-      width: var(--setup-num);
-      z-index: 1;
-    }
-
-    .setup-step__n::after {
-      display: none;
-    }
-
-    .setup-step__frame,
-    .setup-step__copy {
-      grid-column: 1;
-      width: 100%;
-    }
-
-    .setup-step__frame {
-      height: var(--setup-card-h);
-      min-height: var(--setup-card-h);
-      max-height: var(--setup-card-h);
-    }
-
-    .setup-step__copy {
-      grid-template-rows: minmax(2.75rem, auto) auto;
+    .setup-card__frame {
+      height: 14.5rem;
     }
   }
 
@@ -1719,10 +1461,6 @@ const capabilityTiles = [
       grid-template-columns: 1fr;
     }
 
-    .setup-flow {
-      --setup-card-h: 12.25rem;
-    }
-
     .integrations__card + .integrations__card {
       border-top: 1px solid color-mix(in srgb, var(--color-ink) 10%, transparent);
       border-left: 0;
@@ -1759,11 +1497,6 @@ const capabilityTiles = [
       display: block;
     }
 
-    .hero__eyebrow {
-      align-items: flex-start;
-      text-align: left;
-    }
-
     .story-bridge__inner {
       align-items: flex-start;
       gap: var(--space-3);
@@ -1779,19 +1512,6 @@ const capabilityTiles = [
     .setup-intro__actions .btn {
       min-height: 2.75rem;
     }
-
-    .setup-step {
-      --setup-num: 2rem;
-    }
-
-    .setup-step__n {
-      width: var(--setup-num);
-    }
-
-    .setup-step__n > span {
-      width: var(--setup-num);
-      height: var(--setup-num);
-    }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -1801,13 +1521,6 @@ const capabilityTiles = [
       transform: none;
       animation: none;
     }
-
-    .problem-card:hover,
-    .problem-card:focus-within,
-    .capability-bento__panel:hover,
-    .capability-bento__panel:focus-within,
-    .capability-tile:hover,
-    .capability-tile:focus-within { transform: none; }
 
     .problem-card.is-visible .pain-chat__bubble,
     .problem-card.is-visible .pain-chat__waiting,

@@ -1,4 +1,4 @@
-const DEFAULT_APP_ORIGIN = 'https://app.habemusfisio.com'
+const DEFAULT_APP_ORIGIN = 'https://app.horaya.mx'
 
 export const appOrigin = (
   import.meta.env.PUBLIC_APP_ORIGIN || DEFAULT_APP_ORIGIN
@@ -6,9 +6,10 @@ export const appOrigin = (
 
 export const appLoginUrl = `${appOrigin}/login`
 export const appSignupUrl = `${appOrigin}/signup`
-export const salesContactUrl = 'mailto:hola@kintook.com?subject=Hablar%20con%20ventas'
+export const salesEmail = 'hola@horaya.mx'
+export const salesContactUrl = `mailto:${salesEmail}?subject=${encodeURIComponent('Hablar con ventas')}`
 
-export const siteName = 'Kintook'
+export const siteName = 'Horaya'
 
 /** List amounts stay visible as the reference; promo is the current launch offer. */
 export const equiposPricing = {
@@ -46,15 +47,15 @@ export const faqItems = [
   {
     question: '¿Por qué usar una herramienta de gestión si ya tengo WhatsApp y Calendar?',
     answer:
-      'WhatsApp sirve para conversar y Calendar para bloquear tiempo, pero ninguno conserva juntos el ingreso, la ficha, las notas y el seguimiento. Kintook conecta ese flujo para que el equipo deje de reconstruir la historia en cada visita.',
+      'WhatsApp sirve para conversar y Calendar para bloquear tiempo, pero ninguno conserva juntos el ingreso, la ficha, las notas y el seguimiento. Horaya conecta ese flujo para que el equipo deje de reconstruir la historia en cada visita.',
   },
   {
-    question: '¿Qué diferencia a Kintook de una agenda online?',
+    question: '¿Qué diferencia a Horaya de una agenda online?',
     answer:
       'No empieza y termina en reservar una hora. Está pensado para clínicas: disponibilidad, servicios, ingreso, ficha, notas y continuidad viven en el mismo flujo. Es una herramienta de operación clínica, no solo un calendario con una página de reservas.',
   },
   {
-    question: '¿Cómo sé si Kintook encaja con mi clínica?',
+    question: '¿Cómo sé si Horaya encaja con mi clínica?',
     answer:
       'Encaja si tu día gira alrededor de citas, servicios, pacientes e historial. Empezamos con fisioterapia, pero la lógica también sirve para consultas y prácticas que necesitan ordenar su atención sin perder contexto.',
   },
@@ -104,9 +105,9 @@ export const pricingFaqItems = [
       `Si eliges anual, Equipos queda en ${formatMxn(equiposPricing.annualPromoPerMonth)} ${equiposPricing.currency} por asiento al mes (precio de lista ${formatMxn(equiposPricing.annualListPerMonth)}), facturados como ${formatMxn(equiposPricing.annualBilled)} ${equiposPricing.currency} al año. Frente a pagar ${formatMxn(equiposPricing.monthlyPromo)} al mes, ahorras ${formatMxn(equiposPricing.annualSavings)} al año por cada asiento — un ${equiposPricing.annualDiscountPct}%.`,
   },
   {
-    question: '¿Qué diferencia a Kintook de una agenda genérica?',
+    question: '¿Qué diferencia a Horaya de una agenda genérica?',
     answer:
-      'Kintook conecta agenda, ingreso, ficha y notas clínicas en un mismo flujo. El valor no está solo en encontrar un hueco: está en que el contexto de la visita llegue preparado y permanezca para la siguiente.',
+      'Horaya conecta agenda, ingreso, ficha y notas clínicas en un mismo flujo. El valor no está solo en encontrar un hueco: está en que el contexto de la visita llegue preparado y permanezca para la siguiente.',
   },
   {
     question: '¿Qué pasa con mis datos si dejo de usarlo?',

@@ -15,7 +15,19 @@ interface Props {
     | 'panel'
   compact?: boolean
   crop?: boolean
-  micro?: 'availability' | 'reservation' | 'record' | 'panel' | 'services' | 'forms' | 'hours' | 'team'
+  micro?:
+    | 'availability'
+    | 'reservation'
+    | 'record'
+    | 'panel'
+    | 'services'
+    | 'forms'
+    | 'hours'
+    | 'team'
+    | 'chips'
+    | 'consent'
+    | 'exception'
+  scene?: 'cita' | 'ingreso' | 'ficha' | 'seguimiento'
   activeNav?: string
   label?: string
 }
@@ -25,6 +37,7 @@ const {
   compact = false,
   crop = false,
   micro,
+  scene,
   activeNav = 'Citas',
   label = 'Horaya',
 } = Astro.props
@@ -56,6 +69,8 @@ const nav =
     (compact || crop) && 'product-frame--compact',
     crop && 'product-frame--crop',
     micro && `product-frame--micro-${micro}`,
+    scene && 'product-frame--visit',
+    scene && `product-frame--scene-${scene}`,
   ]}
   data-product-frame={variant}
   role="img"
@@ -192,7 +207,17 @@ const nav =
                         </article>
                       </>
                     )}
-                    {i === 3 && (
+                    {i === 3 && scene === 'cita' && (
+                      <article class="ui-appt ui-appt--jue">
+                        <span class="ui-appt__fill" aria-hidden="true"></span>
+                        <span class="status-dot status-dot--brand"></span>
+                        <div>
+                          <strong>17:00 · Revisión</strong>
+                          <p>Ana Rojas</p>
+                        </div>
+                      </article>
+                    )}
+                    {i === 3 && scene !== 'cita' && (
                       <article class="ui-appt">
                         <span class="status-dot status-dot--ok"></span>
                         <div>
@@ -272,6 +297,12 @@ const nav =
                     <span class="status-dot status-dot--brand" title="Con nota"></span>
                   </li>
                 </ul>
+                {scene === 'ficha' && (
+                  <p class="ui-prev-note">
+                    <span class="status-dot status-dot--brand"></span>
+                    Nota previa vinculada
+                  </p>
+                )}
               </div>
             </div>
           </div>
@@ -291,6 +322,12 @@ const nav =
                 <span>Continuidad</span>
               </div>
             </div>
+            {scene === 'seguimiento' && (
+              <p class="ui-next-chip">
+                <span class="status-dot status-dot--ok"></span>
+                Próxima cita agendada
+              </p>
+            )}
             <div class="ui-note__chip">
               <span class="status-dot status-dot--ok"></span>
               <span>Sesión anterior · 12 mar · plan vigente</span>
@@ -322,7 +359,20 @@ const nav =
       }
 
       {
-        variant === 'hours' && (
+        variant === 'hours' && micro === 'exception' && (
+          <div class="ui-exception">
+            <p class="ui-kicker">Horario</p>
+            <h3>Excepción de fecha</h3>
+            <div class="ui-exception__row">
+              <span>21 mar</span>
+              <strong>Cierre temprano</strong>
+            </div>
+            <p class="ui-exception__tz">Zona horaria · Ciudad de México</p>
+          </div>
+        )
+      }
+      {
+        variant === 'hours' && micro !== 'exception' && (
           <div class="ui-hours">
             <div class="ui-toolbar">
               <div>
@@ -359,7 +409,20 @@ const nav =
       }
 
       {
-        variant === 'intake' && (
+        variant === 'intake' && micro === 'consent' && (
+          <div class="ui-consent">
+            <p class="ui-kicker">Formulario</p>
+            <h3>Consentimiento y firma</h3>
+            <div class="ui-consent__row">
+              <span class="product-frame__mark" aria-hidden="true"></span>
+              <span>Consentimiento</span>
+              <strong>Firma lista</strong>
+            </div>
+          </div>
+        )
+      }
+      {
+        variant === 'intake' && micro !== 'consent' && (
           <div class="ui-intake">
             <p class="ui-kicker">Ingreso · Horaya</p>
             <h3>Formulario del paciente</h3>
@@ -368,6 +431,22 @@ const nav =
               <li class="is-current"><span>2</span> Motivo</li>
               <li><span>3</span> Consentimiento</li>
             </ol>
+            {scene === 'ingreso' && (
+              <ul class="ui-intake__checks">
+                <li>
+                  <span class="ui-intake__box" aria-hidden="true"><span class="ui-intake__tick"></span></span>
+                  Datos personales
+                </li>
+                <li>
+                  <span class="ui-intake__box" aria-hidden="true"><span class="ui-intake__tick"></span></span>
+                  Motivo de consulta
+                </li>
+                <li>
+                  <span class="ui-intake__box" aria-hidden="true"><span class="ui-intake__tick"></span></span>
+                  Consentimiento
+                </li>
+              </ul>
+            )}
             <div class="ui-intake__field ui-intake__field--name">
               <span>Nombre</span>
               <div></div>
@@ -395,7 +474,20 @@ const nav =
       }
 
       {
-        variant === 'services' && (
+        variant === 'services' && micro === 'chips' && (
+          <div class="ui-services--chips">
+            <p class="ui-kicker">Servicios</p>
+            <h3>Color por servicio</h3>
+            <ul class="ui-service-chips">
+              <li><i class="ui-service-chips__swatch ui-service-chips__swatch--brand"></i><span>Fisioterapia</span></li>
+              <li><i class="ui-service-chips__swatch ui-service-chips__swatch--ok"></i><span>Evaluación</span></li>
+              <li><i class="ui-service-chips__swatch ui-service-chips__swatch--warn"></i><span>Revisión</span></li>
+            </ul>
+          </div>
+        )
+      }
+      {
+        variant === 'services' && micro !== 'chips' && (
           <div class="ui-services">
             <p class="ui-kicker">Servicios</p>
             <h3>Duración y agenda</h3>
@@ -779,6 +871,24 @@ const nav =
     overflow: hidden;
   }
 
+  .ui-appt--jue {
+    position: relative;
+    background: color-mix(in srgb, var(--color-ink) 4%, var(--color-surface));
+  }
+
+  .ui-appt__fill {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: color-mix(in srgb, var(--color-brand) 14%, var(--color-surface));
+    opacity: 1;
+  }
+
+  .ui-appt--jue > :not(.ui-appt__fill) {
+    position: relative;
+    z-index: 1;
+  }
+
   .ui-appt--muted {
     background: color-mix(in srgb, var(--color-status-idle) 12%, var(--color-surface));
   }
@@ -844,10 +954,13 @@ const nav =
   .ui-intake,
   .ui-note-mini,
   .ui-services,
+  .ui-services--chips,
   .ui-workflows,
   .ui-insights,
   .ui-team,
-  .ui-integrations {
+  .ui-integrations,
+  .ui-consent,
+  .ui-exception {
     background: var(--color-surface);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-card);
@@ -1085,10 +1198,13 @@ const nav =
   .ui-intake,
   .ui-note-mini,
   .ui-services,
+  .ui-services--chips,
   .ui-workflows,
   .ui-insights,
   .ui-team,
-  .ui-integrations {
+  .ui-integrations,
+  .ui-consent,
+  .ui-exception {
     padding: var(--space-4);
   }
 
@@ -1205,7 +1321,7 @@ const nav =
     font-size: 0.75rem;
   }
 
-  .ui-intake li span {
+  .ui-intake ol li span {
     width: 1.2rem;
     height: 1.2rem;
     display: grid;
@@ -1622,6 +1738,166 @@ const nav =
     font-weight: 600;
   }
 
+  .ui-prev-note,
+  .ui-next-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin: var(--space-3) 0 0;
+    color: var(--color-ink);
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .ui-next-chip {
+    width: fit-content;
+    margin: 0 0 var(--space-3);
+    padding: 0.45rem 0.7rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-status-ok) 12%, var(--color-surface));
+  }
+
+  .ui-intake__checks {
+    margin: var(--space-3) 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  .ui-intake__checks li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .ui-intake__checks .ui-intake__box {
+    display: grid;
+    place-items: center;
+    width: 0.95rem;
+    height: 0.95rem;
+    border-radius: 0.25rem;
+    background: color-mix(in srgb, var(--color-status-ok) 14%, var(--color-surface));
+  }
+
+  .ui-intake__checks .ui-intake__tick {
+    display: block;
+    border-radius: 0;
+    background: none;
+    width: 0.42rem;
+    height: 0.22rem;
+    margin-top: -0.12rem;
+    border-bottom: 2px solid var(--color-status-ok);
+    border-left: 2px solid var(--color-status-ok);
+    transform: rotate(-45deg);
+  }
+
+  .product-frame--scene-ingreso .ui-intake ol,
+  .product-frame--scene-ingreso .ui-intake__field {
+    display: none;
+  }
+
+  .product-frame--scene-ficha .ui-client__chip,
+  .product-frame--scene-ficha .ui-panel:not(.ui-panel--visits) {
+    display: none;
+  }
+
+  :global(.js) .product-frame--visit[data-product-frame='agenda']:not(.is-inview) .ui-appt,
+  :global(.js) .product-frame--visit[data-product-frame='agenda'].is-inview .ui-appt,
+  :global(.js) .product-frame--visit[data-product-frame='client'] .ui-visits li,
+  :global(.js) .product-frame--visit[data-product-frame='intake'] .ui-intake li,
+  :global(.js) .product-frame--visit[data-product-frame='intake'] .ui-intake__field,
+  :global(.js) .product-frame--visit[data-product-frame='intake'] .ui-intake__signature,
+  :global(.js) .product-frame--visit[data-product-frame='intake'] .ui-intake__signature strong,
+  :global(.js) .product-frame--visit[data-product-frame='note'] .ui-note__plan,
+  :global(.js) .product-frame--visit[data-product-frame='note'] .ui-note__plan-copy {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .product-frame--visit.is-inview[data-product-frame='agenda'] .ui-appt,
+  .product-frame--visit.is-inview[data-product-frame='agenda'] .ui-appt--now,
+  .product-frame--visit.is-inview[data-product-frame='agenda'] .ui-appt--now .status-dot,
+  .product-frame--visit.is-inview[data-product-frame='client'] .ui-visits li,
+  .product-frame--visit.is-inview[data-product-frame='client'] .ui-visits li:not(:last-child)::after,
+  .product-frame--visit.is-inview[data-product-frame='intake'] .ui-intake li,
+  .product-frame--visit.is-inview[data-product-frame='note'] .ui-note__plan,
+  .product-frame--visit.is-inview[data-product-frame='note'] .ui-note__plan-copy {
+    animation: none;
+  }
+
+  .product-frame--visit[data-product-frame='client'] .ui-visits li:not(:last-child)::after {
+    transform: scaleY(1);
+  }
+
+  .ui-service-chips {
+    margin: var(--space-3) 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  .ui-service-chips li {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.55rem 0.7rem;
+    border-radius: 999px;
+    background: var(--color-surface);
+    box-shadow: var(--shadow-card);
+    font-size: 0.78rem;
+    font-weight: 500;
+  }
+
+  .ui-service-chips__swatch {
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 50%;
+  }
+
+  .ui-service-chips__swatch--brand { background: var(--color-brand); }
+  .ui-service-chips__swatch--ok { background: var(--color-status-ok); }
+  .ui-service-chips__swatch--warn { background: var(--color-status-warn); }
+
+  .ui-consent__row,
+  .ui-exception__row {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin-top: var(--space-3);
+    padding: 0.7rem 0.8rem;
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-card);
+    font-size: 0.8rem;
+  }
+
+  .ui-consent__row strong,
+  .ui-exception__row strong {
+    margin-left: auto;
+    color: var(--color-status-ok);
+    font-weight: 600;
+  }
+
+  .ui-exception__row strong {
+    color: var(--color-status-warn);
+  }
+
+  .ui-exception__tz {
+    margin: var(--space-3) 0 0;
+    color: var(--color-muted);
+    font-size: 0.72rem;
+  }
+
+  .ui-consent,
+  .ui-exception,
+  .ui-services--chips {
+    padding: 0.7rem;
+  }
+
   /* Setup and bento micro-scenes animate product state once on entry. */
   .product-frame--micro-availability .ui-hours__grid {
     margin-top: 0.2rem;
@@ -1639,7 +1915,11 @@ const nav =
   :global(.js) .product-frame--micro-services .ui-services li,
   :global(.js) .product-frame--micro-forms .ui-intake li,
   :global(.js) .product-frame--micro-hours .ui-hours__block,
-  :global(.js) .product-frame--micro-team .ui-team li {
+  :global(.js) .product-frame--micro-team .ui-team li,
+  :global(.js) .product-frame--micro-chips .ui-service-chips li,
+  :global(.js) .product-frame--micro-consent .ui-consent__row,
+  :global(.js) .product-frame--micro-exception .ui-exception__row,
+  :global(.js) .product-frame--micro-exception .ui-exception__tz {
     opacity: 0;
     transform: translateY(0.35rem);
   }
@@ -1652,7 +1932,11 @@ const nav =
   .product-frame--micro-services.is-inview .ui-services li,
   .product-frame--micro-forms.is-inview .ui-intake li,
   .product-frame--micro-hours.is-inview .ui-hours__block,
-  .product-frame--micro-team.is-inview .ui-team li {
+  .product-frame--micro-team.is-inview .ui-team li,
+  .product-frame--micro-chips.is-inview .ui-service-chips li,
+  .product-frame--micro-consent.is-inview .ui-consent__row,
+  .product-frame--micro-exception.is-inview .ui-exception__row,
+  .product-frame--micro-exception.is-inview .ui-exception__tz {
     animation: micro-scene-in var(--duration-enter) var(--ease-out) both;
   }
 
@@ -1663,14 +1947,17 @@ const nav =
   .product-frame--micro-services.is-inview .ui-services li:nth-child(2),
   .product-frame--micro-forms.is-inview .ui-intake li:nth-child(2),
   .product-frame--micro-hours.is-inview .ui-hours__block:nth-child(2),
-  .product-frame--micro-team.is-inview .ui-team li:nth-child(2) { animation-delay: 90ms; }
+  .product-frame--micro-team.is-inview .ui-team li:nth-child(2),
+  .product-frame--micro-chips.is-inview .ui-service-chips li:nth-child(2),
+  .product-frame--micro-exception.is-inview .ui-exception__tz { animation-delay: 90ms; }
 
   .product-frame--micro-panel.is-inview .ui-today-list li:nth-child(3),
   .product-frame--micro-record.is-inview .ui-visits li:nth-child(3),
   .product-frame--micro-services.is-inview .ui-services li:nth-child(3),
   .product-frame--micro-forms.is-inview .ui-intake li:nth-child(3),
   .product-frame--micro-hours.is-inview .ui-hours__block:nth-child(3),
-  .product-frame--micro-team.is-inview .ui-team li:nth-child(3) { animation-delay: 180ms; }
+  .product-frame--micro-team.is-inview .ui-team li:nth-child(3),
+  .product-frame--micro-chips.is-inview .ui-service-chips li:nth-child(3) { animation-delay: 180ms; }
 
   .product-frame--micro-services .ui-services li:nth-child(1) {
     background: color-mix(in srgb, var(--color-brand) 12%, var(--color-surface));
@@ -1728,7 +2015,10 @@ const nav =
   .product-frame--micro-services,
   .product-frame--micro-forms,
   .product-frame--micro-hours,
-  .product-frame--micro-team {
+  .product-frame--micro-team,
+  .product-frame--micro-chips,
+  .product-frame--micro-consent,
+  .product-frame--micro-exception {
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -1738,7 +2028,10 @@ const nav =
   .product-frame--micro-services .product-frame__shell,
   .product-frame--micro-forms .product-frame__shell,
   .product-frame--micro-hours .product-frame__shell,
-  .product-frame--micro-team .product-frame__shell {
+  .product-frame--micro-team .product-frame__shell,
+  .product-frame--micro-chips .product-frame__shell,
+  .product-frame--micro-consent .product-frame__shell,
+  .product-frame--micro-exception .product-frame__shell {
     flex: 1;
     min-height: 0;
   }
@@ -1843,7 +2136,11 @@ const nav =
     .product-frame--micro-services .ui-services li,
     .product-frame--micro-forms .ui-intake li,
     .product-frame--micro-hours .ui-hours__block,
-    .product-frame--micro-team .ui-team li {
+    .product-frame--micro-team .ui-team li,
+    .product-frame--micro-chips .ui-service-chips li,
+    .product-frame--micro-consent .ui-consent__row,
+    .product-frame--micro-exception .ui-exception__row,
+    .product-frame--micro-exception .ui-exception__tz {
       opacity: 1;
       transform: none;
       animation: none;

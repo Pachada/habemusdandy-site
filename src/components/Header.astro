@@ -1,5 +1,5 @@
 ---
-import { appLoginUrl, appSignupUrl, navLinks, siteName } from '../config/site'
+import { appLoginUrl, appSignupUrl, navLinks } from '../config/site'
 import Wordmark from './Wordmark.astro'
 
 const pathname = Astro.url.pathname.replace(/\/$/, '') || '/'
@@ -49,7 +49,7 @@ const pathname = Astro.url.pathname.replace(/\/$/, '') || '/'
     aria-label="Navegación"
   >
     <div class="mobile-drawer__top">
-      <p class="mobile-drawer__title">{siteName}</p>
+      <p class="mobile-drawer__title"><Wordmark /></p>
       <button class="btn btn--ghost" type="button" data-menu-close>Cerrar</button>
     </div>
     <nav class="mobile-drawer__nav" aria-label="Móvil">
@@ -272,7 +272,7 @@ const pathname = Astro.url.pathname.replace(/\/$/, '') || '/'
 
   .mobile-drawer__title {
     margin: 0;
-    font-weight: 600;
+    --wordmark-size: 1.15rem;
   }
 
   .mobile-drawer__nav {

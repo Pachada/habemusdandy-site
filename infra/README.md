@@ -80,7 +80,8 @@ Environment name: `production`.
 | `PROD_CF_DISTRIBUTION_ID`           | `DistributionId`         |
 | `PUBLIC_APP_ORIGIN` (var, optional) | `https://app.horaya.mx`  |
 
-OIDC trust is the repo `Pachada/habemusdandy-site` plus the workflow file.
+OIDC trust is this repo's immutable subject
+(`repo:Pachada@58006056/habemusdandy-site@1336594326:*`) plus the workflow file.
 Update these secrets only after this Horaya code is on `main`. Until then, a
 push of the previous site would publish the old brand into the new bucket.
 

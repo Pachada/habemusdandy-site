@@ -14,6 +14,11 @@ export interface HorayaSiteStackProps extends cdk.StackProps {
   githubOrg: string
   githubRepo: string
   /**
+   * `sub` claim pattern. This repo uses GitHub's immutable subject, so the
+   * value includes the org and repo ids, not only the names.
+   */
+  githubSubject: string
+  /**
    * ARN of an existing GitHub OIDC provider in this account.
    * Only one provider per URL is allowed per AWS account.
    */
@@ -151,7 +156,7 @@ function handler(event) {
             'token.actions.githubusercontent.com:aud': 'sts.amazonaws.com',
           },
           StringLike: {
-            'token.actions.githubusercontent.com:sub': `repo:${props.githubOrg}/${props.githubRepo}:*`,
+            'token.actions.githubusercontent.com:sub': props.githubSubject,
             'token.actions.githubusercontent.com:job_workflow_ref': `${props.githubOrg}/${props.githubRepo}/.github/workflows/${appDeployWorkflow}@*`,
           },
         },
@@ -174,7 +179,7 @@ function handler(event) {
             'token.actions.githubusercontent.com:aud': 'sts.amazonaws.com',
           },
           StringLike: {
-            'token.actions.githubusercontent.com:sub': `repo:${props.githubOrg}/${props.githubRepo}:*`,
+            'token.actions.githubusercontent.com:sub': props.githubSubject,
             'token.actions.githubusercontent.com:job_workflow_ref': `${props.githubOrg}/${props.githubRepo}/.github/workflows/${infraDeployWorkflow}@*`,
           },
         },

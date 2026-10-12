@@ -24,6 +24,7 @@
     "hostedZoneId": "Z06435213BPCSRDX9SAUG",
     "githubOrg": "Pachada",
     "githubRepo": "habemusdandy-site",
+    "githubSubject": "repo:Pachada@58006056/habemusdandy-site@1336594326:*",
 
     "githubOidcProviderArn": "arn:aws:iam::651694720404:oidc-provider/token.actions.githubusercontent.com"
   }

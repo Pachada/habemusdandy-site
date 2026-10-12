@@ -11,6 +11,7 @@ const domainName = app.node.tryGetContext('domainName') as string
 const hostedZoneId = app.node.tryGetContext('hostedZoneId') as string
 const githubOrg = app.node.tryGetContext('githubOrg') as string
 const githubRepo = app.node.tryGetContext('githubRepo') as string
+const githubSubject = app.node.tryGetContext('githubSubject') as string
 const configuredOidcArn = app.node.tryGetContext('githubOidcProviderArn') as
   | string
   | undefined
@@ -23,6 +24,7 @@ for (const [key, value] of Object.entries({
   hostedZoneId,
   githubOrg,
   githubRepo,
+  githubSubject,
 })) {
   if (isPlaceholder(value)) {
     throw new Error(
@@ -45,6 +47,7 @@ new HorayaSiteStack(app, 'HorayaSiteStack', {
   hostedZoneId,
   githubOrg,
   githubRepo,
+  githubSubject,
   githubOidcProviderArn,
   description: 'Horaya marketing site — production S3 + CloudFront',
 })

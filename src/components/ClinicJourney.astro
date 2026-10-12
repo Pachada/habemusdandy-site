@@ -322,6 +322,11 @@ const tone = (state: 'idle' | 'ok' | 'warn') =>
 
       journey.classList.add('is-switching')
       if (swapTimer) window.clearTimeout(swapTimer)
+      panels.forEach((panel) => {
+        if (panel === currentPanel || panel === nextPanel) return
+        panel.hidden = true
+        panel.classList.remove('is-leaving', 'is-active')
+      })
       currentPanel.classList.remove('is-active')
       currentPanel.classList.add('is-leaving')
       nextPanel.classList.remove('is-leaving')
@@ -427,6 +432,7 @@ const tone = (state: 'idle' | 'ok' | 'warn') =>
       tab.addEventListener('keydown', (event) => {
         if (!enhanced) return
         if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return
+        if (event.repeat) return
         event.preventDefault()
         pauseForUser()
         select(active + (event.key === 'ArrowRight' ? 1 : -1), true)

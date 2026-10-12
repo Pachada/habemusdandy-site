@@ -1,0 +1,22 @@
+---
+interface Props {
+  class?: string
+}
+
+const { class: className } = Astro.props
+---
+
+<span class:list={['wordmark', className]}>Horaya.mx</span>
+
+<style>
+  .wordmark {
+    display: inline-block;
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: var(--wordmark-size, 1.45rem);
+    font-weight: 600;
+    letter-spacing: -0.05em;
+    line-height: 1;
+    white-space: nowrap;
+  }
+</style>

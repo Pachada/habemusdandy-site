@@ -1,5 +1,6 @@
 ---
 import { appLoginUrl, appSignupUrl, navLinks, siteName } from '../config/site'
+import Wordmark from './Wordmark.astro'
 
 const pathname = Astro.url.pathname.replace(/\/$/, '') || '/'
 ---
@@ -7,7 +8,7 @@ const pathname = Astro.url.pathname.replace(/\/$/, '') || '/'
 <header class="site-header" data-site-header>
   <div class="site-header__inner container">
     <a class="site-header__logo" href="/" aria-label={`${siteName}, inicio`}>
-      <img src="/logo.svg" alt="" width="118" height="32" decoding="async" />
+      <Wordmark />
     </a>
 
     <nav class="site-header__nav" aria-label="Principal">
@@ -153,9 +154,8 @@ const pathname = Astro.url.pathname.replace(/\/$/, '') || '/'
     text-decoration: none;
   }
 
-  .site-header__logo img {
-    width: auto;
-    height: 1.8rem;
+  .site-header__logo {
+    --wordmark-size: 1.45rem;
   }
 
   .site-header__nav {
@@ -323,9 +323,8 @@ const pathname = Astro.url.pathname.replace(/\/$/, '') || '/'
       min-width: 0;
     }
 
-    .site-header__logo img {
-      width: min(8.8rem, 100%);
-      height: auto;
+    .site-header__logo {
+      --wordmark-size: 1.3rem;
     }
 
     .site-header__actions {
@@ -355,8 +354,8 @@ const pathname = Astro.url.pathname.replace(/\/$/, '') || '/'
       gap: 0.4rem;
     }
 
-    .site-header__logo img {
-      width: min(6.9rem, 100%);
+    .site-header__logo {
+      --wordmark-size: 1.15rem;
     }
 
     .site-header__actions .btn--primary {

@@ -85,6 +85,7 @@ app.horaya.mx                dashboard (Habemusfisio-ui)
 /producto           Product / features
 /precios            Pricing
 /seguridad          Privacy & trust (short)
+/clinicas           Campaign landing (ads). Not in the header.
 /privacidad         Políticas de privacidad (footer)
 /terminos           Términos y condiciones (footer)
 404                 Not found → home / producto / precios
@@ -92,7 +93,7 @@ app.horaya.mx                dashboard (Habemusfisio-ui)
 /signup             → app signup (or login while signup is gated)
 ```
 
-Out of v1: blog, use-case microsites, careers, changelog, “vs Calendly”, comparison tables, chatbot.
+Out of v1: blog, use-case microsites, careers, changelog, “vs Calendly”, comparison tables, chatbot. `/clinicas` is the ad landing (one action, price up front, no header nav). It is not a use-case microsite.
 
 ```mermaid
 flowchart LR

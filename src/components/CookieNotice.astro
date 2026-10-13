@@ -145,6 +145,26 @@ const storageKey = 'horaya-cookie-notice'
     background: var(--color-brand-deep);
   }
 
+  :global(body[data-campaign]) .cookie-notice {
+    z-index: 36;
+  }
+
+  :global(body[data-campaign]) .cookie-notice__accept {
+    background: var(--color-ink);
+    box-shadow: none;
+  }
+
+  :global(body[data-campaign]) .cookie-notice__accept:hover {
+    background: var(--color-navy);
+  }
+
+  @media (max-width: 859px) {
+    :global(body[data-campaign]:has(.sticky-cta.is-fixed)) .cookie-notice,
+    :global(html:not(.js) body[data-campaign]) .cookie-notice {
+      bottom: calc(4.6rem + env(safe-area-inset-bottom, 0px) + 0.65rem);
+    }
+  }
+
   .cookie-notice__accept:focus-visible,
   .cookie-notice__link:focus-visible {
     outline: 2px solid var(--color-brand);

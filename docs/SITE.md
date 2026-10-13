@@ -380,6 +380,7 @@ Rules:
 - Chrome (header/footer)
 - Home with all sections except empty proof/testimonials (omit if empty)
 - `/producto`, `/precios` (structure), `/seguridad` (short)
+- `/clinicas` ad landing (not in the header)
 - `/privacidad`, `/terminos` (footer legal)
 - 404 (home / producto / precios)
 - Cookie notice (essential preference in localStorage; no ads/analytics cookies)

@@ -499,7 +499,7 @@ const campaignFaq = [
   .trust__list {
     display: grid;
     gap: var(--space-4);
-    margin: 0;
+    margin-block: 0;
     padding: 0;
     list-style: none;
   }
@@ -844,7 +844,11 @@ const campaignFaq = [
   }
 
   .guarantees {
-    background: var(--color-surface);
+    background: var(--color-paper);
+  }
+
+  .guarantees .section-lead {
+    color: var(--color-ink);
   }
 
   .promises {

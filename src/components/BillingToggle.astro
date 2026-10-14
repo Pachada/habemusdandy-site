@@ -90,8 +90,8 @@ const annualSavings = formatMxn(equiposPricing.annualSavings)
       })
       if (live) {
         live.textContent = period === 'annual'
-          ? `Facturación anual seleccionada. Precio de lista ${annualList} pesos al mes. Promoción de lanzamiento: ${annualPrice} pesos mexicanos por asiento al mes, facturados como ${annualBilled} al año. Ahorras ${annualSavings} por asiento, un ${discount} por ciento frente a pagar mes a mes.`
-          : `Facturación mensual seleccionada. Precio de lista ${monthlyList} pesos. Promoción de lanzamiento: ${monthlyPrice} pesos mexicanos por asiento al mes.`
+          ? `Facturación anual seleccionada. Precio de lista ${annualList} pesos mexicanos por asiento al mes. Promoción de lanzamiento: ${annualPrice} pesos mexicanos por asiento al mes, facturados como ${annualBilled} pesos al año por asiento. Ahorras ${annualSavings} por asiento, un ${discount} por ciento frente a pagar mes a mes.`
+          : `Facturación mensual seleccionada. Precio de lista ${monthlyList} pesos mexicanos por asiento al mes. Promoción de lanzamiento: ${monthlyPrice} pesos mexicanos por asiento al mes.`
       }
       syncPeriodToUrl(period)
     }

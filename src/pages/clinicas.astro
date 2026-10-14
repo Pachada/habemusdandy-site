@@ -1,0 +1,997 @@
+---
+import CampaignLayout from '../layouts/CampaignLayout.astro'
+import ProductFrame from '../components/ProductFrame.astro'
+import BillingToggle from '../components/BillingToggle.astro'
+import Faq from '../components/Faq.astro'
+import { appSignupUrl, equiposPricing, formatMxn, salesContactUrl } from '../config/site'
+
+const monthlyList = formatMxn(equiposPricing.monthlyList)
+const monthlyPromo = formatMxn(equiposPricing.monthlyPromo)
+const annualList = formatMxn(equiposPricing.annualListPerMonth)
+const annualPromo = formatMxn(equiposPricing.annualPromoPerMonth)
+const annualBilled = formatMxn(equiposPricing.annualBilled)
+const currency = equiposPricing.currency
+
+const priceLine = `Promoción de lanzamiento: ${monthlyPromo} ${currency} por asiento al mes, o ${annualPromo} ${currency} por asiento al mes si pagas anual (${annualBilled} ${currency} al año por asiento).`
+
+const title = 'Tu clínica, fuera del chat y del calendario compartido'
+const description = `Agenda, fichas y notas en un solo lugar. Plan gratuito para la operación esencial. Equipos, promoción de lanzamiento: ${monthlyPromo} ${currency} por asiento al mes, o ${annualPromo} ${currency} por asiento al mes si pagas anual (${annualBilled} ${currency} al año por asiento).`
+
+const cases = [
+  {
+    scene: 'chat',
+    painTitle: 'Dijiste que revisabas y no contestaste',
+    pain: 'El interesado pregunta si hay hueco. Tú ibas a mirar el horario. El mensaje se quedó visto.',
+    gainTitle: 'El hueco queda en la agenda',
+    gain: 'Sin “deja checo y te aviso”. La cita entra en el horario del equipo.',
+  },
+  {
+    scene: 'ficha',
+    painTitle: 'Cada visita empieza de cero',
+    pain: 'Lo de la sesión pasada no está en la ficha. Vuelves a preguntar lo que ya sabías.',
+    gainTitle: 'La ficha abre con contexto',
+    gain: 'Visitas y nota anterior están ahí cuando empieza la sesión.',
+  },
+  {
+    scene: 'follow',
+    painTitle: 'La sesión termina y el hilo se corta',
+    pain: 'No hay próxima cita a la vista. El seguimiento vive en la cabeza.',
+    gainTitle: 'La próxima cita queda registrada',
+    gain: 'La nota y la siguiente cita se quedan en el mismo lugar.',
+  },
+] as const
+
+const steps = [
+  {
+    n: '01',
+    title: 'Abres el panel',
+    line: 'Creas la cuenta en app.horaya.mx. El plan lo eliges ahí, no en esta página.',
+    cta: true,
+  },
+  {
+    n: '02',
+    title: 'Dejas horario y servicios',
+    line: 'Los días que atiendes, qué ofreces, cuánto dura y cuánto cuesta.',
+    cta: false,
+  },
+  {
+    n: '03',
+    title: 'La siguiente visita sale de la ficha',
+    line: 'La cita, la nota y la próxima quedan juntas.',
+    cta: false,
+  },
+] as const
+
+const comparisons = [
+  {
+    topic: 'La cita',
+    chat: 'El hueco se pregunta por mensaje y se queda visto.',
+    horaya: 'Entra en la agenda del equipo.',
+  },
+  {
+    topic: 'La ficha',
+    chat: 'Lo de la sesión pasada no está. Se vuelve a preguntar.',
+    horaya: 'Abre con las visitas y la nota anterior.',
+  },
+  {
+    topic: 'El seguimiento',
+    chat: 'La próxima cita vive en la cabeza.',
+    horaya: 'La nota y la siguiente cita quedan registradas.',
+  },
+  {
+    topic: 'El paciente',
+    chat: 'Escribe al mismo chat del equipo.',
+    horaya: 'No tiene panel. No ve la agenda ni las notas.',
+  },
+  {
+    topic: 'El ingreso',
+    chat: 'Los datos llegan sueltos, si llegan.',
+    horaya: 'El formulario, con consentimiento y firma, está en Equipos y Empresas. En Gratis, la ficha la arma el equipo.',
+  },
+  {
+    topic: 'El precio',
+    chat: 'Repartido entre el chat, el calendario y la memoria.',
+    horaya: `Gratis en $0. Equipos, ${priceLine.charAt(0).toLowerCase()}${priceLine.slice(1)}`,
+  },
+] as const
+
+const guarantees = [
+  {
+    title: 'Datos aislados por clínica',
+    line: 'Cada clínica es un espacio aparte. Solo el personal con el rol adecuado ve fichas y notas.',
+  },
+  {
+    title: 'El paciente no tiene panel',
+    line: 'No entra a la agenda ni a las notas. El enlace de ingreso, cuando lo usas, está en Equipos y Empresas.',
+  },
+  {
+    title: 'No vendemos listas',
+    line: 'No vendemos listas de pacientes, ni pedimos que el paciente cree una cuenta para completar su ingreso.',
+  },
+  {
+    title: 'Si dejas de usarlo, los datos siguen siendo de tu clínica',
+    line: 'Horaya los procesa para prestar el servicio. El tratamiento y la conservación están en Políticas de privacidad y Términos.',
+  },
+] as const
+
+const campaignFaq = [
+  {
+    question: '¿Puedo empezar sin comprometerme a pagar?',
+    answer:
+      'Sí. El plan Gratis cubre la operación esencial: citas, clientes, fichas y notas. Equipos se elige después, dentro del panel, cuando hagan falta más personas, formularios, automatizaciones o reportes.',
+  },
+  {
+    question: '¿Qué pasa con mis datos si dejo de usarlo?',
+    answer:
+      'Siguen siendo de tu clínica. El tratamiento, la conservación y las condiciones del servicio están en Políticas de privacidad y Términos y condiciones.',
+    answerHtml:
+      'Siguen siendo de tu clínica. El tratamiento, la conservación y las condiciones del servicio están en <a href="/privacidad">Políticas de privacidad</a> y <a href="/terminos">Términos y condiciones</a>.',
+  },
+  {
+    question: '¿El paciente necesita crear una cuenta?',
+    answer:
+      'No. El equipo trabaja en el panel. El paciente no ve la agenda ni las notas. El enlace de ingreso, cuando lo envías, está en Equipos y Empresas.',
+  },
+  {
+    question: '¿Dónde quedan los datos de mi clínica?',
+    answer:
+      'En un espacio aislado por clínica. Solo el personal con el rol adecuado ve fichas y notas. El detalle de acceso está en Seguridad.',
+    answerHtml:
+      'En un espacio aislado por clínica. Solo el personal con el rol adecuado ve fichas y notas. El detalle de acceso está en <a href="/seguridad">Seguridad</a>.',
+  },
+  {
+    question: '¿Qué cuenta como un asiento?',
+    answer: `Una persona del equipo con acceso al espacio. ${priceLine} El precio de lista es ${monthlyList} ${currency} por asiento al mes, o ${annualList} ${currency} por asiento al mes si pagas anual.`,
+  },
+  {
+    question: '¿Comenzar gratis contrata Equipos?',
+    answer:
+      'No. Abre el panel en app.horaya.mx y el plan se elige ahí. Esta página no puede dejar el plan elegido.',
+  },
+] as const
+---
+
+<CampaignLayout title={title} description={description}>
+  <section class="hero" id="inicio">
+    <div class="container hero__grid">
+      <div class="hero__copy">
+        <h1>Tu clínica, fuera del chat y del calendario compartido.</h1>
+        <p class="hero__lead">
+          Agenda, fichas y notas en un solo lugar. La próxima visita no se reconstruye en WhatsApp.
+        </p>
+        <a class="btn btn--primary" href={appSignupUrl} data-hero-cta>Comenzar gratis</a>
+        <p class="hero__fine">
+          Plan gratuito para la operación esencial. El plan se elige en el panel.
+        </p>
+        <p class="hero__price">{priceLine}</p>
+        <p class="hero__handoff">El siguiente paso abre el panel en app.horaya.mx.</p>
+      </div>
+      <div class="hero__visual" data-ambient>
+        <p class="disclosure">
+          Formularios de ingreso: en Equipos y Empresas. Lo de abajo es el día de la clínica. El ingreso por formulario es del plan de pago.
+        </p>
+        <div class="ambient-float ambient-float--slow">
+          <ProductFrame variant="panel" activeNav="Panel principal" label="Hoy en la clínica" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="trust" aria-label="Compromisos que puedes comprobar">
+    <ul class="container trust__list">
+      <li>
+        <strong>Datos aislados por clínica</strong>
+        <span>Cada clínica es un espacio aparte.</span>
+      </li>
+      <li>
+        <strong>El paciente no tiene panel</strong>
+        <span>No ve la agenda ni las notas, ni crea una cuenta para el ingreso.</span>
+      </li>
+      <li>
+        <strong>No vendemos listas</strong>
+        <span>No vendemos listas de pacientes.</span>
+      </li>
+    </ul>
+  </section>
+
+  <section class="section offer" id="oferta">
+    <div class="container">
+      <h2 class="section-title">Esto es lo que cuesta.</h2>
+      <p class="section-lead">{priceLine} Empresas es a medida, con una persona del equipo.</p>
+      <div class="offer__billing">
+        <BillingToggle controls="campaign-plans" />
+      </div>
+      <div class="offer__grid" id="campaign-plans" data-billing="monthly">
+        <article class="offer-card">
+          <p class="offer-card__who">Para comenzar</p>
+          <h3>Gratis</h3>
+          <p class="offer-card__price">
+            <strong aria-label="0 pesos mexicanos">$0</strong>
+            <span class="price-unit">sin costo</span>
+          </p>
+          <ul>
+            <li>Agenda semanal y citas</li>
+            <li>Clientes y fichas</li>
+            <li>Notas clínicas</li>
+            <li>Servicios y horario</li>
+          </ul>
+          <a class="btn btn--primary" href={appSignupUrl}>Comenzar gratis</a>
+        </article>
+        <article class="offer-card offer-card--featured">
+          <span class="offer-card__badge">Recomendado</span>
+          <p class="offer-card__who">Para el equipo</p>
+          <h3>Equipos</h3>
+          <p class="offer-card__price">
+            <span class="billing-swap">
+              <span class="price-amount" data-billing-content="monthly">
+                <del aria-label={`Precio de lista ${equiposPricing.monthlyList} pesos mexicanos`}>{monthlyList}</del>
+                <strong aria-label={`${equiposPricing.monthlyPromo} pesos mexicanos por asiento al mes, promoción de lanzamiento`}>{monthlyPromo}</strong>
+              </span>
+              <span class="price-amount" data-billing-content="annual" hidden>
+                <del aria-label={`Precio de lista ${equiposPricing.annualListPerMonth} pesos mexicanos por asiento al mes`}>{annualList}</del>
+                <strong aria-label={`${equiposPricing.annualPromoPerMonth} pesos mexicanos por asiento al mes en la promoción de lanzamiento. El año se cobra como ${equiposPricing.annualBilled} pesos mexicanos por asiento.`}>{annualPromo}</strong>
+              </span>
+            </span>
+            <span class="price-unit">MXN por asiento al mes</span>
+          </p>
+          <p class="price-discount">
+            <span class="billing-swap">
+              <span data-billing-content="monthly">Promoción de lanzamiento</span>
+              <span data-billing-content="annual" hidden>Lanzamiento · {annualBilled} MXN al año por asiento</span>
+            </span>
+          </p>
+          <ul>
+            <li>Precio por asiento activo</li>
+            <li>Formularios de ingreso</li>
+            <li>Equipo, roles e integraciones</li>
+            <li>Automatizaciones y reportes</li>
+          </ul>
+          <a class="btn btn--primary" href={appSignupUrl}>Comenzar gratis</a>
+          <p class="offer-card__note">El plan lo eliges en el panel.</p>
+        </article>
+        <article class="offer-card offer-card--dark">
+          <p class="offer-card__who">Operaciones grandes</p>
+          <h3>Empresas</h3>
+          <p class="offer-card__price">
+            <strong>A medida</strong>
+            <span class="price-unit">según tu operación</span>
+          </p>
+          <ul>
+            <li>Todo lo de Equipos</li>
+            <li>Configuración acompañada</li>
+            <li>Condiciones a tu medida</li>
+          </ul>
+          <a class="btn btn--text offer-card__sales" href={salesContactUrl}>Contactar a ventas</a>
+          <p class="offer-card__note">Te responde una persona del equipo.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section situation" id="situacion">
+    <div class="container">
+      <h2 class="section-title">Hoy la clínica se arma en el chat.</h2>
+      <p class="section-lead">Tres momentos que ya conoces, y lo que queda en su lugar.</p>
+      <div class="cases">
+        {
+          cases.map((item) => (
+            <article class="case">
+              <div class:list={['still', `still--${item.scene}`]} aria-hidden="true">
+                {item.scene === 'chat' && (
+                  <div class="chat">
+                    <p class="chat__meta">Chat · Interesado</p>
+                    <p class="bubble">¿Tienes el jueves a las 5?</p>
+                    <p class="bubble bubble--out">Deja checo y te aviso</p>
+                    <p class="chat__wait">Sin respuesta · 2 h</p>
+                  </div>
+                )}
+                {item.scene === 'ficha' && (
+                  <div class="ficha">
+                    <div class="ficha__head">
+                      <strong>Sofía P.</strong>
+                      <span>Ficha</span>
+                    </div>
+                    <p><span>Última visita</span> Sin historial</p>
+                    <p><span>Nota previa</span> No disponible</p>
+                  </div>
+                )}
+                {item.scene === 'follow' && (
+                  <div class="follow">
+                    <p>Sesión 6 · finalizada</p>
+                    <p><span class="status-dot status-dot--warn"></span> Sin próxima</p>
+                    <p><span class="status-dot status-dot--warn"></span> Plan no registrado</p>
+                  </div>
+                )}
+              </div>
+              <div class="case__copy">
+                <h3>{item.painTitle}</h3>
+                <p>{item.pain}</p>
+                <h3 class="case__gain">{item.gainTitle}</h3>
+                <p>{item.gain}</p>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section after" id="despues">
+    <div class="container">
+      <h2 class="section-title">Qué pasa después de Comenzar gratis.</h2>
+      <p class="section-lead">
+        Abres el panel, dejas horario y servicios, y la siguiente visita sale de la ficha.
+      </p>
+      <ol class="steps">
+        {
+          steps.map((step) => (
+            <li class="step">
+              <span class="step__n">{step.n}</span>
+              <h3>{step.title}</h3>
+              <p>{step.line}</p>
+              {step.cta && (
+                <a class="btn btn--primary" href={appSignupUrl}>Comenzar gratis</a>
+              )}
+            </li>
+          ))
+        }
+      </ol>
+      <p class="after__need">Qué necesitas a mano: los días y horas en que atiendes, y los servicios con su duración.</p>
+      <p class="disclosure">Formularios de ingreso: en Equipos y Empresas.</p>
+    </div>
+  </section>
+
+  <section class="section value" id="valor">
+    <div class="container">
+      <h2 class="section-title">WhatsApp y un calendario no son la ficha.</h2>
+      <p class="section-lead">La alternativa real no es otra agenda. Es seguir armando la clínica en el chat.</p>
+      <div class="table-wrap">
+        <table class="compare">
+          <caption class="compare__caption">Horaya frente a armar la clínica en el chat y el calendario</caption>
+          <thead>
+            <tr>
+              <th scope="col">Tema</th>
+              <th scope="col">En el chat y el calendario</th>
+              <th scope="col">En Horaya</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              comparisons.map((row) => (
+                <tr>
+                  <th scope="row">{row.topic}</th>
+                  <td data-label="En el chat y el calendario">{row.chat}</td>
+                  <td data-label="En Horaya">{row.horaya}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      <div class="value__close">
+        <p>{priceLine}</p>
+        <a class="btn btn--primary" href={appSignupUrl}>Comenzar gratis</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section guarantees" id="garantias">
+    <div class="container guarantees__inner">
+      <div>
+        <h2 class="section-title">Tu clínica no pierde el control de sus datos.</h2>
+        <p class="section-lead">Cada punto dice qué pasa con los datos, y dónde está escrito.</p>
+        <ul class="promises">
+          {
+            guarantees.map((item) => (
+              <li>
+                <h3>{item.title}</h3>
+                <p>{item.line}</p>
+              </li>
+            ))
+          }
+        </ul>
+        <p class="guarantees__links">
+          <a class="text-link" href="/seguridad">Seguridad</a>
+          <a class="text-link" href="/privacidad">Políticas de privacidad</a>
+        </p>
+      </div>
+      <div class="guarantees__ask">
+        <p>Tus datos siguen siendo de tu clínica.</p>
+        <a class="btn btn--primary" href={appSignupUrl}>Comenzar gratis</a>
+        <p class="hero__handoff">El siguiente paso abre el panel en app.horaya.mx.</p>
+      </div>
+    </div>
+  </section>
+
+  <Faq
+    items={campaignFaq}
+    showSignupLink
+    label="Dudas"
+    intro="Precio, datos y qué pasa al empezar."
+  />
+
+  <section class="section close">
+    <div class="container">
+      <div class="close__band">
+        <h2 class="section-title">Empieza con la próxima cita.</h2>
+        <p>
+          Fuera del chat y del calendario compartido. Plan gratuito para la operación esencial.
+        </p>
+        <a class="btn btn--primary" href={appSignupUrl}>Comenzar gratis</a>
+        <p class="close__assure">Tus datos siguen siendo de tu clínica.</p>
+      </div>
+    </div>
+  </section>
+</CampaignLayout>
+
+<style>
+  .hero {
+    padding-top: clamp(1.25rem, 3vw, 2.5rem);
+    padding-bottom: clamp(2.5rem, 6vw, 4.5rem);
+  }
+
+  .hero__grid {
+    display: grid;
+    gap: clamp(1.75rem, 4vw, 3.5rem);
+    align-items: center;
+  }
+
+  .hero h1 {
+    margin: 0;
+    max-width: 16ch;
+    font-size: clamp(2.35rem, 5.4vw, 4.35rem);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 1.02;
+    text-wrap: balance;
+  }
+
+  .hero__lead {
+    max-width: 38rem;
+    margin: var(--space-4) 0 0;
+    color: var(--color-ink-mid);
+    font-size: 1.12rem;
+    line-height: 1.55;
+  }
+
+  .hero .btn {
+    margin-top: var(--space-5);
+  }
+
+  .hero__fine,
+  .hero__price,
+  .hero__handoff {
+    max-width: 38rem;
+    margin: var(--space-3) 0 0;
+    line-height: 1.45;
+  }
+
+  .hero__fine,
+  .hero__handoff {
+    color: var(--color-ink-mid);
+    font-size: 0.95rem;
+  }
+
+  .hero__price {
+    color: var(--color-ink);
+    font-size: 0.98rem;
+    font-weight: 500;
+  }
+
+  .disclosure {
+    margin: 0 0 var(--space-3);
+    color: var(--color-ink-mid);
+    font-size: 0.95rem;
+    line-height: 1.45;
+  }
+
+  .hero__visual {
+    min-width: 0;
+  }
+
+  .trust {
+    padding-block: var(--space-5);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-card);
+  }
+
+  .trust__list {
+    display: grid;
+    gap: var(--space-4);
+    margin-block: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .trust__list li {
+    display: grid;
+    gap: 0.2rem;
+  }
+
+  .trust__list strong {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .trust__list span,
+  .section-lead,
+  .case__copy p,
+  .step p,
+  .after__need,
+  .promises p,
+  .value__close p,
+  .guarantees__ask p,
+  .close__band p {
+    color: var(--color-ink-mid);
+  }
+
+  .offer__billing {
+    margin-top: var(--space-5);
+  }
+
+  .offer__grid {
+    display: grid;
+    gap: var(--space-4);
+    margin-top: var(--space-5);
+  }
+
+  .offer-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+    padding: var(--space-5);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-card);
+  }
+
+  .offer-card__who {
+    margin: 0 0 var(--space-2);
+    color: var(--color-ink-mid);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .offer-card h3 {
+    margin: 0;
+    font-size: 1.7rem;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+  }
+
+  .offer-card__price {
+    display: grid;
+    justify-items: start;
+    margin: var(--space-3) 0 0;
+    font-size: 2rem;
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  .offer-card__price strong {
+    font: inherit;
+  }
+
+  .offer-card ul {
+    margin: var(--space-4) 0;
+    padding-left: 1.1rem;
+    color: var(--color-ink-mid);
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .offer-card .btn {
+    margin-top: auto;
+  }
+
+  .offer-card__note {
+    margin: var(--space-3) 0 0;
+    color: var(--color-ink-mid);
+    font-size: 0.9rem;
+  }
+
+  .offer-card__badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.35rem 0.65rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-brand) 12%, var(--color-surface));
+    color: var(--color-brand-deep);
+    font-size: 0.72rem;
+    font-weight: 600;
+  }
+
+  .offer-card--featured {
+    background: color-mix(in srgb, var(--color-brand) 4.5%, var(--color-surface));
+    box-shadow: 0 22px 54px rgba(23, 105, 224, 0.13), var(--shadow-card);
+  }
+
+  .offer-card--dark {
+    background: var(--color-navy);
+    color: var(--color-surface);
+  }
+
+  .offer-card--dark .offer-card__who,
+  .offer-card--dark ul,
+  .offer-card--dark .price-unit,
+  .offer-card--dark .offer-card__note {
+    color: color-mix(in srgb, var(--color-surface) 78%, transparent);
+  }
+
+  .offer-card--dark .offer-card__sales {
+    color: var(--color-surface);
+  }
+
+  .situation {
+    background: color-mix(in srgb, var(--color-warm) 70%, var(--color-paper));
+  }
+
+  .cases {
+    display: grid;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+  }
+
+  .case {
+    display: grid;
+    gap: var(--space-4);
+    padding: var(--space-4);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-card);
+  }
+
+  .case h3 {
+    margin: 0;
+    font-size: 1.35rem;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+  }
+
+  .case__copy p {
+    margin: var(--space-2) 0 0;
+  }
+
+  .case__gain {
+    margin-top: var(--space-4);
+  }
+
+  .still {
+    min-height: 9.5rem;
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    background: var(--color-frame);
+  }
+
+  .chat__meta,
+  .ficha__head span,
+  .chat__wait {
+    margin: 0 0 0.45rem;
+    color: var(--color-ink-mid);
+    font-size: 0.78rem;
+  }
+
+  .bubble,
+  .ficha p,
+  .follow p {
+    margin: 0 0 0.45rem;
+    font-size: 0.92rem;
+  }
+
+  .bubble {
+    width: fit-content;
+    max-width: 100%;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.9rem;
+    background: var(--color-surface);
+    box-shadow: var(--shadow-card);
+  }
+
+  .bubble--out {
+    margin-left: 1.75rem;
+    background: color-mix(in srgb, var(--color-ink) 8%, var(--color-surface));
+  }
+
+  .ficha__head,
+  .ficha p,
+  .follow p {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .ficha__head strong {
+    color: var(--color-ink);
+  }
+
+  .ficha p span,
+  .follow p {
+    color: var(--color-ink-mid);
+  }
+
+  .follow p {
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .after {
+    background: var(--color-frame);
+  }
+
+  .steps {
+    display: grid;
+    gap: var(--space-4);
+    margin: var(--space-6) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .step {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+    padding: var(--space-5);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-card);
+  }
+
+  .step__n {
+    display: inline-grid;
+    place-items: center;
+    min-width: 2.4rem;
+    height: 2.4rem;
+    padding-inline: 0.55rem;
+    border-radius: 999px;
+    background: var(--color-frame);
+    color: var(--color-ink-mid);
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+  }
+
+  .step h3 {
+    margin: var(--space-2) 0 0;
+    font-size: 1.3rem;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+  }
+
+  .step p {
+    margin: 0;
+  }
+
+  .step .btn {
+    margin-top: var(--space-3);
+  }
+
+  .after__need {
+    margin: var(--space-5) 0 0;
+  }
+
+  .table-wrap {
+    position: relative;
+    margin-top: var(--space-6);
+    overflow-x: auto;
+  }
+
+  .compare {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .compare__caption {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .compare th,
+  .compare td {
+    padding: 1rem 0.9rem;
+    text-align: left;
+    vertical-align: top;
+    line-height: 1.45;
+  }
+
+  .compare thead th {
+    color: var(--color-ink-mid);
+    font-size: 0.82rem;
+    font-weight: 600;
+  }
+
+  .compare tbody th {
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .compare td {
+    color: var(--color-ink-mid);
+  }
+
+  .compare tbody tr + tr th,
+  .compare tbody tr + tr td {
+    box-shadow: inset 0 1px 0 rgba(23, 23, 23, 0.08);
+  }
+
+  .value__close,
+  .guarantees__ask {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+  }
+
+  .value__close p,
+  .guarantees__ask p {
+    margin: 0;
+    max-width: 40rem;
+  }
+
+  .guarantees {
+    background: var(--color-paper);
+  }
+
+  .guarantees .section-lead {
+    color: var(--color-ink);
+  }
+
+  .promises {
+    display: grid;
+    gap: var(--space-5);
+    margin: var(--space-6) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .promises h3 {
+    margin: 0;
+    font-size: 1.28rem;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+  }
+
+  .promises p {
+    margin: var(--space-2) 0 0;
+  }
+
+  .guarantees__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    margin-top: var(--space-5);
+  }
+
+  .close__band {
+    padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.25rem, 4vw, 3rem);
+    border-radius: var(--radius-xl);
+    background: var(--color-navy);
+    box-shadow: var(--shadow-float);
+    color: var(--color-surface);
+  }
+
+  .close__band .section-title,
+  .close__band p {
+    color: var(--color-ink-soft);
+  }
+
+  .close__band .section-title {
+    color: var(--color-surface);
+  }
+
+  .close__band p {
+    max-width: 36rem;
+    margin: var(--space-4) 0 0;
+  }
+
+  .close__band .btn {
+    margin-top: var(--space-5);
+    background: var(--color-surface);
+    color: var(--color-navy);
+    box-shadow: none;
+  }
+
+  .close__band .btn:hover {
+    background: var(--color-ink-soft);
+    color: var(--color-navy);
+  }
+
+  .close__assure {
+    font-weight: 500;
+  }
+
+  @media (min-width: 720px) {
+    .trust__list {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-5);
+    }
+
+    .case {
+      grid-template-columns: minmax(13rem, 17rem) minmax(0, 1fr);
+      align-items: center;
+      padding: var(--space-5);
+    }
+  }
+
+  @media (min-width: 860px) {
+    .hero__grid {
+      grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+    }
+
+    .offer__grid,
+    .steps {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      align-items: stretch;
+    }
+
+    .offer-card--featured {
+      transform: translateY(-0.65rem);
+    }
+
+    .guarantees__inner {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(16rem, 0.7fr);
+      gap: clamp(2rem, 5vw, 4rem);
+      align-items: end;
+    }
+  }
+
+  @media (max-width: 719px) {
+    .compare thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+    }
+
+    .compare,
+    .compare tbody,
+    .compare tr,
+    .compare th,
+    .compare td {
+      display: block;
+      width: 100%;
+    }
+
+    .compare tbody tr {
+      padding-block: 1rem;
+    }
+
+    .compare tbody tr + tr th,
+    .compare tbody tr + tr td {
+      box-shadow: none;
+    }
+
+    .compare tbody tr + tr {
+      box-shadow: inset 0 1px 0 rgba(23, 23, 23, 0.08);
+    }
+
+    .compare td {
+      padding: 0.35rem 0 0;
+    }
+
+    .compare td::before {
+      content: attr(data-label);
+      display: block;
+      margin-bottom: 0.15rem;
+      color: var(--color-ink);
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+  }
+</style>

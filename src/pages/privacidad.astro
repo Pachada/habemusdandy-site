@@ -4,7 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro'
 const title = 'Políticas de privacidad'
 const description =
   'Cómo trata Horaya los datos en el sitio de marketing y en el producto para clínicas.'
-const updated = '1 de septiembre de 2026'
+const updated = '25 de octubre de 2026'
 ---
 
 <BaseLayout title={title} description={description}>
@@ -70,6 +70,92 @@ const updated = '1 de septiembre de 2026'
           </p>
         </section>
 
+        <section id="google">
+          <h2>Datos de usuario de Google</h2>
+          <p>
+            Horaya se conecta con Google en dos funciones: el inicio de sesión con Google y la
+            sincronización con Google Calendar. Esta sección explica qué datos de Google
+            obtenemos, cómo los usamos, dónde los guardamos y con quién los compartimos.
+          </p>
+          <p><strong>Inicio de sesión con Google.</strong></p>
+          <ul>
+            <li>
+              Qué obtenemos: tu nombre, tu correo electrónico, si Google lo marca como verificado
+              y el identificador de tu cuenta de Google.
+            </li>
+            <li>
+              Para qué: crear tu cuenta en Horaya, identificarte cada vez que inicias sesión y
+              mostrar tu nombre al equipo de tu clínica. No pedimos acceso a tus contactos, a tu
+              correo ni a tus archivos.
+            </li>
+          </ul>
+          <p><strong>Sincronización con Google Calendar.</strong></p>
+          <ul>
+            <li>
+              Qué permiso pedimos: el permiso de Google para administrar solo los calendarios que
+              crea Horaya (<code>calendar.app.created</code>), más tu correo para mostrar qué
+              cuenta conectaste. No podemos leer, modificar ni borrar tus otros calendarios ni sus
+              eventos.
+            </li>
+            <li>
+              Qué hacemos: al conectar la cuenta, Horaya crea en ella un calendario propio. Ahí
+              crea, actualiza y borra un evento por cada cita de la clínica, para que el equipo
+              vea su agenda en Google Calendar.
+            </li>
+            <li>
+              Qué escribimos en cada evento: fecha, hora y duración; nombre del paciente; servicio;
+              motivo de la cita, si se registró; lugar; y estado de la cita. Los eventos se marcan
+              como privados y no envían invitaciones a nadie.
+            </li>
+            <li>
+              Qué guardamos: el correo de la cuenta conectada, el identificador del calendario que
+              creó Horaya y un token de acceso que nos da Google. El token se guarda cifrado en
+              nuestra infraestructura y solo se usa para mantener la sincronización.
+            </li>
+          </ul>
+          <p><strong>Cómo usamos y compartimos los datos de Google.</strong></p>
+          <ul>
+            <li>
+              Solo usamos los datos de Google para las funciones descritas arriba, que son las que
+              ves dentro del producto.
+            </li>
+            <li>
+              No vendemos datos de Google. No los usamos para publicidad, para crear perfiles ni
+              para entrenar modelos de inteligencia artificial o aprendizaje automático.
+            </li>
+            <li>
+              No los compartimos con terceros. La única excepción son los proveedores de
+              infraestructura que alojan el servicio, cuando sea necesario para operarlo, cuando la
+              ley lo exija o como parte de una fusión o adquisición con aviso previo.
+            </li>
+            <li>
+              Nadie de nuestro equipo lee esos datos, salvo que nos des permiso para una solicitud
+              concreta de soporte, que haga falta por seguridad o que la ley lo exija.
+            </li>
+          </ul>
+          <p><strong>Desconexión y eliminación.</strong></p>
+          <ul>
+            <li>
+              Puedes desconectar Google Calendar en cualquier momento desde Integraciones, en el
+              panel. Al hacerlo, Horaya borra de tu cuenta de Google el calendario que creó con sus
+              eventos, revoca el acceso y elimina el token guardado.
+            </li>
+            <li>
+              También puedes retirar el acceso desde
+              <a href="https://myaccount.google.com/permissions">la configuración de tu cuenta de
+              Google</a>. Para borrar tu cuenta de Horaya y los datos de inicio de sesión, escribe a
+              <a href="mailto:hola@horaya.mx">hola@horaya.mx</a>.
+            </li>
+          </ul>
+          <p>
+            El uso que hace Horaya de la información recibida de las API de Google, y su
+            transferencia a cualquier otra aplicación, se ajustará a la
+            <a href="https://developers.google.com/terms/api-services-user-data-policy"
+              >Política de Datos de Usuario de los Servicios de API de Google</a
+            >, incluidos los requisitos de Uso Limitado.
+          </p>
+        </section>
+
         <section>
           <h2>Titularidad de los datos</h2>
           <p>
@@ -115,8 +201,10 @@ const updated = '1 de septiembre de 2026'
           <h2>Encargados del tratamiento</h2>
           <p>
             Para operar el sitio y el producto usamos proveedores de infraestructura (por ejemplo,
-            alojamiento). Solo reciben lo necesario para prestar ese servicio y no los usamos para
-            vender datos de pacientes.
+            alojamiento en Amazon Web Services). Si conectas Google Calendar, Google recibe los
+            datos de las citas que sincronizamos en tu cuenta, como se describe en
+            <a href="#google">Datos de usuario de Google</a>. Solo reciben lo necesario para prestar
+            ese servicio y no los usamos para vender datos de pacientes.
           </p>
         </section>
 

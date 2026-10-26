@@ -6,9 +6,9 @@ import BillingToggle from '../components/BillingToggle.astro'
 import PlanAssurance from '../components/PlanAssurance.astro'
 import { appSignupUrl, equiposPricing, formatMxn, pricingFaqItems, salesContactUrl } from '../config/site'
 
-const title = 'Precios'
+const title = 'Precios del software de citas'
 const description =
-  'Planes de Horaya para clínicas: Gratis, Equipos por asiento y Empresas.'
+  'Planes de Horaya para clínicas, consultorios y negocios con citas: Gratis (un plan, no una prueba), Equipos por asiento y Empresas.'
 const monthlyList = formatMxn(equiposPricing.monthlyList)
 const monthlyPromo = formatMxn(equiposPricing.monthlyPromo)
 const annualList = formatMxn(equiposPricing.annualListPerMonth)
@@ -45,7 +45,7 @@ const annualBilled = formatMxn(equiposPricing.annualBilled)
         <ul>
           <li>Agenda semanal y citas</li>
           <li>Clientes y fichas</li>
-          <li>Notas clínicas</li>
+          <li>Notas de cada visita</li>
           <li>Servicios y horario</li>
         </ul>
         <a class="btn btn--ghost" href={appSignupUrl}>Comenzar gratis</a>
@@ -66,7 +66,7 @@ const annualBilled = formatMxn(equiposPricing.annualBilled)
               <strong aria-label={`${equiposPricing.annualPromoPerMonth} pesos mexicanos, promoción de lanzamiento`}>{annualPromo}</strong>
             </span>
           </span>
-          <span class="price-unit">MXN / asiento / mes</span>
+          <span class="price-unit">MXN / asiento / mes, IVA incluido</span>
         </p>
         <p class="price-discount">
           <span class="billing-swap">
@@ -126,7 +126,7 @@ const annualBilled = formatMxn(equiposPricing.annualBilled)
         {
           [
             ['Agenda, citas y servicios', 'Incluido', 'Incluido', 'Incluido'],
-            ['Clientes y notas clínicas', 'Incluido', 'Incluido', 'Incluido'],
+            ['Clientes, expediente y notas', 'Incluido', 'Incluido', 'Incluido'],
             ['Formularios de ingreso', '—', 'Incluido', 'Incluido'],
             ['Equipo y roles', '—', 'Incluido', 'Incluido'],
             ['Workflows y recordatorios', '—', 'Incluido', 'Incluido'],

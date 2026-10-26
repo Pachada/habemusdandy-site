@@ -31,3 +31,7 @@ infra/cdk.out/
 /calendly/
 /habemusdandy/
 /image.png
+
+# Competitor research and pricing notes (local only)
+docs/competitors/
+docs/PRICING-ANALYSIS.md

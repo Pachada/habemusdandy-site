@@ -22,7 +22,7 @@ Success for the marketing site is a clinic owner who understands that promise an
 
 Calendly, Cal.com, and Koalendar stop when someone picks a time. Horaya continues into the visit: agenda, clients, and clinical continuity in one flow.
 
-Working promise: la clínica, en un solo lugar. Agenda, clientes, formularios e historial clínico, sin el ida y vuelta.
+Working promise: tu negocio, en un solo lugar. Agenda, clientes, formularios e historial clínico, sin el ida y vuelta.
 
 ## Operating Context
 

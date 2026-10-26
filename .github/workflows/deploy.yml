@@ -103,8 +103,8 @@ jobs:
           if [ "$ENVIRONMENT" = "production" ]; then
             prefix="releases/$VERSION"
             # version.json is uploaded last, so its presence marks a complete release.
-            marker="$(aws s3api list-objects-v2 --bucket "$BUCKET" --prefix "$prefix/version.json" --query 'KeyCount' --output text)"
-            if [ "$marker" != "0" ]; then
+            # Test the exact key: list-objects-v2 prints "None", not 0, for an empty prefix.
+            if aws s3api head-object --bucket "$BUCKET" --key "$prefix/version.json" >/dev/null 2>&1; then
               reuse=true
               echo "$prefix/ is complete; publishing it without rebuilding."
             else
@@ -179,6 +179,20 @@ jobs:
         run: |
           set -euo pipefail
           live="s3://$BUCKET/live"
+          # Never publish an incomplete source: the sync --delete below would empty live/.
+          if [ "$SOURCE" = "dist" ]; then
+            test -f dist/index.html && test -f dist/version.json || {
+              echo "::error::dist/ has no index.html or version.json; not publishing"
+              exit 1
+            }
+          else
+            for key in index.html version.json; do
+              if ! aws s3api head-object --bucket "$BUCKET" --key "${SOURCE#"s3://$BUCKET/"}/$key" >/dev/null 2>&1; then
+                echo "::error::$SOURCE/$key is missing; not publishing"
+                exit 1
+              fi
+            done
+          fi
           # S3-to-S3 copies keep the Cache-Control set on upload. Local uploads set it here.
           asset_cache=() other_cache=()
           if [ "$SOURCE" = "dist" ]; then

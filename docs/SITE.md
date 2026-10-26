@@ -188,7 +188,7 @@ Numbered process (`ol`), id `como-empezar`. White cards on a `--color-frame` ban
 | --- | --- | --- | --- |
 | 01 | Define tu horario | Los días y horas en que atiendes. | `hours` compact, micro `availability` |
 | 02 | Da de alta tus servicios | Qué ofreces, cuánto dura y cuánto cuesta. | `services` compact |
-| 03 | Prepara el formulario de ingreso | Los datos y el motivo de consulta que quieres antes de la cita. | `intake` compact |
+| 03 | Prepara el formulario de ingreso | Los datos y el motivo de la cita que quieres saber antes de atender. | `intake` compact |
 
 Step 03 carries a quiet plan note: `Formularios de ingreso: en Equipos y Empresas.`
 

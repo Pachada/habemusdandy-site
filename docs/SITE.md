@@ -143,7 +143,7 @@ Every major band ends with **Comenzar**. Secondary link is **Ver precios** or **
 This is the page that has to work alone. Order is the conversion story, not the org chart.
 
 **Shipped order:**
-Hero → Problem → Visit (`#recorrido`) → Cómo empezar (`#como-empezar`) → Especialidades → Operational breadth bento → Integrations → Pricing teaser → FAQ → Closing CTA
+Hero → Problem → Visit (`#recorrido`) → Cómo empezar (`#como-empezar`) → Para quién → Operational breadth bento → Integrations → Pricing teaser → FAQ → Closing CTA
 
 Do **not** ship Agenda/Clientes homepage pillars or a warm mid-page CTA. Continuity lives in Journey and `/producto`.
 
@@ -264,10 +264,10 @@ Draft:
 
 1. ¿Por qué usar una herramienta de gestión si ya tengo WhatsApp y Calendar?
 2. ¿Qué diferencia a Horaya de una agenda online?
-3. ¿Cómo sé si Horaya encaja con mi clínica?
-4. ¿El paciente necesita crear una cuenta?
+3. ¿Cómo sé si Horaya encaja con mi negocio?
+4. ¿Mis clientes necesitan crear una cuenta?
 5. ¿Puedo adaptar la herramienta a la forma en que trabaja mi equipo?
-6. ¿Dónde quedan los datos de mi clínica?
+6. ¿Dónde quedan los datos de mi negocio?
 7. ¿Hay una versión gratis o es solo una prueba? (Gratis is a plan, not a trial that expires)
 
 Answers: two to four sentences. Link `/seguridad` from the data question.
@@ -289,7 +289,7 @@ Calendly `/features` shape: hero, then grouped capabilities, then CTA. Not a sec
 **Hero:** distinct from home — H1 `Agenda, clientes y seguimiento, en el mismo flujo.` + `Comenzar gratis` / `Ver precios`
 **Hero visual:** one agenda ProductFrame under the hero copy (do not clone the homepage panel hero). It may use the same in-view ambient float as the home hero. Group mocks stay still.
 
-**Groups** (match the live dashboard, not a scheduler feature list). Odd groups sit on paper; even groups sit on `--color-frame`, with no brand wash. The index is a neutral pill (Outfit, tabular numerals, `--color-ink-mid`; `--color-frame` on paper, `--color-surface` on a frame band). Item markers are ink. Paid groups carry one quiet plan note, `En Equipos y Empresas.`, and do not repeat the plan in the intro. Titles for Agenda, Clientes, Clínica, and Formularios are inventory lines, not the home visit chapter titles.
+**Groups** (match the live dashboard, not a scheduler feature list). Odd groups sit on paper; even groups sit on `--color-frame`, with no brand wash. The index is a neutral pill (Outfit, tabular numerals, `--color-ink-mid`; `--color-frame` on paper, `--color-surface` on a frame band). Item markers are ink. Paid groups carry one quiet plan note, `En Equipos y Empresas.`, and do not repeat the plan in the intro. Titles for Agenda, Clientes, Seguimiento, and Formularios are inventory lines, not the home visit chapter titles.
 
 1. **Panel principal** — citas de hoy, estados, acciones rápidas, ingresos pendientes. Title: `Hoy, sin buscar en cinco lugares.`
 2. **Agenda** — Citas, Servicios, Horario (excepciones y zona horaria). Title: `Horario, servicios y citas, en una sola semana.` Google and Apple Calendar are not listed here.
@@ -314,7 +314,7 @@ Calendly `/pricing` shape, Koalendar scannability, our plans.
 1. H1: `Empieza gratis. Crece con tu equipo.`
 2. Billing toggle (`Mensual` by default; `Anual` shows `−25%`, the $149 MXN / month launch price, and $1,788 MXN billed per seat per year)
 3. Plan cards (audience label, price, 5–8 bullets, CTA)
-4. Feature comparison table (rows grouped: Agenda, Clientes, Clínica, Equipo). Rows **`Workflows y recordatorios`** and **`Reportes e insights con IA`**: `Incluido` on Equipos and Empresas; `—` on Gratis. Do not use `Próximamente` or future tense for those rows.
+4. Feature comparison table (rows grouped: Agenda, Clientes, Seguimiento, Equipo). Rows **`Workflows y recordatorios`** and **`Reportes e insights con IA`**: `Incluido` on Equipos and Empresas; `—` on Gratis. Do not use `Próximamente` or future tense for those rows.
 5. FAQ (whether Gratis is a trial, what counts as a seat, whether prices include IVA, annual billing, what happens if you cancel)
 6. Closing CTA
 
@@ -378,10 +378,10 @@ Rules:
 
 - Address the clinic owner: `tú`
 - Concrete nouns: cita, ficha, horario, inasistencia — not “sinergias”
-- Say what Horaya is: `software para negocios con citas` in the hero label; page titles name `clínicas, consultorios y negocios`. Use the search words clinic owners in Mexico type: `expediente clínico` (the NOM-004 term) in marketing headings and meta; `ficha` stays for the dashboard object. `recordatorios` where reminders are relevant
+- Say what Horaya is: `software para negocios con citas` in the hero label; page titles name `clínicas, consultorios y negocios`. Use the search words owners in Mexico type: `expediente` in marketing headings and meta (`expediente clínico`, the NOM-004 term, where the context is clinical, e.g. `/clinicas`); `ficha` stays for the dashboard object. `recordatorios` where reminders are relevant
 - Broad copy: the visitor-facing pages say `tu negocio` and `tus clientes`, not `la clínica` and `pacientes`. Clinical words (`expediente`, `notas`) describe features, not the audience. `/clinicas` stays the clinic ad landing and keeps clinic wording
 - Horaya works for any business with appointments (fisioterapia, odontología, psicología, nutrición, estética…). Clinics are the lead story and physio the first example, not the boundary
-- Page titles carry the category: `Software de citas para clínicas, consultorios y negocios`, `Precios del software para clínicas`, `Agenda, expediente clínico y recordatorios para tu consulta`
+- Page titles carry the category: `Software de citas para clínicas, consultorios y negocios`, `Precios del software de citas`, `Agenda, expediente y recordatorios para tu negocio`
 - Short sentences. One idea per heading
 - Spanish from Spain/LatAm-neutral; match dashboard copy (`Citas`, `Clientes`, `Formularios`)
 - Never claim a feature the app does not ship

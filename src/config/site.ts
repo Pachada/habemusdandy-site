@@ -57,7 +57,7 @@ export const faqItems = [
   {
     question: '¿Cómo sé si Horaya encaja con mi negocio?',
     answer:
-      'Encaja si tu día gira alrededor de citas, servicios, clientes e historial. Funciona en fisioterapia, odontología, psicología, nutrición, estética y cualquier negocio que trabaja con citas: tú defines los servicios, su duración y el formulario de ingreso.',
+      'Encaja si tu día gira alrededor de citas, servicios, clientes e historial. Funciona en fisioterapia, odontología, psicología, nutrición, estética y cualquier negocio que trabaje con citas: tú defines los servicios, su duración y el formulario de ingreso.',
   },
   {
     question: '¿Mis clientes necesitan crear una cuenta?',
@@ -92,7 +92,7 @@ export const pricingFaqItems = [
   {
     question: '¿El plan Gratis es una prueba de unos días?',
     answer:
-      'No. Gratis es un plan, no una prueba con fecha de vencimiento. Incluye agenda, citas, servicios, clientes, expediente y notas de cada visita para una persona. Pasas a Equipos cuando sumas al equipo o quieres formularios, recordatorios, reportes e integraciones.',
+      'No. Gratis es un plan, no una prueba con fecha de vencimiento. Incluye agenda, citas, servicios, clientes, expediente y notas de cada visita para una persona. Pasas a Equipos cuando sumas personas a tu equipo o quieres formularios, recordatorios, reportes e integraciones.',
   },
   {
     question: '¿Qué cuenta como un asiento?',

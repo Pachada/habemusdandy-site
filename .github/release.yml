@@ -1,0 +1,25 @@
+# Groups auto-generated release notes (release.yml → gh release create --generate-notes)
+# by PR label. See docs/releases.md#labels.
+changelog:
+  exclude:
+    labels:
+      - skip-changelog
+      - chore
+  categories:
+    - title: Breaking changes
+      labels:
+        - breaking
+    - title: Features
+      labels:
+        - feature
+        - enhancement
+    - title: Fixes
+      labels:
+        - fix
+        - bug
+    - title: Infrastructure
+      labels:
+        - infra
+    - title: Other
+      labels:
+        - '*'

@@ -3,6 +3,7 @@ import '../styles/global.css'
 import CookieNotice from '../components/CookieNotice.astro'
 import Wordmark from '../components/Wordmark.astro'
 import { appLoginUrl, appSignupUrl, salesEmail, siteName } from '../config/site'
+import { appVersion } from '../config/version'
 
 interface Props {
   title: string
@@ -24,6 +25,7 @@ const legal = [
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
+    <meta name="app-version" content={appVersion} />
     <meta name="description" content={description} />
     <script is:inline>
       document.documentElement.classList.add('js')

@@ -1,13 +1,23 @@
 name: CI
 
+# Pull requests: check and build only.
+# Trunk pushes (main and release/vX.Y): the same checks, then deploy that commit to
+# staging. release.yml requires a successful push run of this workflow for the commit it
+# tags. Nothing here deploys production; see docs/releases.md.
 on:
   pull_request:
+  push:
+    branches: [main, 'release/v*']
   workflow_call:
   workflow_dispatch:
 
+# Superseded PR runs are cancelled. Trunk runs finish so a staging deploy is never cut off.
 concurrency:
   group: ci-${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
 
 jobs:
   ci:
@@ -25,6 +35,9 @@ jobs:
 
       - run: npm run check
 
+      - name: Test release version calculation
+        run: bash scripts/release/compute-version.test.sh
+
       - name: Build (verify compilation)
         run: npm run build
         env:
@@ -35,3 +48,16 @@ jobs:
         run: |
           npm ci
           npx tsc --noEmit
+
+  deploy-staging:
+    name: Deploy staging
+    needs: ci
+    if: github.event_name == 'push'
+    permissions:
+      id-token: write
+      contents: read
+      actions: read
+    uses: ./.github/workflows/deploy.yml
+    with:
+      environment: staging
+    secrets: inherit

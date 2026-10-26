@@ -106,7 +106,7 @@ const nav =
             <div class="ui-toolbar">
               <div>
                 <p class="ui-kicker">Panel principal</p>
-                <h3>Hoy en la clínica</h3>
+                <p class="ui-title">Hoy en la clínica</p>
               </div>
               <div class="ui-toolbar__meta">
                 <span class="status-dot status-dot--ok"></span>
@@ -147,7 +147,7 @@ const nav =
             <div class="ui-toolbar">
               <div>
                 <p class="ui-kicker">Citas</p>
-                <h3>Semana del 11 al 17</h3>
+                <p class="ui-title">Semana del 11 al 17</p>
               </div>
               <div class="ui-toolbar__meta">
                 <span class="status-dot status-dot--ok"></span>
@@ -249,7 +249,7 @@ const nav =
             <div class="ui-toolbar">
               <div>
                 <p class="ui-kicker">Clientes</p>
-                <h3>Ficha · Ana Rojas</h3>
+                <p class="ui-title">Ficha · Ana Rojas</p>
               </div>
               <div class="ui-toolbar__meta">
                 <span class="status-dot status-dot--ok"></span>
@@ -315,7 +315,7 @@ const nav =
             <div class="ui-toolbar">
               <div>
                 <p class="ui-kicker">Clínica</p>
-                <h3>Nota de sesión</h3>
+                <p class="ui-title">Nota de sesión</p>
               </div>
               <div class="ui-toolbar__meta">
                 <span class="status-dot status-dot--brand"></span>
@@ -362,7 +362,7 @@ const nav =
         variant === 'hours' && micro === 'exception' && (
           <div class="ui-exception">
             <p class="ui-kicker">Horario</p>
-            <h3>Excepción de fecha</h3>
+            <p class="ui-title">Excepción de fecha</p>
             <div class="ui-exception__row">
               <span>21 mar</span>
               <strong>Cierre temprano</strong>
@@ -377,7 +377,7 @@ const nav =
             <div class="ui-toolbar">
               <div>
                 <p class="ui-kicker">Horario</p>
-                <h3>Disponibilidad semanal</h3>
+                <p class="ui-title">Disponibilidad semanal</p>
               </div>
               <div class="ui-toolbar__meta">
                 <span class="status-dot status-dot--ok"></span>
@@ -412,7 +412,7 @@ const nav =
         variant === 'intake' && micro === 'consent' && (
           <div class="ui-consent">
             <p class="ui-kicker">Formulario</p>
-            <h3>Consentimiento y firma</h3>
+            <p class="ui-title">Consentimiento y firma</p>
             <div class="ui-consent__row">
               <span class="product-frame__mark" aria-hidden="true"></span>
               <span>Consentimiento</span>
@@ -425,7 +425,7 @@ const nav =
         variant === 'intake' && micro !== 'consent' && (
           <div class="ui-intake">
             <p class="ui-kicker">Ingreso · Horaya</p>
-            <h3>Formulario del paciente</h3>
+            <p class="ui-title">Formulario del paciente</p>
             <ol>
               <li class="is-done"><span>1</span> Datos</li>
               <li class="is-current"><span>2</span> Motivo</li>
@@ -477,7 +477,7 @@ const nav =
         variant === 'services' && micro === 'chips' && (
           <div class="ui-services--chips">
             <p class="ui-kicker">Servicios</p>
-            <h3>Color por servicio</h3>
+            <p class="ui-title">Color por servicio</p>
             <ul class="ui-service-chips">
               <li><i class="ui-service-chips__swatch ui-service-chips__swatch--brand"></i><span>Fisioterapia</span></li>
               <li><i class="ui-service-chips__swatch ui-service-chips__swatch--ok"></i><span>Evaluación</span></li>
@@ -490,7 +490,7 @@ const nav =
         variant === 'services' && micro !== 'chips' && (
           <div class="ui-services">
             <p class="ui-kicker">Servicios</p>
-            <h3>Duración y agenda</h3>
+            <p class="ui-title">Duración y agenda</p>
             <ul>
               <li><strong>Fisioterapia</strong><span>45 min</span></li>
               <li><strong>Evaluación inicial</strong><span>60 min</span></li>
@@ -506,7 +506,7 @@ const nav =
             <div class="ui-toolbar">
               <div>
                 <p class="ui-kicker">Automatizaciones</p>
-                <h3>Recordatorio antes de la cita</h3>
+                <p class="ui-title">Recordatorio antes de la cita</p>
               </div>
               <div class="ui-toolbar__meta">
                 <span class="status-dot status-dot--ok"></span>
@@ -537,7 +537,7 @@ const nav =
             <div class="ui-insights__header">
               <div>
                 <p class="ui-kicker">Reportes</p>
-                <h3>Actividad de la clínica</h3>
+                <p class="ui-title">Actividad de la clínica</p>
               </div>
             </div>
             <div class="ui-insights__kpis">
@@ -577,7 +577,7 @@ const nav =
         variant === 'team' && (
           <div class="ui-team">
             <p class="ui-kicker">Equipo</p>
-            <h3>Roles</h3>
+            <p class="ui-title">Roles</p>
             <ul>
               <li><strong>Owner</strong><span>Configura la clínica</span></li>
               <li><strong>Manager</strong><span>Coordina agenda y equipo</span></li>
@@ -591,7 +591,7 @@ const nav =
         variant === 'integrations' && (
           <div class="ui-integrations">
             <p class="ui-kicker">Integraciones</p>
-            <h3>Calendarios</h3>
+            <p class="ui-title">Calendarios</p>
             <ul>
               <li>
                 <img src="/integrations/google-calendar.svg" alt="" width="28" height="28" loading="lazy" decoding="async" />
@@ -791,8 +791,8 @@ const nav =
     text-transform: uppercase;
   }
 
-  .product-frame h3,
-  .ui-toolbar h3 {
+  .product-frame .ui-title,
+  .ui-toolbar .ui-title {
     margin: 0;
     font-size: 1rem;
     font-weight: 600;
@@ -1468,7 +1468,7 @@ const nav =
     margin-bottom: var(--space-4);
   }
 
-  .ui-insights__header h3 {
+  .ui-insights__header .ui-title {
     margin: 0;
     font-size: 1rem;
     font-weight: 600;
@@ -2106,8 +2106,8 @@ const nav =
   @media (max-width: 520px) {
     .product-frame__main { padding: 0.75rem; }
     .ui-toolbar { margin-bottom: 0.75rem; }
-    .product-frame h3,
-    .ui-toolbar h3 { font-size: 0.92rem; }
+    .product-frame .ui-title,
+    .ui-toolbar .ui-title { font-size: 0.92rem; }
     .ui-toolbar__meta { font-size: 0.66rem; }
     .ui-day { min-height: 10.5rem; }
 

@@ -1067,12 +1067,12 @@ const capabilityTiles = [
   }
 
   .journey-intro .text-link {
-    display: inline-block;
     margin-top: var(--space-4);
   }
 
   .capability-bento {
     align-items: start;
+    gap: clamp(1.25rem, 2vw, 1.75rem);
     margin-top: var(--space-6);
   }
 
@@ -1152,8 +1152,8 @@ const capabilityTiles = [
   .capability-tile {
     position: relative;
     display: grid;
-    grid-template-columns: minmax(8rem, 0.9fr) minmax(0, 1.1fr);
-    align-items: center;
+    grid-template-columns: 1fr;
+    align-content: start;
     box-shadow:
       0 2px 8px rgba(17, 25, 39, 0.045),
       0 18px 44px rgba(17, 25, 39, 0.075);
@@ -1162,15 +1162,14 @@ const capabilityTiles = [
   .capability-tile__visual {
     display: grid;
     align-items: stretch;
-    height: auto;
-    min-height: 11.5rem;
+    height: 11.5rem;
     padding: var(--space-3);
     background: var(--color-frame);
   }
 
   .capability-tile__copy {
     display: grid;
-    align-content: center;
+    align-content: start;
     gap: var(--space-2);
     padding: var(--space-4);
   }
@@ -1262,7 +1261,6 @@ const capabilityTiles = [
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    min-height: 21rem;
   }
 
   .pricing-card__badge {
@@ -1338,8 +1336,13 @@ const capabilityTiles = [
     color: var(--color-surface);
   }
 
+  @media (max-width: 899px) {
+    .price-discount--spacer {
+      display: none;
+    }
+  }
+
   .pricing-home__link {
-    display: inline-block;
     margin-top: var(--space-5);
   }
 
@@ -1366,11 +1369,7 @@ const capabilityTiles = [
     }
   }
 
-  @media (min-width: 700px) and (max-width: 1199px) {
-    .capability-bento {
-      grid-template-columns: 1fr;
-    }
-
+  @media (min-width: 700px) {
     .capability-bento__tiles {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -1405,6 +1404,10 @@ const capabilityTiles = [
     }
 
     .pricing-card {
+      min-height: 21rem;
+    }
+
+    .pricing-card {
       padding-bottom: calc(var(--space-5) + 3.5rem);
     }
 
@@ -1417,13 +1420,9 @@ const capabilityTiles = [
     }
   }
 
-  @media (min-width: 1200px) {
-    .capability-bento {
-      grid-template-columns: repeat(12, minmax(0, 1fr));
-    }
-
+  @media (min-width: 900px) {
     .capability-bento__panel {
-      grid-column: span 7;
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
     }
 
     .capability-bento__visual {
@@ -1431,19 +1430,8 @@ const capabilityTiles = [
       min-height: 20rem;
     }
 
-    .capability-bento__tiles {
-      grid-column: span 5;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .capability-tile {
-      grid-template-columns: 1fr;
-      align-content: stretch;
-    }
-
-    .capability-tile__visual {
-      height: 11.5rem;
-      min-height: 11.5rem;
+    .capability-bento__copy {
+      align-content: center;
     }
   }
 

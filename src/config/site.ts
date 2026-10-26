@@ -11,12 +11,20 @@ export const salesContactUrl = `mailto:${salesEmail}?subject=${encodeURIComponen
 
 export const siteName = 'Horaya'
 
+/** Profesional has no launch promo: one practitioner, one price. */
+export const profesionalPricing = {
+  currency: 'MXN',
+  monthly: 199,
+  annualPerMonth: 149,
+  annualBilled: 1788,
+} as const
+
 /** List amounts stay visible as the reference; promo is the current launch offer. */
 export const equiposPricing = {
   currency: 'MXN',
-  monthlyList: 249,
+  monthlyList: 299,
   monthlyPromo: 199,
-  annualListPerMonth: 199,
+  annualListPerMonth: 249,
   annualPromoPerMonth: 149,
   annualBilled: 1788,
   annualSavings: 600,
@@ -79,40 +87,45 @@ export const faqItems = [
   {
     question: '¿Hay una versión gratis o es solo una prueba?',
     answer:
-      'Hay un plan Gratis, no una prueba que vence. Cubre la operación esencial de una persona: agenda, citas, servicios, clientes, expediente y notas de cada visita. Cuando necesites más personas, formularios, recordatorios o reportes, pasas a Equipos.',
+      'Hay un plan Gratis, no una prueba que vence. Cubre la operación esencial de una persona: agenda, citas, servicios, clientes, expediente y notas de cada visita. Cuando quieras recordatorios, formularios con consentimiento y firma o reportes, pasas a Profesional. Cuando sumes personas al equipo, a Equipos.',
   },
 ] as const
 
 export const pricingFaqItems = [
   {
-    question: '¿Qué cambia realmente al pasar de Gratis a Equipos?',
+    question: '¿Qué cambia entre Gratis, Profesional y Equipos?',
     answer:
-      'Gratis cubre la operación esencial: citas, clientes, expediente y notas de cada visita. Equipos suma roles, formularios, automatizaciones, reportes e integraciones para que el equipo trabaje sobre el mismo contexto.',
+      'Gratis cubre la operación esencial: citas, clientes, expediente, notas de cada visita y un formulario de ingreso básico. Profesional suma recordatorios por correo y SMS, formularios con consentimiento y firma, Google y Apple Calendar y reportes. Equipos suma equipo, roles e invitaciones para que varias personas trabajen sobre el mismo contexto.',
   },
   {
     question: '¿El plan Gratis es una prueba de unos días?',
     answer:
-      'No. Gratis es un plan, no una prueba con fecha de vencimiento. Incluye agenda, citas, servicios, clientes, expediente y notas de cada visita para una persona. Pasas a Equipos cuando sumas personas a tu equipo o quieres formularios, recordatorios, reportes e integraciones.',
+      'No. Gratis es un plan, no una prueba con fecha de vencimiento. Incluye agenda, citas, servicios, clientes, expediente, notas de cada visita y un formulario de ingreso básico para una persona. Pasas a Profesional cuando quieres recordatorios, reportes e integraciones, y a Equipos cuando sumas personas a tu equipo.',
   },
   {
     question: '¿Qué cuenta como un asiento?',
     answer:
-      `Un asiento es una persona del equipo con acceso al espacio de trabajo. El precio de lista es ${formatMxn(equiposPricing.monthlyList)} ${equiposPricing.currency} al mes, o ${formatMxn(equiposPricing.annualListPerMonth)} ${equiposPricing.currency} al mes si pagas anual. En la promoción de lanzamiento, el asiento queda en ${formatMxn(equiposPricing.monthlyPromo)} ${equiposPricing.currency} al mes, o ${formatMxn(equiposPricing.annualPromoPerMonth)} ${equiposPricing.currency} al mes si pagas anual.`,
+      `En Equipos, un asiento es una persona que atiende citas. Recepción y administración no pagan asiento. El precio de lista es ${formatMxn(equiposPricing.monthlyList)} ${equiposPricing.currency} al mes, o ${formatMxn(equiposPricing.annualListPerMonth)} ${equiposPricing.currency} al mes si pagas anual. En la promoción de lanzamiento, el asiento queda en ${formatMxn(equiposPricing.monthlyPromo)} ${equiposPricing.currency} al mes, o ${formatMxn(equiposPricing.annualPromoPerMonth)} ${equiposPricing.currency} al mes si pagas anual.`,
   },
   {
-    question: '¿Cómo sé si necesito Equipos?',
+    question: '¿Profesional o Equipos?',
     answer:
-      'Si trabajas solo y necesitas ordenar citas, clientes y notas, Gratis puede ser suficiente. Equipos tiene sentido cuando colaboran varias personas o quieres formularios, roles, automatizaciones, reportes e integraciones en la operación diaria.',
+      `Si atiendes solo, Profesional: ${formatMxn(profesionalPricing.monthly)} ${profesionalPricing.currency} al mes, o ${formatMxn(profesionalPricing.annualPerMonth)} ${profesionalPricing.currency} al mes si pagas anual. Equipos tiene sentido cuando atienden varias personas o necesitas roles e invitaciones. Si solo necesitas ordenar citas, clientes y notas, Gratis puede ser suficiente.`,
+  },
+  {
+    question: '¿Los recordatorios por SMS tienen límite?',
+    answer:
+      'Los recordatorios por correo y SMS están incluidos en Profesional, Equipos y Empresas, con uso razonable para la operación de tu negocio. Si un volumen fuera de lo normal lo requiere, te avisamos antes de cambiar algo.',
   },
   {
     question: '¿Los precios incluyen IVA?',
     answer:
-      'Sí. Todos los precios publicados están en pesos mexicanos e incluyen IVA. Lo que ves en la tarjeta es lo que pagas por asiento.',
+      'Sí. Todos los precios publicados están en pesos mexicanos e incluyen IVA. Lo que ves en la tarjeta es lo que pagas.',
   },
   {
     question: '¿Cómo funciona el pago anual?',
     answer:
-      `Si eliges anual, Equipos queda en ${formatMxn(equiposPricing.annualPromoPerMonth)} ${equiposPricing.currency} por asiento al mes (precio de lista ${formatMxn(equiposPricing.annualListPerMonth)}), facturados como ${formatMxn(equiposPricing.annualBilled)} ${equiposPricing.currency} al año. Frente a pagar ${formatMxn(equiposPricing.monthlyPromo)} al mes, ahorras ${formatMxn(equiposPricing.annualSavings)} al año por cada asiento — un ${equiposPricing.annualDiscountPct}%.`,
+      `Si eliges anual, Equipos queda en ${formatMxn(equiposPricing.annualPromoPerMonth)} ${equiposPricing.currency} por asiento al mes (precio de lista ${formatMxn(equiposPricing.annualListPerMonth)}), facturados como ${formatMxn(equiposPricing.annualBilled)} ${equiposPricing.currency} al año. Frente a pagar ${formatMxn(equiposPricing.monthlyPromo)} al mes, ahorras ${formatMxn(equiposPricing.annualSavings)} al año por cada asiento — un ${equiposPricing.annualDiscountPct}%. Profesional anual queda en ${formatMxn(profesionalPricing.annualPerMonth)} ${profesionalPricing.currency} al mes, facturados como ${formatMxn(profesionalPricing.annualBilled)} ${profesionalPricing.currency} al año.`,
   },
   {
     question: '¿Qué diferencia a Horaya de una agenda genérica?',

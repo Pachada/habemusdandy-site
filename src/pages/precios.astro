@@ -4,16 +4,19 @@ import Faq from '../components/Faq.astro'
 import Cta from '../components/Cta.astro'
 import BillingToggle from '../components/BillingToggle.astro'
 import PlanAssurance from '../components/PlanAssurance.astro'
-import { appSignupUrl, equiposPricing, formatMxn, pricingFaqItems, salesContactUrl } from '../config/site'
+import { appSignupUrl, equiposPricing, formatMxn, pricingFaqItems, profesionalPricing, salesContactUrl } from '../config/site'
 
 const title = 'Precios del software de citas'
 const description =
-  'Planes de Horaya para clínicas, consultorios y negocios con citas: Gratis (un plan, no una prueba), Equipos por asiento y Empresas.'
+  'Planes de Horaya para clínicas, consultorios y negocios con citas: Gratis (un plan, no una prueba), Profesional para quien atiende solo, Equipos por asiento y Empresas.'
 const monthlyList = formatMxn(equiposPricing.monthlyList)
 const monthlyPromo = formatMxn(equiposPricing.monthlyPromo)
 const annualList = formatMxn(equiposPricing.annualListPerMonth)
 const annualPromo = formatMxn(equiposPricing.annualPromoPerMonth)
 const annualBilled = formatMxn(equiposPricing.annualBilled)
+const proMonthly = formatMxn(profesionalPricing.monthly)
+const proAnnual = formatMxn(profesionalPricing.annualPerMonth)
+const proAnnualBilled = formatMxn(profesionalPricing.annualBilled)
 ---
 
 <BaseLayout title={title} description={description}>
@@ -22,7 +25,7 @@ const annualBilled = formatMxn(equiposPricing.annualBilled)
       <p class="section-label">Precios</p>
       <h1>Empieza gratis. Crece con tu equipo.</h1>
       <p class="section-lead">
-        Tres opciones claras, con precio por asiento en Equipos. Promoción de lanzamiento: {monthlyPromo} {equiposPricing.currency} al mes, o {annualPromo} si pagas anual. Empieza con lo esencial; suma capacidad cuando el equipo lo necesite.
+        Gratis para empezar, Profesional si atiendes solo y Equipos por asiento. Promoción de lanzamiento en Equipos: {monthlyPromo} {equiposPricing.currency} al mes, o {annualPromo} si pagas anual. Empieza con lo esencial; suma capacidad cuando la necesites.
       </p>
     </div>
   </section>
@@ -47,8 +50,37 @@ const annualBilled = formatMxn(equiposPricing.annualBilled)
           <li>Clientes y fichas</li>
           <li>Notas de cada visita</li>
           <li>Servicios y horario</li>
+          <li>Un formulario de ingreso básico</li>
         </ul>
         <a class="btn btn--ghost" href={appSignupUrl}>Comenzar gratis</a>
+      </article>
+
+      <article class="plan reveal">
+        <p class="plan__eyebrow">Si atiendes solo</p>
+        <h2>Profesional</h2>
+        <p class="plan__price">
+          <span class="billing-swap">
+            <strong class="price-amount" data-billing-content="monthly" aria-label={`${profesionalPricing.monthly} pesos mexicanos al mes`}>{proMonthly}</strong>
+            <strong class="price-amount" data-billing-content="annual" hidden aria-label={`${profesionalPricing.annualPerMonth} pesos mexicanos al mes, pago anual`}>{proAnnual}</strong>
+          </span>
+          <span class="price-unit">MXN / mes, IVA incluido</span>
+        </p>
+        <p class="price-discount">
+          <span class="billing-swap">
+            <span data-billing-content="monthly">Una persona que atiende</span>
+            <span data-billing-content="annual" hidden>{proAnnualBilled} al año</span>
+          </span>
+        </p>
+        <p class="plan__desc">Para quien atiende solo y quiere menos citas perdidas.</p>
+        <ul>
+          <li>Todo lo incluido en Gratis</li>
+          <li>Recordatorios por correo y SMS</li>
+          <li>Formularios con consentimiento y firma</li>
+          <li>Google y Apple Calendar</li>
+          <li>Reportes</li>
+        </ul>
+        <a class="btn btn--ghost" href={appSignupUrl}>Comenzar</a>
+        <p class="plan__note">El plan lo eliges en el panel.</p>
       </article>
 
       <article class="plan plan--featured reveal">
@@ -76,12 +108,10 @@ const annualBilled = formatMxn(equiposPricing.annualBilled)
         </p>
         <p class="plan__desc">Para equipos que necesitan operar y dar seguimiento juntos.</p>
         <ul>
-          <li>Todo lo incluido en Gratis</li>
-          <li>Equipo y roles</li>
-          <li>Formularios de ingreso</li>
+          <li>Todo lo incluido en Profesional</li>
+          <li>Equipo, roles e invitaciones</li>
           <li>Administración de usuarios</li>
-          <li>Google y Apple Calendar</li>
-          <li>Automatizaciones y reportes</li>
+          <li>Recepción y administración sin costo de asiento</li>
         </ul>
         <a class="btn btn--primary" href={appSignupUrl}>Comenzar</a>
         <p class="plan__note">El plan lo eliges en el panel.</p>
@@ -120,25 +150,29 @@ const annualBilled = formatMxn(equiposPricing.annualBilled)
         <div class="compare__row compare__head">
           <span>Capacidad</span>
           <span>Gratis</span>
+          <span>Profesional</span>
           <span>Equipos</span>
           <span>Empresas</span>
         </div>
         {
           [
-            ['Agenda, citas y servicios', 'Incluido', 'Incluido', 'Incluido'],
-            ['Clientes, expediente y notas', 'Incluido', 'Incluido', 'Incluido'],
-            ['Formularios de ingreso', '—', 'Incluido', 'Incluido'],
-            ['Equipo y roles', '—', 'Incluido', 'Incluido'],
-            ['Workflows y recordatorios', '—', 'Incluido', 'Incluido'],
-            ['Reportes e insights con IA', '—', 'Incluido', 'Incluido'],
-            ['Calendarios externos', '—', 'Incluido', 'Incluido'],
-            ['Acompañamiento dedicado', '—', '—', 'Incluido'],
-          ].map(([feature, a, b, c]) => (
+            ['Agenda, citas y servicios', 'Incluido', 'Incluido', 'Incluido', 'Incluido'],
+            ['Clientes, expediente y notas', 'Incluido', 'Incluido', 'Incluido', 'Incluido'],
+            ['Formularios de ingreso', 'Uno básico', 'Incluido', 'Incluido', 'Incluido'],
+            ['Consentimiento y firma', '—', 'Incluido', 'Incluido', 'Incluido'],
+            ['Recordatorios por correo y SMS', '—', 'Incluido', 'Incluido', 'Incluido'],
+            ['Reportes e insights con IA', '—', 'Incluido', 'Incluido', 'Incluido'],
+            ['Calendarios externos', '—', 'Incluido', 'Incluido', 'Incluido'],
+            ['Equipo y roles', '—', '—', 'Incluido', 'Incluido'],
+            ['Recepción sin costo de asiento', '—', '—', 'Incluido', 'Incluido'],
+            ['Acompañamiento dedicado', '—', '—', '—', 'Incluido'],
+          ].map(([feature, a, b, c, d]) => (
             <div class="compare__row">
               <span>{feature}</span>
               <span data-label="Gratis">{a}</span>
-              <span data-label="Equipos">{b}</span>
-              <span data-label="Empresas">{c}</span>
+              <span data-label="Profesional">{b}</span>
+              <span data-label="Equipos">{c}</span>
+              <span data-label="Empresas">{d}</span>
             </div>
           ))
         }
@@ -300,13 +334,13 @@ const annualBilled = formatMxn(equiposPricing.annualBilled)
 
   .compare__row {
     display: grid;
-    grid-template-columns: 1.5fr repeat(3, 1fr);
+    grid-template-columns: 1.6fr repeat(4, 1fr);
     gap: var(--space-3);
     padding: var(--space-4);
     font-size: 0.95rem;
   }
 
-  .compare__row span:nth-child(3) {
+  .compare__row span:nth-child(4) {
     color: var(--color-ink);
     font-weight: 600;
   }
@@ -324,14 +358,25 @@ const annualBilled = formatMxn(equiposPricing.annualBilled)
     background: color-mix(in srgb, var(--color-ink) 2%, var(--color-surface));
   }
 
-  @media (min-width: 860px) {
+  @media (min-width: 720px) {
     .plans {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1120px) {
+    .plans {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-4);
     }
 
     .plan {
       min-height: 36rem;
-      padding-bottom: calc(clamp(1.5rem, 4vw, 3rem) + 3.5rem);
+      padding: var(--space-6) var(--space-5) calc(var(--space-6) + 3.5rem);
+    }
+
+    .plan__price strong {
+      font-size: 2.6rem;
     }
 
     .plan ul {
@@ -340,9 +385,9 @@ const annualBilled = formatMxn(equiposPricing.annualBilled)
 
     .plan__note {
       position: absolute;
-      right: clamp(1.5rem, 4vw, 3rem);
-      bottom: clamp(1.5rem, 4vw, 3rem);
-      left: clamp(1.5rem, 4vw, 3rem);
+      right: var(--space-5);
+      bottom: var(--space-6);
+      left: var(--space-5);
       margin: 0;
     }
 
@@ -351,7 +396,7 @@ const annualBilled = formatMxn(equiposPricing.annualBilled)
     }
   }
 
-  @media (max-width: 859px) {
+  @media (max-width: 1119px) {
     .price-discount--spacer {
       display: none;
     }

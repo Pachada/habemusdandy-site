@@ -3,7 +3,7 @@ import CampaignLayout from '../layouts/CampaignLayout.astro'
 import ProductFrame from '../components/ProductFrame.astro'
 import BillingToggle from '../components/BillingToggle.astro'
 import Faq from '../components/Faq.astro'
-import { appSignupUrl, equiposPricing, formatMxn, salesContactUrl } from '../config/site'
+import { appSignupUrl, equiposPricing, formatMxn, profesionalPricing, salesContactUrl } from '../config/site'
 
 const monthlyList = formatMxn(equiposPricing.monthlyList)
 const monthlyPromo = formatMxn(equiposPricing.monthlyPromo)
@@ -11,6 +11,11 @@ const annualList = formatMxn(equiposPricing.annualListPerMonth)
 const annualPromo = formatMxn(equiposPricing.annualPromoPerMonth)
 const annualBilled = formatMxn(equiposPricing.annualBilled)
 const currency = equiposPricing.currency
+const proMonthly = formatMxn(profesionalPricing.monthly)
+const proAnnual = formatMxn(profesionalPricing.annualPerMonth)
+const proAnnualBilled = formatMxn(profesionalPricing.annualBilled)
+
+const proLine = `Profesional, si atiendes solo: ${proMonthly} ${currency} al mes, o ${proAnnual} ${currency} al mes si pagas anual.`
 
 const priceLine = `Promoción de lanzamiento: ${monthlyPromo} ${currency} por asiento al mes, o ${annualPromo} ${currency} por asiento al mes si pagas anual (${annualBilled} ${currency} al año por asiento).`
 
@@ -86,12 +91,12 @@ const comparisons = [
   {
     topic: 'El ingreso',
     chat: 'Los datos llegan sueltos, si llegan.',
-    horaya: 'El formulario, con consentimiento y firma, está en Equipos y Empresas. En Gratis, la ficha la arma el equipo.',
+    horaya: 'Gratis incluye un formulario básico. El formulario con consentimiento y firma está desde Profesional.',
   },
   {
     topic: 'El precio',
     chat: 'Repartido entre el chat, el calendario y la memoria.',
-    horaya: `Gratis en $0. Equipos, ${priceLine.charAt(0).toLowerCase()}${priceLine.slice(1)}`,
+    horaya: `Gratis en $0. ${proLine} Equipos, ${priceLine.charAt(0).toLowerCase()}${priceLine.slice(1)}`,
   },
 ] as const
 
@@ -102,7 +107,7 @@ const guarantees = [
   },
   {
     title: 'El paciente no tiene panel',
-    line: 'No entra a la agenda ni a las notas. El enlace de ingreso, cuando lo usas, está en Equipos y Empresas.',
+    line: 'No entra a la agenda ni a las notas. Completa su ingreso desde un enlace, sin crear cuenta.',
   },
   {
     title: 'No vendemos listas',
@@ -118,7 +123,7 @@ const campaignFaq = [
   {
     question: '¿Puedo empezar sin comprometerme a pagar?',
     answer:
-      'Sí. El plan Gratis cubre la operación esencial: citas, clientes, fichas y notas. Equipos se elige después, dentro del panel, cuando hagan falta más personas, formularios, automatizaciones o reportes.',
+      'Sí. El plan Gratis cubre la operación esencial: citas, clientes, fichas y notas. Profesional o Equipos se eligen después, dentro del panel, cuando hagan falta recordatorios, reportes o más personas.',
   },
   {
     question: '¿Qué pasa con mis datos si dejo de usarlo?',
@@ -130,7 +135,7 @@ const campaignFaq = [
   {
     question: '¿El paciente necesita crear una cuenta?',
     answer:
-      'No. El equipo trabaja en el panel. El paciente no ve la agenda ni las notas. El enlace de ingreso, cuando lo envías, está en Equipos y Empresas.',
+      'No. El equipo trabaja en el panel. El paciente no ve la agenda ni las notas. Completa su ingreso desde el enlace que le envías.',
   },
   {
     question: '¿Dónde quedan los datos de mi clínica?',
@@ -141,7 +146,7 @@ const campaignFaq = [
   },
   {
     question: '¿Qué cuenta como un asiento?',
-    answer: `Una persona del equipo con acceso al espacio. ${priceLine} El precio de lista es ${monthlyList} ${currency} por asiento al mes, o ${annualList} ${currency} por asiento al mes si pagas anual.`,
+    answer: `En Equipos, una persona que atiende pacientes. Recepción y administración no pagan asiento. ${priceLine} El precio de lista es ${monthlyList} ${currency} por asiento al mes, o ${annualList} ${currency} por asiento al mes si pagas anual.`,
   },
   {
     question: '¿Comenzar gratis contrata Equipos?',
@@ -168,7 +173,7 @@ const campaignFaq = [
       </div>
       <div class="hero__visual" data-ambient>
         <p class="disclosure">
-          Formularios de ingreso: en Equipos y Empresas. Lo de abajo es el día de la clínica. El ingreso por formulario es del plan de pago.
+          Gratis incluye un formulario básico; consentimiento y firma, desde Profesional. Lo de abajo es el día de la clínica.
         </p>
         <div class="ambient-float ambient-float--slow">
           <ProductFrame variant="panel" activeNav="Panel principal" label="Hoy en la clínica" />
@@ -197,7 +202,7 @@ const campaignFaq = [
   <section class="section offer" id="oferta">
     <div class="container">
       <h2 class="section-title">Esto es lo que cuesta.</h2>
-      <p class="section-lead">{priceLine} Empresas es a medida, con una persona del equipo.</p>
+      <p class="section-lead">{proLine} Equipos, {priceLine.charAt(0).toLowerCase()}{priceLine.slice(1)} Empresas es a medida, con una persona del equipo.</p>
       <div class="offer__billing">
         <BillingToggle controls="campaign-plans" />
       </div>
@@ -214,8 +219,34 @@ const campaignFaq = [
             <li>Clientes y fichas</li>
             <li>Notas clínicas</li>
             <li>Servicios y horario</li>
+            <li>Un formulario básico</li>
           </ul>
           <a class="btn btn--primary" href={appSignupUrl}>Comenzar gratis</a>
+        </article>
+        <article class="offer-card">
+          <p class="offer-card__who">Si atiendes solo</p>
+          <h3>Profesional</h3>
+          <p class="offer-card__price">
+            <span class="billing-swap">
+              <strong class="price-amount" data-billing-content="monthly" aria-label={`${profesionalPricing.monthly} pesos mexicanos al mes`}>{proMonthly}</strong>
+              <strong class="price-amount" data-billing-content="annual" hidden aria-label={`${profesionalPricing.annualPerMonth} pesos mexicanos al mes. El año se cobra como ${profesionalPricing.annualBilled} pesos mexicanos.`}>{proAnnual}</strong>
+            </span>
+            <span class="price-unit">MXN al mes, IVA incluido</span>
+          </p>
+          <p class="price-discount">
+            <span class="billing-swap">
+              <span data-billing-content="monthly">Una persona que atiende</span>
+              <span data-billing-content="annual" hidden>{proAnnualBilled} MXN al año</span>
+            </span>
+          </p>
+          <ul>
+            <li>Todo lo de Gratis</li>
+            <li>Recordatorios por correo y SMS</li>
+            <li>Consentimiento y firma</li>
+            <li>Calendarios y reportes</li>
+          </ul>
+          <a class="btn btn--primary" href={appSignupUrl}>Comenzar gratis</a>
+          <p class="offer-card__note">El plan lo eliges en el panel.</p>
         </article>
         <article class="offer-card offer-card--featured">
           <span class="offer-card__badge">Recomendado</span>
@@ -241,10 +272,10 @@ const campaignFaq = [
             </span>
           </p>
           <ul>
-            <li>Precio por asiento activo</li>
-            <li>Formularios de ingreso</li>
-            <li>Equipo, roles e integraciones</li>
-            <li>Automatizaciones y reportes</li>
+            <li>Todo lo de Profesional</li>
+            <li>Equipo, roles e invitaciones</li>
+            <li>Precio por persona que atiende</li>
+            <li>Recepción sin costo de asiento</li>
           </ul>
           <a class="btn btn--primary" href={appSignupUrl}>Comenzar gratis</a>
           <p class="offer-card__note">El plan lo eliges en el panel.</p>
@@ -337,7 +368,7 @@ const campaignFaq = [
         }
       </ol>
       <p class="after__need">Qué necesitas a mano: los días y horas en que atiendes, y los servicios con su duración.</p>
-      <p class="disclosure">Formularios de ingreso: en Equipos y Empresas.</p>
+      <p class="disclosure">Gratis incluye un formulario básico; consentimiento y firma, desde Profesional.</p>
     </div>
   </section>
 
@@ -933,10 +964,20 @@ const campaignFaq = [
       grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
     }
 
-    .offer__grid,
     .steps {
       grid-template-columns: repeat(3, minmax(0, 1fr));
       align-items: stretch;
+    }
+
+    .offer__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: stretch;
+    }
+  }
+
+  @media (min-width: 1120px) {
+    .offer__grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
     }
 
     .offer-card--featured {

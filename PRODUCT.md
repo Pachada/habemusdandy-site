@@ -28,14 +28,14 @@ Working promise: tu negocio, en un solo lugar. Agenda, clientes, formularios e h
 
 The owner evaluates Horaya against WhatsApp, paper, and a shared calendar, not against a meeting scheduler. The next step after a marketing button is the panel at `app.horaya.mx`. Signup creates an account. It cannot receive a plan from this site. The plan is chosen in the panel.
 
-Gratis covers essential operation: weekly agenda and appointments, clients and records, notes for each visit, services and hours. Equipos (API plan id `business`) adds per-seat price, intake forms, roles, integrations, automations, and reports. Empresas is contact-only accompaniment on top of Equipos, not a third API plan.
+Gratis covers essential operation: weekly agenda and appointments, clients and records, notes for each visit, services and hours, and one basic intake form. Profesional (API plan id `professional`) is one practitioner and adds email and SMS reminders (fair use), forms with consent and signature, calendar integrations, and reports. Equipos (API plan id `business`) adds team, roles and invitations, billed per practitioner; reception and admin seats are free. Empresas is contact-only accompaniment on top of Equipos, not a separate API plan. Full plan matrix: `docs/PLANS-PROPOSAL.md`.
 
-Launch prices, already published on the site: Equipos list `$249 MXN` per seat per month, or `$199 MXN` per seat per month billed annually. Launch promo `$199 MXN` per seat per month, or `$149 MXN` per seat per month billed annually as `$1,788 MXN` per seat per year.
+Prices: Profesional `$199 MXN` per month, or `$149 MXN` per month billed annually as `$1,788 MXN` per year. Equipos list `$299 MXN` per seat per month, or `$249 MXN` per seat per month billed annually. Equipos launch promo `$199 MXN` per seat per month, or `$149 MXN` per seat per month billed annually as `$1,788 MXN` per seat per year, held for 12 months.
 
 ## Capabilities and Constraints
 
 - Spanish is the default copy. Match dashboard nouns: Citas, Clientes, Formularios.
-- Do not claim a feature the app does not ship. Intake forms, team roles, calendar integrations, email/SMS automations, and reports are on Equipos and Empresas, not on Gratis. Say that in the present tense. Do not mark them `Próximamente`.
+- Do not claim a feature the app does not ship. Forms with consent and signature, calendar integrations, email/SMS automations, and reports are on Profesional and up; team roles are on Equipos and Empresas. Gratis has one basic intake form. Say that in the present tense. Do not mark them `Próximamente`.
 - Do not claim “sin tarjeta”, a setup time, a refund, a certification, or a metric that is not real.
 - Do not invent logos, ratings, testimonials, or customer counts. Testimonials need a name, business, city, and permission. Until then, the proof blocks stay empty.
 - “Tus datos siguen siendo de tu negocio.” Isolation (`Datos aislados por negocio`), no client panel (`Tu cliente no tiene panel`), and no selling of lists are the trust lines already published. `/clinicas` keeps the clinic versions. The mechanism pages are `/seguridad`, `/privacidad`, and `/terminos`.

@@ -6,13 +6,16 @@ import BillingToggle from '../components/BillingToggle.astro'
 import PlanAssurance from '../components/PlanAssurance.astro'
 import Faq from '../components/Faq.astro'
 import Cta from '../components/Cta.astro'
-import { appSignupUrl, equiposPricing, faqItems, formatMxn, salesContactUrl } from '../config/site'
+import { appSignupUrl, equiposPricing, faqItems, formatMxn, profesionalPricing, salesContactUrl } from '../config/site'
 
 const monthlyList = formatMxn(equiposPricing.monthlyList)
 const monthlyPromo = formatMxn(equiposPricing.monthlyPromo)
 const annualList = formatMxn(equiposPricing.annualListPerMonth)
 const annualPromo = formatMxn(equiposPricing.annualPromoPerMonth)
 const annualBilled = formatMxn(equiposPricing.annualBilled)
+const proMonthly = formatMxn(profesionalPricing.monthly)
+const proAnnual = formatMxn(profesionalPricing.annualPerMonth)
+const proAnnualBilled = formatMxn(profesionalPricing.annualBilled)
 
 const title = 'Software de citas para clínicas, consultorios y negocios'
 const description =
@@ -47,7 +50,7 @@ const setupSteps = [
     n: '03',
     title: 'Prepara el formulario de ingreso',
     line: 'Los datos y el motivo de la cita que quieres saber antes de atender.',
-    note: 'Formularios de ingreso: en Equipos y Empresas.',
+    note: 'Gratis incluye un formulario básico. Consentimiento y firma, desde Profesional.',
     frame: 'intake' as const,
     frameProps: { compact: true, activeNav: 'Formularios', label: 'Formulario de ingreso' },
   },
@@ -302,7 +305,7 @@ const capabilityTiles = [
           }
         </div>
       </div>
-      <p class="plan-note capability-section__note">Formularios, equipo y roles: en Equipos y Empresas.</p>
+      <p class="plan-note capability-section__note">Recordatorios, reportes y formularios con firma, desde Profesional. Equipo y roles, en Equipos y Empresas.</p>
       <a class="text-link capability-section__cta" href="/producto">Ver todas las capacidades</a>
     </div>
   </section>
@@ -314,7 +317,7 @@ const capabilityTiles = [
           <p class="section-label">Integraciones</p>
           <h2 class="section-title">Se conecta con lo que ya usas.</h2>
           <p class="section-lead">Las citas de tu negocio aparecen en los calendarios que el equipo ya abre cada día.</p>
-          <p class="plan-note">Incluido en Equipos y Empresas.</p>
+          <p class="plan-note">Incluido desde Profesional.</p>
         </div>
         <a class="text-link" href="/producto#integraciones">Ver integraciones</a>
       </div>
@@ -349,7 +352,7 @@ const capabilityTiles = [
       <div class="reveal">
         <p class="section-label">Precios</p>
         <h2 class="section-title">Empieza gratis. Crece con tu equipo.</h2>
-        <p class="section-lead">Tres opciones claras, con precio por asiento en Equipos. Promoción de lanzamiento: {monthlyPromo} {equiposPricing.currency} al mes, o {annualPromo} si pagas anual.</p>
+        <p class="section-lead">Gratis para empezar, Profesional si atiendes solo y Equipos por asiento. Promoción de lanzamiento en Equipos: {monthlyPromo} {equiposPricing.currency} al mes, o {annualPromo} si pagas anual.</p>
       </div>
       <div class="pricing-home__billing reveal">
         <BillingToggle controls="home-pricing-plans" />
@@ -368,8 +371,34 @@ const capabilityTiles = [
             <li>Clientes y fichas</li>
             <li>Notas de cada visita</li>
             <li>Servicios y horario</li>
+            <li>Un formulario básico</li>
           </ul>
           <a class="btn btn--ghost" href={appSignupUrl}>Comenzar gratis</a>
+        </article>
+        <article class="pricing-card reveal">
+          <p class="pricing-card__eyebrow">Si atiendes solo</p>
+          <h3>Profesional</h3>
+          <p class="pricing-card__price">
+            <span class="billing-swap">
+              <strong class="price-amount" data-billing-content="monthly" aria-label={`${profesionalPricing.monthly} pesos mexicanos al mes`}>{proMonthly}</strong>
+              <strong class="price-amount" data-billing-content="annual" hidden aria-label={`${profesionalPricing.annualPerMonth} pesos mexicanos al mes, pago anual`}>{proAnnual}</strong>
+            </span>
+            <span class="price-unit">MXN / mes, IVA incluido</span>
+          </p>
+          <p class="price-discount">
+            <span class="billing-swap">
+              <span data-billing-content="monthly">Una persona que atiende</span>
+              <span data-billing-content="annual" hidden>{proAnnualBilled} al año</span>
+            </span>
+          </p>
+          <ul>
+            <li>Todo lo de Gratis</li>
+            <li>Recordatorios por correo y SMS</li>
+            <li>Formularios con firma</li>
+            <li>Calendarios y reportes</li>
+          </ul>
+          <a class="btn btn--ghost" href={appSignupUrl}>Comenzar</a>
+          <p class="pricing-card__note">El plan lo eliges en el panel.</p>
         </article>
         <article class="pricing-card pricing-card--featured reveal">
           <span class="pricing-card__badge">Recomendado</span>
@@ -395,10 +424,10 @@ const capabilityTiles = [
             </span>
           </p>
           <ul>
-            <li>Precio por asiento activo</li>
-            <li>Formularios de ingreso</li>
-            <li>Equipo, roles e integraciones</li>
-            <li>Automatizaciones y reportes</li>
+            <li>Todo lo de Profesional</li>
+            <li>Equipo, roles e invitaciones</li>
+            <li>Precio por persona que atiende</li>
+            <li>Recepción sin costo de asiento</li>
           </ul>
           <a class="btn btn--primary" href={appSignupUrl}>Comenzar</a>
           <p class="pricing-card__note">El plan lo eliges en el panel.</p>
@@ -1540,7 +1569,7 @@ const capabilityTiles = [
     }
 
     .pricing-teaser {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .pricing-card {
@@ -1557,6 +1586,12 @@ const capabilityTiles = [
       bottom: var(--space-5);
       left: var(--space-5);
       margin: 0;
+    }
+  }
+
+  @media (min-width: 1120px) {
+    .pricing-teaser {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }
 

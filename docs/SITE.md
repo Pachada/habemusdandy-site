@@ -190,7 +190,7 @@ Numbered process (`ol`), id `como-empezar`. White cards on a `--color-frame` ban
 | 02 | Da de alta tus servicios | Qué ofreces, cuánto dura y cuánto cuesta. | `services` compact |
 | 03 | Prepara el formulario de ingreso | Los datos y el motivo de la cita que quieres saber antes de atender. | `intake` compact |
 
-Step 03 carries a quiet plan note: `Formularios de ingreso: en Equipos y Empresas.`
+Step 03 carries a quiet plan note: `Gratis incluye un formulario básico. Consentimiento y firma, desde Profesional.`
 
 ### 5.4b Para quién
 
@@ -217,7 +217,7 @@ One markup of four `<article>` chapters. Below 860px they stack as cards (no tab
 
 Autoplay is one pass, about 6s per chapter, 01 → 04, then it stops on 04 with the progress bar full. It does not loop. It starts when the section is in view, pauses off-screen and on hover or focus, and a click or arrow stops it for good. Leaving early resumes from the current chapter. `prefers-reduced-motion`: no autoplay, chapter 01 selected, instant tab change, full progress bar on the active tab.
 
-Each chapter has a kicker, title, remate, copy, a three-step timeline (existing `status-dot` classes), an optional plan note, and one tinted ProductFrame. Tints are visit-only (`--tint-cita`, `--tint-ingreso`, `--tint-ficha`, `--tint-seguimiento`, plus glow and key). Chapter 02 plan note: `Formularios de ingreso: en Equipos y Empresas.` Entrance runs once: copy is already visible, the tint reveals, the mock lands, one protagonist product state plays, then the timeline dots take their state with a single ring.
+Each chapter has a kicker, title, remate, copy, a three-step timeline (existing `status-dot` classes), an optional plan note, and one tinted ProductFrame. Tints are visit-only (`--tint-cita`, `--tint-ingreso`, `--tint-ficha`, `--tint-seguimiento`, plus glow and key). Chapter 02 plan note: `Gratis incluye un formulario básico. Consentimiento y firma, desde Profesional.` Entrance runs once: copy is already visible, the tint reveals, the mock lands, one protagonist product state plays, then the timeline dots take their state with a single ring.
 
 1. **La cita entra en la agenda** — hueco del jueves 17:00 en la agenda (bloque `17:00 · Revisión` en la columna Jue)
 2. **El ingreso llega con tiempo** — formulario antes del box
@@ -230,7 +230,7 @@ Tab labels: `Cita confirmada`, `Ingreso recibido`, `Contexto listo`, `Seguimient
 
 Label: `Más que una agenda`. Title: `La operación alrededor de la visita.` Lead: `El panel del día, los roles del equipo y el detalle de cada pieza. Sin otra herramienta.`
 
-Use an asymmetric editorial bento: one dominant **Panel principal** scene for today’s appointments, statuses, quick actions, and pending intake; four smaller operational tiles for **Servicios** (color chips per service), **Formularios** (brand, consent, and signature on one row), **Horario** (a date exception and timezone, not the weekly blocks), and **Equipo y roles** (Owner/Manager/Staff access). The dominant panel and four tiles are static focused ProductFrame/CSS scenes, not tiny full-app screenshots, icon soup, or another carousel. Tile copy: `Color por servicio, para distinguir cada atención de un vistazo.` · `Tu marca, consentimiento y firma en el mismo formulario.` · `Excepciones de fecha y zona horaria, sin rehacer la semana.` The panel line stays `Hoy, sin buscar en cinco lugares.` No variant and `micro` pair is repeated between Cómo empezar and this bento. Give the four smaller tiles enough separation to read as independent objects, using the current double soft shadow. Stages use `--color-frame`. No category accent tint and no 3px accent bar. No hover lift. The panel spans the full width; from 900px it splits into the scene (7 parts) and its copy (5 parts). From 700px the four tiles sit 2×2 below it, each half the width; mobile stacks them. Each tile stacks its scene above its copy at every width, so the scene is wide enough that no status label (`Firma lista`, `Cierre temprano`, role lines) breaks across lines. One CTA, `Ver todas las capacidades`, points to `/producto`. Quiet plan note under the bento: `Formularios, equipo y roles: en Equipos y Empresas.`
+Use an asymmetric editorial bento: one dominant **Panel principal** scene for today’s appointments, statuses, quick actions, and pending intake; four smaller operational tiles for **Servicios** (color chips per service), **Formularios** (brand, consent, and signature on one row), **Horario** (a date exception and timezone, not the weekly blocks), and **Equipo y roles** (Owner/Manager/Staff access). The dominant panel and four tiles are static focused ProductFrame/CSS scenes, not tiny full-app screenshots, icon soup, or another carousel. Tile copy: `Color por servicio, para distinguir cada atención de un vistazo.` · `Tu marca, consentimiento y firma en el mismo formulario.` · `Excepciones de fecha y zona horaria, sin rehacer la semana.` The panel line stays `Hoy, sin buscar en cinco lugares.` No variant and `micro` pair is repeated between Cómo empezar and this bento. Give the four smaller tiles enough separation to read as independent objects, using the current double soft shadow. Stages use `--color-frame`. No category accent tint and no 3px accent bar. No hover lift. The panel spans the full width; from 900px it splits into the scene (7 parts) and its copy (5 parts). From 700px the four tiles sit 2×2 below it, each half the width; mobile stacks them. Each tile stacks its scene above its copy at every width, so the scene is wide enough that no status label (`Firma lista`, `Cierre temprano`, role lines) breaks across lines. One CTA, `Ver todas las capacidades`, points to `/producto`. Quiet plan note under the bento: `Recordatorios, reportes y formularios con firma, desde Profesional. Equipo y roles, en Equipos y Empresas.`
 
 The problem section flows into the visit through one short narrative bridge, not solution badges repeated inside each problem card.
 
@@ -245,12 +245,12 @@ Do **not** ship a warm mid-page CTA. The closing navy band is the only full-widt
 
 ### 5.9 Integrations
 
-One quiet shared strip/row on `--color-surface` (no brand tint): Google Calendar + Apple Calendar. The strip does not float. Headline `Se conecta con lo que ya usas.` Copy talks about appearing in calendars the team already uses. Plan note under the lead: `Incluido en Equipos y Empresas.` Do not label the cards `Una vía` or `Solo lectura`. Text link to `/producto#integraciones`.
+One quiet shared strip/row on `--color-surface` (no brand tint): Google Calendar + Apple Calendar. The strip does not float. Headline `Se conecta con lo que ya usas.` Copy talks about appearing in calendars the team already uses. Plan note under the lead: `Incluido desde Profesional.` Do not label the cards `Una vía` or `Solo lectura`. Text link to `/producto#integraciones`.
 Do not show Zoom/Salesforce/Zapier just because Calendly does.
 
 ### 5.10 Pricing teaser
 
-Three plan cards: **Gratis**, **Equipos** (marketing name for API plan id `business`; list `$249 MXN` monthly / `$199 MXN` annual per seat; launch promo `$199 MXN / asiento / mes`, or `$149 MXN / asiento / mes` billed annually as `$1,788` — 25% off vs monthly promo / `$600` saved per seat), y **Empresas** (contact sales only — not a third API plan; includes everything in Equipos plus dedicated accompaniment as already described). A compact `Mensual / Anual` toggle appears above the cards on Home and `/precios`; Mensual is the default and Anual carries a visible `−25%` label. Both periods show the list price struck through next to the launch price, plus a `Promoción de lanzamiento` chip. Equipos shows a visible `Recomendado` pill and a solid primary CTA labeled **`Comenzar`** (never `Elegir Equipos`) on both Home and `/precios`; under that button, a visible line that the plan is chosen inside the panel (e.g. `El plan lo eliges en el panel`). Gratis CTA stays **`Comenzar gratis`**; Empresas remains a text link. Signup at the dashboard only creates an account — it cannot receive a plan from the marketing site. Beside the price actions, three quiet trust lines (each links to `/seguridad`): `Datos aislados por negocio` · `Tu cliente no tiene panel` · `No vendemos listas`. One handoff line under the primary signup path: the next screen is the panel at `app.horaya.mx`. Link to `Ver precios` / comparar planes; do not publish competitor comparison tables.
+Four plan cards: **Gratis** (one basic intake form), **Profesional** (API plan id `professional`; one practitioner; `$199 MXN / mes`, or `$149 MXN / mes` billed annually as `$1,788`; no launch promo and no struck list price; adds email and SMS reminders, forms with consent and signature, Google and Apple Calendar, and reports), **Equipos** (marketing name for API plan id `business`; billed per practitioner, reception and admin seats free; list `$299 MXN` monthly / `$249 MXN` annual per seat; launch promo `$199 MXN / asiento / mes`, or `$149 MXN / asiento / mes` billed annually as `$1,788` — 25% off vs monthly promo / `$600` saved per seat; adds team, roles and invitations), y **Empresas** (contact sales only — not a separate API plan; includes everything in Equipos plus dedicated accompaniment as already described). From 700–900px the cards sit 2×2; from 1120px they sit in four columns. A compact `Mensual / Anual` toggle appears above the cards on Home and `/precios`; Mensual is the default and Anual carries a visible `−25%` label. Both periods show the Equipos list price struck through next to the launch price, plus a `Promoción de lanzamiento` chip. Profesional shows `Una persona que atiende` monthly and the annual total when Anual is selected. Profesional CTA is a ghost **`Comenzar`** with the panel plan-choice line. Equipos shows a visible `Recomendado` pill and a solid primary CTA labeled **`Comenzar`** (never `Elegir Equipos`) on both Home and `/precios`; under that button, a visible line that the plan is chosen inside the panel (e.g. `El plan lo eliges en el panel`). Gratis CTA stays **`Comenzar gratis`**; Empresas remains a text link. Signup at the dashboard only creates an account — it cannot receive a plan from the marketing site. Beside the price actions, three quiet trust lines (each links to `/seguridad`): `Datos aislados por negocio` · `Tu cliente no tiene panel` · `No vendemos listas`. One handoff line under the primary signup path: the next screen is the panel at `app.horaya.mx`. Link to `Ver precios` / comparar planes; do not publish competitor comparison tables.
 
 ### 5.11 Testimonials
 
@@ -268,7 +268,7 @@ Draft:
 4. ¿Mis clientes necesitan crear una cuenta?
 5. ¿Puedo adaptar la herramienta a la forma en que trabaja mi equipo?
 6. ¿Dónde quedan los datos de mi negocio?
-7. ¿Hay una versión gratis o es solo una prueba? (Gratis is a plan, not a trial that expires)
+7. ¿Hay una versión gratis o es solo una prueba? (Gratis is a plan, not a trial that expires; Profesional for reminders and reports, Equipos when the team grows)
 
 Answers: two to four sentences. Link `/seguridad` from the data question.
 
@@ -289,7 +289,7 @@ Calendly `/features` shape: hero, then grouped capabilities, then CTA. Not a sec
 **Hero:** distinct from home — H1 `Agenda, clientes y seguimiento, en el mismo flujo.` + `Comenzar gratis` / `Ver precios`
 **Hero visual:** one agenda ProductFrame under the hero copy (do not clone the homepage panel hero). It may use the same in-view ambient float as the home hero. Group mocks stay still.
 
-**Groups** (match the live dashboard, not a scheduler feature list). Odd groups sit on paper; even groups sit on `--color-frame`, with no brand wash. The index is a neutral pill (Outfit, tabular numerals, `--color-ink-mid`; `--color-frame` on paper, `--color-surface` on a frame band). Item markers are ink. Paid groups carry one quiet plan note, `En Equipos y Empresas.`, and do not repeat the plan in the intro. Titles for Agenda, Clientes, Seguimiento, and Formularios are inventory lines, not the home visit chapter titles.
+**Groups** (match the live dashboard, not a scheduler feature list). Odd groups sit on paper; even groups sit on `--color-frame`, with no brand wash. The index is a neutral pill (Outfit, tabular numerals, `--color-ink-mid`; `--color-frame` on paper, `--color-surface` on a frame band). Item markers are ink. Paid groups carry one quiet plan note and do not repeat the plan in the intro: Formularios `Gratis incluye un formulario básico. Consentimiento y firma, desde Profesional.`; Integraciones, Automatizaciones and Reportes `Desde Profesional.`; Administración `En Equipos y Empresas.` Titles for Agenda, Clientes, Seguimiento, and Formularios are inventory lines, not the home visit chapter titles.
 
 1. **Panel principal** — citas de hoy, estados, acciones rápidas, ingresos pendientes. Title: `Hoy, sin buscar en cinco lugares.`
 2. **Agenda** — Citas, Servicios, Horario (excepciones y zona horaria). Title: `Horario, servicios y citas, en una sola semana.` Google and Apple Calendar are not listed here.
@@ -312,17 +312,17 @@ Close with the same CTA band as home.
 Calendly `/pricing` shape, Koalendar scannability, our plans.
 
 1. H1: `Empieza gratis. Crece con tu equipo.`
-2. Billing toggle (`Mensual` by default; `Anual` shows `−25%`, the $149 MXN / month launch price, and $1,788 MXN billed per seat per year)
+2. Billing toggle (`Mensual` by default; `Anual` shows `−25%`, the $149 MXN / month price on Profesional and the Equipos launch price, and $1,788 MXN billed per year, per seat on Equipos)
 3. Plan cards (audience label, price, 5–8 bullets, CTA)
-4. Feature comparison table (rows grouped: Agenda, Clientes, Seguimiento, Equipo). Rows **`Workflows y recordatorios`** and **`Reportes e insights con IA`**: `Incluido` on Equipos and Empresas; `—` on Gratis. Do not use `Próximamente` or future tense for those rows.
-5. FAQ (whether Gratis is a trial, what counts as a seat, whether prices include IVA, annual billing, what happens if you cancel)
+4. Feature comparison table with four plan columns (Gratis, Profesional, Equipos, Empresas). `Formularios de ingreso`: `Uno básico` on Gratis. `Consentimiento y firma`, **`Recordatorios por correo y SMS`**, **`Reportes e insights con IA`** and `Calendarios externos`: `Incluido` from Profesional; `—` on Gratis. `Equipo y roles` and `Recepción sin costo de asiento`: from Equipos. Do not use `Próximamente` or future tense for those rows.
+5. FAQ (whether Gratis is a trial, what changes between Gratis, Profesional and Equipos, what counts as a seat, Profesional or Equipos, SMS fair use, whether prices include IVA, annual billing, what happens if you cancel)
 6. Closing CTA
 
 Do not add “vs Calendly / Cal.com / Koalendar.” Different category; that table would confuse the buyer.
 
-Prices are in MXN and **include IVA**. Say it once per page, in the Equipos price unit (`MXN / asiento / mes, IVA incluido`), never as “+ IVA” next to every number.
+Prices are in MXN and **include IVA**. Say it once per paid card, in the price unit (`MXN / mes, IVA incluido` on Profesional, `MXN / asiento / mes, IVA incluido` on Equipos), never as “+ IVA” next to every number.
 
-Plans: Gratis, Equipos (API id `business`; list `$249` / `$199` annual; launch `$199 MXN / asiento / mes`, or `$149 MXN / asiento / mes` when billed annually), and Empresas (contact sales only). Equipos card CTA: **`Comenzar`**, plus the panel plan-choice line, the three trust lines linking to `/seguridad`, and the handoff line to the panel at `app.horaya.mx` (same rules as the homepage pricing teaser). From 860px the Equipos card stays slightly raised. It does not lift further on hover. Its light brand wash and `Recomendado` pill stay. In the comparison table the Equipos column is ink at weight 600, not brand. Row rules stay.
+Plans: Gratis, Profesional (API id `professional`; `$199 MXN / mes`, or `$149 MXN / mes` billed annually), Equipos (API id `business`; list `$299` / `$249` annual; launch `$199 MXN / asiento / mes`, or `$149 MXN / asiento / mes` when billed annually; a seat is a person who takes appointments), and Empresas (contact sales only). Equipos card CTA: **`Comenzar`**, plus the panel plan-choice line, the three trust lines linking to `/seguridad`, and the handoff line to the panel at `app.horaya.mx` (same rules as the homepage pricing teaser). From 1120px the Equipos card stays slightly raised. It does not lift further on hover. Its light brand wash and `Recomendado` pill stay. In the comparison table the Equipos column is ink at weight 600, not brand. Row rules stay.
 
 ---
 
@@ -386,7 +386,7 @@ Rules:
 - Spanish from Spain/LatAm-neutral; match dashboard copy (`Citas`, `Clientes`, `Formularios`)
 - Never claim a feature the app does not ship
 - Never claim certifications, analytics, or tracking we do not have
-- **Automatizaciones** (email/SMS alrededor de la cita) and **reportes e insights** are live on the paid plan (Equipos and Empresas). Do not offer them on Gratis. Do not use future tense or `Próximamente` for those capabilities.
+- **Automatizaciones** (email/SMS alrededor de la cita) and **reportes e insights** are live on the paid plans (Profesional, Equipos and Empresas). Do not offer them on Gratis. SMS is included with fair use (`uso razonable`), stated in the pricing FAQ and the terms. Do not use future tense or `Próximamente` for those capabilities.
 
 ---
 

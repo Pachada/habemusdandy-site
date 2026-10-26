@@ -51,7 +51,8 @@ new HorayaSiteStack(app, 'HorayaSiteStack', {
   deployEnvironment: 'production',
   domainName,
   hostedZoneId,
-  // Production deploys only from release tags (the GitHub environment is restricted to v* too).
+  // Production deploys only from release tags. Restrict the "production" GitHub environment to
+  // v* tags as well (infra/README.md, one-time cutover step 4).
   oidcWorkflowRefs: ['refs/tags/v*'],
   description: 'Horaya marketing site — production S3 + CloudFront',
 })

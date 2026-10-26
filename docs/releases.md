@@ -77,3 +77,5 @@ PRs labelled `chore` or `skip-changelog` are left out.
 ## Infrastructure
 
 The stacks are deployed by hand (see `infra/README.md`) or with `deploy-infra.yml`: staging from `main`, production from a `vX.Y.Z` tag.
+
+The first switch to this model needs a one-time cutover (disable the old prod workflow, copy the served files into `live/`, deploy the stacks, restrict the `production` environment to `v*` tags). See `infra/README.md`.

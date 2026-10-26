@@ -3,7 +3,7 @@ name: Deploy Infrastructure
 # Manual CDK deploys of the hosting stacks.
 # Staging: dispatch on main.
 # Production: dispatch on a vX.Y.Z tag, so the stack matches a released commit and the
-# "production" environment (restricted to v* tags) allows it:
+# "production" environment (restrict it to v* tags; see infra/README.md) allows it:
 #   gh workflow run deploy-infra.yml --ref v1.2.3 -f target=production
 on:
   workflow_dispatch:

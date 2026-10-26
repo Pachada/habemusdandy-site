@@ -110,11 +110,16 @@ trusts `main`, `release/v*` and tags.
 
 Production served the bucket root. This stack serves `live/`, so copy the root
 there **before** deploying it, or the site returns 404 until the first release.
+Run it before this change is merged, in this order:
 
 ```bash
 export AWS_PROFILE=horaya
 BUCKET=<PROD_S3_BUCKET>
+# 0. Stop the old push-to-main prod deploy. Its `s3 sync --delete` on the bucket
+#    root would delete live/ if anything merged to main during the cutover.
+gh workflow disable deploy-prod.yml
 # 1. Serve the current site from live/ (S3-to-S3 copies keep Cache-Control).
+#    Run it right before step 2 so live/ matches what is served now.
 aws s3 sync "s3://$BUCKET/" "s3://$BUCKET/live/" --exclude 'live/*' --exclude 'releases/*'
 # 2. Point CloudFront at live/ and update the roles.
 cd infra && npx cdk deploy HorayaSiteStack
@@ -122,8 +127,16 @@ cd infra && npx cdk deploy HorayaSiteStack
 npx cdk deploy HorayaSiteStagingStack
 ```
 
+4. In GitHub, **Settings → Environments → production → Deployment branches and
+   tags**: choose *Selected branches and tags* and add the tag rule `v*`. Until
+   then any ref's job can read the production secrets; only the OIDC role trust
+   (deploy workflows at `refs/tags/v*`) limits AWS access.
+5. Optionally, a tag ruleset on `v*` so only release automation and admins can
+   create or delete release tags.
+
 The root objects stay in the bucket but are no longer served. Remove them
-after `v1.0.0` is live if you want a clean bucket.
+after `v1.0.0` is live if you want a clean bucket. Anything merged to `main`
+after step 0 reaches production only with the first release (`v1.0.0`).
 
 ## Rollback
 

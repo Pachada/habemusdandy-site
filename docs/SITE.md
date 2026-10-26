@@ -52,12 +52,12 @@ Horaya is the **operating system of the clinic**, not a booking link.
 
 Calendly / Cal / Koalendar stop at “someone picks a time.” We continue into the visit: client record, intake, services, clinical notes, hours, and staff administration.
 
-**Audience:** owners and staff of small-to-mid clinics (physio first, other practices later). Spanish-speaking, self-serve.
+**Audience:** owners and staff of small-to-mid businesses that work with appointments. Clinics lead the story (physio first); consultorios, studios and other appointment businesses are welcome. Spanish-speaking, self-serve.
 
 **Job to be done:** stop running the practice from WhatsApp, paper, and a shared Google Calendar.
 
 **Promise (working):**
-*La clínica, en un solo lugar.*
+*Tu negocio, en un solo lugar.*
 Agenda, clientes, formularios e historial clínico — sin el ida y vuelta.
 
 **Not this:** “The smartest way to schedule meetings.”
@@ -67,7 +67,7 @@ Three product pillars (`/producto`; homepage teases them via setup, capabilities
 
 1. **Agenda** — hours, services, appointments, calendar sync
 2. **Clientes** — records, intake forms, and the ficha
-3. **Clínica** — notes, continuity of care, staff admin
+3. **Seguimiento** — notes, continuity between visits, staff admin
 
 If a section does not serve one of those pillars, it does not belong on v1.
 
@@ -143,17 +143,17 @@ Every major band ends with **Comenzar**. Secondary link is **Ver precios** or **
 This is the page that has to work alone. Order is the conversion story, not the org chart.
 
 **Shipped order:**
-Hero → Problem → Visit (`#recorrido`) → Cómo empezar (`#como-empezar`) → Operational breadth bento → Integrations → Pricing teaser → FAQ → Closing CTA
+Hero → Problem → Visit (`#recorrido`) → Cómo empezar (`#como-empezar`) → Para quién → Operational breadth bento → Integrations → Pricing teaser → FAQ → Closing CTA
 
 Do **not** ship Agenda/Clientes homepage pillars or a warm mid-page CTA. Continuity lives in Journey and `/producto`.
 
 ### 5.1 Hero
 
-- Eyebrow (status-dot pill): `Para clínicas`
-- H1: `La clínica, en un solo lugar.`
-- Sub: `Agenda, formularios, fichas y notas, fuera del chat y del calendario compartido.`
+- Eyebrow (status-dot pill): `Software para negocios con citas`. It names the category and the audience, the job AgendaPro's “El software n°1 para salones, spas y clínicas” does, without an unverifiable “n°1”.
+- H1: `Tu negocio, en un solo lugar.` Broad on purpose: clinics stay the lead story below the fold, but the promise covers any business that works with appointments.
+- Sub: `Citas, clientes, expediente, formularios y recordatorios, fuera del chat y del calendario compartido.`
 - CTAs: `Comenzar gratis` + `Ver una visita` (anchor `#recorrido`)
-- Trust line under buttons: `Plan gratuito` · `Configuración en minutos` (do not claim “sin tarjeta”)
+- Trust line under buttons: `Plan gratuito, no una prueba` · `Configuración en minutos` (do not claim “sin tarjeta”)
 - **Visual:** first screen. `min-height: calc(100svh - var(--header-h))`, content vertically centered, extra bottom padding so Problem starts on the next scroll. Split layout from 900px (copy left, product right). ProductFrame variant **`panel`** (visit panel / today’s flow), not the week grid — the cropped agenda lives in the visit, not here. `Ingreso completo` and `Nota lista` sit on the frame: readable, visible in the layout, and **not** `aria-hidden`. No perspective or `rotateY` tilt on the hero mock. On small screens, copy then a compact panel frame with the same two signals. No isometric 3D, no mascot, no stock photography. Do not restore sidebar or a 5-day week. The hero does not run a rotating visit-state sequence; that story is `#recorrido`.
 
 ### 5.2 Logo / proof strip
@@ -174,7 +174,7 @@ Problem is a dossier of three cases, not a matching 3-up card grid. Each case is
 | Sparse ficha / visits greyed / “sin historial” | Cada visita empieza de cero | Lo de la sesión pasada no está en la ficha. Vuelves a preguntar lo que ya sabías. |
 | `Sesión 6 · finalizada` + `Sin próxima` + `Plan no registrado` | La sesión termina y el hilo se corta | No hay próxima cita, ni plan a la vista, ni recordatorio. El seguimiento vive en la cabeza. |
 
-Headline: `Hoy la clínica se arma en el chat.`
+Headline: `Hoy tu negocio se arma en el chat.`
 
 ### 5.4 Cómo empezar
 
@@ -188,9 +188,20 @@ Numbered process (`ol`), id `como-empezar`. White cards on a `--color-frame` ban
 | --- | --- | --- | --- |
 | 01 | Define tu horario | Los días y horas en que atiendes. | `hours` compact, micro `availability` |
 | 02 | Da de alta tus servicios | Qué ofreces, cuánto dura y cuánto cuesta. | `services` compact |
-| 03 | Prepara el formulario de ingreso | Los datos y el motivo de consulta que quieres antes de la cita. | `intake` compact |
+| 03 | Prepara el formulario de ingreso | Los datos y el motivo de la cita que quieres saber antes de atender. | `intake` compact |
 
 Step 03 carries a quiet plan note: `Formularios de ingreso: en Equipos y Empresas.`
+
+### 5.4b Para quién
+
+After Cómo empezar, before the bento. Paper band (`section--tight`). Says that Horaya works for any business with appointments, not only physio, by showing step 02 (services) across specialties.
+
+- Label: `Para quién`
+- H2: `Funciona en cualquier negocio con citas.`
+- Lead: `Tú das de alta los servicios, su duración y el formulario de ingreso. Horaya se acomoda a tu giro, no al revés.`
+- Visual: one white list on soft shadow, styled like the product's service list. Each row: specialty name (large, light), color dot + a typical service, duration. Rows: Fisioterapia · Valoración inicial · 60 min; Odontología · Limpieza dental · 45 min; Psicología · Sesión individual · 50 min; Nutrición · Consulta de seguimiento · 30 min; Estética · Limpieza facial · 60 min; last row `Tu negocio` with an empty dashed dot and `Tus servicios, con su duración y su color`.
+- From 900px: intro left (5 parts), list right (7 parts). Below 640px the specialty name sits above its service.
+- No icons, photos or profession cards (not Koalendar's grid). One non-clinical row (Estética) is enough to show breadth. No button; the band is a bridge into the bento.
 
 ### 5.5 Product pillars
 
@@ -239,7 +250,7 @@ Do not show Zoom/Salesforce/Zapier just because Calendly does.
 
 ### 5.10 Pricing teaser
 
-Three plan cards: **Gratis**, **Equipos** (marketing name for API plan id `business`; list `$249 MXN` monthly / `$199 MXN` annual per seat; launch promo `$199 MXN / asiento / mes`, or `$149 MXN / asiento / mes` billed annually as `$1,788` — 25% off vs monthly promo / `$600` saved per seat), y **Empresas** (contact sales only — not a third API plan; includes everything in Equipos plus dedicated accompaniment as already described). A compact `Mensual / Anual` toggle appears above the cards on Home and `/precios`; Mensual is the default and Anual carries a visible `−25%` label. Both periods show the list price struck through next to the launch price, plus a `Promoción de lanzamiento` chip. Equipos shows a visible `Recomendado` pill and a solid primary CTA labeled **`Comenzar`** (never `Elegir Equipos`) on both Home and `/precios`; under that button, a visible line that the plan is chosen inside the panel (e.g. `El plan lo eliges en el panel`). Gratis CTA stays **`Comenzar gratis`**; Empresas remains a text link. Signup at the dashboard only creates an account — it cannot receive a plan from the marketing site. Beside the price actions, three quiet trust lines (each links to `/seguridad`): `Datos aislados por clínica` · `El paciente no tiene panel` · `No vendemos listas`. One handoff line under the primary signup path: the next screen is the panel at `app.horaya.mx`. Link to `Ver precios` / comparar planes; do not publish competitor comparison tables.
+Three plan cards: **Gratis**, **Equipos** (marketing name for API plan id `business`; list `$249 MXN` monthly / `$199 MXN` annual per seat; launch promo `$199 MXN / asiento / mes`, or `$149 MXN / asiento / mes` billed annually as `$1,788` — 25% off vs monthly promo / `$600` saved per seat), y **Empresas** (contact sales only — not a third API plan; includes everything in Equipos plus dedicated accompaniment as already described). A compact `Mensual / Anual` toggle appears above the cards on Home and `/precios`; Mensual is the default and Anual carries a visible `−25%` label. Both periods show the list price struck through next to the launch price, plus a `Promoción de lanzamiento` chip. Equipos shows a visible `Recomendado` pill and a solid primary CTA labeled **`Comenzar`** (never `Elegir Equipos`) on both Home and `/precios`; under that button, a visible line that the plan is chosen inside the panel (e.g. `El plan lo eliges en el panel`). Gratis CTA stays **`Comenzar gratis`**; Empresas remains a text link. Signup at the dashboard only creates an account — it cannot receive a plan from the marketing site. Beside the price actions, three quiet trust lines (each links to `/seguridad`): `Datos aislados por negocio` · `Tu cliente no tiene panel` · `No vendemos listas`. One handoff line under the primary signup path: the next screen is the panel at `app.horaya.mx`. Link to `Ver precios` / comparar planes; do not publish competitor comparison tables.
 
 ### 5.11 Testimonials
 
@@ -253,11 +264,11 @@ Draft:
 
 1. ¿Por qué usar una herramienta de gestión si ya tengo WhatsApp y Calendar?
 2. ¿Qué diferencia a Horaya de una agenda online?
-3. ¿Cómo sé si Horaya encaja con mi clínica?
-4. ¿El paciente necesita crear una cuenta?
+3. ¿Cómo sé si Horaya encaja con mi negocio?
+4. ¿Mis clientes necesitan crear una cuenta?
 5. ¿Puedo adaptar la herramienta a la forma en que trabaja mi equipo?
-6. ¿Dónde quedan los datos de mi clínica?
-7. ¿Puedo empezar sin comprometerme a pagar?
+6. ¿Dónde quedan los datos de mi negocio?
+7. ¿Hay una versión gratis o es solo una prueba? (Gratis is a plan, not a trial that expires)
 
 Answers: two to four sentences. Link `/seguridad` from the data question.
 
@@ -275,15 +286,15 @@ Right side: quiet 4-step strip — Reserva → Formulario → Sesión → Seguim
 
 Calendly `/features` shape: hero, then grouped capabilities, then CTA. Not a second homepage.
 
-**Hero:** distinct from home — H1 `Agenda, clientes y clínica, en el mismo flujo.` + `Comenzar gratis` / `Ver precios`
+**Hero:** distinct from home — H1 `Agenda, clientes y seguimiento, en el mismo flujo.` + `Comenzar gratis` / `Ver precios`
 **Hero visual:** one agenda ProductFrame under the hero copy (do not clone the homepage panel hero). It may use the same in-view ambient float as the home hero. Group mocks stay still.
 
-**Groups** (match the live dashboard, not a scheduler feature list). Odd groups sit on paper; even groups sit on `--color-frame`, with no brand wash. The index is a neutral pill (Outfit, tabular numerals, `--color-ink-mid`; `--color-frame` on paper, `--color-surface` on a frame band). Item markers are ink. Paid groups carry one quiet plan note, `En Equipos y Empresas.`, and do not repeat the plan in the intro. Titles for Agenda, Clientes, Clínica, and Formularios are inventory lines, not the home visit chapter titles.
+**Groups** (match the live dashboard, not a scheduler feature list). Odd groups sit on paper; even groups sit on `--color-frame`, with no brand wash. The index is a neutral pill (Outfit, tabular numerals, `--color-ink-mid`; `--color-frame` on paper, `--color-surface` on a frame band). Item markers are ink. Paid groups carry one quiet plan note, `En Equipos y Empresas.`, and do not repeat the plan in the intro. Titles for Agenda, Clientes, Seguimiento, and Formularios are inventory lines, not the home visit chapter titles.
 
 1. **Panel principal** — citas de hoy, estados, acciones rápidas, ingresos pendientes. Title: `Hoy, sin buscar en cinco lugares.`
 2. **Agenda** — Citas, Servicios, Horario (excepciones y zona horaria). Title: `Horario, servicios y citas, en una sola semana.` Google and Apple Calendar are not listed here.
 3. **Clientes** — perfil, fichas, visitas e historial. Title: `Cada cliente, con su historia.`
-4. **Clínica** — notas, seguimiento y continuidad (group mock: note frame highlighting **Citas**; the product sidebar has no Clínica item). Title: `Notas y seguimiento, sesión tras sesión.`
+4. **Seguimiento** (anchor `#clinica`) — notas, seguimiento y continuidad (group mock: note frame highlighting **Citas**; the product sidebar has no Seguimiento item). Title: `Notas y seguimiento, sesión tras sesión.`
 5. **Formularios** — diseñador de ingreso, marca, consentimiento y firma. Title: `Ingreso, consentimiento y firma, antes de la cita.` Plan note.
 6. **Administración** — usuarios, roles Owner/Manager/Staff, branding y configuración. Plan note.
 7. **Integraciones** — Google Calendar y Apple Calendar, únicamente lo que está vivo. Plan note.
@@ -303,11 +314,13 @@ Calendly `/pricing` shape, Koalendar scannability, our plans.
 1. H1: `Empieza gratis. Crece con tu equipo.`
 2. Billing toggle (`Mensual` by default; `Anual` shows `−25%`, the $149 MXN / month launch price, and $1,788 MXN billed per seat per year)
 3. Plan cards (audience label, price, 5–8 bullets, CTA)
-4. Feature comparison table (rows grouped: Agenda, Clientes, Clínica, Equipo). Rows **`Workflows y recordatorios`** and **`Reportes e insights con IA`**: `Incluido` on Equipos and Empresas; `—` on Gratis. Do not use `Próximamente` or future tense for those rows.
-5. FAQ (what counts as a seat, trial, invoices, what happens if you cancel)
+4. Feature comparison table (rows grouped: Agenda, Clientes, Seguimiento, Equipo). Rows **`Workflows y recordatorios`** and **`Reportes e insights con IA`**: `Incluido` on Equipos and Empresas; `—` on Gratis. Do not use `Próximamente` or future tense for those rows.
+5. FAQ (whether Gratis is a trial, what counts as a seat, whether prices include IVA, annual billing, what happens if you cancel)
 6. Closing CTA
 
 Do not add “vs Calendly / Cal.com / Koalendar.” Different category; that table would confuse the buyer.
+
+Prices are in MXN and **include IVA**. Say it once per page, in the Equipos price unit (`MXN / asiento / mes, IVA incluido`), never as “+ IVA” next to every number.
 
 Plans: Gratis, Equipos (API id `business`; list `$249` / `$199` annual; launch `$199 MXN / asiento / mes`, or `$149 MXN / asiento / mes` when billed annually), and Empresas (contact sales only). Equipos card CTA: **`Comenzar`**, plus the panel plan-choice line, the three trust lines linking to `/seguridad`, and the handoff line to the panel at `app.horaya.mx` (same rules as the homepage pricing teaser). From 860px the Equipos card stays slightly raised. It does not lift further on hover. Its light brand wash and `Recomendado` pill stay. In the comparison table the Equipos column is ink at weight 600, not brand. Row rules stay.
 
@@ -365,6 +378,10 @@ Rules:
 
 - Address the clinic owner: `tú`
 - Concrete nouns: cita, ficha, horario, inasistencia — not “sinergias”
+- Say what Horaya is: `software para negocios con citas` in the hero label; page titles name `clínicas, consultorios y negocios`. Use the search words owners in Mexico type: `expediente` in marketing headings and meta (`expediente clínico`, the NOM-004 term, where the context is clinical, e.g. `/clinicas`); `ficha` stays for the dashboard object. `recordatorios` where reminders are relevant
+- Broad copy: the visitor-facing pages say `tu negocio` and `tus clientes`, not `la clínica` and `pacientes`. Clinical words (`expediente`, `notas`) describe features, not the audience. `/clinicas` stays the clinic ad landing and keeps clinic wording
+- Horaya works for any business with appointments (fisioterapia, odontología, psicología, nutrición, estética…). Clinics are the lead story and physio the first example, not the boundary
+- Page titles carry the category: `Software de citas para clínicas, consultorios y negocios`, `Precios del software de citas`, `Agenda, expediente y recordatorios para tu negocio`
 - Short sentences. One idea per heading
 - Spanish from Spain/LatAm-neutral; match dashboard copy (`Citas`, `Clientes`, `Formularios`)
 - Never claim a feature the app does not ship

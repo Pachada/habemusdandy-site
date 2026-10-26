@@ -47,22 +47,22 @@ export const faqItems = [
   {
     question: '¿Por qué usar una herramienta de gestión si ya tengo WhatsApp y Calendar?',
     answer:
-      'WhatsApp sirve para conversar y Calendar para bloquear tiempo, pero ninguno conserva juntos el ingreso, la ficha, las notas y el seguimiento. Horaya conecta ese flujo para que el equipo deje de reconstruir la historia en cada visita.',
+      'WhatsApp sirve para conversar y Calendar para bloquear tiempo, pero ninguno conserva juntos el ingreso, el expediente, las notas y el seguimiento. Horaya conecta ese flujo para que el equipo deje de reconstruir la historia en cada visita.',
   },
   {
     question: '¿Qué diferencia a Horaya de una agenda online?',
     answer:
-      'No empieza y termina en reservar una hora. Está pensado para clínicas: disponibilidad, servicios, ingreso, ficha, notas y continuidad viven en el mismo flujo. Es una herramienta de operación clínica, no solo un calendario con una página de reservas.',
+      'No empieza y termina en reservar una hora. Está pensado para negocios que trabajan con citas: disponibilidad, servicios, ingreso, ficha, notas y continuidad viven en el mismo flujo. Es una herramienta de operación, no solo un calendario con una página de reservas.',
   },
   {
-    question: '¿Cómo sé si Horaya encaja con mi clínica?',
+    question: '¿Cómo sé si Horaya encaja con mi negocio?',
     answer:
-      'Encaja si tu día gira alrededor de citas, servicios, pacientes e historial. Empezamos con fisioterapia, pero la lógica también sirve para consultas y prácticas que necesitan ordenar su atención sin perder contexto.',
+      'Encaja si tu día gira alrededor de citas, servicios, clientes e historial. Funciona en fisioterapia, odontología, psicología, nutrición, estética y cualquier negocio que trabaje con citas: tú defines los servicios, su duración y el formulario de ingreso.',
   },
   {
-    question: '¿El paciente necesita crear una cuenta?',
+    question: '¿Mis clientes necesitan crear una cuenta?',
     answer:
-      'No. El equipo trabaja en el panel. El paciente solo abre el enlace de ingreso cuando tú se lo envías; no ve la agenda ni las notas clínicas.',
+      'No. El equipo trabaja en el panel. Tu cliente solo abre el enlace de ingreso cuando tú se lo envías; no ve la agenda ni las notas.',
   },
   {
     question: '¿Puedo adaptar la herramienta a la forma en que trabaja mi equipo?',
@@ -70,16 +70,16 @@ export const faqItems = [
       'Sí. Configuras servicios, duración, precios, horarios, excepciones y formularios de ingreso. También defines qué puede hacer cada persona según su rol: Owner, Manager o Staff.',
   },
   {
-    question: '¿Dónde quedan los datos de mi clínica?',
+    question: '¿Dónde quedan los datos de mi negocio?',
     answer:
-      'Cada clínica es un espacio aislado. Solo el personal con el rol adecuado ve fichas y notas, y los pacientes no entran al panel. Consulta la página de Seguridad para conocer el enfoque de acceso y privacidad.',
+      'Cada negocio es un espacio aislado. Solo el personal con el rol adecuado ve fichas y notas, y tus clientes no entran al panel. Consulta la página de Seguridad para conocer el enfoque de acceso y privacidad.',
     answerHtml:
-      'Cada clínica es un espacio aislado. Solo el personal con el rol adecuado ve fichas y notas, y los pacientes no entran al panel. Consulta la página de <a href="/seguridad">Seguridad</a> para conocer el enfoque de acceso y privacidad.',
+      'Cada negocio es un espacio aislado. Solo el personal con el rol adecuado ve fichas y notas, y tus clientes no entran al panel. Consulta la página de <a href="/seguridad">Seguridad</a> para conocer el enfoque de acceso y privacidad.',
   },
   {
-    question: '¿Puedo empezar sin comprometerme a pagar?',
+    question: '¿Hay una versión gratis o es solo una prueba?',
     answer:
-      'Sí. El plan Gratis permite comenzar con la operación esencial de la clínica. Cuando necesites más personas, formularios, automatizaciones o reportes, puedes pasar a Equipos.',
+      'Hay un plan Gratis, no una prueba que vence. Cubre la operación esencial de una persona: agenda, citas, servicios, clientes, expediente y notas de cada visita. Cuando necesites más personas, formularios, recordatorios o reportes, pasas a Equipos.',
   },
 ] as const
 
@@ -87,7 +87,12 @@ export const pricingFaqItems = [
   {
     question: '¿Qué cambia realmente al pasar de Gratis a Equipos?',
     answer:
-      'Gratis cubre la operación esencial: citas, clientes, fichas y notas. Equipos suma roles, formularios, automatizaciones, reportes e integraciones para que el equipo trabaje sobre el mismo contexto.',
+      'Gratis cubre la operación esencial: citas, clientes, expediente y notas de cada visita. Equipos suma roles, formularios, automatizaciones, reportes e integraciones para que el equipo trabaje sobre el mismo contexto.',
+  },
+  {
+    question: '¿El plan Gratis es una prueba de unos días?',
+    answer:
+      'No. Gratis es un plan, no una prueba con fecha de vencimiento. Incluye agenda, citas, servicios, clientes, expediente y notas de cada visita para una persona. Pasas a Equipos cuando sumas personas a tu equipo o quieres formularios, recordatorios, reportes e integraciones.',
   },
   {
     question: '¿Qué cuenta como un asiento?',
@@ -100,6 +105,11 @@ export const pricingFaqItems = [
       'Si trabajas solo y necesitas ordenar citas, clientes y notas, Gratis puede ser suficiente. Equipos tiene sentido cuando colaboran varias personas o quieres formularios, roles, automatizaciones, reportes e integraciones en la operación diaria.',
   },
   {
+    question: '¿Los precios incluyen IVA?',
+    answer:
+      'Sí. Todos los precios publicados están en pesos mexicanos e incluyen IVA. Lo que ves en la tarjeta es lo que pagas por asiento.',
+  },
+  {
     question: '¿Cómo funciona el pago anual?',
     answer:
       `Si eliges anual, Equipos queda en ${formatMxn(equiposPricing.annualPromoPerMonth)} ${equiposPricing.currency} por asiento al mes (precio de lista ${formatMxn(equiposPricing.annualListPerMonth)}), facturados como ${formatMxn(equiposPricing.annualBilled)} ${equiposPricing.currency} al año. Frente a pagar ${formatMxn(equiposPricing.monthlyPromo)} al mes, ahorras ${formatMxn(equiposPricing.annualSavings)} al año por cada asiento — un ${equiposPricing.annualDiscountPct}%.`,
@@ -107,13 +117,13 @@ export const pricingFaqItems = [
   {
     question: '¿Qué diferencia a Horaya de una agenda genérica?',
     answer:
-      'Horaya conecta agenda, ingreso, ficha y notas clínicas en un mismo flujo. El valor no está solo en encontrar un hueco: está en que el contexto de la visita llegue preparado y permanezca para la siguiente.',
+      'Horaya conecta agenda, ingreso, ficha y notas en un mismo flujo. El valor no está solo en encontrar un hueco: está en que el contexto de la visita llegue preparado y permanezca para la siguiente.',
   },
   {
     question: '¿Qué pasa con mis datos si dejo de usarlo?',
     answer:
-      'Tus datos siguen siendo de tu clínica. Consulta Políticas de privacidad y Términos y condiciones para el tratamiento, la conservación y las condiciones del servicio.',
+      'Tus datos siguen siendo de tu negocio. Consulta Políticas de privacidad y Términos y condiciones para el tratamiento, la conservación y las condiciones del servicio.',
     answerHtml:
-      'Tus datos siguen siendo de tu clínica. Consulta <a href="/privacidad">Políticas de privacidad</a> y <a href="/terminos">Términos y condiciones</a> para el tratamiento, la conservación y las condiciones del servicio.',
+      'Tus datos siguen siendo de tu negocio. Consulta <a href="/privacidad">Políticas de privacidad</a> y <a href="/terminos">Términos y condiciones</a> para el tratamiento, la conservación y las condiciones del servicio.',
   },
 ] as const

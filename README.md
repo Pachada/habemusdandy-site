@@ -33,13 +33,18 @@ Background dev (see `AGENTS.md`): `astro dev --background`.
 ## Deploy
 
 Static hosting is S3 + CloudFront in the Horaya account (`651694720404`),
-domain `horaya.mx`, deployed with GitHub Actions over OIDC. See [`infra/README.md`](infra/README.md).
+domain `horaya.mx`, deployed with GitHub Actions over OIDC. Releases are semver
+tags: `main` deploys staging, and production deploys only from a `vX.Y.Z` tag.
+See [`docs/releases.md`](docs/releases.md) and [`infra/README.md`](infra/README.md).
 
 | Workflow | When |
 | --- | --- |
-| `ci.yml` | Pull requests |
-| `deploy-prod.yml` | Push to `main` |
+| `ci.yml` | Pull requests; pushes to `main` and `release/vX.Y` (then deploys staging) |
+| `release.yml` | Manual: tags the next version and dispatches the production deploy |
+| `deploy.yml` | Staging (from CI), production (from a tag), rollback (dispatch on an older tag) |
 | `deploy-infra.yml` | Manual CDK |
+
+The build version is in `<meta name="app-version">` on every page and in `/version.json`.
 
 ## Related repos
 

@@ -1,0 +1,162 @@
+# Cuts a release: tags the branch HEAD as the next vX.Y.Z, publishes a GitHub Release with
+# generated notes, and dispatches the production deploy for that tag.
+#
+# Run from main for regular releases, or from release/vX.Y to ship a patch on that line only.
+# HEAD must have a successful CI push run on the same branch, so it has already been
+# tested and deployed to staging.
+#
+#   gh workflow run release.yml --ref main -f bump=minor
+#   gh workflow run release.yml --ref main -f version=v1.0.0   # first launch
+#   gh workflow run release.yml --ref release/v1.4             # hotfix v1.4.x
+#
+# A tag pushed with GITHUB_TOKEN does not trigger deploy.yml's push trigger, so the deploy is
+# dispatched explicitly (workflow_dispatch is exempt). To resume after a partial failure,
+# re-run with version=vX.Y.Z. A tag already on HEAD is reused, a missing GitHub Release is
+# created, and the deploy is dispatched again. A bump run on an already-released HEAD fails.
+# This file must be on the default branch (main) before it can be run. See docs/releases.md.
+
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: 'Semver part to bump (release/* branches only allow patch)'
+        type: choice
+        required: true
+        default: patch
+        options:
+          - patch
+          - minor
+          - major
+      version:
+        description: 'Optional explicit version (e.g. v1.0.0); overrides bump'
+        type: string
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Tag, publish, and deploy production
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # push the tag and create the GitHub Release
+      actions: write # read CI runs and dispatch deploy.yml
+    steps:
+      - name: Check branch
+        env:
+          REF: ${{ github.ref }}
+          BRANCH: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          case "$REF" in
+            refs/heads/main) ;;
+            refs/heads/release/v*)
+              if [[ ! "$BRANCH" =~ ^release/v[0-9]+\.[0-9]+$ ]]; then
+                echo "::error::release branches must be named release/vX.Y (got $BRANCH)"
+                exit 1
+              fi
+              ;;
+            *)
+              echo "::error::Release must run on main or release/vX.Y (got $REF)"
+              exit 1
+              ;;
+          esac
+
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Verify CI succeeded for HEAD
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BRANCH: ${{ github.ref_name }}
+          COMMIT_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          # Only a push run on this branch includes the staging deploy.
+          run="$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/ci.yml/runs?head_sha=$COMMIT_SHA&branch=$BRANCH&event=push&per_page=1" \
+            --jq '.workflow_runs[0] | select(.) | "\(.status) \(.conclusion) \(.html_url)"')"
+          if [ -z "$run" ]; then
+            echo "::error::No CI push run found for $COMMIT_SHA on $BRANCH"
+            exit 1
+          fi
+          read -r status conclusion url <<<"$run"
+          if [ "$status" != "completed" ] || [ "$conclusion" != "success" ]; then
+            echo "::error::CI for $COMMIT_SHA is $status/$conclusion: $url"
+            exit 1
+          fi
+          echo "CI succeeded: $url"
+
+      - name: Compute version
+        id: version
+        env:
+          BRANCH: ${{ github.ref_name }}
+          BUMP: ${{ inputs.bump }}
+          INPUT_VERSION: ${{ inputs.version }}
+          COMMIT_SHA: ${{ github.sha }}
+        run: bash scripts/release/compute-version.sh
+
+      - name: Create tag
+        if: steps.version.outputs.tag_exists != 'true'
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+          COMMIT_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -a "$VERSION" -m "Release $VERSION" "$COMMIT_SHA"
+          git push origin "refs/tags/$VERSION"
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+          PREVIOUS: ${{ steps.version.outputs.previous }}
+          LATEST: ${{ steps.version.outputs.latest }}
+        run: |
+          set -euo pipefail
+          if gh release view "$VERSION" >/dev/null 2>&1; then
+            echo "GitHub Release $VERSION already exists; skipping."
+            exit 0
+          fi
+          args=(--verify-tag --title "$VERSION" --generate-notes "--latest=$LATEST")
+          if [ -n "$PREVIOUS" ]; then
+            args+=(--notes-start-tag "$PREVIOUS")
+          fi
+          gh release create "$VERSION" "${args[@]}"
+
+      - name: Dispatch production deploy
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        # Full ref, so a branch with the same name can never be picked.
+        run: gh workflow run deploy.yml --ref "refs/tags/$VERSION" -f environment=production
+
+      - name: Summary
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+          PREVIOUS: ${{ steps.version.outputs.previous }}
+          BRANCH: ${{ github.ref_name }}
+          COMMIT_SHA: ${{ github.sha }}
+        run: |
+          {
+            echo "## Release $VERSION"
+            echo ""
+            echo "| Field | Value |"
+            echo "|---|---|"
+            echo "| Branch | \`$BRANCH\` |"
+            echo "| Commit | \`$COMMIT_SHA\` |"
+            echo "| Previous tag | \`${PREVIOUS:-none}\` |"
+            echo "| Release | $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/releases/tag/$VERSION |"
+            echo "| Production deploy | dispatched: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/workflows/deploy.yml |"
+          } >> "$GITHUB_STEP_SUMMARY"

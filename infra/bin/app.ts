@@ -11,7 +11,7 @@ const domainName = app.node.tryGetContext('domainName') as string
 const hostedZoneId = app.node.tryGetContext('hostedZoneId') as string
 const githubOrg = app.node.tryGetContext('githubOrg') as string
 const githubRepo = app.node.tryGetContext('githubRepo') as string
-const githubSubject = app.node.tryGetContext('githubSubject') as string
+const githubSubjectPrefix = app.node.tryGetContext('githubSubjectPrefix') as string
 const configuredOidcArn = app.node.tryGetContext('githubOidcProviderArn') as
   | string
   | undefined
@@ -24,7 +24,7 @@ for (const [key, value] of Object.entries({
   hostedZoneId,
   githubOrg,
   githubRepo,
-  githubSubject,
+  githubSubjectPrefix,
 })) {
   if (isPlaceholder(value)) {
     throw new Error(
@@ -38,16 +38,29 @@ const githubOidcProviderArn =
     ? configuredOidcArn
     : `arn:aws:iam::${account}:oidc-provider/token.actions.githubusercontent.com`
 
-new HorayaSiteStack(app, 'HorayaSiteStack', {
-  env: {
-    account,
-    region,
-  },
-  domainName,
-  hostedZoneId,
+const shared = {
+  env: { account, region },
   githubOrg,
   githubRepo,
-  githubSubject,
+  githubSubjectPrefix,
   githubOidcProviderArn,
+}
+
+new HorayaSiteStack(app, 'HorayaSiteStack', {
+  ...shared,
+  deployEnvironment: 'production',
+  domainName,
+  hostedZoneId,
+  // Production deploys only from release tags. Restrict the "production" GitHub environment to
+  // v* tags as well (infra/README.md, one-time cutover step 4).
+  oidcWorkflowRefs: ['refs/tags/v*'],
   description: 'Horaya marketing site — production S3 + CloudFront',
+})
+
+new HorayaSiteStack(app, 'HorayaSiteStagingStack', {
+  ...shared,
+  deployEnvironment: 'staging',
+  // Trunk branches, plus tags so a release can be redeployed to staging.
+  oidcWorkflowRefs: ['refs/heads/main', 'refs/heads/release/v*', 'refs/tags/v*'],
+  description: 'Horaya marketing site — staging S3 + CloudFront (CloudFront default domain)',
 })

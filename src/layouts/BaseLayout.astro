@@ -5,6 +5,7 @@ import Footer from '../components/Footer.astro'
 import CookieNotice from '../components/CookieNotice.astro'
 import PageLoader from '../components/PageLoader.astro'
 import { siteName } from '../config/site'
+import { appVersion } from '../config/version'
 
 interface Props {
   title: string
@@ -22,6 +23,7 @@ const pageTitle = title.includes(siteName) ? title : `${title} · ${siteName}`
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
+    <meta name="app-version" content={appVersion} />
     <meta name="description" content={description} />
     {robots && <meta name="robots" content={robots} />}
     <script is:inline>

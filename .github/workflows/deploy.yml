@@ -1,0 +1,254 @@
+name: Deploy
+
+# Builds and publishes the marketing site to staging or production. See docs/releases.md.
+#
+# - Staging: called by ci.yml after every trunk push, or dispatched on main, release/vX.Y
+#   or a vX.Y.Z tag (the refs the staging deploy role trusts).
+#   Builds with the staging config and publishes sha-<short sha> (or the tag) to live/.
+# - Production: only from a vX.Y.Z tag. Astro bakes PUBLIC_* into the HTML at build time,
+#   so the tagged commit is built once with the prod config into the immutable prefix
+#   releases/vX.Y.Z/. That prefix is then copied to live/, which CloudFront serves.
+#   If releases/vX.Y.Z/ is already complete, nothing is rebuilt, so a rollback is
+#   just a dispatch on an older tag:
+#     gh workflow run deploy.yml --ref v1.2.3 -f environment=production
+#   That path needs only the bucket, the tag and AWS. No CI runs, npm or artifacts.
+#
+# release.yml dispatches this workflow for each new tag: a tag pushed with GITHUB_TOKEN
+# does not fire the push trigger. Like any dispatched workflow, this file must exist on
+# main before it can be run.
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: 'staging or production'
+        type: string
+        required: true
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment (production requires a vX.Y.Z tag ref)'
+        type: choice
+        required: true
+        default: staging
+        options:
+          - staging
+          - production
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy ${{ inputs.environment || 'production' }}
+    runs-on: ubuntu-latest
+    # A tag push has no inputs, so it deploys production.
+    environment: ${{ inputs.environment || 'production' }}
+    concurrency:
+      group: deploy-${{ inputs.environment || 'production' }}
+      cancel-in-progress: false
+    permissions:
+      id-token: write # OIDC role for S3 and CloudFront
+      contents: read
+      actions: read # check CI for a new prod build
+    env:
+      ENVIRONMENT: ${{ inputs.environment || 'production' }}
+      # STAGING_* or PROD_*, picked by name so an empty secret never falls through to the other one.
+      BUCKET: ${{ secrets[format('{0}_S3_BUCKET', (inputs.environment || 'production') == 'staging' && 'STAGING' || 'PROD')] }}
+      DISTRIBUTION_ID: ${{ secrets[format('{0}_CF_DISTRIBUTION_ID', (inputs.environment || 'production') == 'staging' && 'STAGING' || 'PROD')] }}
+      # Staging has no custom domain: SITE_URL is its CloudFront URL, set in the staging environment.
+      SITE_URL: ${{ vars.SITE_URL || ((inputs.environment || 'production') == 'production' && 'https://horaya.mx' || '') }}
+      COMMIT_SHA: ${{ github.sha }}
+    steps:
+      - name: Resolve version
+        id: version
+        env:
+          REF_TYPE: ${{ github.ref_type }}
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          if [ -z "$BUCKET" ] || [ -z "$DISTRIBUTION_ID" ] || [ -z "$SITE_URL" ]; then
+            echo "::error::The $ENVIRONMENT environment is missing its S3 bucket, CloudFront distribution or SITE_URL"
+            exit 1
+          fi
+          if [ "$REF_TYPE" = "tag" ]; then
+            if [[ ! "$REF_NAME" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+              echo "::error::Tag $REF_NAME is not a vX.Y.Z release tag"
+              exit 1
+            fi
+            version="$REF_NAME"
+          elif [ "$ENVIRONMENT" = "production" ]; then
+            echo "::error::Production deploys only from a vX.Y.Z tag (got $REF_TYPE $REF_NAME). Run the Release workflow, or dispatch on an existing tag to roll back."
+            exit 1
+          else
+            version="sha-${COMMIT_SHA::7}"
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "Deploying $version ($COMMIT_SHA) to $ENVIRONMENT"
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: us-east-1
+
+      - name: Check for an existing release
+        id: release
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+          reuse=false
+          if [ "$ENVIRONMENT" = "production" ]; then
+            prefix="releases/$VERSION"
+            # version.json is uploaded last, so its presence marks a complete release.
+            marker="$(aws s3api list-objects-v2 --bucket "$BUCKET" --prefix "$prefix/version.json" --query 'KeyCount' --output text)"
+            if [ "$marker" != "0" ]; then
+              reuse=true
+              echo "$prefix/ is complete; publishing it without rebuilding."
+            else
+              echo "$prefix/ is missing or incomplete; building it."
+            fi
+            echo "source=s3://$BUCKET/$prefix" >> "$GITHUB_OUTPUT"
+          else
+            echo "source=dist" >> "$GITHUB_OUTPUT"
+          fi
+          echo "reuse=$reuse" >> "$GITHUB_OUTPUT"
+
+      - name: Verify CI succeeded for the commit
+        if: env.ENVIRONMENT == 'production' && steps.release.outputs.reuse != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          count="$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/ci.yml/runs?head_sha=$COMMIT_SHA&event=push&status=success&per_page=1" --jq '.total_count')"
+          if [ "$count" = "0" ]; then
+            echo "::error::No successful CI push run for $COMMIT_SHA. Release only commits that passed CI on a trunk branch."
+            exit 1
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.release.outputs.reuse != 'true'
+
+      - uses: actions/setup-node@v4
+        if: steps.release.outputs.reuse != 'true'
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        if: steps.release.outputs.reuse != 'true'
+        run: npm ci
+
+      - name: Build
+        if: steps.release.outputs.reuse != 'true'
+        run: npm run build
+        env:
+          # Public build-time config only; the site has no secrets.
+          PUBLIC_APP_ORIGIN: ${{ vars.PUBLIC_APP_ORIGIN || (env.ENVIRONMENT == 'staging' && 'https://staging-app.horaya.mx' || 'https://app.horaya.mx') }}
+          PUBLIC_APP_VERSION: ${{ steps.version.outputs.version }}
+          PUBLIC_APP_COMMIT: ${{ github.sha }}
+
+      - name: Check build version
+        if: steps.release.outputs.reuse != 'true'
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+          jq -e --arg v "$VERSION" --arg c "$COMMIT_SHA" '.version == $v and .commit == $c' dist/version.json
+          grep -q "<meta name=\"app-version\" content=\"$VERSION\">" dist/index.html
+          test -f dist/privacidad/index.html
+          test -f dist/terminos/index.html
+
+      - name: Upload release (immutable)
+        if: env.ENVIRONMENT == 'production' && steps.release.outputs.reuse != 'true'
+        env:
+          SOURCE: ${{ steps.release.outputs.source }}
+        run: |
+          set -euo pipefail
+          # An incomplete prefix (no version.json) never went live, so it is safe to overwrite.
+          aws s3 sync dist/_astro/ "$SOURCE/_astro/" --cache-control "public,max-age=31536000,immutable"
+          aws s3 cp dist/ "$SOURCE/" --recursive --exclude '_astro/*' --exclude version.json --cache-control "no-cache"
+          # Last: marks the release complete.
+          aws s3 cp dist/version.json "$SOURCE/version.json" --cache-control "no-cache"
+
+      - name: Publish to live/
+        env:
+          SOURCE: ${{ steps.release.outputs.source }}
+        run: |
+          set -euo pipefail
+          live="s3://$BUCKET/live"
+          # S3-to-S3 copies keep the Cache-Control set on upload. Local uploads set it here.
+          asset_cache=() other_cache=()
+          if [ "$SOURCE" = "dist" ]; then
+            asset_cache=(--cache-control "public,max-age=31536000,immutable")
+            other_cache=(--cache-control "no-cache")
+          fi
+          # Hashed assets first, never deleted: open pages on the previous version still load theirs.
+          aws s3 sync "$SOURCE/_astro/" "$live/_astro/" "${asset_cache[@]}"
+          # Then the pages. cp always copies, so a rollback to older files cannot be skipped.
+          aws s3 cp "$SOURCE/" "$live/" --recursive --exclude '_astro/*' "${other_cache[@]}"
+          # Finally drop pages this version does not have (everything else now matches the source).
+          aws s3 sync "$SOURCE/" "$live/" --delete --exclude '_astro/*' "${other_cache[@]}"
+
+      - name: Invalidate CloudFront
+        run: |
+          set -euo pipefail
+          id="$(aws cloudfront create-invalidation --distribution-id "$DISTRIBUTION_ID" --paths '/*' --query 'Invalidation.Id' --output text)"
+          echo "Waiting for invalidation $id"
+          aws cloudfront wait invalidation-completed --distribution-id "$DISTRIBUTION_ID" --id "$id"
+
+      - name: Smoke check
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+          ok=false
+          for attempt in $(seq 1 10); do
+            body="$(curl -fsS "$SITE_URL/version.json" || true)"
+            # Fetch the page before grepping: piping curl into grep -q fails with EPIPE under pipefail.
+            page="$(curl -fsS "$SITE_URL/" || true)"
+            if jq -e --arg v "$VERSION" --arg c "$COMMIT_SHA" '.version == $v and .commit == $c' <<<"$body" >/dev/null 2>&1 &&
+              grep -qF "<meta name=\"app-version\" content=\"$VERSION\">" <<<"$page"; then
+              ok=true
+              break
+            fi
+            echo "Attempt $attempt: $SITE_URL/version.json returned ${body:-nothing}"
+            sleep 6
+          done
+          if [ "$ok" != true ]; then
+            echo "::error::$SITE_URL does not serve $VERSION"
+            exit 1
+          fi
+          echo "$SITE_URL serves $VERSION ($COMMIT_SHA)"
+          # Stripe and Google OAuth verification link to these pages; they must stay up.
+          for path in /privacidad /terminos; do
+            code="$(curl -sS -o /dev/null -w '%{http_code}' "$SITE_URL$path")"
+            if [ "$code" != "200" ]; then
+              echo "::error::$SITE_URL$path returned $code, expected 200"
+              exit 1
+            fi
+            echo "$SITE_URL$path: 200"
+          done
+
+      - name: Summary
+        if: always()
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+          REUSED: ${{ steps.release.outputs.reuse }}
+          STATUS: ${{ job.status }}
+        run: |
+          {
+            echo "## Deploy ${VERSION:-unknown} to $ENVIRONMENT: $STATUS"
+            echo ""
+            echo "| Field | Value |"
+            echo "|---|---|"
+            echo "| Version | \`${VERSION:-unknown}\` |"
+            echo "| Commit | \`$COMMIT_SHA\` |"
+            echo "| Ref | \`$GITHUB_REF\` |"
+            if [ "$ENVIRONMENT" = "production" ]; then
+              echo "| Release prefix | \`releases/${VERSION:-unknown}/\` (reused: ${REUSED:-false}) |"
+            fi
+            echo "| Site | ${SITE_URL:-unset} ([version.json](${SITE_URL:-}/version.json)) |"
+          } >> "$GITHUB_STEP_SUMMARY"

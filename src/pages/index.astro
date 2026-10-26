@@ -1149,11 +1149,14 @@ const capabilityTiles = [
     gap: clamp(1.25rem, 2vw, 1.75rem);
   }
 
+  /* Each tile spans two rows of the tiles grid, so scenes and copy line up across a row. */
   .capability-tile {
     position: relative;
     display: grid;
+    grid-row: span 2;
     grid-template-columns: 1fr;
-    align-content: start;
+    grid-template-rows: subgrid;
+    row-gap: 0;
     box-shadow:
       0 2px 8px rgba(17, 25, 39, 0.045),
       0 18px 44px rgba(17, 25, 39, 0.075);
@@ -1162,7 +1165,7 @@ const capabilityTiles = [
   .capability-tile__visual {
     display: grid;
     align-items: stretch;
-    height: 11.5rem;
+    min-height: 11.5rem;
     padding: var(--space-3);
     background: var(--color-frame);
   }
@@ -1423,11 +1426,6 @@ const capabilityTiles = [
   @media (min-width: 900px) {
     .capability-bento__panel {
       grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-    }
-
-    .capability-bento__visual {
-      height: 20rem;
-      min-height: 20rem;
     }
 
     .capability-bento__copy {

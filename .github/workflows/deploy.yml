@@ -2,7 +2,8 @@ name: Deploy
 
 # Builds and publishes the marketing site to staging or production. See docs/releases.md.
 #
-# - Staging: called by ci.yml after every trunk push, or dispatched on any branch or tag.
+# - Staging: called by ci.yml after every trunk push, or dispatched on main, release/vX.Y
+#   or a vX.Y.Z tag (the refs the staging deploy role trusts).
 #   Builds with the staging config and publishes sha-<short sha> (or the tag) to live/.
 # - Production: only from a vX.Y.Z tag. Astro bakes PUBLIC_* into the HTML at build time,
 #   so the tagged commit is built once with the prod config into the immutable prefix
@@ -206,8 +207,10 @@ jobs:
           ok=false
           for attempt in $(seq 1 10); do
             body="$(curl -fsS "$SITE_URL/version.json" || true)"
+            # Fetch the page before grepping: piping curl into grep -q fails with EPIPE under pipefail.
+            page="$(curl -fsS "$SITE_URL/" || true)"
             if jq -e --arg v "$VERSION" --arg c "$COMMIT_SHA" '.version == $v and .commit == $c' <<<"$body" >/dev/null 2>&1 &&
-              curl -fsS "$SITE_URL/" | grep -q "<meta name=\"app-version\" content=\"$VERSION\">"; then
+              grep -qF "<meta name=\"app-version\" content=\"$VERSION\">" <<<"$page"; then
               ok=true
               break
             fi

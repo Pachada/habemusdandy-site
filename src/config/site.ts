@@ -47,7 +47,7 @@ export const faqItems = [
   {
     question: '¿Por qué usar una herramienta de gestión si ya tengo WhatsApp y Calendar?',
     answer:
-      'WhatsApp sirve para conversar y Calendar para bloquear tiempo, pero ninguno conserva juntos el ingreso, el expediente clínico, las notas y el seguimiento. Horaya conecta ese flujo para que el equipo deje de reconstruir la historia en cada visita.',
+      'WhatsApp sirve para conversar y Calendar para bloquear tiempo, pero ninguno conserva juntos el ingreso, el expediente, las notas y el seguimiento. Horaya conecta ese flujo para que el equipo deje de reconstruir la historia en cada visita.',
   },
   {
     question: '¿Qué diferencia a Horaya de una agenda online?',

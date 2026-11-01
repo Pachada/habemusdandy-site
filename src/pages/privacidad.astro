@@ -4,7 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro'
 const title = 'Políticas de privacidad'
 const description =
   'Cómo trata Horaya los datos en el sitio de marketing y en el producto para clínicas.'
-const updated = '25 de octubre de 2026'
+const updated = '31 de octubre de 2026'
 ---
 
 <BaseLayout title={title} description={description}>
@@ -117,16 +117,23 @@ const updated = '25 de octubre de 2026'
           <ul>
             <li>
               Solo usamos los datos de Google para las funciones descritas arriba, que son las que
-              ves dentro del producto.
+              ves dentro del producto, y para el envío de tu nombre que se explica en esta lista.
             </li>
             <li>
               No vendemos datos de Google. No los usamos para publicidad, para crear perfiles ni
               para entrenar modelos de inteligencia artificial o aprendizaje automático.
             </li>
             <li>
-              No los compartimos con terceros. La única excepción son los proveedores de
-              infraestructura que alojan el servicio, cuando sea necesario para operarlo, cuando la
-              ley lo exija o como parte de una fusión o adquisición con aviso previo.
+              No los compartimos con terceros. Las excepciones son el envío de tu nombre que se
+              explica en esta lista y los proveedores de infraestructura que alojan el servicio,
+              cuando sea necesario para operarlo, cuando la ley lo exija o como parte de una fusión
+              o adquisición con aviso previo.
+            </li>
+            <li>
+              Si tu nombre en Horaya viene de tu cuenta de Google y apareces como profesional en
+              Reportes, ese nombre se envía a Anthropic cuando un Owner o Manager genera un
+              análisis, como se describe en
+              <a href="#analisis-ia">Análisis con inteligencia artificial en Reportes</a>.
             </li>
             <li>
               Nadie de nuestro equipo lee esos datos, salvo que nos des permiso para una solicitud
@@ -154,6 +161,86 @@ const updated = '25 de octubre de 2026'
               >Política de Datos de Usuario de los Servicios de API de Google</a
             >, incluidos los requisitos de Uso Limitado.
           </p>
+        </section>
+
+        <section id="analisis-ia">
+          <h2>Análisis con inteligencia artificial en Reportes</h2>
+          <p>
+            Reportes incluye una función opcional que usa inteligencia artificial para generar
+            observaciones sobre la operación del negocio. No es un chat: la función revisa los datos
+            que se listan abajo y entrega un reporte para que lo lea una persona. Esta sección
+            explica cuándo corre, qué datos se envían, quién los procesa y cómo evitarla.
+          </p>
+          <p><strong>Cuándo corre y cómo evitarla.</strong></p>
+          <ul>
+            <li>
+              Solo corre cuando un Owner o Manager de una organización con plan de pago o en prueba
+              presiona el botón de generar análisis. Abrir Reportes no envía nada.
+            </li>
+            <li>
+              Usar la función es voluntario. Para evitarla, no generes el análisis.
+            </li>
+          </ul>
+          <p><strong>Quién procesa los datos.</strong></p>
+          <p>
+            El proveedor es Anthropic, PBC, en Estados Unidos, que procesa los datos con su modelo
+            Claude a través de su API.
+          </p>
+          <p><strong>Qué enviamos al proveedor.</strong></p>
+          <ul>
+            <li>Periodo del reporte, periodo de comparación y zona horaria.</li>
+            <li>Totales agregados de citas.</li>
+            <li>Nombres de servicios, con sus citas e ingresos estimados.</li>
+            <li>
+              Nombres de los profesionales o del personal, con sus citas, minutos y ocupación.
+            </li>
+            <li>Conteos agregados de clientes y canales de adquisición.</li>
+          </ul>
+          <p><strong>Qué no enviamos.</strong></p>
+          <p>
+            No enviamos nombres de pacientes o clientes, datos de contacto, expedientes, notas,
+            identificadores internos ni contenido de formularios.
+          </p>
+          <p>
+            Los nombres de servicios son texto libre que escribe cada negocio y se envían como
+            están escritos. Si un nombre de servicio incluye el nombre de un paciente u otro dato
+            personal, ese dato llegará al proveedor. Evita escribir datos personales en los nombres
+            de servicios.
+          </p>
+          <p><strong>Finalidad y resultado.</strong></p>
+          <ul>
+            <li>La finalidad es generar observaciones sobre la operación del negocio.</li>
+            <li>
+              El resultado es orientativo, puede contener errores y no es consejo médico, legal ni
+              financiero.
+            </li>
+            <li>No se toman decisiones automatizadas sobre personas.</li>
+            <li>
+              El resultado se guarda hasta 90 días en la infraestructura de Horaya para mostrarlo de
+              nuevo.
+            </li>
+          </ul>
+          <p><strong>Conservación y uso por parte del proveedor.</strong></p>
+          <p>
+            Según sus términos comerciales, Anthropic no puede entrenar modelos con estos datos.
+            Elimina lo que recibe y lo que genera dentro de 30 días, salvo que deba conservarlo por
+            ley o para hacer cumplir su política de uso. Si sus sistemas automáticos marcan un
+            contenido por una posible infracción, puede conservarlo hasta 2 años y conservar las
+            puntuaciones de esa clasificación hasta 7 años.
+          </p>
+          <p><strong>Fundamento legal y personal.</strong></p>
+          <ul>
+            <li>
+              Este tratamiento se basa en el consentimiento de la persona titular previsto en el
+              artículo 7 de la LFPDPPP, que puede ser tácito cuando se pone a su disposición este
+              aviso y no manifiesta su oposición.
+            </li>
+            <li>
+              Las personas cuyos nombres se envían pueden revocar su consentimiento u oponerse a
+              este tratamiento escribiendo a <a href="mailto:hola@horaya.mx">hola@horaya.mx</a>,
+              como se indica en Derechos (ARCO).
+            </li>
+          </ul>
         </section>
 
         <section>
@@ -203,8 +290,31 @@ const updated = '25 de octubre de 2026'
             Para operar el sitio y el producto usamos proveedores de infraestructura (por ejemplo,
             alojamiento en Amazon Web Services). Si conectas Google Calendar, Google recibe los
             datos de las citas que sincronizamos en tu cuenta, como se describe en
-            <a href="#google">Datos de usuario de Google</a>. Solo reciben lo necesario para prestar
-            ese servicio y no los usamos para vender datos de pacientes.
+            <a href="#google">Datos de usuario de Google</a>. Si un Owner o Manager genera un
+            análisis en Reportes, Anthropic, PBC, en Estados Unidos, recibe los datos descritos en
+            <a href="#analisis-ia">Análisis con inteligencia artificial en Reportes</a>, con la
+            finalidad de generar observaciones sobre la operación del negocio. Solo reciben lo
+            necesario para prestar ese servicio y no los usamos para vender datos de pacientes.
+          </p>
+          <p>
+            Anthropic actúa como persona encargada y trata estos datos por cuenta de Horaya,
+            conforme a sus términos comerciales y a su Adenda de Tratamiento de Datos.
+          </p>
+        </section>
+
+        <section id="transferencias">
+          <h2>Transferencias o remisiones internacionales</h2>
+          <p>
+            Cuando un Owner o Manager genera un análisis en Reportes, los datos descritos en
+            <a href="#analisis-ia">Análisis con inteligencia artificial en Reportes</a> se envían a
+            Anthropic, PBC, en Estados Unidos, para generar observaciones sobre la operación del
+            negocio. Si no se genera el análisis, ese envío no ocurre. Además, el producto se aloja
+            en Amazon Web Services, en Estados Unidos.
+          </p>
+          <p>
+            Como Anthropic trata estos datos por cuenta de Horaya, consideramos este envío una
+            comunicación a una persona encargada (remisión) y no una transferencia a un tercero,
+            conforme al artículo 2, fracción XX, de la LFPDPPP.
           </p>
         </section>
 
